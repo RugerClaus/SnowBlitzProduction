@@ -46,7 +46,7 @@ class Menu:
     def create_buttons(self):
         self.buttons = []
         screen_w, screen_h = self.screen.get_size()
-        btn_width, btn_height = screen_w // 10, 70
+        btn_width, btn_height = screen_w // 6, 70
         spacing = btn_height * 1.2
         start_y = screen_h // 4 + screen_h // 7
 
@@ -59,7 +59,7 @@ class Menu:
             Button("Quit", center_x, start_y + spacing * 3, btn_width, btn_height, (255, 255, 255), (255, 0, 80), self.quit_callback),
         ]
 
-    def handle_event(self, event):
+    def handle_event(self, event,sound_engine):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             for button in self.buttons:

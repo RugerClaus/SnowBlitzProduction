@@ -19,6 +19,7 @@ class AudioEngine:
             "Lo-Fi-Si": f"{audio_path()}/menu.wav"
         }
         self.sound_effects = {
+            "menu_button_clicked": f"{audio_path()}/menu_button_clicked"
         }
         self.menu_music = f"{audio_path()}/menu.wav"
         self.volume = volume

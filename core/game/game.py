@@ -12,9 +12,6 @@ from core.game.entities.player import Player
 
 class Game:
     def __init__(self,state,window,menu_callback,quit_callback):
-        self.__test__color__a = 'white'
-        self.__test__color__b = 'green'
-        self.__test__toggle__color = False
 
         self.state = state
         self.window = window
@@ -65,6 +62,7 @@ class Game:
                 elif event.key == pygame.K_3:
                     self.scene.set_scene(MASTERSCENES.ROAMINGSCENE)
                 
+            input.handle_event(event,True)
 
             # for player in self.entity_manager.players:
             #     player.handle_event(event)
@@ -98,7 +96,6 @@ class Game:
         self.quit_callback()
     
     def reset(self):
-        self.__test__toggle__color = False
         self.state.set_game_state(GAMESTATE.PLAYING)
         self.scene.set_scene(MASTERSCENES.INTROSCENE)
         print(str(self.scene.get_scene()))

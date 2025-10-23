@@ -16,22 +16,26 @@ class InputManager:
         self.last_key_time = 0
         self.key_display_timeout = 1000
 
-    def handle_event(self, event):
+    def handle_event(self, event,gameplay=False):
         now = pygame.time.get_ticks()
-        if event.type == pygame.KEYDOWN:
-            self.current_keys.add(event.key)
-            self.key_history[event.key] = now
-            self.last_key = event.key
-            self.last_key_time = now
+        if gameplay:
+            pass
+        
+        else:
+            if event.type == pygame.KEYDOWN:
+                self.current_keys.add(event.key)
+                self.key_history[event.key] = now
+                self.last_key = event.key
+                self.last_key_time = now
 
-            command = self.iostream.update(event)
-            return command
+                command = self.iostream.update(event)
+                return command
 
-        elif event.type == pygame.KEYUP:
-            self.current_keys.discard(event.key)
-            self.released_keys.add(event.key)
+            elif event.type == pygame.KEYUP:
+                self.current_keys.discard(event.key)
+                self.released_keys.add(event.key)
 
-        return None
+            return None
 
     def draw_most_recent_keypress(self):
         self.surface.fill((0, 0, 0, 0))  

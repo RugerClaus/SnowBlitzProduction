@@ -12,10 +12,6 @@ from core.guts.audioengine import AudioEngine
 class App:
     def __init__(self,window):
 
-        #for fun test
-        self.popup = window.make_surface(300,300,False)
-        self.popup.fill((255,0,0))
-        self.popup_active = False
         self.window = window
         self.input = InputManager(window)
         self.state = StateManager()
@@ -53,7 +49,7 @@ class App:
                 self.state.set_app_state(APPSTATE.QUIT)
             
             if self.state.is_app_state(APPSTATE.MAIN_MENU):
-                self.menu.handle_event(event)
+                self.menu.handle_event(event,AudioEngine(self.app_volume))
 
             elif self.state.is_app_state(APPSTATE.IN_GAME):
                 self.game.handle_event(event,self.input)
@@ -73,11 +69,8 @@ class App:
             # This one is just a test, but I'll probably implement an entire debug 
             # menu. I'll write some functionality ideas here when I have them.
             # ...
-
-            elif command == "fuck":
-                self._popup_test_toggle()
             
-            # And here is an actual practical use of this engine. It was very easy to implement
+            # And here is an actual practical use of this engine. It was very smooth to implement
             # by itself.
             elif command == "musicon":
                 
@@ -91,7 +84,7 @@ class App:
         while not self.state.is_app_state(APPSTATE.QUIT):
             self.window.fill((0,0,0))
             self.handle_events()
-            #self.sound.start_music()
+            self.sound.start_music()
             
             if self.state.is_app_state(APPSTATE.MAIN_MENU):
                 self.menu.update()
@@ -109,11 +102,6 @@ class App:
                 self.debugger.update()
                 self.debugger.draw()
                 self.input.draw_most_recent_keypress()
-
-            if not self.popup_active:
-                pass
-            else:
-                self.window.blit(self.popup,(self.window.get_width()//2-self.popup.get_width()//2,self.window.get_height()//2-self.popup.get_height()//2))
 
             self.window.timer()
             self.window.update()

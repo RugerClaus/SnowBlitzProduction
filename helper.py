@@ -74,5 +74,9 @@ def get_colors(color):
         print("Can't find color!")
         return (128,128,128)
     
-def audio_path():
-    return f"assets/sounds/music"
+def audio_path(type):
+    type.lower()
+    if type == "music":
+        return f"assets/sounds/music"
+    elif type == "sfx":
+        return f"assets/sounds/sfx"

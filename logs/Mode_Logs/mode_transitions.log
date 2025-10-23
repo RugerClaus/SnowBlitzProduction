@@ -151,3 +151,8 @@
 {"timestamp": "2025-06-29T19:00:38.631962", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-06-29T19:01:22.805357", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-06-29T19:02:01.483373", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-23T10:31:10.727945", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-23T11:06:44.511008", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-23T11:06:52.507855", "type": "APPMODE", "from": "APPMODE.DEBUG", "to": "APPMODE.PRIMARY"}
+{"timestamp": "2025-10-23T11:06:53.679049", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-23T11:06:54.913060", "type": "APPMODE", "from": "APPMODE.DEBUG", "to": "APPMODE.PRIMARY"}

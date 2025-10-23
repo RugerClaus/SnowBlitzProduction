@@ -18,7 +18,7 @@ class FontEngine():
             self.default_font()
 
     def button_font(self):
-        self.font = pygame.font.Font(asset("default_font"), 90)
+        self.font = pygame.font.Font(asset("default_font"), 60)
         
     def ui_font(self):
         self.font = pygame.font.SysFont('Arial', 40)
