@@ -9,19 +9,19 @@ class AudioEngine:
         pygame.mixer.music.set_endevent(self.MUSIC_END_EVENT)
 
         self.music_tracks = {
-            "Winter Waves": f"{audio_path()}/music0.wav",
-            "Isle Of Atmospheres": f"{audio_path()}/music1.wav",
-            "Wobble Doom": f"{audio_path()}/music2.wav",
-            "Millenia": f"{audio_path()}/music3.wav",
-            "Late Night Sezsh": f"{audio_path()}/music4.wav",
-            "Dances With Synths": f"{audio_path()}/music5.wav",
-            "Minty Awakening": f"{audio_path()}/music6.wav",
-            "Lo-Fi-Si": f"{audio_path()}/menu.wav"
+            "Winter Waves": f"{audio_path('music')}/music0.wav",
+            "Isle Of Atmospheres": f"{audio_path('music')}/music1.wav",
+            "Wobble Doom": f"{audio_path('music')}/music2.wav",
+            "Millenia": f"{audio_path('music')}/music3.wav",
+            "Late Night Sezsh": f"{audio_path('music')}/music4.wav",
+            "Dances With Synths": f"{audio_path('music')}/music5.wav",
+            "Minty Awakening": f"{audio_path('music')}/music6.wav",
+            "Lo-Fi-Si": f"{audio_path('music')}/menu.wav"
         }
         self.sound_effects = {
-            "menu_button_clicked": f"{audio_path()}/menu_button_clicked"
+            "menu_button_clicked": f"{audio_path('sfx')}/menu_button_clicked"
         }
-        self.menu_music = f"{audio_path()}/menu.wav"
+        self.menu_music = f"{audio_path('music')}/menu.wav"
         self.volume = volume
         self.music_active = True
         self.sfx_active = True

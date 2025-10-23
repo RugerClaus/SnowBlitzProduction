@@ -689,3 +689,13 @@
 {"timestamp": "2025-10-23T11:14:26.399529", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
 {"timestamp": "2025-10-23T11:14:26.929627", "type": "GAMESTATE", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
 {"timestamp": "2025-10-23T11:14:27.796399", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-23T11:54:59.246515", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-23T11:55:01.363892", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-23T11:55:05.397583", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-23T11:55:17.858722", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-23T11:59:52.703028", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
+{"timestamp": "2025-10-23T11:59:57.739209", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-23T12:00:47.637452", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
+{"timestamp": "2025-10-23T12:00:55.218804", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-23T12:02:04.365353", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
+{"timestamp": "2025-10-23T12:02:10.192553", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}

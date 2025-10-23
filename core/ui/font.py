@@ -21,10 +21,10 @@ class FontEngine():
         self.font = pygame.font.Font(asset("default_font"), 60)
         
     def ui_font(self):
-        self.font = pygame.font.SysFont('Arial', 40)
+        self.font = pygame.font.SysFont('Arial', 20)
     def game_over_font(self):
-        self.font = pygame.font.Font(asset("default_font"), 120)
+        self.font = pygame.font.Font(asset("default_font"), 50)
     def key_press_font(self):
-        self.font = pygame.font.Font(asset("default_font"), 200)
+        self.font = pygame.font.Font(asset("default_font"), 50)
     def default_font(self):
         self.font = pygame.font.Font(asset("default_font"), 25)

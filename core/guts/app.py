@@ -21,6 +21,7 @@ class App:
         self.debugger = Debugger(self.game,self.state,window)
         self.app_volume = 0.5
         self.sound = AudioEngine(self.app_volume)
+        self.sound.start_music()
 
     def _popup_test_toggle(self):
         self.popup_active = not self.popup_active
@@ -79,12 +80,12 @@ class App:
             elif command == "musicoff":
                 self.sound.stop_music()
                 
-
+    
     def run(self):
         while not self.state.is_app_state(APPSTATE.QUIT):
             self.window.fill((0,0,0))
             self.handle_events()
-            self.sound.start_music()
+            
             
             if self.state.is_app_state(APPSTATE.MAIN_MENU):
                 self.menu.update()
