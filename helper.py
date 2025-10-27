@@ -27,6 +27,16 @@ def log_system_state_transitions(from_state,to_state,state_type):
     with open("logs/Main_State_Logs/app_state_transitions.log", "a") as f:
         f.write(json.dumps(log_data) + "\n")
 
+def log_game_state_transitions(from_state,to_state,state_type):
+    log_data = {
+        "timestamp": datetime.now().isoformat(),
+        "type": state_type,
+        "from": str(from_state),
+        "to": str(to_state)
+    }
+    with open("logs/Game_Layer_Logs/game_state_transitions.log", "a") as f:
+        f.write(json.dumps(log_data) + "\n")
+
 def log_entity_state_transitions(from_state,to_state,state_type):
     log_data = {
         "timestamp": datetime.now().isoformat(),
@@ -45,16 +55,6 @@ def log_app_mode_transitions(from_mode,to_mode):
         "to": str(to_mode)
     }
     with open("logs/Mode_Logs/mode_transitions.log", "a") as f:
-        f.write(json.dumps(log_data) + "\n")
-
-def log_scene_transitions(from_scene,to_scene,SCENETYPE):
-    log_data = {
-        "timestamp": datetime.now().isoformat(),
-        "type": str(SCENETYPE),
-        "from": str(from_scene),
-        "to": str(to_scene)
-    }
-    with open("logs/Scenes/all_scene_transitions.log", "a") as f:
         f.write(json.dumps(log_data) + "\n")
 
 def get_colors(color):

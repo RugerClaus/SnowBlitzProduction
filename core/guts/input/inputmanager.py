@@ -19,7 +19,13 @@ class InputManager:
     def handle_event(self, event,gameplay=False):
         now = pygame.time.get_ticks()
         if gameplay:
-            pass
+            if event.type == pygame.KEYDOWN:
+                self.current_keys.add(event.key)
+                self.key_history[event.key] = now
+                self.last_key = event.key
+                self.last_key_time = now
+
+                return event.key
         
         else:
             if event.type == pygame.KEYDOWN:

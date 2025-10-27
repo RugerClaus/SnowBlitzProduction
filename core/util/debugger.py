@@ -1,7 +1,7 @@
 import pygame
 
 from core.ui.font import FontEngine
-from core.state.state import APPSTATE
+from core.state.ApplicationLayer.state import APPSTATE
 
 class Debugger:
     def __init__(self,game,state,window):
@@ -11,10 +11,6 @@ class Debugger:
         self.surface = window.make_surface(window.get_screen().get_width(),window.get_screen().get_height(),True)
         self.rect = self.surface.get_rect()
         self.font = FontEngine("UI").font
-
-    def check_in_game_state(self):
-        if self.state.is_app_state(APPSTATE.IN_GAME):
-            return True
         
     def create_options(self):
         pass
@@ -40,14 +36,12 @@ class Debugger:
 
 
         self.surface.blit(fps,(0,0))
-        self.surface.blit(appstate,(0,line_spacing*1))
+        self.surface.blit(appstate,(surface_width//2+surface_width//10,line_spacing*0.2))
 
-        if self.check_in_game_state():
-            game_state = self.font.render(f"Gamestate: {str(self.state.game_state)}",False,text_color)
-            Layer_1_Scene = self.font.render(f"Scene: {self.game.scene.get_scene()}",False,text_color)
+        if self.state.is_app_state(APPSTATE.IN_GAME):
+            game_state = self.font.render(f"{str(self.game.state.get_state())}",False,text_color)
             
-            self.surface.blit(Layer_1_Scene,(surface_width//2+surface_width//20,0))
-            self.surface.blit(game_state,(surface_width//2+surface_width//20,line_spacing*1))
+            self.surface.blit(game_state,(surface_width//2+surface_width//10,line_spacing*1.2))
 
         self.window.blit(self.surface,self.rect)
 

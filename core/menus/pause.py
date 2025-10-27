@@ -43,7 +43,7 @@ class Pause:
         pass
 
     def draw(self):
-        self.window.draw_overlay((0,0,255),30)
+        self.window.draw_overlay((0,0,0),80)
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
             button.draw(self.window.get_screen(), mouse_pos)

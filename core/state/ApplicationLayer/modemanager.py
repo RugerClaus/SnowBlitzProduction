@@ -1,4 +1,4 @@
-from core.state.mode import APPMODE
+from core.state.ApplicationLayer.mode import APPMODE
 from helper import log_app_mode_transitions
 
 class ModeManager:

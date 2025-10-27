@@ -1,8 +1,8 @@
 import pygame, sys
-from core.state.state import APPSTATE
-from core.state.statemanager import StateManager
-from core.state.mode import APPMODE
-from core.state.modemanager import ModeManager
+from core.state.ApplicationLayer.state import APPSTATE
+from core.state.ApplicationLayer.statemanager import StateManager
+from core.state.ApplicationLayer.mode import APPMODE
+from core.state.ApplicationLayer.modemanager import ModeManager
 from core.util.debugger import Debugger
 from core.guts.input.inputmanager import InputManager
 from core.game.game import Game
@@ -17,7 +17,7 @@ class App:
         self.state = StateManager()
         self.mode = ModeManager()
         self.menu = Menu(window.get_screen(),self.start_game,self.load_menu,self.quit)
-        self.game = Game(self.state,window,self.go_to_menu,self.quit)
+        self.game = Game(window,self.go_to_menu,self.quit)
         self.debugger = Debugger(self.game,self.state,window)
         self.app_volume = 0.5
         self.sound = AudioEngine(self.app_volume)
