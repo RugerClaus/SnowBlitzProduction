@@ -12,3 +12,5 @@
 <p>Streamlined the debugger's rendering loop a bit more along with showing the current track.</p>
 
 <p>more restructuring. made a base statemanager for every other state system below the top level (appstate,appmode) to be reusable with resuable functionality. redid the logging system and modularized the fontengine</p>
+
+<p>test for kotorized branch</p>
