@@ -1,5 +1,5 @@
 from core.state.ApplicationLayer.state import APPSTATE
-from helper import log_system_state_transitions
+from helper import log_state_transition
 
 class StateManager:
     def __init__(self):
@@ -9,8 +9,8 @@ class StateManager:
 
         #allowed transition definitions
         self.app_allowed_transitions = {
-            APPSTATE.MAIN_MENU: [APPSTATE.IN_GAME,APPSTATE.LOAD_MENU,APPSTATE.QUIT],
-            APPSTATE.LOAD_MENU: [APPSTATE.MAIN_MENU,APPSTATE.IN_GAME,APPSTATE.QUIT],
+            APPSTATE.MAIN_MENU: [APPSTATE.IN_GAME,APPSTATE.MAP_EDITOR,APPSTATE.QUIT],
+            APPSTATE.MAP_EDITOR: [APPSTATE.MAIN_MENU,APPSTATE.IN_GAME,APPSTATE.QUIT],
             APPSTATE.IN_GAME: [APPSTATE.MAIN_MENU,APPSTATE.QUIT]
         }
     
@@ -18,7 +18,7 @@ class StateManager:
         if new_state == self.app_state:
             return
         if new_state in self.app_allowed_transitions.get(self.app_state,[]):
-            log_system_state_transitions(self.app_state,new_state,"APPSTATE")
+            log_state_transition(self.app_state,new_state,"APPSTATE")
             self.set_previous_app_state(self.app_state)
             self.app_state = new_state
             print(self.get_app_state())

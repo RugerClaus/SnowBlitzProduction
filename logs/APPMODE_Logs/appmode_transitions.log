@@ -1,0 +1,13 @@
+{"timestamp": "2025-10-28T01:57:34.100181", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T01:57:54.000086", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T01:58:30.314845", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T01:58:59.960337", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T01:59:16.077434", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:01:27.969659", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:39:09.062979", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:42:59.850348", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:43:31.438656", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:44:44.985861", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:44:50.726555", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:45:19.067811", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-10-28T02:46:13.890782", "type": "APPMODE", "from": "APPMODE.DEBUG", "to": "APPMODE.PRIMARY"}

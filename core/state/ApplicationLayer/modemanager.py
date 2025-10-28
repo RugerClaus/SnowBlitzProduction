@@ -1,5 +1,5 @@
 from core.state.ApplicationLayer.mode import APPMODE
-from helper import log_app_mode_transitions
+from helper import log_state_transition
 
 class ModeManager:
     def __init__(self):
@@ -15,7 +15,7 @@ class ModeManager:
         if new_mode == self.mode:
             return
         if new_mode in self.allowed_transitions:
-            log_app_mode_transitions(self.mode,new_mode)
+            log_state_transition(self.mode,new_mode,"APPMODE")
             self.set_previous_mode(self.mode)
             self.mode = new_mode
             print(self.get_mode())

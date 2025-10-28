@@ -1,0 +1,2 @@
+class EntityStateManager:
+    pass

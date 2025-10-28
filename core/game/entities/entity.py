@@ -1,5 +1,5 @@
 
-from core.game.entities.EntityState.statemanager import EntityStateManager
+from core.game.entities.state.statemanager import EntityStateManager
 
 class Entity():
     def __init__(self):
@@ -7,4 +7,9 @@ class Entity():
         self.frames = None
         self.state = EntityStateManager()
         
+    def draw(self):
+        pass
+
+    def update(self):
+        pass
     

@@ -1,5 +1,5 @@
-from core.game.entities.EntityState.state import *
-from core.game.entities.entities import EntityStateManager
+
+from core.game.entities.state.statemanager import EntityStateManager
 class Entities:
     def __init__(self):
         self.state = EntityStateManager()
@@ -11,10 +11,4 @@ class Entities:
         
         self.health_potions = []
 
-        self.keys = []
-
-        self.bronze_coins = []
-        self.silver_coins = []
-        self.gold_coins = []
-
-        self.damaging_tiles = []
+        self.interactive_tiles = []

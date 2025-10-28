@@ -6,6 +6,7 @@ from core.state.ApplicationLayer.modemanager import ModeManager
 from core.util.debugger import Debugger
 from core.guts.input.inputmanager import InputManager
 from core.game.game import Game
+from core.mapeditor.mapeditor import TileMapEditor
 from core.menus.menu import Menu
 from core.guts.audioengine import AudioEngine
 
@@ -16,11 +17,13 @@ class App:
         self.input = InputManager(window)
         self.state = StateManager()
         self.mode = ModeManager()
-        self.menu = Menu(window.get_screen(),self.start_game,self.load_menu,self.quit)
-        self.game = Game(window,self.go_to_menu,self.quit)
-        self.debugger = Debugger(self.game,self.state,window)
         self.app_volume = 0.5
         self.sound = AudioEngine(self.app_volume)
+        self.menu = Menu(window.get_screen(),self.start_game,self.start_map_editor,self.quit)
+        self.game = Game(window,self.sound,self.go_to_menu,self.quit)
+        self.map_editor = TileMapEditor(window,self.sound,self.go_to_menu,self.quit)
+        self.debugger = Debugger(self.game,self.map_editor,self.state,window,self.sound)
+        
         self.sound.start_music()
 
     def _popup_test_toggle(self):
@@ -29,8 +32,9 @@ class App:
     def start_game(self):
         self.state.set_app_state(APPSTATE.IN_GAME)
 
-    def load_menu(self):
-        pass
+    def start_map_editor(self):
+        self.state.set_app_state(APPSTATE.MAP_EDITOR)
+
     def toggle_debug_mode(self):
         if not self.mode.is_mode(APPMODE.DEBUG):
             self.mode.set_mode(APPMODE.DEBUG)
@@ -54,6 +58,9 @@ class App:
 
             elif self.state.is_app_state(APPSTATE.IN_GAME):
                 self.game.handle_event(event,self.input)
+            
+            elif self.state.is_app_state(APPSTATE.MAP_EDITOR):
+                self.map_editor.handle_event(event,self.input)
             
             if self.mode.is_mode(APPMODE.DEBUG):
                 self.debugger.handle_event(event)
@@ -92,9 +99,9 @@ class App:
                 self.menu.draw()
             elif self.state.is_app_state(APPSTATE.IN_GAME):
                 self.game.run()
-            elif self.state.is_app_state(APPSTATE.LOAD_MENU):
-                self.menu.update()
-                self.menu.draw()
+            elif self.state.is_app_state(APPSTATE.MAP_EDITOR):
+                self.map_editor.update()
+                self.map_editor.draw()
             elif self.state.is_app_state(APPSTATE.QUIT):
                 pygame.quit()
                 sys.exit()

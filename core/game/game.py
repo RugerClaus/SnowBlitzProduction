@@ -9,11 +9,12 @@ from core.game.camera.camera import Camera
 from core.game.entities.player import Player
 
 class Game:
-    def __init__(self,window,menu_callback,quit_callback):
+    def __init__(self,window,sound,menu_callback,quit_callback):
 
         self.state = GameStateManager()
         self.window = window
         self.surface = window.make_surface(window.get_screen().get_width(),window.get_screen().get_height(),True)
+        self.sound = sound
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
         self.pause_menu = Pause(window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
@@ -38,8 +39,7 @@ class Game:
         
         if self.state.is_state(GAMESTATE.PLAYING):
             if event.type == pygame.KEYDOWN:
-                if input.last_key == pygame.K_0:
-                    self.surface.fill('black')
+                pass
                 
 
         elif self.state.is_state(GAMESTATE.PAUSED):

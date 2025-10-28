@@ -1,30 +1,17 @@
 import pygame
 from helper import asset
 
-class FontEngine():
-    def __init__(self,type):
-        pygame.font.init()
-        self.type = type
-        self.font = None
-        if self.type == "button":
-            self.button_font()
-        elif self.type == "UI":
-            self.ui_font()
-        elif self.type == "GameOver":
-            self.game_over_font()
-        elif self.type == "keypress":
-            self.key_press_font()
-        else:
-            self.default_font()
+class FontEngine:
+    PRESETS = {
+        "button": 60,
+        "UI": 35,
+        "dbug_state": 25,
+        "game_over": 50,
+        "keypress": 50,
+        "default": 25
+    }
 
-    def button_font(self):
-        self.font = pygame.font.Font(asset("default_font"), 60)
-        
-    def ui_font(self):
-        self.font = pygame.font.SysFont('Arial', 20)
-    def game_over_font(self):
-        self.font = pygame.font.Font(asset("default_font"), 50)
-    def key_press_font(self):
-        self.font = pygame.font.Font(asset("default_font"), 50)
-    def default_font(self):
-        self.font = pygame.font.Font(asset("default_font"), 25)
+    def __init__(self, type="default"):
+        pygame.font.init()
+        size = self.PRESETS.get(type, self.PRESETS["default"])
+        self.font = pygame.font.Font(asset("default_font"), size)

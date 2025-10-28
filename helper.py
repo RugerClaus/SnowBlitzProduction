@@ -17,45 +17,23 @@ def asset_frames(prefix, count, ext="png", folder="menu_bg"):
         frames.append(surf)
     return frames
 
-def log_system_state_transitions(from_state,to_state,state_type):
+def log_state_transition(from_state, to_state, state_type, log_file=None):
+    import os
     log_data = {
         "timestamp": datetime.now().isoformat(),
         "type": state_type,
         "from": str(from_state),
         "to": str(to_state)
     }
-    with open("logs/Main_State_Logs/app_state_transitions.log", "a") as f:
+
+    if not log_file:
+        log_dir = f"logs/{state_type}_Logs"
+        os.makedirs(log_dir, exist_ok=True)   # Create folder if missing
+        log_file = os.path.join(log_dir, f"{state_type.lower()}_transitions.log")
+
+    with open(log_file, "a") as f:
         f.write(json.dumps(log_data) + "\n")
 
-def log_game_state_transitions(from_state,to_state,state_type):
-    log_data = {
-        "timestamp": datetime.now().isoformat(),
-        "type": state_type,
-        "from": str(from_state),
-        "to": str(to_state)
-    }
-    with open("logs/Game_Layer_Logs/game_state_transitions.log", "a") as f:
-        f.write(json.dumps(log_data) + "\n")
-
-def log_entity_state_transitions(from_state,to_state,state_type):
-    log_data = {
-        "timestamp": datetime.now().isoformat(),
-        "type": state_type,
-        "from": str(from_state),
-        "to": str(to_state)
-    }
-    with open("logs/Entities_State_Logs/entity_state_transitions.log", "a") as f:
-        f.write(json.dumps(log_data) + "\n")
-
-def log_app_mode_transitions(from_mode,to_mode):
-    log_data = {
-        "timestamp": datetime.now().isoformat(),
-        "type": "APPMODE",
-        "from": str(from_mode),
-        "to": str(to_mode)
-    }
-    with open("logs/Mode_Logs/mode_transitions.log", "a") as f:
-        f.write(json.dumps(log_data) + "\n")
 
 def get_colors(color):
     if color == "red":
