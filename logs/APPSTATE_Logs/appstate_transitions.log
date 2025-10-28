@@ -22,3 +22,6 @@
 {"timestamp": "2025-10-28T02:45:25.783238", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.MAP_EDITOR"}
 {"timestamp": "2025-10-28T02:45:32.908200", "type": "APPSTATE", "from": "APPSTATE.MAP_EDITOR", "to": "APPSTATE.MAIN_MENU"}
 {"timestamp": "2025-10-28T02:46:15.443974", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-28T05:12:05.958041", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-28T05:13:18.867915", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-10-28T05:30:36.791597", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}

@@ -54,7 +54,7 @@ class App:
                 self.state.set_app_state(APPSTATE.QUIT)
             
             if self.state.is_app_state(APPSTATE.MAIN_MENU):
-                self.menu.handle_event(event,AudioEngine(self.app_volume))
+                self.menu.handle_event(event,self.sound.volume)
 
             elif self.state.is_app_state(APPSTATE.IN_GAME):
                 self.game.handle_event(event,self.input)

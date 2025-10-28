@@ -3,7 +3,7 @@ import pygame
 class IOSTREAM:
     def __init__(self):
         self.sequences = {
-            "debug": [pygame.K_d, pygame.K_e, pygame.K_b, pygame.K_u, pygame.K_g],
+            "debug": [pygame.K_F9],
             "secret": [pygame.K_s, pygame.K_e, pygame.K_c, pygame.K_r, pygame.K_e, pygame.K_t],
             "fuck": [pygame.K_f,pygame.K_u,pygame.K_c,pygame.K_k],
             "musicon": [pygame.K_m,pygame.K_u,pygame.K_s,pygame.K_i,pygame.K_c,pygame.K_o,pygame.K_n],
