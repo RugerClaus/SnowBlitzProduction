@@ -23,8 +23,6 @@ class App:
         self.game = Game(window,self.sound,self.go_to_menu,self.quit)
         self.map_editor = TileMapEditor(window,self.sound,self.go_to_menu,self.quit)
         self.debugger = Debugger(self.game,self.map_editor,self.state,window,self.sound)
-        
-        self.sound.start_music()
 
     def _popup_test_toggle(self):
         self.popup_active = not self.popup_active

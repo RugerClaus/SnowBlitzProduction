@@ -53,8 +53,11 @@ def get_colors(color):
         return (128,128,128)
     
 def audio_path(type):
-    type.lower()
+    type = type.lower()
     if type == "music":
         return f"assets/sounds/music"
     elif type == "sfx":
         return f"assets/sounds/sfx"
+    else:
+        print("Can't find audio path!")
+        return None

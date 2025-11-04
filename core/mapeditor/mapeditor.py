@@ -49,7 +49,9 @@ class TileMapEditor:
         if self.state.is_state(TILE_EDITOR_MASTER_STATE.PAUSED):
             self.pause_menu.update()
             self.pause_menu.draw()
-
+        
+        elif self.state.is_state(TILE_EDITOR_MASTER_STATE.ACTIVE):
+            pass
     def run(self):
         self.update()
         self.draw()

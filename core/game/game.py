@@ -5,6 +5,7 @@ from core.state.GameLayer.statemanager import GameStateManager
 from core.menus.pause import Pause
 #from core.game.entities.entities import Entities
 #from core.game.entities.EntityState.state import *
+from core.game.world.world import World
 from core.game.camera.camera import Camera
 from core.game.entities.player import Player
 
@@ -18,8 +19,7 @@ class Game:
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
         self.pause_menu = Pause(window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
-        #self.entity_manager = Entities()
-        #self.entity_manager.players.append(Player())
+        self.world = World(window)
         self.camera = Camera(self.surface.get_width,self.surface.get_height())
         self.intent = None
         self.surface.fill('red')
@@ -55,13 +55,14 @@ class Game:
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
-            pass
+            self.world.create()
         
 
     def update(self):
         pass
 
     def run(self):
+
         self.update()
         self.draw()
         

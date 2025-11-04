@@ -1,5 +1,7 @@
 import pygame
 import random
+import os
+from mutagen import File
 from helper import audio_path
 
 class AudioEngine:
@@ -8,114 +10,43 @@ class AudioEngine:
         self.MUSIC_END_EVENT = pygame.USEREVENT + 1
         pygame.mixer.music.set_endevent(self.MUSIC_END_EVENT)
 
-        self.music_tracks = {
-            "Winter Waves": f"{audio_path('music')}/music0.wav",
-            "Isle Of Atmospheres": f"{audio_path('music')}/music1.wav",
-            "Wobble Doom": f"{audio_path('music')}/music2.wav",
-            "Millenia": f"{audio_path('music')}/music3.wav",
-            "Late Night Sezsh": f"{audio_path('music')}/music4.wav",
-            "Dances With Synths": f"{audio_path('music')}/music5.wav",
-            "Minty Awakening": f"{audio_path('music')}/music6.wav",
-            "Lo-Fi-Si": f"{audio_path('music')}/menu.wav"
-        }
-        self.sound_effects = {
-            "menu_button_clicked": f"{audio_path('sfx')}/menu_button_clicked"
-        }
-        self.menu_music = f"{audio_path('music')}/menu.wav"
+        self.music_tracks = {}
+        self.sound_effects = {}
         self.volume = volume
         self.music_active = True
         self.sfx_active = True
-        self.music_queue = list(self.music_tracks.keys())
-        random.shuffle(self.music_queue)
+        self.music_queue = []
         self.current_track = None
 
-    def play_menu_music(self):
-        if not pygame.mixer.music.get_busy():
-            pygame.mixer.music.load(self.menu_music)
-            pygame.mixer.music.set_volume(self.volume)
-            pygame.mixer.music.play(1)
-            print("Playing menu music")
+        self.load_audio_files()
 
-    def _play_next_track(self):
-        if not self.music_active:
-            return
-        
-        now = pygame.time.get_ticks()
-        deltaTime = random.randrange(1000,120000)
-
-        if not self.music_queue and now < deltaTime:
-            
-            tracks = list(self.music_tracks.keys())
-            if self.current_track in tracks:
-                tracks.remove(self.current_track)
-            random.shuffle(tracks)
-            self.music_queue = tracks
-
-        next_track = self.music_queue.pop(0)
-        pygame.mixer.music.load(self.music_tracks[next_track])
-        pygame.mixer.music.set_volume(self.volume)
-        pygame.mixer.music.play()  
-        self.current_track = next_track
-        
-
-    def handle_event(self, event):
-        if event.type == self.MUSIC_END_EVENT and self.music_active:
-            self.current_track = None
-            self._play_next_track()
-
-    def start_music(self):
-        if not pygame.mixer.music.get_busy() and self.current_track is None:
-            self._play_next_track()
-
-    def stop_music(self):
-        pygame.mixer.music.stop()
-        self.current_track = None
-
-    def toggle_music(self, state=None):
-        if self.music_active:
-            pygame.mixer.music.stop()
-            print("Music off")
-            self.current_track = None
-        else:
-            if state and state in self.music_tracks:
-                pygame.mixer.music.load(self.music_tracks[state])
-                pygame.mixer.music.set_volume(self.volume)
-                pygame.mixer.music.play()  
-                self.current_track = state
-                print(f"Music on: {state}")
-            else:
-                self.start_music()
-        self.music_active = not self.music_active
-
-    def set_volume(self, volume):
-        self.volume = max(0, min(volume, 1))
-        pygame.mixer.music.set_volume(self.volume)
-
-    def play_sfx(self, sfx_name):
-        if self.sfx_active and sfx_name in self.sound_effects:
-            sfx = pygame.mixer.Sound(self.sound_effects[sfx_name])
-            sfx.set_volume(self.volume)
-            sfx.play()
-
-    def stop_sfx(self):
-        pygame.mixer.stop()
-
-    def toggle_sfx(self):
-        self.sfx_active = not self.sfx_active
-        print(f"SFX {'On' if self.sfx_active else 'Off'}")
-
-    def sfx_status(self):
-        return "On" if self.sfx_active else "Off"
-
-    def music_status(self):
-        return "On" if self.music_active else "Off"
-
-    def force_play_music(self):
-        self.stop_music()
-        if self.music_tracks:
-            track_name = random.choice(list(self.music_tracks.keys()))
-            pygame.mixer.music.load(self.music_tracks[track_name])
-            pygame.mixer.music.set_volume(self.volume)
-            pygame.mixer.music.play()  
-            self.current_track = track_name
-            print(f"Forced play: {track_name}")
+    def load_audio_files(self):
+        self.load_music_tracks()
+        self.load_sound_effects()
+    
+    def load_music_tracks(self):
+        music_dir = audio_path("music")
+        for filename in os.listdir(music_dir):
+            if filename.endswith(('.mp3', '.ogg', '.wav')):
+                track_path = os.path.join(music_dir, filename)
+                audio_file = File(track_path)
+                title = audio_file.get('title', [filename])[0]
+                self.music_tracks[title] = track_path
+            self.music_queue = list(self.music_tracks.keys())
+            random.shuffle(self.music_queue)
+    
+    def load_sound_effects(self):
+        sfx_dir = audio_path("sfx")
+        for filename in os.listdir(sfx_dir):
+            if filename.endsiwth(('.mp3', '.ogg', '.wav')):
+                sfx_path = os.path.join(sfx_dir, filename)
+                sound_file = File(sfx_path)
+                effect_name = sound_file.get('title', [filename])[0]
+                self.sound_effects[effect_name] = os.path.join(sfx_dir, filename)
+    
+    def play_music(self,mode):
+        if mode == "random":
+            if not self.music_queue:
+                self.music_queue = list(self.music_tracks.keys())
+                random.shuffle(self.music_queue)
+            next_track = self.music_queue.pop()
