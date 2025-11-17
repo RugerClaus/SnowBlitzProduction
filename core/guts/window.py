@@ -5,8 +5,8 @@ from helper import get_colors
 class Window:
     def __init__(self):
         pygame.init()
-        self.default_width = 800
-        self.default_height = 600
+        self.default_width = 960
+        self.default_height = 640
         self.color = (255,0,0)
         self.width = self.default_width
         self.height = self.default_height

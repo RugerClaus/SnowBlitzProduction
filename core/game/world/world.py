@@ -1,10 +1,8 @@
 class World:
-    def __init__(self,board_window):
+    def __init__(self,board_window,world_type,camera):
         self.window = board_window
-        self.chunk_size = 16
-        self.chunks = {}
-        self.tiles = {}
-        self.tile_size = 16
+        self.type = world_type
+        self.camera = camera
 
     def draw(self):
         pass

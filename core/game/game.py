@@ -5,9 +5,13 @@ from core.state.GameLayer.statemanager import GameStateManager
 from core.menus.pause import Pause
 #from core.game.entities.entities import Entities
 #from core.game.entities.EntityState.state import *
-from core.game.world.world import World
-from core.game.camera.camera import Camera
-from core.game.entities.player import Player
+
+#this is for an imported game with a raycasting engine
+#you'll see it's fairly easy to just drop pygame projects right in and tie them to everything else.
+from core.game.raycaster.player import Player
+from core.game.raycaster.map import Map
+from core.game.raycaster.raycaster import Raycaster
+from helper import asset
 
 class Game:
     def __init__(self,window,sound,menu_callback,quit_callback):
@@ -19,10 +23,16 @@ class Game:
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
         self.pause_menu = Pause(window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
-        self.world = World(window)
-        self.camera = Camera(self.surface.get_width,self.surface.get_height())
         self.intent = None
         self.surface.fill('red')
+
+        #below we handle the imported game
+        self.player = Player()
+        self.map = Map(self.player)
+        self.raycaster = Raycaster(self.player,self.map)
+
+
+        self.backgroundimg = pygame.image.load(asset('background'))
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -55,7 +65,17 @@ class Game:
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
-            self.world.create()
+            self.surface.blit(self.backgroundimg,(0,0))
+
+            self.map.update()
+
+            self.player.update(self.map)
+
+            self.raycaster.cast_all_rays()
+            self.raycaster.draw(self.surface)
+
+            self.map.draw(self.surface)
+            self.player.draw(self.surface)
         
 
     def update(self):

@@ -80,10 +80,10 @@ class App:
             # by itself.
             elif command == "musicon":
                 
-                self.sound.start_music()
+                self.sound.play_music()
             
             elif command == "musicoff":
-                self.sound.stop_music()
+                self.sound.play_music('stop')
                 
     
     def run(self):

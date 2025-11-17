@@ -29,7 +29,7 @@ class Debugger:
 
     def draw(self):
         text_color = (255, 255, 255)
-        self.surface.fill((0, 0, 0, 0))
+        self.surface.fill((0, 0, 0, 0.5))
         surface_width = self.surface.get_width()
         
         # Left side
@@ -61,6 +61,7 @@ class Debugger:
 
         # Game state (if in game)
         if self.state.is_app_state(APPSTATE.IN_GAME):
+            game_color = (0,0,0)
             game_state_text = f"{self.game.state.get_state()}"
             game_state_surf = self.font_right.render(game_state_text, False, text_color)
             self.surface.blit(game_state_surf, (right_x - game_state_surf.get_width(), right_y))

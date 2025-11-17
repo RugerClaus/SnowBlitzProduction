@@ -8,6 +8,8 @@ def asset(asset):
         return "assets/images/main/title.png"
     elif asset == "default_font":
         return 'assets/font/Pixeltype.ttf'
+    elif asset == "background":
+        return "assets/images/raycasted/stars.png"
     
 def asset_frames(prefix, count, ext="png", folder="menu_bg"):
     frames = []

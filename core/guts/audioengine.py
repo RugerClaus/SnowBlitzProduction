@@ -38,15 +38,41 @@ class AudioEngine:
     def load_sound_effects(self):
         sfx_dir = audio_path("sfx")
         for filename in os.listdir(sfx_dir):
-            if filename.endsiwth(('.mp3', '.ogg', '.wav')):
+            if filename.endswith(('.mp3', '.ogg', '.wav')):
                 sfx_path = os.path.join(sfx_dir, filename)
                 sound_file = File(sfx_path)
                 effect_name = sound_file.get('title', [filename])[0]
+                effect_name = os.path.splitext(effect_name)[0]
                 self.sound_effects[effect_name] = os.path.join(sfx_dir, filename)
     
-    def play_music(self,mode):
+    def play_music(self, mode="random"):
         if mode == "random":
             if not self.music_queue:
                 self.music_queue = list(self.music_tracks.keys())
                 random.shuffle(self.music_queue)
+
             next_track = self.music_queue.pop()
+            self.current_track = next_track
+            pygame.mixer.music.load(self.music_tracks[next_track])
+            pygame.mixer.music.set_volume(self.volume)
+            pygame.mixer.music.play()
+        
+        elif mode == "loop":
+            if self.current_track is None:
+                return
+            pygame.mixer.music.load(self.music_tracks[self.current_track])
+            pygame.mixer.music.set_volume(self.volume)
+            pygame.mixer.music.play(-1)
+
+        elif mode == "stop":
+            pygame.mixer.music.stop()
+
+        elif isinstance(mode, str):
+            # Assume it's a track title
+            if mode in self.music_tracks:
+                pygame.mixer.music.load(self.music_tracks[mode])
+                pygame.mixer.music.set_volume(self.volume)
+                pygame.mixer.music.play()
+
+        else:
+            raise ValueError("Invalid mode for play_music")

@@ -14,3 +14,7 @@
 <p>more restructuring. made a base statemanager for every other state system below the top level (appstate,appmode) to be reusable with resuable functionality. redid the logging system and modularized the fontengine</p>
 
 <p>test for kotorized branch</p>
+
+<p>Added ray caster game with functionality as a test. It works you can just put your Pygame games directly into the game directory, tie it into the Game class, and then put all your main loop code in the Game.draw() method under where APPSTATE is IN_GAME and voila. It should work as long as you pass the in built render calls to it.</p>
+
+<p>This will be an excellent starting point for the KOTOR clone or rather just some RPG I'll try to hack together.</p>
