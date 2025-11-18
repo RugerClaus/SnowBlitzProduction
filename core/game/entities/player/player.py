@@ -25,31 +25,6 @@ class Player(Entity):
         self.rotation_angle = -45*(math.pi/180)
         self.level = 1
 
-    def find_safe_spawn(self, game_map):
-        for _ in range(150):
-            random_col = randint(0, COLS - 1)
-            random_row = randint(0, ROWS - 1)
-
-            # Check if the tile is empty (0)
-            if game_map.map_grid[random_row][random_col] == 0:
-                # Ensure the surrounding tiles are also empty (not walls)
-                # Check surrounding tiles: top, bottom, left, right (if within bounds)
-                if (random_row > 0 and game_map.map_grid[random_row - 1][random_col] == 0) and \
-                (random_row < ROWS - 1 and game_map.map_grid[random_row + 1][random_col] == 0) and \
-                (random_col > 0 and game_map.map_grid[random_row][random_col - 1] == 0) and \
-                (random_col < COLS - 1 and game_map.map_grid[random_row][random_col + 1] == 0):
-                    # Spawn the player at this location (convert tile index to pixel)
-                    self.x = random_col * TILE_SIZE
-                    self.y = random_row * TILE_SIZE
-                    self.walk_direction = 0
-                    self.turn_direction = 0
-                    return  # Exit once a valid spawn point is found
-
-        # If no valid spot was found after 102 tries, default to the center of the map
-        self.x = (COLS // 2) * TILE_SIZE
-        self.y = (ROWS // 2) * TILE_SIZE
-
-                    
     def will_collide(self, new_x, new_y, game_map):
         #check all cardinal directions. this idea should have been obvious for circle collision and I can just use math.pi to calculate 
         # the trajectory of every angle around the player and determine if the player hits a wall that way
@@ -67,6 +42,11 @@ class Player(Entity):
         return False
 
     def update(self,game_map):
+
+        if self.walk_direction == 0:
+            self.move_intent.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
+        if self.turn_direction == 0:
+            self.turn_intent.set_state(PLAYER_INTENT_STATE.IDLE_TURN)
 
         self.walk_direction = 0
         keys = pygame.key.get_pressed()

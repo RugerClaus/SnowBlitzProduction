@@ -1,6 +1,7 @@
 import pygame
 
 from helper import get_colors
+from config import config
 
 class Window:
     def __init__(self):
@@ -16,7 +17,8 @@ class Window:
         
     def set_screen(self):
         self.screen = pygame.display.set_mode((self.width,self.height),pygame.RESIZABLE)
-    
+        pygame.display.set_caption(config["TITLE"])
+
     def get_width(self):
         return self.screen.get_width()
     

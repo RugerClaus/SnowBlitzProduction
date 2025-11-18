@@ -61,11 +61,23 @@ class Debugger:
 
         # Game state (if in game)
         if self.state.is_app_state(APPSTATE.IN_GAME):
-            game_color = (0,0,0)
+            #master game state
             game_state_text = f"{self.game.state.get_state()}"
             game_state_surf = self.font_right.render(game_state_text, False, text_color)
             self.surface.blit(game_state_surf, (right_x - game_state_surf.get_width(), right_y))
             right_y += game_state_surf.get_height() * 1.2
+            
+            #player move state
+            player_move_intent_state_text = f"{self.game.player.move_intent.get_state()}"
+            player_move_intent_state_surf = self.font_right.render(player_move_intent_state_text,False,text_color)
+            self.surface.blit(player_move_intent_state_surf,(right_x - player_move_intent_state_surf.get_width(),right_y))
+            right_y += player_move_intent_state_surf.get_height() * 1.2
+
+            #player turn state
+            player_turn_intent_state_text = f"{self.game.player.turn_intent.get_state()}"
+            player_move_intent_state_surf = self.font_right.render(player_turn_intent_state_text,False,text_color)
+            self.surface.blit(player_move_intent_state_surf,(right_x - player_move_intent_state_surf.get_width(),right_y))
+            right_y += player_move_intent_state_surf.get_height() * 1.2
 
         # Map editor state (if in editor)
         if self.state.is_app_state(APPSTATE.MAP_EDITOR):

@@ -24,3 +24,9 @@
 <p>Went ahead and fully integrated the player and map classes from the raycaster directly into the framework
 and isolated the raycaster. All input management for the player's movement and actions are handled by the player's update method. A bit messy in my opinion, but it does keep the player input isolated from the application input.</p>
 <p>Added state machines for player logic</p>
+
+<p>Added a config file just for the window title, but i'm sure it'll get more uses</p>
+
+<p>Added the player movestate and turnstate into the debug overlay.</p>
+
+<p>Going to begin working on the map editor soon and the map class to better integrate custom maps. This will be simple at first, allowing you to create a map of a pre-determined size. I'll need to re-work the raycaster to account for it as well, but it's turning into an actual engine now.</p>
