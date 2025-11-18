@@ -18,3 +18,9 @@
 <p>Added ray caster game with functionality as a test. It works you can just put your Pygame games directly into the game directory, tie it into the Game class, and then put all your main loop code in the Game.draw() method under where APPSTATE is IN_GAME and voila. It should work as long as you pass the in built render calls to it.</p>
 
 <p>This will be an excellent starting point for the KOTOR clone or rather just some RPG I'll try to hack together.</p>
+
+<p>UPDATE</p>
+
+<p>Went ahead and fully integrated the player and map classes from the raycaster directly into the framework
+and isolated the raycaster. All input management for the player's movement and actions are handled by the player's update method. A bit messy in my opinion, but it does keep the player input isolated from the application input.</p>
+<p>Added state machines for player logic</p>

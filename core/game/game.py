@@ -8,9 +8,10 @@ from core.menus.pause import Pause
 
 #this is for an imported game with a raycasting engine
 #you'll see it's fairly easy to just drop pygame projects right in and tie them to everything else.
-from core.game.raycaster.player import Player
-from core.game.raycaster.map import Map
+from core.game.entities.player.player import Player
+from core.game.world.map import Map
 from core.game.raycaster.raycaster import Raycaster
+from core.game.raycaster.settings import WINDOW_WIDTH,WINDOW_HEIGHT
 from helper import asset
 
 class Game:
@@ -18,7 +19,8 @@ class Game:
 
         self.state = GameStateManager()
         self.window = window
-        self.surface = window.make_surface(window.get_screen().get_width(),window.get_screen().get_height(),True)
+        self.surface = window.make_surface(WINDOW_WIDTH,WINDOW_HEIGHT,True)
+        self.minimap_surface = window.make_surface(WINDOW_WIDTH//4,WINDOW_HEIGHT//4)
         self.sound = sound
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
@@ -27,7 +29,7 @@ class Game:
         self.surface.fill('red')
 
         #below we handle the imported game
-        self.player = Player()
+        self.player = Player(self.surface)
         self.map = Map(self.player)
         self.raycaster = Raycaster(self.player,self.map)
 
@@ -60,7 +62,9 @@ class Game:
         
 
     def draw(self):
-        self.window.blit(self.surface,(0,0))
+
+        self.window.blit(self.surface,(self.window.get_width()//8,0))
+        self.window.blit(self.minimap_surface,(0,self.surface.get_height() + 10))
         if self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.update()
             self.pause_menu.draw()
@@ -73,9 +77,8 @@ class Game:
 
             self.raycaster.cast_all_rays()
             self.raycaster.draw(self.surface)
-
-            self.map.draw(self.surface)
-            self.player.draw(self.surface)
+            self.map.draw(self.minimap_surface)
+            self.player.draw(self.minimap_surface)
         
 
     def update(self):

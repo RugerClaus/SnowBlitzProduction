@@ -60,6 +60,7 @@ class Map:
             self.map_grid = self.maps[2]
 
     def draw(self,display):
+        display.fill((0,0,0))
         for i in range(len(self.map_grid)):
             for j in range(len(self.map_grid[0])):
                 tile_x = j * TILE_SIZE // 4
