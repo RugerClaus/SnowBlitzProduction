@@ -37,3 +37,20 @@ class Raycaster:
         # Draw the crosshair after all rays have been drawn
         self.crosshair(display)
 
+    def draw_floor(self, display):
+        half_height = WINDOW_HEIGHT / 2
+
+        for i, ray in enumerate(self.rays):
+            line_height = (TILE_SIZE / ray.distance) * 831
+            draw_begin = half_height - line_height / 2
+            draw_end = draw_begin + line_height
+
+            y = int(draw_end)
+            while y < WINDOW_HEIGHT:
+                distance = (WINDOW_HEIGHT / (2 * (y - half_height)))  
+                distance *= math.cos(ray.ray_angle - self.player.rotation_angle)  
+
+                color = (128, 100, 128)
+
+                pygame.draw.rect(display, color, (i * RES, y, RES, RES))
+                y += RES

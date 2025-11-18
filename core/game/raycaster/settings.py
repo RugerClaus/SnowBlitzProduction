@@ -10,7 +10,7 @@ FPS = 60
 WINDOW_WIDTH = COLS * TILE_SIZE
 WINDOW_HEIGHT = ROWS * TILE_SIZE
 FOV = 60 * (math.pi / 180) #in radians
-RES = 4 # width of rects
+RES = 6 # width of rects
 NUM_RAYS = WINDOW_WIDTH // RES
 
 WHITE = (255,255,255)
