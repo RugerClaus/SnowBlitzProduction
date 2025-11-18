@@ -36,3 +36,4 @@ class Raycaster:
         
         # Draw the crosshair after all rays have been drawn
         self.crosshair(display)
+

@@ -23,23 +23,37 @@ class Player(Entity):
         self.speed = 2.5
         self.rotation_speed = 2 * (math.pi/180)
         self.rotation_angle = -45*(math.pi/180)
-        self.level = 1
+        self.level = 0
 
-    def will_collide(self, new_x, new_y, game_map):
-        #check all cardinal directions. this idea should have been obvious for circle collision and I can just use math.pi to calculate 
-        # the trajectory of every angle around the player and determine if the player hits a wall that way
-        # das is good
+    import math
+
+    def check_collision(self, new_x, new_y, game_map):
+        
         for angle in (0, math.pi/2, math.pi, 3*math.pi/2):
+            
             check_x = new_x + math.cos(angle) * self.radius
             check_y = new_y + math.sin(angle) * self.radius
 
-            if game_map.has_wall_at(check_x, check_y) == 1:
-                return True
-            elif game_map.has_wall_at(check_x,check_y) == 2:
-                self.level += 1
-                self.find_safe_spawn(game_map)
-                return True
+            tile_code = game_map.map_grid[int(check_y // TILE_SIZE)][int(check_x // TILE_SIZE)]
+            
+            # Get the tile info for this tile code
+            tile_info = game_map.tile_key.get(tile_code)
+            
+            # Ensure that tile_info is valid and exists
+            if tile_info:
+                # Check if the tile is a wall type
+                if tile_info['type'] == 'wall':
+                    
+                    return True  # Collision with a wall
+                if tile_info['type'] == 'floor':
+                    if tile_info['action'] == 'next_map':
+                        self.level += 1
+                        print("Hit next level tile!")
+                        self.find_safe_spawn(game_map)
+                        return True
+                
         return False
+
 
     def update(self,game_map):
 
@@ -72,7 +86,7 @@ class Player(Entity):
         new_y = self.y + math.sin(self.rotation_angle) * move_step
 
 
-        if not self.will_collide(new_x, new_y, game_map):
+        if not self.check_collision(new_x, new_y, game_map):
             self.x = new_x
             self.y = new_y
 

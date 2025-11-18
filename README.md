@@ -30,3 +30,15 @@ and isolated the raycaster. All input management for the player's movement and a
 <p>Added the player movestate and turnstate into the debug overlay.</p>
 
 <p>Going to begin working on the map editor soon and the map class to better integrate custom maps. This will be simple at first, allowing you to create a map of a pre-determined size. I'll need to re-work the raycaster to account for it as well, but it's turning into an actual engine now.</p>
+
+<p><b>Major Updates:</b></p>
+<p>changed the way maps are handled. they now use wall types and floor types designated by the letters F or W alongside a number</p>
+<p>each map tile can have an action if you choose, also a color. textures are a future idea</p>
+<p>updated the collision handling on the player object</p>
+<p>The tile system is now ready for the map creator/editor. I'll be working in some entities now</p>
+<p>after i've worked in some items and some enemies and npcs, i'll start focusing on simple combat mechanics</p>
+<p>Once it's flexible enough, I'll start reworking the raycaster system to handle a camera and dynamic map sizes</p>
+<p>Only following that will I impliment the map creator. This will allow the player to create a lot of types of games just with the base mechanics
+of the raycaster engine, and entity system</p>
+
+<p>In other words, it's finally starting to shape into an enigne from just a robust framework</p>

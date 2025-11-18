@@ -161,31 +161,41 @@ class Ray:
             self.wall_hit_x = h_hit_x
             self.wall_hit_y = h_hit_y
             self.distance = hor_dist
-            if self.map.has_wall_at(h_hit_x,h_hit_y) == 1:
-                self.color_1,self.color_2,self.color_3 = 255,255,255
-            elif self.map.has_wall_at(h_hit_x,h_hit_y) == 2:
-                self.color_1,self.color_2,self.color_3 = 255,0,255
-            elif self.map.has_wall_at(h_hit_x,h_hit_y) == 3:
-                self.color_1,self.color_2,self.color_3 = 10,10,10
+
+            # Get the tile code at the horizontal hit position
+            tile_code = self.map.map_grid[int(h_hit_y // TILE_SIZE)][int(h_hit_x // TILE_SIZE)]
+            # Check if it's a wall and set the color accordingly
+            if self.map.has_wall_at(h_hit_x, h_hit_y):
+                tile_info = self.map.tile_key.get(tile_code)
+                if tile_info:  # Ensure the tile exists in TILE_KEY
+                    if tile_info['type'] == 'wall':
+                        self.color_1, self.color_2, self.color_3 = tile_info['color']
+            else:
+                self.color_1, self.color_2, self.color_3 = 255, 255, 255  # Default color (optional)
+
         else:
             self.wall_hit_x = v_hit_x
             self.wall_hit_y = v_hit_y
             self.distance = vert_dist
-            if self.map.has_wall_at(v_hit_x,v_hit_y) == 1:
-                self.color_1,self.color_2,self.color_3 = 255,255,255
-            elif self.map.has_wall_at(v_hit_x,v_hit_y) == 2:
-                self.color_1,self.color_2,self.color_3 = 255,0,255
-            elif self.map.has_wall_at(v_hit_x,v_hit_y) == 3:
-                self.color_1,self.color_2,self.color_3 = 10,10,10
+
+            # Get the tile code at the vertical hit position
+            tile_code = self.map.map_grid[int(v_hit_y // TILE_SIZE)][int(v_hit_x // TILE_SIZE)]
+            # Check if it's a wall and set the color accordingly
+            if self.map.has_wall_at(v_hit_x, v_hit_y):
+                tile_info = self.map.tile_key.get(tile_code)
+                if tile_info:  # Ensure the tile exists in TILE_KEY
+                    if tile_info['type'] == 'wall':
+                        self.color_1, self.color_2, self.color_3 = tile_info['color']
+
 
         self.distance *= math.cos(self.player.rotation_angle - self.ray_angle)
 
         # Assuming `self.color` stores the base color for wall type 2
-        if self.map.has_wall_at(h_hit_x, h_hit_y) != 2 and self.map.has_wall_at(v_hit_x, v_hit_y) != 2:
+        
             # Apply shading for non-glow walls
-            self.color_1 *= (60 / self.distance)
-            self.color_2 *= (60 / self.distance)
-            self.color_3 *= (60 / self.distance)
+        self.color_1 *= (60 / self.distance)
+        self.color_2 *= (60 / self.distance)
+        self.color_3 *= (60 / self.distance)
         
         if self.color_1 > 255:
             self.color_1 = 255
@@ -202,7 +212,6 @@ class Ray:
         elif self.color_3 < 0:
             self.color_3 = 0
 
-
     def draw(self,display):
-        #temporary
+        
         pygame.draw.line(display,RED,(self.player.x,self.player.y), (self.wall_hit_x,self.wall_hit_y))
