@@ -42,3 +42,7 @@ and isolated the raycaster. All input management for the player's movement and a
 of the raycaster engine, and entity system</p>
 
 <p>In other words, it's finally starting to shape into an enigne from just a robust framework</p>
+
+<p>added sprinting, experimenting with gun sprites. The sprite that's there is a dummy for now and doesn't look right yet. I just don't
+want to work on it more for this commit. regardless, eventually i'm going to need to figure out how to add enemies, and make the gun shoot.
+The latter, I can probably do easily, but the former? oof not there yet, but soon</p>

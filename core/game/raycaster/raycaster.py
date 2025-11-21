@@ -18,11 +18,6 @@ class Raycaster:
 
             ray_angle += FOV / NUM_RAYS
 
-    def crosshair(self,display):
-        pygame.draw.rect(display,WHITE,(WINDOW_WIDTH//2-5,WINDOW_HEIGHT//2,12,2)) #horizontal crosshair
-        pygame.draw.rect(display,WHITE,(WINDOW_WIDTH//2,WINDOW_HEIGHT//2-5,2,12)) #vertical crosshair
-
-
 # this is the draw method that handles all on screen action
 
     def draw(self, display):
@@ -35,7 +30,8 @@ class Raycaster:
             pygame.draw.rect(display, (ray.color_1,ray.color_2,ray.color_3), (i * RES, draw_begin, RES, line_height))
         
         # Draw the crosshair after all rays have been drawn
-        self.crosshair(display)
+        self.player.crosshair(display)
+        self.player.gun(display)
 
     def draw_floor(self, display):
         half_height = WINDOW_HEIGHT / 2

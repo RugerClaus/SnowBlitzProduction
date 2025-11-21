@@ -7,3 +7,5 @@ class PLAYER_INTENT_STATE(Enum):
     TURN_RIGHT = auto()
     IDLE_MOVE = auto()
     IDLE_TURN = auto()
+    SPRINT = auto()
+    WALK = auto()

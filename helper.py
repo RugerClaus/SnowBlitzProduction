@@ -10,6 +10,8 @@ def asset(asset):
         return 'assets/font/Pixeltype.ttf'
     elif asset == "background":
         return "assets/images/raycasted/stars.png"
+    elif asset == "gunnoshot":
+        return "assets/images/raycasted/gunnoshot.png"
     
 def asset_frames(prefix, count, ext="png", folder="menu_bg"):
     frames = []

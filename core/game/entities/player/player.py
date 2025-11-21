@@ -1,10 +1,11 @@
 import math,pygame
-from random import randint
+import helper
 from core.game.raycaster.settings import *
 from core.game.entities.entity import Entity
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.state.GameLayer.Entities.Player.Movement.Move.statemanager import PlayerMoveStateManager
 from core.state.GameLayer.Entities.Player.Movement.Turn.statemanager import PlayerTurnStateManager
+from core.state.GameLayer.Entities.Player.Movement.Speed.statemanager import PlayerSpeedStateManager
 
 class Player(Entity):
     def __init__(self,surface):
@@ -13,10 +14,12 @@ class Player(Entity):
         self.rotation_speed = 2 * (math.pi/180)
         self.move_intent = PlayerMoveStateManager(initial_state=PLAYER_INTENT_STATE.IDLE_MOVE)
         self.turn_intent = PlayerTurnStateManager(initial_state=PLAYER_INTENT_STATE.IDLE_TURN)
+        self.speed_intent = PlayerSpeedStateManager(initial_state=PLAYER_INTENT_STATE.WALK)
         self.x = WINDOW_WIDTH / 2
         self.y = WINDOW_HEIGHT / 2
         self.map_x = WINDOW_WIDTH / 4
         self.map_y = WINDOW_HEIGHT / 4
+        self.crosshair_position = [WINDOW_WIDTH//2-5,WINDOW_HEIGHT//2,WINDOW_WIDTH//2,WINDOW_HEIGHT//2-5]
         self.radius = 6
         self.turn_direction = 0 # -1 left 1 right 0 center float
         self.walk_direction = 0 # 1 player moving forward -1 player move backward
@@ -24,8 +27,6 @@ class Player(Entity):
         self.rotation_speed = 2 * (math.pi/180)
         self.rotation_angle = -45*(math.pi/180)
         self.level = 0
-
-    import math
 
     def check_collision(self, new_x, new_y, game_map):
         
@@ -53,6 +54,16 @@ class Player(Entity):
                         return True
                 
         return False
+    
+    def crosshair(self,display):
+        pygame.draw.rect(display,WHITE,(self.crosshair_position[0],self.crosshair_position[1],12,2)) #horizontal crosshair
+        pygame.draw.rect(display,WHITE,(self.crosshair_position[2],self.crosshair_position[3],2,12)) #vertical crosshair
+    
+    def gun(self,display):
+        width = display.get_width()
+        height = display.get_height()
+        gun = pygame.image.load(helper.asset('gunnoshot'))
+        display.blit(gun,(width//2,height//2+height//4))
 
 
     def update(self,game_map):
@@ -64,6 +75,14 @@ class Player(Entity):
 
         self.walk_direction = 0
         keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LCTRL]:
+            self.speed = 3.5
+            self.speed_intent.set_state(PLAYER_INTENT_STATE.SPRINT)
+        else:
+            self.speed = 2.5
+            self.speed_intent.set_state(PLAYER_INTENT_STATE.WALK)
+
         if keys[pygame.K_w]:
             self.walk_direction = 1
             self.move_intent.set_state(PLAYER_INTENT_STATE.MOVE_FORWARD)
