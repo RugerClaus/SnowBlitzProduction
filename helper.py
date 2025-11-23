@@ -12,6 +12,8 @@ def asset(asset):
         return "assets/images/raycasted/stars.png"
     elif asset == "gunnoshot":
         return "assets/images/raycasted/gunnoshot.png"
+    elif asset == "gunshot":
+        return "assets/images/raycasted/gunshot.png"
     
 def asset_frames(prefix, count, ext="png", folder="menu_bg"):
     frames = []

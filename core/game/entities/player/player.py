@@ -27,6 +27,8 @@ class Player(Entity):
         self.rotation_speed = 2 * (math.pi/180)
         self.rotation_angle = -45*(math.pi/180)
         self.level = 0
+        self.shooting = False
+        self.gun = pygame.image.load(helper.asset('gunnoshot'))
 
     def check_collision(self, new_x, new_y, game_map):
         
@@ -59,12 +61,18 @@ class Player(Entity):
         pygame.draw.rect(display,WHITE,(self.crosshair_position[0],self.crosshair_position[1],12,2)) #horizontal crosshair
         pygame.draw.rect(display,WHITE,(self.crosshair_position[2],self.crosshair_position[3],2,12)) #vertical crosshair
     
-    def gun(self,display):
+    def draw_gun(self,display):
         width = display.get_width()
         height = display.get_height()
-        gun = pygame.image.load(helper.asset('gunnoshot'))
-        display.blit(gun,(width//2,height//2+height//4))
+        display.blit(self.gun,(width//2-self.gun.width//2,height-self.gun.height))
+    
+    def shoot(self,display,gun):
+        width = display.get_width()
+        height = display.get_height()
 
+        shot = pygame.image.load(helper.asset('gunshot'))
+        guntop = gun.get_rect().top
+        display.blit(shot,(width//2,height//2))
 
     def update(self,game_map):
 
@@ -97,6 +105,12 @@ class Player(Entity):
         elif keys[pygame.K_d]:
             self.turn_direction = 1
             self.turn_intent.set_state(PLAYER_INTENT_STATE.TURN_RIGHT)
+        
+        self.is_shooting = False
+
+        if keys[pygame.K_SPACE] and not self.is_shooting:
+            self.is_shooting = True
+            self.shoot(self.surface, self.gun)
 
         move_step = self.walk_direction * self.speed
 

@@ -76,6 +76,7 @@ class Game:
             self.player.update(self.map)
 
             self.raycaster.cast_all_rays()
+            
             self.raycaster.draw_floor(self.surface)
             self.raycaster.draw(self.surface)
             self.map.draw(self.minimap_surface)

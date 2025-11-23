@@ -31,7 +31,7 @@ class Raycaster:
         
         # Draw the crosshair after all rays have been drawn
         self.player.crosshair(display)
-        self.player.gun(display)
+        self.player.draw_gun(display)
 
     def draw_floor(self, display):
         half_height = WINDOW_HEIGHT / 2
