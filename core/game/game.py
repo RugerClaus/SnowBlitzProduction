@@ -2,39 +2,24 @@ import pygame
 
 from core.state.GameLayer.state import GAMESTATE
 from core.state.GameLayer.statemanager import GameStateManager
+from core.state.GameLayer.GameMode.state import GAME_MODE
+from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.menus.pause import Pause
-#from core.game.entities.entities import Entities
-#from core.game.entities.EntityState.state import *
-
-#this is for an imported game with a raycasting engine
-#you'll see it's fairly easy to just drop pygame projects right in and tie them to everything else.
-from core.game.entities.player.player import Player
-from core.game.world.map import Map
-from core.game.raycaster.raycaster import Raycaster
-from core.game.raycaster.settings import WINDOW_WIDTH,WINDOW_HEIGHT
-from helper import asset
+from helper import asset,get_colors
 
 class Game:
     def __init__(self,window,sound,menu_callback,quit_callback):
 
         self.state = GameStateManager()
+        self.game_mode = GameModeManager()
         self.window = window
-        self.surface = window.make_surface(WINDOW_WIDTH,WINDOW_HEIGHT,True)
-        self.minimap_surface = window.make_surface(WINDOW_WIDTH//4,WINDOW_HEIGHT//4)
+        self.surface = window.make_surface(window.get_width(),window.get_height(),True)
         self.sound = sound
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
         self.pause_menu = Pause(window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
         self.intent = None
         self.surface.fill('red')
-
-        #below we handle the imported game
-        self.player = Player(self.surface)
-        self.map = Map(self.player)
-        self.raycaster = Raycaster(self.player,self.map)
-
-
-        self.backgroundimg = pygame.image.load(asset('background'))
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -60,29 +45,26 @@ class Game:
                 if input.last_key == pygame.K_9:
                     self.quit_to_menu()
         
+    def set_mode(self,mode):
+        if mode == 'ENDLESS':
+            self.game_mode.set_state(GAME_MODE.ENDLESS)
+        if mode == 'BLITZ':
+            self.game_mode.set_state(GAME_MODE.BLITZ)
+        if mode == 'TUTORIAL':
+            self.game_mode.set_state(GAME_MODE.TUTORIAL)
+        if mode == 'QUIT_TO_MENU':
+            self.game_mode.set_state(GAME_MODE.NONE)
 
     def draw(self):
 
-        self.window.blit(self.surface,(self.window.get_width()//8,0))
-        self.window.blit(self.minimap_surface,(0,self.surface.get_height() + 10))
+        self.window.blit(self.surface,(0,0))
         if self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
-            self.surface.blit(self.backgroundimg,(0,0))
-
-            self.map.update()
-
-            self.player.update(self.map)
-
-            self.raycaster.cast_all_rays()
-            
-            self.raycaster.draw_floor(self.surface)
-            self.raycaster.draw(self.surface)
-            self.map.draw(self.minimap_surface)
-            self.player.draw(self.minimap_surface)
+            self.surface.fill((255,255,255))
         
-
+        
     def update(self):
         pass
 

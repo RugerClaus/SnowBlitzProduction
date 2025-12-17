@@ -4,10 +4,9 @@ from core.ui.font import FontEngine
 from core.state.ApplicationLayer.state import APPSTATE
 
 class Debugger:
-    def __init__(self,game,map_editor,state,window,sound):
+    def __init__(self,game,state,window,sound):
         self.sound = sound
         self.game = game
-        self.map_editor = map_editor
         self.state = state
         self.window = window
         self.surface = window.make_surface(window.get_screen().get_width(),window.get_screen().get_height(),True)
@@ -78,13 +77,6 @@ class Debugger:
             player_move_intent_state_surf = self.font_right.render(player_turn_intent_state_text,False,text_color)
             self.surface.blit(player_move_intent_state_surf,(right_x - player_move_intent_state_surf.get_width(),right_y))
             right_y += player_move_intent_state_surf.get_height() * 1.2
-
-        # Map editor state (if in editor)
-        if self.state.is_app_state(APPSTATE.MAP_EDITOR):
-            editor_state_text = f"{self.map_editor.state.get_state()}"
-            editor_state_surf = self.font_right.render(editor_state_text, False, text_color)
-            self.surface.blit(editor_state_surf, (right_x - editor_state_surf.get_width(), right_y))
-            right_y += editor_state_surf.get_height() * 1.2
 
         # Finally, blit the surface
         self.window.blit(self.surface, self.rect)

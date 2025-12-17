@@ -57,11 +57,29 @@ class Window:
         return self.screen
     
     def make_surface(self, width, height, alpha=False):
-        flags = pygame.SRCALPHA if alpha else 0
-        return pygame.Surface((width, height), flags)
+        return Surface(width, height, alpha)
 
     def update(self):
         pygame.display.flip()
 
     def get_fps(self):
         return self.clock.get_fps()
+    
+class Surface(pygame.Surface):
+    def __init__(self, width, height, alpha=False):
+        flags = pygame.SRCALPHA if alpha else 0
+        super().__init__((width, height), flags)
+
+    def fill(self, color):
+        if isinstance(color, str):
+            color = get_colors(color.lower())
+        elif isinstance(color, tuple) and len(color) != 3:
+            raise ValueError("fill() only supports RGB tuples or color strings")
+        
+        super().fill(color)
+
+    def draw_overlay(self, color, alpha):
+        overlay = Surface(self.get_size()[0], self.get_size()[1], True)
+        overlay.fill((*color, alpha))
+        self.blit(overlay, (0, 0))
+    

@@ -5,11 +5,11 @@ from core.guts.animations import Animation
 from helper import *
 
 class Menu:
-    def __init__(self, screen, start_callback, map_editor_callback, quit_callback):
+    def __init__(self, screen, endless_callback, blitz_callback, tutorial_callback, quit_callback):
         self.screen = screen
-        self.start_callback = start_callback
-        self.map_editor_callback = map_editor_callback
-        self.multiplayer_callback = None
+        self.endless_callback = endless_callback
+        self.blitz_callback = blitz_callback
+        self.tutorial_callback = tutorial_callback
         self.quit_callback = quit_callback
 
         # Load static assets
@@ -53,9 +53,9 @@ class Menu:
         center_x = screen_w // 2
         unavailable_color = (128,128,150)
         self.buttons = [
-            Button("Start", center_x, start_y, btn_width + 80, btn_height, (255, 255, 255), (128,0,200), self.start_callback),
-            Button("Map Editor", center_x, start_y + spacing * 1, btn_width + 80, btn_height, (255, 255, 255), (128,0,200), self.map_editor_callback),
-            Button("Multiplayer", center_x, start_y + spacing * 2, btn_width * 2, btn_height, (255, 255, 255), (128, 128, 128), self.multiplayer_callback),
+            Button("Endless Mode", center_x, start_y, btn_width + 80, btn_height, (255, 255, 255), (128,0,200), self.endless_callback),
+            Button("Blitz Mode", center_x, start_y + spacing * 1, btn_width + 80, btn_height, (255, 255, 255), (128,0,200), self.blitz_callback),
+            Button("Tutorial", center_x, start_y + spacing * 2, btn_width * 2, btn_height, (255, 255, 255), (128, 128, 128), self.tutorial_callback),
             Button("Quit", center_x, start_y + spacing * 3, btn_width, btn_height, (255, 255, 255), (255, 0, 80), self.quit_callback),
         ]
 
