@@ -46,16 +46,16 @@ class Menu:
     def create_buttons(self):
         self.buttons = []
         screen_w, screen_h = self.screen.get_size()
-        btn_width, btn_height = screen_w // 6, 70
+        btn_width, btn_height = screen_w // 4.5, 70
         spacing = btn_height * 1.2
         start_y = screen_h // 4 + screen_h // 7
 
         center_x = screen_w // 2
         unavailable_color = (128,128,150)
         self.buttons = [
-            Button("Endless Mode", center_x, start_y, btn_width + 80, btn_height, (255, 255, 255), (128,0,200), self.endless_callback),
-            Button("Blitz Mode", center_x, start_y + spacing * 1, btn_width + 80, btn_height, (255, 255, 255), (128,0,200), self.blitz_callback),
-            Button("Tutorial", center_x, start_y + spacing * 2, btn_width * 2, btn_height, (255, 255, 255), (128, 128, 128), self.tutorial_callback),
+            Button("Endless Mode", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128,0,200), self.endless_callback),
+            Button("Blitz Mode", center_x, start_y + spacing * 1, btn_width, btn_height, (255, 255, 255), (128,0,200), self.blitz_callback),
+            Button("Tutorial", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 128, 128), self.tutorial_callback),
             Button("Quit", center_x, start_y + spacing * 3, btn_width, btn_height, (255, 255, 255), (255, 0, 80), self.quit_callback),
         ]
 
@@ -66,9 +66,9 @@ class Menu:
                 button.is_clicked(mouse_pos, True)
 
         elif event.type == pygame.VIDEORESIZE:
-            self.on_resize()
+            self.scale()
 
-    def on_resize(self):
+    def scale(self):
         self.rescale_assets()
         self.create_buttons()
         self.background_animation.frames = self.bg_frames

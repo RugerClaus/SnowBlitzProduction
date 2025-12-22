@@ -47,11 +47,18 @@ class App:
 
     def go_to_menu(self):
         self.state.set_app_state(APPSTATE.MAIN_MENU)
+        self.menu.scale()
         self.game.set_mode('QUIT_TO_MENU')
     
     def handle_events(self):
         for event in pygame.event.get():
-            self.window.handle_resize(event)
+            if event.type == pygame.VIDEORESIZE:
+                self.window.scale()
+                if self.state.is_app_state(APPSTATE.MAIN_MENU):
+                    self.menu.scale()
+                if self.state.is_app_state(APPSTATE.IN_GAME):
+                    self.game.game_object.player.scale()
+
 
             if event.type == pygame.QUIT:
                 self.state.set_app_state(APPSTATE.QUIT)

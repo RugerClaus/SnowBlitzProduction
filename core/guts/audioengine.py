@@ -65,6 +65,7 @@ class AudioEngine:
             pygame.mixer.music.play(-1)
 
         elif mode == "stop":
+            self.current_track = None
             pygame.mixer.music.stop()
 
         elif isinstance(mode, str):

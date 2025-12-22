@@ -25,10 +25,9 @@ class Window:
     def get_height(self):
         return self.screen.get_height()
     
-    def handle_resize(self,e):
-        if e.type == pygame.VIDEORESIZE:
-            (self.width,self.height) = e.size
-            self.set_screen()
+    def scale(self):
+        self.width, self.height = self.screen.get_size()
+        self.set_screen()
     
     def timer(self):
         self.clock.tick(self.fps)
@@ -36,19 +35,23 @@ class Window:
     def default_fill(self):
         self.screen.fill(self.color)
 
-    def fill(self, color):
+    def fill(self, color,alpha=None):
         if isinstance(color, str):
             color = get_colors(color.lower())
-
-        if isinstance(color, tuple) and len(color) == 3:
-            self.screen.fill(color)
+        elif isinstance(color, tuple) and len(color) == 3:
+            color = color
+            alpha = alpha if alpha is not None else 255
+            color = (*color, alpha)
+        elif isinstance(color, tuple) and len(color) == 4:
+            color = color
         else:
-            raise ValueError("fill() only supports RGB tuples or color strings")
+            raise ValueError("fill() only supports RGB or RGBA tuples or color strings")
+        self.screen.fill(color)
 
     def draw_overlay(self, color, alpha):
-        overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        overlay = Surface(self.get_width(), self.get_height(), True)
         overlay.fill((*color, alpha))
-        self.screen.blit(overlay, (0, 0))
+        return overlay
 
     def blit(self,surface,destination):
         self.screen.blit(surface,destination)
@@ -70,16 +73,26 @@ class Surface(pygame.Surface):
         flags = pygame.SRCALPHA if alpha else 0
         super().__init__((width, height), flags)
 
-    def fill(self, color):
+    def fill(self, color,alpha=None):
         if isinstance(color, str):
             color = get_colors(color.lower())
-        elif isinstance(color, tuple) and len(color) != 3:
-            raise ValueError("fill() only supports RGB tuples or color strings")
-        
+        elif isinstance(color, tuple) and len(color) == 3:
+            color = color
+            alpha = alpha if alpha is not None else 255
+            color = (*color, alpha)
+        elif isinstance(color, tuple) and len(color) == 4:
+            color = color
+        else:
+            raise ValueError("fill() only supports RGB or RGBA tuples or color strings")
         super().fill(color)
 
     def draw_overlay(self, color, alpha):
         overlay = Surface(self.get_size()[0], self.get_size()[1], True)
         overlay.fill((*color, alpha))
         self.blit(overlay, (0, 0))
+
+    def scale(self):
+        self.width, self.height = self.get_size()
     
+    def make_surface(self, width, height, alpha=False):
+        return Surface(width, height, alpha)

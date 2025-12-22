@@ -4,6 +4,7 @@ from core.state.GameLayer.state import GAMESTATE
 from core.state.GameLayer.statemanager import GameStateManager
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.state.GameLayer.GameMode.statemanager import GameModeManager
+from core.game.snowblitz import SnowBlitz
 from core.menus.pause import Pause
 from helper import asset,get_colors
 
@@ -19,7 +20,7 @@ class Game:
         self.quit_callback = quit_callback
         self.pause_menu = Pause(window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
         self.intent = None
-        self.surface.fill('red')
+        self.game_object = SnowBlitz(self.surface,self.sound)
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -29,6 +30,8 @@ class Game:
 
     def handle_event(self,event,input):
         input.handle_event(event,True)
+        if event.type == pygame.VIDEORESIZE:
+            self.surface = self.window.make_surface(self.window.get_width(),self.window.get_height(),True)
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
@@ -62,7 +65,7 @@ class Game:
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
-            self.surface.fill((255,255,255))
+            self.game_object.init_endless()
         
         
     def update(self):

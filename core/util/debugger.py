@@ -9,7 +9,7 @@ class Debugger:
         self.game = game
         self.state = state
         self.window = window
-        self.surface = window.make_surface(window.get_screen().get_width(),window.get_screen().get_height(),True)
+        self.surface = window.draw_overlay((0, 0, 0), 128)
         self.rect = self.surface.get_rect()
         self.font_left = FontEngine("UI").font
         self.font_right = FontEngine("dbug_state").font
@@ -43,7 +43,9 @@ class Debugger:
         left_y += fps_surf.get_height() * 1.2
 
         # Current song
-        song_text = f"Song: {self.sound.current_track or 'None'}"
+        stripped_title = self.sound.current_track.rsplit('.', 1)[0] if self.sound.current_track else None
+        song_text = f"Song: {stripped_title or 'None'}"
+        
         song_surf = self.font_left.render(song_text, False, text_color)
         self.surface.blit(song_surf, (left_x, left_y))
         left_y += song_surf.get_height() * 1.2
@@ -65,18 +67,6 @@ class Debugger:
             game_state_surf = self.font_right.render(game_state_text, False, text_color)
             self.surface.blit(game_state_surf, (right_x - game_state_surf.get_width(), right_y))
             right_y += game_state_surf.get_height() * 1.2
-            
-            #player move state
-            player_move_intent_state_text = f"{self.game.player.move_intent.get_state()}"
-            player_move_intent_state_surf = self.font_right.render(player_move_intent_state_text,False,text_color)
-            self.surface.blit(player_move_intent_state_surf,(right_x - player_move_intent_state_surf.get_width(),right_y))
-            right_y += player_move_intent_state_surf.get_height() * 1.2
-
-            #player turn state
-            player_turn_intent_state_text = f"{self.game.player.turn_intent.get_state()}"
-            player_move_intent_state_surf = self.font_right.render(player_turn_intent_state_text,False,text_color)
-            self.surface.blit(player_move_intent_state_surf,(right_x - player_move_intent_state_surf.get_width(),right_y))
-            right_y += player_move_intent_state_surf.get_height() * 1.2
 
         # Finally, blit the surface
         self.window.blit(self.surface, self.rect)
