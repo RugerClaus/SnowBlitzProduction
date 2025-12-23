@@ -1,1 +1,7 @@
 <p>This branch of Distant Realms Python is SnowBlitz remastered really. I'll be implementing the whole game in this modular framework and build a better entity system for it as well. I'm halfway there. The next parts will be finishing the entity system and then i'll work on the rendering logic. It should actually be stupidly easy and i can copy over a bunch of code.</p>
+
+<p>UPDATE: I have fully prepared the player and its scaling along with decoupled movement controls using the Controls class. So you can move the player around and resize the screen with everything scaling successfully. Reworked the Surface class a bit in the Window.py file. Going to take some of the core engine mechanics that I have improved in this version (core/guts) and merge them with the main branch to keep the engine code consistent.</p>
+
+<p>This whole thing has been an excersize in iterating and finding the most modular ways to do things as I actually scaffold Distant Realms into a fully fledged engine. For now though, I'm building Snow Blitz. It should be done in the next few weeks, I'll work on heavy play testing, and then I'll release this on steam.</p>
+
+<p>Fortunately due to the way I have basically completely redesigned it using the framework, adding game modes, entities, and other fascets of the game will be totally trivial once I have all the core mechanics in place again. This way, there's no monolithic codebase keeping me from adding features.</p>

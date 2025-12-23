@@ -14,13 +14,12 @@ class Game:
         self.state = GameStateManager()
         self.game_mode = GameModeManager()
         self.window = window
-        self.surface = window.make_surface(window.get_width(),window.get_height(),True)
         self.sound = sound
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.pause_menu = Pause(window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
+        self.pause_menu = Pause(self.window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
         self.intent = None
-        self.game_object = SnowBlitz(self.surface,self.sound)
+        self.game_object = SnowBlitz(self.window,self.sound)
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -31,22 +30,22 @@ class Game:
     def handle_event(self,event,input):
         input.handle_event(event,True)
         if event.type == pygame.VIDEORESIZE:
-            self.surface = self.window.make_surface(self.window.get_width(),self.window.get_height(),True)
+            self.game_object.player.scale(event.w,event.h)
+            self.pause_menu.on_resize()
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.toggle_pause()
         
         if self.state.is_state(GAMESTATE.PLAYING):
-            if event.type == pygame.KEYDOWN:
-                pass
-                
+            self.game_object.handle_event(event)
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
             if event.type == pygame.KEYDOWN:
                 if input.last_key == pygame.K_9:
                     self.quit_to_menu()
+            
         
     def set_mode(self,mode):
         if mode == 'ENDLESS':
@@ -60,7 +59,6 @@ class Game:
 
     def draw(self):
 
-        self.window.blit(self.surface,(0,0))
         if self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.update()
             self.pause_menu.draw()
@@ -87,4 +85,3 @@ class Game:
     
     def reset(self):
         self.state.set_state(GAMESTATE.PLAYING)
-

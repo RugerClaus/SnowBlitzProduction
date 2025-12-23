@@ -17,6 +17,10 @@ class Debugger:
     def create_options(self):
         pass
 
+    def scale(self):
+        self.surface = self.window.draw_overlay((0, 0, 0), 128)
+        self.rect = self.surface.get_rect()
+
     def handle_event(self,event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
@@ -24,7 +28,9 @@ class Debugger:
                     print("In game")
                 else:
                     print("Not in game")
-
+        if event.type == pygame.VIDEORESIZE:
+            self.scale()
+    
 
     def draw(self):
         text_color = (255, 255, 255)
