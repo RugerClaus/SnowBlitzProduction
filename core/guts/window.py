@@ -25,11 +25,15 @@ class Window:
     def get_height(self):
         return self.screen.get_height()
     
-    def get_size(self):
-        return self.screen.get_size()
+    def scale(self):
+        self.width, self.height = self.screen.get_size()
+        self.set_screen()
     
     def scale(self,target_width,target_height):
         self.screen = pygame.display.set_mode((target_width,target_height),pygame.RESIZABLE)
+
+    def get_size(self):
+        return self.screen.get_size()
 
     def timer(self):
         self.clock.tick(self.fps)
@@ -78,6 +82,7 @@ class Surface(pygame.Surface):
         self.original_height = height
 
     def fill(self, color, alpha=None):
+
         if isinstance(color, str):
             color = get_colors(color.lower())
         elif isinstance(color, tuple) and len(color) == 3:
@@ -95,6 +100,11 @@ class Surface(pygame.Surface):
         overlay.fill((*color, alpha))
         self.blit(overlay, (0, 0))
 
+    def scale(self):
+        self.width, self.height = self.get_size()
+    
+    def make_surface(self, width, height, alpha=False):
+        return Surface(width, height, alpha)
     def scale(self, window_width,window_height):
         # Use pygame.transform.scale to create a new surface with the new size
         scaled_surface = pygame.transform.scale(self, (window_width, window_height))

@@ -5,13 +5,15 @@ from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STAT
 from core.state.GameLayer.Entities.Player.Movement.statemanager import PlayerMoveStateManager
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
 from core.state.GameLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
+from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
+from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
 
 class Player(Entity):
     def __init__(self, board_surface):
-        self.base_size = 10  # radius in logical pixels
+        self.base_size = 10 
         self.board_surface = board_surface
         x = board_surface.get_width() // 2
-        y = board_surface.get_height() - 100  # Initial y value is 100px above bottom
+        y = board_surface.get_height() - 100 
         super().__init__(x, y, EntityType.PLAYER, self.base_size)
         self.diam = self.base_size * 2
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
@@ -22,29 +24,31 @@ class Player(Entity):
 
         self.level_up_size = 20
 
+        self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
         self.power_state = PlayerPowerStateManager()
+    
+    def is_alive(self):
+        return self.life_state.is_state(PLAYER_LIFE_STATE.ALIVE)
 
-    def scale(self, event_w, event_h):
-        # Adjust base size relative to the new height to scale player size
+    def scale(self,event_h):
+
         scale_factor = event_h / self.board_surface.get_height()
-        self.base_size = 10 * scale_factor  # Adjust base size (player size)
+        self.base_size = 10 * scale_factor 
         self.diam = self.base_size * 2
 
-        # Resize the player's surface accordingly
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
         
-        # Draw the resized player (circle) onto the resized surface
         pygame.draw.circle(self.surface, (255, 255, 255), 
                            (self.base_size, self.base_size), self.base_size)
 
-        # Adjust the player's y position to remain 100px from the bottom
-        self.y = event_h - 100  # Keep 100px above bottom
+        self.y = event_h - 100
         self.rect = self.surface.get_rect()
-        self.rect.center = (int(self.x), int(self.y))  # Update position on the new surface
+        self.rect.center = (int(self.x), int(self.y))
 
     def update(self):
-        # Update player's movement
+        self.diam -= .1
+        self.base_size = self.diam / 2
         if self.move_state.is_state(PLAYER_INTENT_STATE.MOVE_LEFT):
             self.x -= self.speed
         elif self.move_state.is_state(PLAYER_INTENT_STATE.MOVE_RIGHT):
@@ -54,9 +58,11 @@ class Player(Entity):
 
         if not self.move_state.is_state(PLAYER_INTENT_STATE.IDLE_MOVE):
             print(f"Player position: x={self.x}, y={self.y}")
+        
+        if self.diam < 1:
+            self.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
 
-        # Update the player's rect.center position after movement
-        self.rect.center = (int(self.x), int(self.y))
+        self.rect.centery = self.y
 
     def move(self, direction):
         if direction == 'LEFT':
@@ -67,14 +73,12 @@ class Player(Entity):
             self.move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
 
     def draw(self):
-        # Clear previous surface and redraw the player on the board surface
-        self.board_surface.fill((0, 0, 0, 0))  # Clear previous surface
-        self.surface.fill((0, 0, 0, 0))  # Clear the player's surface
-        
-        # Redraw the player (now it should be properly scaled and positioned)
+
+        self.board_surface.fill((0, 0, 0, 0))
+        self.surface.fill((0, 0, 0, 0))
+
         pygame.draw.circle(self.surface, (255, 255, 255),
                            (self.base_size, self.base_size), self.base_size)
 
-        # Update the rect center after any changes
         self.rect.center = (int(self.x), int(self.y))
         self.board_surface.blit(self.surface, self.rect.topleft)

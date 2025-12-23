@@ -6,6 +6,7 @@ from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.game.snowblitz import SnowBlitz
 from core.menus.pause import Pause
+from core.menus.gameover import GameOverMenu
 from helper import asset,get_colors
 
 class Game:
@@ -18,8 +19,9 @@ class Game:
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
         self.pause_menu = Pause(self.window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
+        self.game_over_menu = GameOverMenu(self.window,self.reset_game,self.quit_to_menu,self.quit)
         self.intent = None
-        self.game_object = SnowBlitz(self.window,self.sound)
+        self.game_object = SnowBlitz(self.window,self.sound,self.state)
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -30,7 +32,7 @@ class Game:
     def handle_event(self,event,input):
         input.handle_event(event,True)
         if event.type == pygame.VIDEORESIZE:
-            self.game_object.player.scale(event.w,event.h)
+            self.game_object.player.scale(event.h)
             self.pause_menu.on_resize()
 
         if event.type == pygame.KEYDOWN:
@@ -38,13 +40,15 @@ class Game:
                 self.toggle_pause()
         
         if self.state.is_state(GAMESTATE.PLAYING):
-            self.game_object.handle_event(event)
+            self.game_object.handle_event()
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
             if event.type == pygame.KEYDOWN:
                 if input.last_key == pygame.K_9:
                     self.quit_to_menu()
+        elif self.state.is_state(GAMESTATE.GAME_OVER):
+            self.game_over_menu.handle_event(event)
             
         
     def set_mode(self,mode):
@@ -65,6 +69,10 @@ class Game:
         elif self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.init_endless()
         
+        elif self.state.is_state(GAMESTATE.GAME_OVER):
+            self.game_over_menu.update()
+            self.game_over_menu.draw()
+        
         
     def update(self):
         pass
@@ -76,7 +84,7 @@ class Game:
         
 
     def quit_to_menu(self):
-        self.reset()
+        self.reset_game()
         pygame.event.clear()
         self.menu_callback()
 
@@ -85,3 +93,7 @@ class Game:
     
     def reset(self):
         self.state.set_state(GAMESTATE.PLAYING)
+
+    def reset_game(self):
+        self.reset()
+        self.game_object = SnowBlitz(self.window,self.sound,self.state)
