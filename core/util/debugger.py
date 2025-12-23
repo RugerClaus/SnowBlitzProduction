@@ -74,6 +74,18 @@ class Debugger:
             self.surface.blit(game_state_surf, (right_x - game_state_surf.get_width(), right_y))
             right_y += game_state_surf.get_height() * 1.2
 
+            #player life state
+            player_life_state_text = f"Player Life: {self.game.game_object.player.life_state.get_state()}"
+            player_life_state_surf = self.font_right.render(player_life_state_text, False, text_color)
+            self.surface.blit(player_life_state_surf, (right_x - player_life_state_surf.get_width(), right_y))
+            right_y += player_life_state_surf.get_height() * 1.2
+
+            #player_movement_state
+            player_movement_state_text = f"Player Movement: {self.game.game_object.player.move_state.get_state()}"
+            player_movement_state_surf = self.font_right.render(player_movement_state_text, False, text_color)
+            self.surface.blit(player_movement_state_surf, (right_x - player_movement_state_surf.get_width(), right_y))
+            right_y += player_movement_state_surf.get_height() * 1.2
+
         # Finally, blit the surface
         self.window.blit(self.surface, self.rect)
 

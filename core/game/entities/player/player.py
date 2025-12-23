@@ -7,6 +7,8 @@ from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
 from core.state.GameLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
 from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
+from core.state.GameLayer.Entities.Player.Status.state import PLAYER_STATUS_STATE
+from core.state.GameLayer.Entities.Player.Status.statemanager import PlayerStatusStateManager
 
 class Player(Entity):
     def __init__(self, board_surface):
@@ -27,6 +29,7 @@ class Player(Entity):
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
         self.power_state = PlayerPowerStateManager()
+        self.status_state = PlayerStatusStateManager()
     
     def is_alive(self):
         return self.life_state.is_state(PLAYER_LIFE_STATE.ALIVE)
@@ -55,12 +58,10 @@ class Player(Entity):
             self.x += self.speed
         elif self.move_state.is_state(PLAYER_INTENT_STATE.IDLE_MOVE):
             self.speed += 0
-
-        if not self.move_state.is_state(PLAYER_INTENT_STATE.IDLE_MOVE):
-            print(f"Player position: x={self.x}, y={self.y}")
         
         if self.diam < 1:
             self.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
+            self.move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
 
         self.rect.centery = self.y
 
