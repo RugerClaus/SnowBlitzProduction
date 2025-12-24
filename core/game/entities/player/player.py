@@ -37,7 +37,7 @@ class Player(Entity):
     def scale(self, event_h):
         scale_factor = event_h / self.original_height
         self.base_size = 10 * scale_factor  # Scale the size of the player
-        self.diam = self.base_size * 2
+        self.diam = self.diam * scale_factor
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
 
         pygame.draw.circle(self.surface, (255, 255, 255), (self.base_size, self.base_size), self.base_size)

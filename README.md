@@ -11,3 +11,7 @@
 <p>I could really structure this better and take all this rambling out of the readme file, but here we are.... Either way, I have now added the player UI for the progress bar and will work on the rest of the positions of it next. Then I will implement the small settings menu allowing you to change the controls, where the progress bar is, and toggle the music.</p>
 
 <p>Overall it's shaping into a fine recreation of snow blitz, and once I have the next small details worked out I can finish the implementation of the game. It may take me less time than I thought it would. Which is great because I'd like to do an actual release and this little framework is speedrunning that.</p>
+
+<h3>UPDATE 3:</h3>
+<p>I have finished the UI. next step is adding a settings menu at the main menu and one for the pause menu. I may just have the settings on the pause screen to save effort.</p>
+<p>Once I have settings for toggling music on/off, as well as a master volume, and a setting for moving the progress bar back and forth from top to bottom, I will start implementing the entities and the rest of the game mechanics. This is nearly good enough to sell on steam.</p>
