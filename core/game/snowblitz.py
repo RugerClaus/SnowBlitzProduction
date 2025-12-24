@@ -15,7 +15,6 @@ class SnowBlitz:
         self.progress_bar = SizeBarManager(self.surface,self.player)
 
     def handle_event(self):
-        
         keys = pygame.key.get_pressed()
         if keys[self.controls.move_left]:
             self.player.move('LEFT')
@@ -27,6 +26,7 @@ class SnowBlitz:
     def init_endless(self):
         game = Endless(self.surface,self.player,self.game_state)
         game.run()
+        self.progress_bar.update()
         self.progress_bar.draw()
         
     def init_tutorial(self):
@@ -35,3 +35,8 @@ class SnowBlitz:
         game.load_environment()
         game.load_player()
         game.run()
+
+    def resize(self, event_h):
+        self.player.scale(event_h)
+        self.progress_bar.update()
+        self.progress_bar.draw()

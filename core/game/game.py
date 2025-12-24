@@ -10,18 +10,17 @@ from core.menus.gameover import GameOverMenu
 from helper import asset,get_colors
 
 class Game:
-    def __init__(self,window,sound,menu_callback,quit_callback):
-
+    def __init__(self, window, sound, menu_callback, quit_callback):
         self.state = GameStateManager()
         self.game_mode = GameModeManager()
         self.window = window
         self.sound = sound
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.pause_menu = Pause(self.window,self.toggle_pause,self.quit_to_menu,self.quit,self.reset)
-        self.game_over_menu = GameOverMenu(self.window,self.reset_game,self.quit_to_menu,self.quit)
+        self.pause_menu = Pause(self.window, self.toggle_pause, self.quit_to_menu, self.quit, self.reset)
+        self.game_over_menu = GameOverMenu(self.window, self.reset_game, self.quit_to_menu, self.quit)
         self.intent = None
-        self.game_object = SnowBlitz(self.window,self.sound,self.state)
+        self.game_object = SnowBlitz(self.window, self.sound, self.state)
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -29,11 +28,10 @@ class Game:
         else:
             self.state.set_state(GAMESTATE.PLAYING)
 
-    def handle_event(self,event,input):
-        input.handle_event(event,True)
+    def handle_event(self, event, input):
+        input.handle_event(event, True)
         if event.type == pygame.VIDEORESIZE:
-            self.game_object.player.scale(event.h)
-            self.pause_menu.on_resize()
+            self.game_object.resize(event.h)
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
@@ -49,39 +47,23 @@ class Game:
                     self.quit_to_menu()
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.handle_event(event)
-            
-        
-    def set_mode(self,mode):
-        if mode == 'ENDLESS':
-            self.game_mode.set_state(GAME_MODE.ENDLESS)
-        if mode == 'BLITZ':
-            self.game_mode.set_state(GAME_MODE.BLITZ)
-        if mode == 'TUTORIAL':
-            self.game_mode.set_state(GAME_MODE.TUTORIAL)
-        if mode == 'QUIT_TO_MENU':
-            self.game_mode.set_state(GAME_MODE.NONE)
 
     def draw(self):
-
         if self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.init_endless()
-        
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.update()
             self.game_over_menu.draw()
-        
-        
+
     def update(self):
         pass
 
     def run(self):
-
         self.update()
         self.draw()
-        
 
     def quit_to_menu(self):
         self.reset_game()
@@ -96,4 +78,14 @@ class Game:
 
     def reset_game(self):
         self.reset()
-        self.game_object = SnowBlitz(self.window,self.sound,self.state)
+        self.game_object = SnowBlitz(self.window, self.sound, self.state)
+    
+    def set_mode(self,mode):
+        if mode == 'ENDLESS':
+            self.game_mode.set_state(GAME_MODE.ENDLESS)
+        if mode == 'BLITZ':
+            self.game_mode.set_state(GAME_MODE.BLITZ)
+        if mode == 'TUTORIAL':
+            self.game_mode.set_state(GAME_MODE.TUTORIAL)
+        if mode == 'QUIT_TO_MENU':
+            self.game_mode.set_state(GAME_MODE.NONE)
