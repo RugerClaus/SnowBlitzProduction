@@ -1,15 +1,22 @@
 import pygame
 import math
+from core.menus.basemenu import BaseMenu
 from core.ui.button import Button
 from helper import *
+from core.state.ApplicationLayer.Menu.state import MENUSTATE
+from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 
-class Menu:
-    def __init__(self, screen, endless_callback, blitz_callback, tutorial_callback, quit_callback):
+class Menu(BaseMenu):
+    def __init__(self, screen, sound, endless_callback, blitz_callback, tutorial_callback, quit_callback):
         self.screen = screen
+        self.sound = sound
+
+        super().__init__(screen, sound)
         self.endless_callback = endless_callback
         self.blitz_callback = blitz_callback
         self.tutorial_callback = tutorial_callback
         self.quit_callback = quit_callback
+        self.state = MenuStateManager()
 
         self.title_image_original = pygame.image.load(asset("title")).convert_alpha()
         self.title_image = self.title_image_original
@@ -33,16 +40,35 @@ class Menu:
         start_y = screen_h // 4 + screen_h // 7
         center_x = screen_w // 2
 
-        self.buttons = [
-            Button("Endless Mode", center_x, start_y, btn_width, btn_height,
-                   (255, 255, 255), (128, 0, 200), self.endless_callback),
-            Button("Blitz Mode", center_x, start_y + spacing, btn_width, btn_height,
-                   (255, 255, 255), (128, 0, 200), self.blitz_callback),
-            Button("Tutorial", center_x, start_y + spacing * 2, btn_width, btn_height,
-                   (255, 255, 255), (128, 128, 128), self.tutorial_callback),
-            Button("Quit", center_x, start_y + spacing * 3, btn_width, btn_height,
-                   (255, 255, 255), (255, 0, 80), self.quit_callback),
-        ]
+        if self.state.is_state(MENUSTATE.ROOT):
+            self.buttons = [
+                Button("Endless Mode", center_x, start_y, btn_width, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.endless_callback),
+                Button("Blitz Mode", center_x, start_y + spacing, btn_width, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.blitz_callback),
+                Button("Tutorial", center_x, start_y + spacing * 2, btn_width, btn_height,
+                    (255, 255, 255), (128, 128, 128), self.tutorial_callback),
+                Button("Settings", center_x, start_y + spacing * 3, btn_width, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.go_to_settings),
+                Button("Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.quit_callback),
+            ]
+        elif self.state.is_state(MENUSTATE.SETTINGS):
+            self.buttons = [
+                Button(f"Music: {'On' if self.sound.music_active else 'Off'}", center_x, start_y, btn_width, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
+                Button("Back", center_x, start_y + spacing * 1, btn_width, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.back_to_root),
+            ]
+
+
+    def back_to_root(self):
+        self.state.set_state(MENUSTATE.ROOT)
+        self.create_buttons()
+    
+    def go_to_settings(self):
+        self.state.set_state(MENUSTATE.SETTINGS)
+        self.create_buttons()
 
     def handle_event(self, event, sound_engine):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -55,9 +81,6 @@ class Menu:
     def scale(self):
         self.rescale_assets()
         self.create_buttons()
-
-    def update(self):
-        pass
 
     def draw(self):
         t = pygame.time.get_ticks() / 1000

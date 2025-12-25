@@ -23,8 +23,10 @@ class Player(Entity):
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
         self.rect = self.surface.get_rect()
         self.speed = 3
-        self.rect.center = (int(self.x), int(self.y))
-        self.level_up_size = 20
+        self.rect.bottom = self.y
+        self.rect.centerx = int(self.x)
+        self.current_level = 1
+        self.level_up_size = pm.calculate_level_up_size(self.current_level)
 
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
@@ -42,19 +44,24 @@ class Player(Entity):
 
         pygame.draw.circle(self.surface, (255, 255, 255), (self.base_size, self.base_size), self.base_size)
 
-        self.y = event_h - 100  # Keep player at a fixed position relative to screen height
+        # Keep player at a fixed position relative to screen height, but ensure the player does not go below the board_surface
+        self.y = event_h - self.base_size  # Adjust y based on the new size
+        if self.y + self.base_size * 2 > self.board_surface.get_height():
+            self.y = self.board_surface.get_height() - self.base_size * 2  # Prevent bottom of player from going off-screen
+
         self.rect = self.surface.get_rect()
-        self.rect.center = (int(self.x), int(self.y))
+        self.rect.bottom = self.board_surface.get_height() - 100
+        self.rect.centerx = int(self.x)
 
     def update(self):
         self.diam -= pm.calculate_shrink_rate(self.diam)
         self.base_size = self.diam / 2
 
         self.x = pm.update_movement(self.move_state, self.speed, self.x)
-        
+        pm.resize(self)
         pm.check_death(self.diam, self.life_state, self.move_state)
 
-        self.rect.centery = self.y
+        pm.check_level_up(self)
 
     def move(self, direction):
         if direction == 'LEFT':
@@ -71,5 +78,6 @@ class Player(Entity):
         pygame.draw.circle(self.surface, (255, 255, 255),
                            (self.base_size, self.base_size), self.base_size)
 
-        self.rect.center = (int(self.x), int(self.y))
+        self.rect.bottom = self.board_surface.get_height() - 100
+        self.rect.centerx = int(self.x)
         self.board_surface.blit(self.surface, self.rect.topleft)

@@ -1,33 +1,18 @@
 from core.state.ApplicationLayer.state import APPSTATE
+from core.state.basestatemanager import BaseStateManager
 from helper import log_state_transition
 
-class StateManager:
+class StateManager(BaseStateManager):
     def __init__(self):
-        #app states
-        self.app_state = APPSTATE.MAIN_MENU
-        self.previous_app_state = None
 
-        #allowed transition definitions
-        self.app_allowed_transitions = {
-            APPSTATE.MAIN_MENU: [APPSTATE.IN_GAME,APPSTATE.MAP_EDITOR,APPSTATE.QUIT],
-            APPSTATE.MAP_EDITOR: [APPSTATE.MAIN_MENU,APPSTATE.IN_GAME,APPSTATE.QUIT],
+        allowed_transitions = {
+            APPSTATE.MAIN_MENU: [APPSTATE.IN_GAME,APPSTATE.QUIT],
             APPSTATE.IN_GAME: [APPSTATE.MAIN_MENU,APPSTATE.QUIT]
         }
-    
-    def set_app_state(self,new_state):
-        if new_state == self.app_state:
-            return
-        if new_state in self.app_allowed_transitions.get(self.app_state,[]):
-            log_state_transition(self.app_state,new_state,"APPSTATE")
-            self.set_previous_app_state(self.app_state)
-            self.app_state = new_state
-            print(self.get_app_state())
-
-    def is_app_state(self,state):
-        return self.app_state == state
-    
-    def get_app_state(self):
-        return f"Appstate: {self.app_state}"
-    
-    def set_previous_app_state(self,state):
-        self.previous_app_state = state
+        
+        super().__init__(
+                initial_state=APPSTATE.MAIN_MENU,
+                allowed_transitions=allowed_transitions,
+                log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
+                state_name="APPSTATE"
+            )

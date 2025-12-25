@@ -45,8 +45,17 @@ class AudioEngine:
                 effect_name = os.path.splitext(effect_name)[0]
                 self.sound_effects[effect_name] = os.path.join(sfx_dir, filename)
     
+    def toggle_music(self):
+        if self.music_active:
+            self.play_music("stop")
+            self.music_active = False
+        else:
+            self.play_music("random")
+            self.music_active = True
+
     def play_music(self, mode="random"):
         if mode == "random":
+            self.music_active = True
             if not self.music_queue:
                 self.music_queue = list(self.music_tracks.keys())
                 random.shuffle(self.music_queue)
@@ -58,6 +67,7 @@ class AudioEngine:
             pygame.mixer.music.play()
         
         elif mode == "loop":
+            self.music_active = True
             if self.current_track is None:
                 return
             pygame.mixer.music.load(self.music_tracks[self.current_track])
@@ -65,6 +75,7 @@ class AudioEngine:
             pygame.mixer.music.play(-1)
 
         elif mode == "stop":
+            self.music_active = False
             self.current_track = None
             pygame.mixer.music.stop()
 

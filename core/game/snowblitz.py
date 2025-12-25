@@ -2,7 +2,7 @@ import pygame
 from core.game.modes.endless import Endless
 from core.game.entities.player.player import Player
 from core.game.controls import Controls
-from core.game.entities.player.ui.sizebar import SizeBar, SizeBarManager
+from core.game.entities.player.ui.sizebar import SizeBarManager
 
 class SnowBlitz:
     def __init__(self,surface,sound,game_state):
@@ -30,11 +30,10 @@ class SnowBlitz:
         self.progress_bar.draw()
         
     def init_tutorial(self):
-        game = Tutorial(self.surface)
-        game.load_entity_buffers()
-        game.load_environment()
-        game.load_player()
-        game.run()
+        pass
+
+    def init_blitz(self):
+        pass
 
     def resize(self, event_h):
         self.player.scale(event_h)

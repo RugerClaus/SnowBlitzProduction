@@ -8,7 +8,7 @@ class GameOverMenu:
         self.restart_callback = restart_callback
         self.main_menu_callback = main_menu_callback
         self.quit_callback = quit_callback
-        self.font = FontEngine().font
+        self.font = FontEngine("game_over").font
         self.create_buttons()
 
     def create_buttons(self):

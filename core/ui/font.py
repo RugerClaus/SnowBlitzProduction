@@ -12,6 +12,10 @@ class FontEngine:
     }
 
     def __init__(self, type="default"):
-        pygame.font.init()
-        size = self.PRESETS.get(type, self.PRESETS["default"])
-        self.font = pygame.font.Font(asset("default_font"), size)
+        if isinstance(type, int):
+            size = type
+            self.font = pygame.font.Font(asset('default_font'), size)
+        else:
+            pygame.font.init()
+            size = self.PRESETS.get(type, self.PRESETS["default"])
+            self.font = pygame.font.Font(asset("default_font"), size)

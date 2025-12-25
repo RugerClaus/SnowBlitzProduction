@@ -61,13 +61,13 @@ class Debugger:
         right_y = 10
 
         # App state
-        appstate_text = f"APPSTATE: {self.state.app_state}"
+        appstate_text = f"APPSTATE: {self.state.get_state()}"
         appstate_surf = self.font_right.render(appstate_text, False, text_color)
         self.surface.blit(appstate_surf, (right_x - appstate_surf.get_width(), right_y))
         right_y += appstate_surf.get_height() * 1.2
 
         # Game state (if in game)
-        if self.state.is_app_state(APPSTATE.IN_GAME):
+        if self.state.is_state(APPSTATE.IN_GAME):
             #master game state
             game_state_text = f"{self.game.state.get_state()}"
             game_state_surf = self.font_right.render(game_state_text, False, text_color)

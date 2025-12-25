@@ -68,7 +68,6 @@
 {"timestamp": "2025-11-18T06:51:04.346372", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-11-18T06:52:59.290377", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-11-18T06:53:11.023100", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
-<<<<<<< HEAD
 {"timestamp": "2025-12-17T07:32:16.667485", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-17T07:32:19.918153", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-17T07:46:10.626092", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
@@ -89,7 +88,6 @@
 {"timestamp": "2025-12-17T09:54:37.423612", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-17T09:55:27.130400", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-18T05:11:25.696862", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
-=======
 {"timestamp": "2025-12-23T02:23:38.427269", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-23T02:24:30.812017", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-23T02:26:05.603493", "type": "APPMODE", "from": "APPMODE.DEBUG", "to": "APPMODE.PRIMARY"}
@@ -105,7 +103,6 @@
 {"timestamp": "2025-12-23T02:33:31.632188", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-23T02:33:32.841967", "type": "APPMODE", "from": "APPMODE.DEBUG", "to": "APPMODE.PRIMARY"}
 {"timestamp": "2025-12-23T02:33:33.818087", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
->>>>>>> 05c0622 (Heavy update. Added Player Entity and base functionality of it.)
 {"timestamp": "2025-12-23T06:45:29.987415", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-23T06:47:20.147909", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-23T06:47:42.733886", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
@@ -114,3 +111,10 @@
 {"timestamp": "2025-12-23T21:18:03.269576", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
 {"timestamp": "2025-12-23T21:19:25.886121", "type": "APPMODE", "from": "APPMODE.DEBUG", "to": "APPMODE.PRIMARY"}
 {"timestamp": "2025-12-24T13:22:04.537674", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-12-25T09:17:41.386550", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-12-25T09:18:43.020423", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-12-25T09:20:06.160787", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-12-25T09:21:06.866740", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-12-25T09:41:23.213107", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-12-25T09:41:53.313826", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2025-12-25T09:42:10.113448", "type": "APPMODE", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}

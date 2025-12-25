@@ -54,3 +54,24 @@ class PlayerMechanics:
         else:
             shrink_rate = 0.01
         return shrink_rate
+
+    @staticmethod
+    def check_level_up(player):
+        if player.diam >= player.level_up_size:
+            player.level_up_size = PlayerMechanics.calculate_level_up_size(player.level_up_size // 10)
+            player.diam += 5  # Increase diameter on level up
+            player.base_size = player.diam / 2 
+            return True
+        return False
+    
+    @staticmethod
+    def calculate_level_up_size(current_level):
+        return 20 + (current_level - 1) * 10
+    
+    @staticmethod
+    def resize(player):
+        bottom = player.rect.bottom  # save ground position
+        player.surface = player.board_surface.make_surface(player.diam, player.diam, True)
+        player.rect = player.surface.get_rect()
+        player.rect.bottom = bottom
+        player.rect.centerx = int(player.x)

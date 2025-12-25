@@ -18,57 +18,58 @@ class App:
         self.mode = ModeManager()
         self.app_volume = 0.5
         self.sound = AudioEngine(self.app_volume)
-        self.menu = Menu(window.get_screen(),self.endless,self.blitz,self.tutorial,self.quit)
+        self.menu = Menu(window.get_screen(),self.sound,self.endless,self.blitz,self.tutorial,self.quit)
         self.game = Game(window,self.sound,self.go_to_menu,self.quit)
         self.debugger = Debugger(self.game,self.state,window,self.sound)
+        self.sound.play_music()
 
     def _popup_test_toggle(self):
         self.popup_active = not self.popup_active
 
     def endless(self):
-        self.state.set_app_state(APPSTATE.IN_GAME)
-        self.game.set_mode('ENDLESS')
+        self.state.set_state(APPSTATE.IN_GAME)
+        self.game.set_game_mode('ENDLESS')
     
     def blitz(self):
-        self.state.set_app_state(APPSTATE.IN_GAME)
-        self.game.set_mode('BLITZ')
+        self.state.set_state(APPSTATE.IN_GAME)
+        self.game.set_game_mode('BLITZ')
     
     def tutorial(self):
-        self.state.set_app_state(APPSTATE.IN_GAME)
-        self.game.set_mode('TUTORIAL')
+        self.state.set_state(APPSTATE.IN_GAME)
+        self.game.set_game_mode('TUTORIAL')
 
     def toggle_debug_mode(self):
-        if not self.mode.is_mode(APPMODE.DEBUG):
-            self.mode.set_mode(APPMODE.DEBUG)
+        if not self.mode.is_state(APPMODE.DEBUG):
+            self.mode.set_state(APPMODE.DEBUG)
         else:
-            self.mode.set_mode(APPMODE.PRIMARY)
+            self.mode.set_state(APPMODE.PRIMARY)
     def quit(self):
-        self.state.set_app_state(APPSTATE.QUIT)
+        self.state.set_state(APPSTATE.QUIT)
 
     def go_to_menu(self):
-        self.state.set_app_state(APPSTATE.MAIN_MENU)
+        self.state.set_state(APPSTATE.MAIN_MENU)
         self.menu.scale()
-        self.game.set_mode('QUIT_TO_MENU')
+        self.game.set_state('QUIT_TO_MENU')
     
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.VIDEORESIZE:
                 self.window.scale(event.w,event.h)
                 self.debugger.scale()
-                if self.state.is_app_state(APPSTATE.MAIN_MENU):
+                if self.state.is_state(APPSTATE.MAIN_MENU):
                     self.menu.scale()
 
 
             if event.type == pygame.QUIT:
-                self.state.set_app_state(APPSTATE.QUIT)
+                self.state.set_state(APPSTATE.QUIT)
             
-            if self.state.is_app_state(APPSTATE.MAIN_MENU):
+            if self.state.is_state(APPSTATE.MAIN_MENU):
                 self.menu.handle_event(event,self.sound.volume)
 
-            elif self.state.is_app_state(APPSTATE.IN_GAME):
+            elif self.state.is_state(APPSTATE.IN_GAME):
                 self.game.handle_event(event,self.input)
             
-            if self.mode.is_mode(APPMODE.DEBUG):
+            if self.mode.is_state(APPMODE.DEBUG):
                 self.debugger.handle_event(event)
 
             command = self.input.handle_event(event)
@@ -95,21 +96,21 @@ class App:
                 
     
     def run(self):
-        while not self.state.is_app_state(APPSTATE.QUIT):
+        while not self.state.is_state(APPSTATE.QUIT):
             self.window.fill((0,0,0))
             self.handle_events()
             
             
-            if self.state.is_app_state(APPSTATE.MAIN_MENU):
+            if self.state.is_state(APPSTATE.MAIN_MENU):
                 self.menu.update()
                 self.menu.draw()
-            elif self.state.is_app_state(APPSTATE.IN_GAME):
+            elif self.state.is_state(APPSTATE.IN_GAME):
                 self.game.run()
-            elif self.state.is_app_state(APPSTATE.QUIT):
+            elif self.state.is_state(APPSTATE.QUIT):
                 pygame.quit()
                 sys.exit()
 
-            if self.mode.is_mode(APPMODE.DEBUG):
+            if self.mode.is_state(APPMODE.DEBUG):
                 self.debugger.update()
                 self.debugger.draw()
                 self.input.draw_most_recent_keypress()

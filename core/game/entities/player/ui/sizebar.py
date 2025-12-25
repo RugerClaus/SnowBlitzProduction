@@ -26,6 +26,12 @@ class SizeBarManager:
 
         self.surface = self.window.make_surface(self.bar_width, self.bar_height, True)
 
+    def toggle_location(self):
+        if self.location == SizeBar.BOTTOM:
+            self.location = SizeBar.TOP
+        else:
+            self.location = SizeBar.BOTTOM
+
     def draw(self):
         if self.location in [SizeBar.TOP, SizeBar.BOTTOM]:
             size_avg = self.player.diam

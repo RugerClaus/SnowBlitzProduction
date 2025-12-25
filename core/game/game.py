@@ -15,12 +15,13 @@ class Game:
         self.game_mode = GameModeManager()
         self.window = window
         self.sound = sound
+        self.game_object = SnowBlitz(self.window, self.sound, self.state)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.pause_menu = Pause(self.window, self.toggle_pause, self.quit_to_menu, self.quit, self.reset)
+        self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset)
         self.game_over_menu = GameOverMenu(self.window, self.reset_game, self.quit_to_menu, self.quit)
         self.intent = None
-        self.game_object = SnowBlitz(self.window, self.sound, self.state)
+        
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -40,6 +41,7 @@ class Game:
         if self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.handle_event()
 
+
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
             if event.type == pygame.KEYDOWN:
@@ -53,7 +55,12 @@ class Game:
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
-            self.game_object.init_endless()
+            if self.game_mode.is_state(GAME_MODE.ENDLESS):
+                self.game_object.init_endless()
+            elif self.game_mode.is_state(GAME_MODE.BLITZ):
+                self.game_object.init_blitz()
+            elif self.game_mode.is_state(GAME_MODE.TUTORIAL):
+                self.game_object.init_tutorial()
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.update()
             self.game_over_menu.draw()
@@ -79,8 +86,8 @@ class Game:
     def reset_game(self):
         self.reset()
         self.game_object = SnowBlitz(self.window, self.sound, self.state)
-    
-    def set_mode(self,mode):
+
+    def set_game_mode(self, mode):
         if mode == 'ENDLESS':
             self.game_mode.set_state(GAME_MODE.ENDLESS)
         if mode == 'BLITZ':

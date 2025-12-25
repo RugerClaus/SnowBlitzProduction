@@ -15,3 +15,9 @@
 <h3>UPDATE 3:</h3>
 <p>I have finished the UI. next step is adding a settings menu at the main menu and one for the pause menu. I may just have the settings on the pause screen to save effort.</p>
 <p>Once I have settings for toggling music on/off, as well as a master volume, and a setting for moving the progress bar back and forth from top to bottom, I will start implementing the entities and the rest of the game mechanics. This is nearly good enough to sell on steam.</p>
+
+<h3>UPDATE 4:</h3>
+
+<p>Major update. I added a new type of submenu for settings as well as toggle switches for the progress bar position and music state. Scaling fully works for the player and its UI. I will be soon removing some of the more generic properties from the player class and further modularizing them in the Entity class for other entities to use (diameter, surface, so on). This game is already getting very very close to polished. Now I really just need to work in the game and a few other QOL tweaks like the ability to toggle true fullscreen mode, which should be pretty simple by addition of another state machine.</p>
+
+<p>I made some significant changes around the framework itself as well that I will soon be merging into the main branch. I have given the mode manager and appstate manager classes an extension from the base state manager class and configured their logging properly now. Everything logs now and state is even more solidified. Added some helper methods such as the toggle music method on the audio engine.</p>
