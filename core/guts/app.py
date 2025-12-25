@@ -49,7 +49,6 @@ class App:
     def go_to_menu(self):
         self.state.set_state(APPSTATE.MAIN_MENU)
         self.menu.scale()
-        self.game.set_state('QUIT_TO_MENU')
     
     def handle_events(self):
         for event in pygame.event.get():

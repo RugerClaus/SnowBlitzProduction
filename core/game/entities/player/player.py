@@ -9,16 +9,15 @@ from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
 from core.state.GameLayer.Entities.Player.Status.state import PLAYER_STATUS_STATE
 from core.state.GameLayer.Entities.Player.Status.statemanager import PlayerStatusStateManager
-from core.game.entities.player.playermechanics import PlayerMechanics as pm
+from core.game.entities.player.playermechanics import PlayerMechanics as physics
 
 class Player(Entity):
     def __init__(self, board_surface):
-        self.board_surface = board_surface
-        self.original_height = board_surface.get_height()
         self.base_size = 10  # Base size of player at original screen height
         self.x = board_surface.get_width() // 2
         self.y = board_surface.get_height() - 100
-        super().__init__(self.x, self.y, EntityType.PLAYER, self.base_size)
+        super().__init__(self.x, self.y, board_surface, EntityType.PLAYER, self.base_size)
+        self.original_height = self.board_surface.get_height()
         self.diam = self.base_size * 2
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
         self.rect = self.surface.get_rect()
@@ -26,7 +25,7 @@ class Player(Entity):
         self.rect.bottom = self.y
         self.rect.centerx = int(self.x)
         self.current_level = 1
-        self.level_up_size = pm.calculate_level_up_size(self.current_level)
+        self.level_up_size = physics.calculate_level_up_size(self.current_level)
 
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
@@ -54,14 +53,14 @@ class Player(Entity):
         self.rect.centerx = int(self.x)
 
     def update(self):
-        self.diam -= pm.calculate_shrink_rate(self.diam)
+        self.diam -= physics.calculate_shrink_rate(self.diam)
         self.base_size = self.diam / 2
 
-        self.x = pm.update_movement(self.move_state, self.speed, self.x)
-        pm.resize(self)
-        pm.check_death(self.diam, self.life_state, self.move_state)
+        self.x = physics.update_movement(self.move_state, self.speed, self.x)
+        physics.resize(self)
+        physics.check_death(self.diam, self.life_state, self.move_state)
 
-        pm.check_level_up(self)
+        physics.check_level_up(self)
 
     def move(self, direction):
         if direction == 'LEFT':
@@ -81,3 +80,11 @@ class Player(Entity):
         self.rect.bottom = self.board_surface.get_height() - 100
         self.rect.centerx = int(self.x)
         self.board_surface.blit(self.surface, self.rect.topleft)
+
+    def check_collisions(self,entities):
+        for entity in entities:
+            if self.rect.colliderect(entity.rect):
+                if isinstance(entity,EntityType.SNOWFLAKE):
+                    physics.collect_snowflake(self,entity)
+                elif isinstance(entity,EntityType.ROCK):
+                    physics.handle_rock(self,entity)

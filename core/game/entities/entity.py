@@ -13,14 +13,12 @@ from core.game.entities.type import EntityType
 # }
 
 class Entity:
-    def __init__(self, x, y, type: EntityType, size):
+    def __init__(self, x, y, board_surface, type: EntityType, size=None):
         self.x = x
         self.y = y
         self.type = type
         self.size = size
-
-    def will_collide(self,rect_a:pygame.Rect,rect_b:pygame.Rect):
-        return rect_a.colliderect(rect_b)
+        self.board_surface = board_surface
 
     def update(self):
         pass

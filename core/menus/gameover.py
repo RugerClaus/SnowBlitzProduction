@@ -1,14 +1,14 @@
 import pygame
 from core.ui.button import Button
-from core.ui.font import FontEngine
+from core.menus.basemenu import BaseMenu
 
-class GameOverMenu:
-    def __init__(self, window, restart_callback, main_menu_callback, quit_callback):
+class GameOverMenu(BaseMenu):
+    def __init__(self, window,restart_callback, main_menu_callback, quit_callback):
         self.window = window
+        super().__init__(window, None)
         self.restart_callback = restart_callback
         self.main_menu_callback = main_menu_callback
         self.quit_callback = quit_callback
-        self.font = FontEngine("game_over").font
         self.create_buttons()
 
     def create_buttons(self):
@@ -38,7 +38,7 @@ class GameOverMenu:
             self.on_resize()
 
     def update(self):
-        pass
+        self.on_resize()
 
     def draw(self):
     

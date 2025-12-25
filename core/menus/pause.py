@@ -5,6 +5,7 @@ from core.ui.button import Button
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.game.entities.player.ui.sizebar import SizeBar
+from core.state.GameLayer.state import GAMESTATE
 
 class Pause(BaseMenu):
     def __init__(self, window, game, sound, resume_callback, menu_callback, quit_callback, reset_game_callback):
@@ -37,10 +38,26 @@ class Pause(BaseMenu):
             ]
         elif self.state.is_state(MENUSTATE.SETTINGS):
             self.buttons = [
-                Button(f"Music: {'On' if self.sound.music_active else 'Off'}", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
-                Button(f"Progress Bar: {'Top' if self.game.progress_bar.location == SizeBar.TOP else 'Bottom'}", center_x, start_y + spacing * 1, btn_width * 1.8, btn_height, (255, 255, 255), (128, 0, 200), self.game.progress_bar.toggle_location),
+                Button(f"Music:", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
+                Button(f"Progress Bar: ", center_x, start_y + spacing * 1, btn_width * 1.8, btn_height, (255, 255, 255), (128, 0, 200), self.game.progress_bar.toggle_location),
                 Button("Back", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.back_to_root),
             ]
+
+    def update_toggle_buttons(self):
+        for button in self.buttons:
+            if button.text.startswith("Music:"):
+                button.set_new_text(f"Music: {'On' if self.sound.music_active else 'Off'}")
+            if button.text.startswith("Progress Bar:"):
+                button.set_new_text(f"Progress Bar: {'Top' if self.game.progress_bar.location == SizeBar.TOP else 'Bottom'}")
+    
+    def update(self):
+        self.update_toggle_buttons()
+        if self.game.game_state.is_state(GAMESTATE.PLAYING):
+            self.back_to_root()
+
+    def reset_menu(self):
+        self.state.set_state(MENUSTATE.ROOT)
+        self.create_buttons()
 
     def back_to_root(self):
         self.state.set_state(MENUSTATE.ROOT)
@@ -66,7 +83,7 @@ class Pause(BaseMenu):
         t = pygame.time.get_ticks() / 1000
         pulse = (math.sin(t) + 1) / 2
         fade_color = (
-            int(20 + (35 - 20) * pulse),
+            0,
             0,
             int(20 + (35 - 20) * pulse)
         )

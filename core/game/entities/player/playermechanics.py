@@ -75,3 +75,6 @@ class PlayerMechanics:
         player.rect = player.surface.get_rect()
         player.rect.bottom = bottom
         player.rect.centerx = int(player.x)
+
+    def collect_snowflake(player,snowflake):
+        player.diam += snowflake.diam / 2

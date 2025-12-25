@@ -38,7 +38,6 @@ class Button:
     def is_clicked(self, mouse_pos, mouse_click):
         
         if self.active and self.rect.collidepoint(mouse_pos) and mouse_click:
-            print(f"{self.text} clicked at {mouse_pos}, rect: {self.rect}")
             if self.action:
                 self.action()
             if not self.action: #needed edge case for buttons that do nothing

@@ -7,7 +7,7 @@ class BaseMenu:
 
     def update_toggle_buttons(self):
         for button in self.buttons:
-            if button.text.startswith("Music:"):
+            if button.text.startswith("Music:") and self.sound is not None:
                 button.set_new_text(f"Music: {'On' if self.sound.music_active else 'Off'}")
                     
 

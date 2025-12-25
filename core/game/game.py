@@ -26,8 +26,10 @@ class Game:
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
             self.state.set_state(GAMESTATE.PAUSED)
+            self.pause_menu.reset_menu()
         else:
             self.state.set_state(GAMESTATE.PLAYING)
+        
 
     def handle_event(self, event, input):
         input.handle_event(event, True)
