@@ -32,5 +32,6 @@ class SnowFlake(Entity):
         self.spawn()            
 
     def draw(self):
+        self.surface.fill((0,0,0,0))
         pygame.draw.circle(self.surface, (255, 255, 255), (self.diam // 2, self.diam // 2), self.diam // 2)
         self.board_surface.blit(self.surface, self.rect)

@@ -244,3 +244,5 @@
 {"timestamp": "2025-12-26T11:43:22.200248", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}
 {"timestamp": "2025-12-26T11:46:03.208104", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.SETTINGS"}
 {"timestamp": "2025-12-26T11:46:04.078057", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2025-12-26T12:43:36.403010", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.SETTINGS"}
+{"timestamp": "2025-12-26T12:43:38.137496", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}
