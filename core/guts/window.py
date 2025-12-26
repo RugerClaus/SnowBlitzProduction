@@ -38,6 +38,9 @@ class Window:
     def timer(self):
         self.clock.tick(self.fps)
     
+    def get_current_time(self):
+        return pygame.time.get_ticks()
+
     def default_fill(self):
         self.screen.fill(self.color)
 

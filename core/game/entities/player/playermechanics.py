@@ -1,7 +1,8 @@
-
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
-from core.state.GameLayer.Entities.Player.Movement.statemanager import PlayerMoveStateManager
 from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
+from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
+from core.state.GameLayer.state import GAMESTATE
+
 class PlayerMechanics:
     @staticmethod
     def update_movement(move_state, speed, x):
@@ -14,10 +15,17 @@ class PlayerMechanics:
         return x
     
     @staticmethod
-    def check_death(diam, life_state, move_state):
+    def check_size_death(diam, life_state, move_state):
         if diam < 1:
             life_state.set_state(PLAYER_LIFE_STATE.DEAD)
             move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
+            return True  # Indicating death occurred
+        return False
+
+    def check_death(player,game_state):
+        if not player.is_alive():
+            game_state.set_state(GAMESTATE.GAME_OVER)
+            player.reset()
 
     @staticmethod
     def calculate_shrink_rate(diam):
@@ -56,17 +64,21 @@ class PlayerMechanics:
         return shrink_rate
 
     @staticmethod
-    def check_level_up(player):
+    def check_level_up(player,entitymanager):
         if player.diam >= player.level_up_size:
             player.level_up_size = PlayerMechanics.calculate_level_up_size(player.level_up_size // 10)
-            player.diam += 5  # Increase diameter on level up
+            print(player.level_up_size)
+            player.current_level += 1
+            player.diam = 10
             player.base_size = player.diam / 2 
+            entitymanager.reset_entities()
+            print(player.current_level)
             return True
         return False
     
     @staticmethod
     def calculate_level_up_size(current_level):
-        return 20 + (current_level - 1) * 10
+        return 10 + (current_level) * 10
     
     @staticmethod
     def resize(player):
@@ -76,5 +88,14 @@ class PlayerMechanics:
         player.rect.bottom = bottom
         player.rect.centerx = int(player.x)
 
+    @staticmethod
     def collect_snowflake(player,snowflake):
-        player.diam += snowflake.diam / 2
+        player.diam += snowflake.diam // 2
+        print("collected")
+
+    @staticmethod
+    def handle_rock(player,rock):
+        if not player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
+            player.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
+        else:
+            player.diam += rock.diam / 4 #gain 1/4 of the rock's diameter

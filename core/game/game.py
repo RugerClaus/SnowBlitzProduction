@@ -42,6 +42,10 @@ class Game:
         
         if self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.handle_event()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_7:
+                    self.game_object.game.entitymanager.test_snowflake_rect.bottom += 10
+                    print("seven pressed")
 
 
         elif self.state.is_state(GAMESTATE.PAUSED):
