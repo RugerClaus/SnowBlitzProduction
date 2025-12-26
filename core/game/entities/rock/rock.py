@@ -5,6 +5,20 @@ from core.game.entities.entity import Entity
 class Rock(Entity):
     def __init__(self, board_surface):
         self.board_surface = board_surface
+        
+        self.spawn()
+        
+        super().__init__(self.x, self.y, board_surface, EntityType.ROCK)
+
+
+    def spawn(self):
+        self.x = random.randint(55, self.board_surface.get_width()-55)
+        self.y = random.randint(-600, -200)
+        self.speed = 0
+        self.width = random.randint(30,50)
+        self.height = random.randint(30,50)
+        self.surface = self.board_surface.make_surface(self.width,self.height)
+        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
         colors = [
             (112, 128, 144),  # Slate Gray
             (169, 169, 169),  # Dark Gray
@@ -20,19 +34,7 @@ class Rock(Entity):
             (108, 122, 137),  # Cool-toned shale
             (135, 115, 90),   # Desert rock
         ]
-        self.spawn()
-        self.surface.fill(random.choice(colors))
-        super().__init__(self.x, self.y, board_surface, EntityType.ROCK)
-
-    def spawn(self):
-        self.x = random.randint(0, self.board_surface.get_width())
-        self.y = random.randint(-600, -200)
-        self.speed = 0
-        self.width = random.randint(30,50)
-        self.height = random.randint(30,50)
-        self.surface = self.board_surface.make_surface(self.width,self.height)
-        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
- 
+        self.surface.fill(random.choice(colors))  # Then fill with color
         
 
     def update(self):

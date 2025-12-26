@@ -14,18 +14,26 @@ class PlayerMechanics:
             speed += 0
         return x
     
+    def check_bounds(player):
+        if player.x <= 5:
+            player.x = 5
+        elif player.x >= player.board_surface.get_width() - 5:
+            player.x = player.board_surface.get_width() - 5
+    
     @staticmethod
     def check_size_death(diam, life_state, move_state):
-        if diam < 1:
+        if diam == 0:
+
             life_state.set_state(PLAYER_LIFE_STATE.DEAD)
             move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
             return True  # Indicating death occurred
         return False
 
     def check_death(player,game_state):
-        if not player.is_alive():
+        if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
-            player.reset()
+        else:
+            return
 
     @staticmethod
     def calculate_shrink_rate(diam):

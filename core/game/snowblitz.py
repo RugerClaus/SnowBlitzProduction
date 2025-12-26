@@ -15,7 +15,8 @@ class SnowBlitz:
         self.player = Player(self.board_surface,self.entitymanager,game_state)
         self.controls = Controls()
         self.controls.set_controls(pygame.K_a,pygame.K_d)
-        self.progress_bar = SizeBarManager(self.board_surface,self.player)
+        self.start_time = self.board_surface.get_current_time()
+        self.progress_bar = SizeBarManager(self.board_surface,self.player,self.start_time)
         
 
     def handle_event(self):
@@ -27,36 +28,22 @@ class SnowBlitz:
         if not (keys[self.controls.move_left] or keys[self.controls.move_right]):
             self.player.move('NONE')
 
-    def snowflakes(self):
-        current_time = self.board_surface.get_current_time()
-
-        if current_time - self.entitymanager.last_flake_spawn_time > 200:
-            if len(self.entitymanager.entities["snowflakes"]) < 100:
-                self.entitymanager.add_entity(EntityType.SNOWFLAKE)
-                self.entitymanager.last_flake_spawn_time = current_time
-
-    def rocks(self):
-        current_time = self.board_surface.get_current_time()
-
-        if current_time - self.entitymanager.last_rock_spawn_time > 200:
-            if len(self.entitymanager.entities["rocks"]) < 20:
-                self.entitymanager.add_entity(EntityType.ROCK)
-                self.entitymanager.last_rock_spawn_time = current_time
-
     def init_endless(self):
         self.player.update()
         self.player.draw()
-        self.progress_bar.update()
-        self.progress_bar.draw()
-
+        
         self.player.check_collisions(self.entitymanager.get_active_entities()) #will add self.sound here for passing sound effects to keep them the fuck out of the player class
-        self.snowflakes()
+        self.entitymanager.spawn_snowflakes()
 
         if self.player.current_level >= 3:
-            self.rocks()
+            self.entitymanager.spawn_rocks()
+            self.entitymanager.check_collisions()
         # General entity handling
         self.entitymanager.update_entities()
         self.entitymanager.draw_entities()  
+        self.progress_bar.update()
+        self.progress_bar.draw()
+
         
         
         

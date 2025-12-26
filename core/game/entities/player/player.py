@@ -25,11 +25,6 @@ class Player(Entity):
         self.power_state = PlayerPowerStateManager()
         self.status_state = PlayerStatusStateManager()
 
-
-
-    def is_alive(self):
-        return self.life_state.is_state(PLAYER_LIFE_STATE.ALIVE)
-
     def scale(self, event_h):
         scale_factor = event_h / self.original_height
         self.base_size = 10 * scale_factor  # Scale the size of the player
@@ -49,7 +44,7 @@ class Player(Entity):
 
     def update(self):
         self.diam -= physics.calculate_shrink_rate(self.diam)
-        self.base_size = self.diam / 2
+        self.base_size = self.diam / 2 
 
         self.x = physics.update_movement(self.move_state, self.speed, self.x)
         physics.resize(self)
@@ -57,6 +52,7 @@ class Player(Entity):
 
         physics.check_level_up(self,self.entitymanager)
         physics.check_death(self,self.game_state)
+        physics.check_bounds(self)
 
     def move(self, direction):
         if direction == 'LEFT':

@@ -56,3 +56,30 @@ class EntityManager:
         for entity_list in self.entities.values():
             active_entities.extend(entity_list)
         return active_entities
+    
+    def check_collisions(self):
+        rocks = self.entities["rocks"]
+        snowflakes = self.entities["snowflakes"]
+
+        for rock in rocks:
+            for snowflake in snowflakes:
+
+                if rock.rect.colliderect(snowflake.rect):
+                    snowflake.rect.top += rock.rect.bottom + 5
+                    snowflake.speed = rock.speed + 1
+
+    def spawn_snowflakes(self):
+        current_time = self.board_surface.get_current_time()
+
+        if current_time - self.last_flake_spawn_time > 200:
+            if len(self.entities["snowflakes"]) < 100:
+                self.add_entity(EntityType.SNOWFLAKE)
+                self.last_flake_spawn_time = current_time
+
+    def spawn_rocks(self):
+        current_time = self.board_surface.get_current_time()
+
+        if current_time - self.last_rock_spawn_time > 1000:
+            if len(self.entities["rocks"]) < 5:
+                self.add_entity(EntityType.ROCK)
+                self.last_rock_spawn_time = current_time
