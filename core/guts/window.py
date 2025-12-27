@@ -109,13 +109,10 @@ class Surface(pygame.Surface):
     def make_surface(self, width, height, alpha=False):
         return Surface(width, height, alpha)
     def scale(self, window_width,window_height):
-        # Use pygame.transform.scale to create a new surface with the new size
         scaled_surface = pygame.transform.scale(self, (window_width, window_height))
         
-        # Update the surface to point to the scaled surface
         self.blit(scaled_surface, (0, 0))
         
-        # Update internal size tracking if needed
         self.original_width = window_width
         self.original_height = window_height
 
