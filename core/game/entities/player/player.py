@@ -71,11 +71,12 @@ class Player(Entity):
         self.rect.centerx = int(self.x)
         self.board_surface.blit(self.surface, self.rect.topleft)
 
-    def check_collisions(self,entities):
+    def check_collisions(self,entities,sound):
         for entity in entities:
             if self.rect.colliderect(entity.rect):
                 if entity.type == EntityType.SNOWFLAKE:
                     physics.collect_snowflake(self,entity)
+                    sound.play_sfx('snow')
                     entity.collected()
                 elif entity.type == EntityType.ROCK:
                     physics.handle_rock(self,entity)

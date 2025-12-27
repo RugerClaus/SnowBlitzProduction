@@ -14,7 +14,6 @@ class AudioEngine:
         self.sound_effects = {}
         self.volume = volume
         self.music_active = True
-        self.sfx_active = True
         self.music_queue = []
         self.current_track = None
 
@@ -52,6 +51,15 @@ class AudioEngine:
         else:
             self.play_music("random")
             self.music_active = True
+
+    def play_sfx(self, effect_name):
+        if effect_name in self.sound_effects:
+            sfx_path = self.sound_effects[effect_name]
+            sound_effect = pygame.mixer.Sound(sfx_path)
+            sound_effect.set_volume(self.volume)
+            sound_effect.play()
+        else:
+            print(f"Sound effect '{effect_name}' not found.")
 
     def play_music(self, mode="random"):
         if mode == "random":

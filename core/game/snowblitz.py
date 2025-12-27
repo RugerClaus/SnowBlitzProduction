@@ -32,7 +32,7 @@ class SnowBlitz:
         self.player.update()
         self.player.draw()
         
-        self.player.check_collisions(self.entitymanager.get_active_entities()) #will add self.sound here for passing sound effects to keep them the fuck out of the player class
+        self.player.check_collisions(self.entitymanager.get_active_entities(),self.sound) #will add self.sound here for passing sound effects to keep them the fuck out of the player class
         self.entitymanager.spawn_snowflakes()
 
         if self.player.current_level >= 3:

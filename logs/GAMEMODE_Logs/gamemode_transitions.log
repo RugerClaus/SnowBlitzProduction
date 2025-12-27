@@ -747,3 +747,6 @@
 {"timestamp": "2025-12-26T17:13:09.735487", "type": "GAMEMODE", "from": "GAME_MODE.BLITZ", "to": "GAME_MODE.NONE"}
 {"timestamp": "2025-12-26T17:13:10.668966", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.TUTORIAL"}
 {"timestamp": "2025-12-26T17:13:55.735830", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.TUTORIAL"}
+{"timestamp": "2025-12-26T19:00:58.795018", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.ENDLESS"}
+{"timestamp": "2025-12-26T19:25:44.000919", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.ENDLESS"}
+{"timestamp": "2025-12-26T19:26:14.190129", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.ENDLESS"}
