@@ -1,10 +1,11 @@
 import pygame
 from core.game.modes.endless import Endless
+from core.game.modes.tutorial.tutorial import Tutorial
+from core.game.modes.tutorial.prompts import Prompts
 from core.game.entities.player.player import Player
 from core.game.controls import Controls
 from core.game.entities.player.ui.sizebar import SizeBarManager
 from core.game.entities.entitymanager import EntityManager
-from core.game.entities.type import EntityType
 
 class SnowBlitz:
     def __init__(self,board_surface,sound,game_state):
@@ -29,29 +30,15 @@ class SnowBlitz:
             self.player.move('NONE')
 
     def init_endless(self):
-        self.player.update()
-        self.player.draw()
-        
-        self.player.check_collisions(self.entitymanager.get_active_entities()) 
-        self.entitymanager.spawn_snowflakes()
-        self.entitymanager.spawn_rocks(self.player.current_level)
-        self.entitymanager.spawn_powerups(self.player.current_level)
-        self.entitymanager.check_collisions()
-        # General entity handling
-        self.entitymanager.update_entities()
-        self.entitymanager.draw_entities()  
-        self.progress_bar.update()
-        self.progress_bar.draw()
-
+        endless = Endless(self.progress_bar,self.player,self.entitymanager)
+        endless.run()
         
         
         
     def init_tutorial(self):
-        self.player.update()
-        self.player.draw()
-
-        self.progress_bar.update()
-        self.progress_bar.draw()
+        prompts = Prompts(self.board_surface,self.player)
+        tutorial = Tutorial(self.progress_bar,self.player,self.entitymanager,prompts,self.controls)
+        tutorial.run()
 
     def init_blitz(self):
         pass

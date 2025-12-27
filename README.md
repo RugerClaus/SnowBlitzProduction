@@ -39,3 +39,9 @@
 <p>I'll focus on the level reducers next as i'm not going to add the grow power up yet since it was mostly pretty useless in the original codebase.</p>
 
 <p>Either way, the game is actually a game now. In addition the reset methods all work fine now so you can reset the game at any time. Cleaned up the state machines and removed the redundant player status state. This isn't pokemon. The player has a state machine handling the powerups already as well as being alive or dead. the status state was totally redundant.</p>
+
+<h3>UPDATE 7:</h3>
+
+<p>This is a major update. I have began implementing the Tutorial game mode to little success so far, but I have pretty much finished all the mechanics and entities and endless mode works well. I have given a new curve to the progression system in Endless mode by only increasing the level up size by 5 each time. this makes earlier levels easier and the game last longer. However the level reducers are still a massive aid to the challenge as you level up. I'll need playtesters to confirm, but I'm certain that the progression is pretty nice on that front.</p>
+
+<p>However I digress on that front. The endless mode is complete. I could add more powerups and I have some set up but haven't integrated them yet. The absorb rock and anti shrink are it for now, but they fit nicely with the progression. I just don't know how I feel about growth powerups anymore, but I'll definitely do the speed powerups.</p>

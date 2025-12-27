@@ -15,7 +15,7 @@ class SnowFlake(Entity):
         self.diam = random.randint(1,30)
         
         self.speed = 0
-        self.surface = self.board_surface.make_surface(self.diam,self.diam)
+        self.surface = self.board_surface.make_surface(self.diam,self.diam,True)
         self.rect = self.surface.get_rect()
 
     def update(self):
@@ -32,6 +32,5 @@ class SnowFlake(Entity):
         self.spawn()            
 
     def draw(self):
-        self.surface.fill((0,0,0,0))
         pygame.draw.circle(self.surface, (255, 255, 255), (self.diam // 2, self.diam // 2), self.diam // 2)
         self.board_surface.blit(self.surface, self.rect)

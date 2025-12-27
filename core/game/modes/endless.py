@@ -1,19 +1,26 @@
-from core.state.GameLayer.state import GAMESTATE
-
 class Endless:
-    def __init__(self, board_surface, player, game_state):
-        self.board_surface = board_surface
+    def __init__(self, progress_bar, player, entitymanager):
+        self.progress_bar = progress_bar
         self.player = player
-        self.game_state = game_state
+        self.entitymanager = entitymanager
         
 
     def run(self):
-        if not self.player.is_alive():
-            self.game_state.set_state(GAMESTATE.GAME_OVER)
-            return
-
         self.player.update()
         self.player.draw()
+        
+        self.entitymanager.update_entities()
+        self.entitymanager.draw_entities()  
+
+        self.player.check_collisions(self.entitymanager.get_active_entities()) 
+        self.entitymanager.spawn_snowflakes()
+        self.entitymanager.spawn_rocks(self.player.current_level)
+        self.entitymanager.spawn_powerups(self.player.current_level)
+        self.entitymanager.spawn_reducers(self.player.current_level)
+        self.entitymanager.check_collisions()
+
+        self.progress_bar.update()
+        self.progress_bar.draw()
 
         
     

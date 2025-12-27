@@ -3,16 +3,21 @@ from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.game.entities.powerups.type import PowerUpType
+from core.game.entities.reducers.type import LRType
 
 class PlayerMechanics:
     @staticmethod
     def update_movement(move_state, speed, x):
+        acceleration = 0.05
         if move_state.is_state(PLAYER_INTENT_STATE.MOVE_LEFT):
+            speed -= acceleration
             x -= speed
         elif move_state.is_state(PLAYER_INTENT_STATE.MOVE_RIGHT):
-             x += speed
+            speed += acceleration
+            x += speed
         elif move_state.is_state(PLAYER_INTENT_STATE.IDLE_MOVE):
-            speed += 0
+            acceleration = 0
+            x += 0
         return x
     
     def check_bounds(player):
@@ -48,7 +53,7 @@ class PlayerMechanics:
     @staticmethod
     def calculate_shrink_rate(diam,player):
 
-        if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
+        if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK) or player.shrink_rate == 0:
             return 0
         if diam >= 350:
             shrink_rate = 1
@@ -87,7 +92,7 @@ class PlayerMechanics:
     @staticmethod
     def check_level_up(player,entitymanager):
         if player.diam >= player.level_up_size:
-            player.level_up_size = PlayerMechanics.calculate_level_up_size(player.level_up_size // 10)
+            player.level_up_size = PlayerMechanics.calculate_level_up_size(player.current_level)
             print(player.level_up_size)
             player.current_level += 1
             player.diam = 10
@@ -100,8 +105,8 @@ class PlayerMechanics:
     
     @staticmethod
     def calculate_level_up_size(current_level):
-        return 10 + (current_level) * 10
-    
+        return 10 + (current_level) * 5
+
     @staticmethod
     def resize(player):
         bottom = player.rect.bottom  # save ground position
@@ -171,7 +176,22 @@ class PlayerMechanics:
                     player.power_state.set_state(PLAYER_POWER_STATE.NONE)
                     player.last_powerup_start_time = None
                     player.shrink_rate = PlayerMechanics.calculate_shrink_rate(player.diam,player)
+    
+    @staticmethod
+    def apply_powerup(player, new_power_state, duration):
+        player.power_state.set_state(new_power_state)
+        player.powerup_duration = duration
         
+        # Reset the timer
+        player.last_powerup_start_time = player.board_surface.get_current_time()
+            
+
+    @staticmethod
+    def handle_reducer(player,reducer):
+        number = reducer.get_reducer_number()
+        player.level_up_size -= number if number < player.level_up_size else player.level_up_size - 1
+
+
     @staticmethod
     def handle_sfx(player):
 

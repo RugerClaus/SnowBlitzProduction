@@ -1,0 +1,26 @@
+from helper import log_state_transition
+from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
+from core.state.basestatemanager import BaseStateManager
+
+class TutorialStateManager(BaseStateManager):
+    def __init__(self):
+        allowed_transitions = {
+            TUTORIALSTATE.MOVEMENT_PROMPT: [TUTORIALSTATE.BEGIN,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.BEGIN: [TUTORIALSTATE.SNOW_PROMPT,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.SNOW_PROMPT: [TUTORIALSTATE.SNOW,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.SNOW: [TUTORIALSTATE.ROCKS_PROMPT,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.ROCKS_PROMPT: [TUTORIALSTATE.ROCKS,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.ROCKS: [TUTORIALSTATE.POWERUPS_PROMPT,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.POWERUPS_PROMPT: [TUTORIALSTATE.POWERUPS,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.POWERUPS: [TUTORIALSTATE.LEVEL_REDUCER_PROMPT,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.LEVEL_REDUCER_PROMPT: [TUTORIALSTATE.LEVEL_REDUCERS,TUTORIALSTATE.RESET],
+            TUTORIALSTATE.LEVEL_REDUCERS: [TUTORIALSTATE.RESET,TUTORIALSTATE.WIN],
+            TUTORIALSTATE.WIN:[TUTORIALSTATE.RESET],
+            TUTORIALSTATE.RESET: [TUTORIALSTATE.MOVEMENT_PROMPT]
+        }
+        super().__init__(
+            initial_state=TUTORIALSTATE.MOVEMENT_PROMPT,
+            allowed_transitions=allowed_transitions,
+            log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
+            state_name="TUTORIALSTATE"
+        )

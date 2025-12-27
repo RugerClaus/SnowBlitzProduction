@@ -15,7 +15,6 @@ class Player(Entity):
         self.entitymanager = entitymanager
         self.game_state = game_state
         self.sound = sound
-        self.score = 0
         super().__init__(self.x, self.y, board_surface, EntityType.PLAYER, self.base_size)
         self.reset()
 
@@ -49,7 +48,6 @@ class Player(Entity):
         self.shrink_rate = physics.calculate_shrink_rate(self.diam,self)
         self.diam -= self.shrink_rate
         self.base_size = self.diam / 2
-        self.level_up_size = physics.calculate_level_up_size(self.current_level)
 
         self.x = physics.update_movement(self.move_state, self.speed, self.x)
         physics.resize(self)
@@ -96,6 +94,11 @@ class Player(Entity):
 
                 elif entity.type == EntityType.POWERUP:
                     physics.handle_powerup(self,entity)
+                    entity.collected()
+                    physics.apply_powerup(self,entity.power_type,self.powerup_duration)
+
+                elif entity.type == EntityType.REDUCER:
+                    physics.handle_reducer(self,entity)
                     entity.collected()
 
     def reset(self):

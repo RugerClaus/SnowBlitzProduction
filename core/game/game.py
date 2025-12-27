@@ -7,7 +7,6 @@ from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.game.snowblitz import SnowBlitz
 from core.menus.pause import Pause
 from core.menus.gameover import GameOverMenu
-from helper import asset,get_colors
 
 class Game:
     def __init__(self, window, sound, menu_callback, quit_callback):
@@ -20,7 +19,6 @@ class Game:
         self.quit_callback = quit_callback
         self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
         self.game_over_menu = GameOverMenu(self.window, self.reset_game, self.quit_to_menu, self.quit)
-        self.intent = None
         pygame.event.clear()
         
 
@@ -45,7 +43,7 @@ class Game:
             self.game_object.handle_event()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_7:
-                    self.game_object.player.current_level = 10
+                    self.game_object.player.current_level = 50
 
 
         elif self.state.is_state(GAMESTATE.PAUSED):
@@ -90,11 +88,4 @@ class Game:
         self.state.set_state(GAMESTATE.PLAYING)
 
     def set_game_mode(self, mode):
-        if mode == 'ENDLESS':
-            self.game_mode.set_state(GAME_MODE.ENDLESS)
-        if mode == 'BLITZ':
-            self.game_mode.set_state(GAME_MODE.BLITZ)
-        if mode == 'TUTORIAL':
-            self.game_mode.set_state(GAME_MODE.TUTORIAL)
-        if mode == 'QUIT_TO_MENU':
-            self.game_mode.set_state(GAME_MODE.NONE)
+        self.game_mode.set_state(mode)
