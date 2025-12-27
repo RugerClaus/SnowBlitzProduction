@@ -60,8 +60,6 @@ class Player(Entity):
         physics.check_death(self,self.game_state)
         physics.check_bounds(self)
 
-        print(self.power_state.get_state())
-
     def move(self, direction):
         if direction == 'LEFT':
             self.move_state.set_state(PLAYER_INTENT_STATE.MOVE_LEFT)
@@ -88,7 +86,6 @@ class Player(Entity):
                     self.sound.play_sfx('snow')
                     entity.collected()
                     self.score += entity.diam
-                    print(self.score)
                 elif entity.type == EntityType.ROCK:
                     physics.handle_rock(self,entity)
 
@@ -121,10 +118,7 @@ class Player(Entity):
         self.power_state = PlayerPowerStateManager()
         physics.reset_states(self)
         
-        # Reset timers and power-ups
         self.last_powerup_start_time = None
         self.powerup_duration = 5000
         self.shrink_rate = None
 
-        # Reset any other custom logic you may have
-        # For example, powerup status, player size, etc.

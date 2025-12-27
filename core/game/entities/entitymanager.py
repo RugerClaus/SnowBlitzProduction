@@ -60,7 +60,6 @@ class EntityManager:
                     self.entities["level_reducers"].append(Twenty(self.board_surface))
                 elif sub_type == LRType.FIFTY:
                     self.entities["level_reducers"].append(Fifty(self.board_surface))
-                    print("adding fifty reducer")
                 elif sub_type == LRType.ONE_HUNDRED:
                     self.entities["level_reducers"].append(OneHundred(self.board_surface))
 

@@ -3,7 +3,6 @@ from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.game.entities.powerups.type import PowerUpType
-from core.game.entities.reducers.type import LRType
 
 class PlayerMechanics:
     @staticmethod
@@ -93,13 +92,11 @@ class PlayerMechanics:
     def check_level_up(player,entitymanager):
         if player.diam >= player.level_up_size:
             player.level_up_size = PlayerMechanics.calculate_level_up_size(player.current_level)
-            print(player.level_up_size)
             player.current_level += 1
             player.diam = 10
             player.base_size = player.diam / 2 
             entitymanager.reset_entities()
             player.power_state.set_state(PLAYER_POWER_STATE.NONE)
-            print(player.current_level)
             return True
         return False
     
