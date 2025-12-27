@@ -74,6 +74,12 @@ class Debugger:
             self.surface.blit(game_state_surf, (right_x - game_state_surf.get_width(), right_y))
             right_y += game_state_surf.get_height() * 1.2
 
+            #game mode
+            game_mode_text = f"{self.game.game_mode.get_state()}"
+            game_mode_surf = self.font_right.render(game_mode_text, False, text_color)
+            self.surface.blit(game_mode_surf,(right_x - game_state_surf.get_width(), right_y))
+            right_y += game_mode_surf.get_height() * 1.2
+
             #player life state
             player_life_state_text = f"Player Life: {self.game.game_object.player.life_state.get_state()}"
             player_life_state_surf = self.font_right.render(player_life_state_text, False, text_color)

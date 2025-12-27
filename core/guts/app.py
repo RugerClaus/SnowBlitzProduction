@@ -3,6 +3,7 @@ from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.statemanager import StateManager
 from core.state.ApplicationLayer.mode import APPMODE
 from core.state.ApplicationLayer.modemanager import ModeManager
+from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.util.debugger import Debugger
 from core.guts.input.inputmanager import InputManager
 from core.game.game import Game
@@ -48,6 +49,7 @@ class App:
 
     def go_to_menu(self):
         self.state.set_state(APPSTATE.MAIN_MENU)
+        self.game.game_mode.set_state(GAME_MODE.NONE)
         self.menu.scale()
     
     def handle_events(self):

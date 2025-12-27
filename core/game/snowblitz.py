@@ -48,7 +48,11 @@ class SnowBlitz:
         
         
     def init_tutorial(self):
-        pass
+        self.player.update()
+        self.player.draw()
+
+        self.progress_bar.update()
+        self.progress_bar.draw()
 
     def init_blitz(self):
         pass

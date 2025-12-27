@@ -9,7 +9,6 @@ from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeSta
 from core.state.GameLayer.Entities.Player.Status.statemanager import PlayerStatusStateManager
 from core.game.entities.player.playermechanics import PlayerMechanics as physics
 
-
 class Player(Entity):
     def __init__(self, board_surface, entitymanager, game_state):
         self.base_size = 10
