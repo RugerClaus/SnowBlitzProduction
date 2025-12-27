@@ -12,6 +12,7 @@ class AudioEngine:
 
         self.music_tracks = {}
         self.sound_effects = {}
+        self.active_sfx = {}
         self.volume = volume
         self.music_active = True
         self.music_queue = []
@@ -44,22 +45,26 @@ class AudioEngine:
                 effect_name = os.path.splitext(effect_name)[0]
                 self.sound_effects[effect_name] = os.path.join(sfx_dir, filename)
     
-    def toggle_music(self):
-        if self.music_active:
-            self.play_music("stop")
-            self.music_active = False
-        else:
-            self.play_music("random")
-            self.music_active = True
-
     def play_sfx(self, effect_name):
         if effect_name in self.sound_effects:
             sfx_path = self.sound_effects[effect_name]
             sound_effect = pygame.mixer.Sound(sfx_path)
             sound_effect.set_volume(self.volume)
             sound_effect.play()
+            self.active_sfx[effect_name] = sound_effect
         else:
             print(f"Sound effect '{effect_name}' not found.")
+    
+    def stop_sfx(self, effect_name):
+        if effect_name in self.active_sfx:
+            self.active_sfx[effect_name].stop()
+            del self.active_sfx[effect_name]
+
+    def stop_all_sfx(self):
+        print('Stopping all SFX')
+        for sfx in self.active_sfx.values():
+            sfx.stop()
+        self.active_sfx.clear()
 
     def play_music(self, mode="random"):
         if mode == "random":
@@ -88,7 +93,6 @@ class AudioEngine:
             pygame.mixer.music.stop()
 
         elif isinstance(mode, str):
-            # Assume it's a track title
             if mode in self.music_tracks:
                 pygame.mixer.music.load(self.music_tracks[mode])
                 pygame.mixer.music.set_volume(self.volume)
@@ -96,3 +100,11 @@ class AudioEngine:
 
         else:
             raise ValueError("Invalid mode for play_music")
+
+    def toggle_music(self):
+        if self.music_active:
+            self.play_music("stop")
+            self.music_active = False
+        else:
+            self.play_music("random")
+            self.music_active = True

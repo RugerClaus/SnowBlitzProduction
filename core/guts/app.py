@@ -49,6 +49,7 @@ class App:
 
     def go_to_menu(self):
         self.state.set_state(APPSTATE.MAIN_MENU)
+        self.game.reset_game()
         self.game.game_mode.set_state(GAME_MODE.NONE)
         self.menu.scale()
     

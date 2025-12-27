@@ -18,9 +18,10 @@ class Game:
         self.game_object = SnowBlitz(self.window, self.sound, self.state)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset)
+        self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
         self.game_over_menu = GameOverMenu(self.window, self.reset_game, self.quit_to_menu, self.quit)
         self.intent = None
+        pygame.event.clear()
         
 
     def toggle_pause(self):
@@ -44,7 +45,7 @@ class Game:
             self.game_object.handle_event()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_7:
-                    self.game_object.player.current_level = 5
+                    self.game_object.player.current_level = 10
 
 
         elif self.state.is_state(GAMESTATE.PAUSED):
@@ -79,18 +80,14 @@ class Game:
 
     def quit_to_menu(self):
         self.reset_game()
-        pygame.event.clear()
         self.menu_callback()
 
     def quit(self):
         self.quit_callback()
-    
-    def reset(self):
-        self.state.set_state(GAMESTATE.PLAYING)
 
     def reset_game(self):
-        self.reset()
-        self.game_object = SnowBlitz(self.window, self.sound, self.state)
+        self.game_object.reset()
+        self.state.set_state(GAMESTATE.PLAYING)
 
     def set_game_mode(self, mode):
         if mode == 'ENDLESS':

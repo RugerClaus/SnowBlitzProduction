@@ -2,6 +2,7 @@ from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STAT
 from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
 from core.state.GameLayer.state import GAMESTATE
+from core.game.entities.powerups.type import PowerUpType
 
 class PlayerMechanics:
     @staticmethod
@@ -22,7 +23,7 @@ class PlayerMechanics:
     
     @staticmethod
     def check_size_death(diam, life_state, move_state):
-        if diam == 0:
+        if diam < 3:
 
             life_state.set_state(PLAYER_LIFE_STATE.DEAD)
             move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
@@ -35,8 +36,20 @@ class PlayerMechanics:
         else:
             return
 
+    def check_power_state(player):
+        if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
+            if player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
+                player.color = (0,0,255)
+            elif player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
+                player.color = (0,255,0)
+        else:
+            player.color = (255,255,255)
+        
     @staticmethod
-    def calculate_shrink_rate(diam):
+    def calculate_shrink_rate(diam,player):
+
+        if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
+            return 0
         if diam >= 350:
             shrink_rate = 1
         elif diam >= 325:
@@ -80,6 +93,7 @@ class PlayerMechanics:
             player.diam = 10
             player.base_size = player.diam / 2 
             entitymanager.reset_entities()
+            player.power_state.set_state(PLAYER_POWER_STATE.NONE)
             print(player.current_level)
             return True
         return False
@@ -99,11 +113,77 @@ class PlayerMechanics:
     @staticmethod
     def collect_snowflake(player,snowflake):
         player.diam += snowflake.diam // 2
-        print("collected")
 
     @staticmethod
     def handle_rock(player,rock):
         if not player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
             player.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
         else:
-            player.diam += rock.diam / 4 #gain 1/4 of the rock's diameter
+            player.diam += rock.width / 4 #gain 1/4 of the rock's width
+    
+    def calculate_powerup_duration(score):
+        # Check score ranges and return the corresponding duration, otherwise return a default duration
+        if score >= 100000:
+            return 7500
+        elif score >= 50000:
+            return 6870
+        elif score >= 20000:
+            return 6500
+        elif score >= 10000:
+            return 6000
+        else:
+            return 5000
+
+    @staticmethod
+    def find_powerup_type(player,powerup):
+        if powerup.power_type == PowerUpType.ABSORB_ROCK:
+            player.power_state.set_state(PLAYER_POWER_STATE.ABSORB_ROCK)
+        elif powerup.power_type == PowerUpType.ANTI_SHRINK:
+            player.power_state.set_state(PLAYER_POWER_STATE.ANTI_SHRINK)
+
+    @staticmethod
+    def handle_powerup(player, powerup):
+        PlayerMechanics.find_powerup_type(player, powerup)
+        player.color = powerup.color
+
+        if player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
+            
+            if player.last_powerup_start_time is None:
+                player.last_powerup_start_time = player.board_surface.get_current_time()
+
+        elif player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
+            if player.last_powerup_start_time is None: 
+                player.last_powerup_start_time = player.board_surface.get_current_time()
+                player.shrink_rate = 0
+
+
+    @staticmethod
+    def handle_powerup_timer(player):
+        # If the player has an active powerup
+        if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
+            if player.last_powerup_start_time:
+                current_time = player.board_surface.get_current_time()
+                
+                # Check if the powerup time has elapsed
+                if current_time - player.last_powerup_start_time > player.powerup_duration:
+                    
+                    player.color = (255, 255, 255)
+                    player.power_state.set_state(PLAYER_POWER_STATE.NONE)
+                    player.last_powerup_start_time = None
+                    player.shrink_rate = PlayerMechanics.calculate_shrink_rate(player.diam,player)
+        
+    @staticmethod
+    def handle_sfx(player):
+
+        if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
+            if 'powerup_active' not in player.sound.active_sfx: 
+                player.sound.play_sfx('powerup_active')
+        else:
+            if 'powerup_active' in player.sound.active_sfx:
+                player.sound.stop_sfx('powerup_active')
+
+    @staticmethod
+    def reset_states(player):
+        player.life_state.set_state(PLAYER_LIFE_STATE.ALIVE)
+        player.move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
+        player.power_state.set_state(PLAYER_POWER_STATE.NONE)

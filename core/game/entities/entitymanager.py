@@ -1,7 +1,10 @@
 import pygame
 from core.game.entities.snow.snowflake import SnowFlake
 from core.game.entities.rock.rock import Rock
+from core.game.entities.powerups.absorb_rock import AbsorbRock
+from core.game.entities.powerups.anti_shrink import AntiShrink
 from core.game.entities.type import EntityType
+from core.game.entities.powerups.type  import PowerUpType
 
 class EntityManager:
     def __init__(self, board_surface):
@@ -25,21 +28,19 @@ class EntityManager:
             "level_reducers": []
         }
 
-    def add_entity(self, entity_type):
-        if entity_type == EntityType.ROCK:
-            self.entities["rocks"].append(Rock(self.board_surface))
-            
-        elif entity_type == EntityType.SNOWFLAKE:
-            self.entities["snowflakes"].append(SnowFlake(self.board_surface))
-
-    def add_entities(self, entity_type, count):
-        for _ in range(count):
+    def add_entity(self, entity_type, sub_type=None):
+        if sub_type is None:
             if entity_type == EntityType.ROCK:
-                new_rock = Rock(self.board_surface)
-                self.add_entity(new_rock)
+                self.entities["rocks"].append(Rock(self.board_surface))
+                
             elif entity_type == EntityType.SNOWFLAKE:
-                new_snowflake = SnowFlake(self.board_surface)
-                self.add_entity(new_snowflake)
+                self.entities["snowflakes"].append(SnowFlake(self.board_surface))
+
+        else:
+            if sub_type == PowerUpType.ABSORB_ROCK:
+                self.entities["powerups"].append(AbsorbRock(self.board_surface))
+            elif sub_type == PowerUpType.ANTI_SHRINK:
+                self.entities["powerups"].append(AntiShrink(self.board_surface))
 
     def update_entities(self):
         for entity_list in self.entities.values():
@@ -70,16 +71,28 @@ class EntityManager:
 
     def spawn_snowflakes(self):
         current_time = self.board_surface.get_current_time()
-
         if current_time - self.last_flake_spawn_time > 200:
             if len(self.entities["snowflakes"]) < 100:
                 self.add_entity(EntityType.SNOWFLAKE)
                 self.last_flake_spawn_time = current_time
 
-    def spawn_rocks(self):
+    def spawn_rocks(self,current_level):
         current_time = self.board_surface.get_current_time()
 
         if current_time - self.last_rock_spawn_time > 1000:
             if len(self.entities["rocks"]) < 5:
-                self.add_entity(EntityType.ROCK)
-                self.last_rock_spawn_time = current_time
+                if current_level >= 3:
+                    self.add_entity(EntityType.ROCK)
+                    self.last_rock_spawn_time = current_time
+    
+    def spawn_powerups(self,current_level):
+        current_time = self.board_surface.get_current_time()
+
+        if current_time - self.last_powerup_spawn_time > 1000:
+            if len(self.entities["powerups"]) < 5:
+                if current_level >= 5:
+                    self.add_entity(EntityType.POWERUP,PowerUpType.ABSORB_ROCK)
+                    self.last_powerup_spawn_time = current_time
+                if current_level >= 10:
+                    self.add_entity(EntityType.POWERUP,PowerUpType.ANTI_SHRINK)
+                    self.last_powerup_spawn_time = current_time

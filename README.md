@@ -31,3 +31,11 @@
 <p>This is certainly going far far smoother than the original codebase did and the scaffolding is far superior. Distant Realms as a framework is extremely good at this point. Thanks for reading my rambling if you do. Excuse my fuck words, there is no censorship in the open sorce as far as I'm concerned. Currently no sound is played when snow is collected, but i'll add that in in the next update since it's really no big deal.</p>
 
 <p>The game is now fully playable. No level reducers or powerups yet, but endless mode is fully playable, rocks collide with snow more or less properly and the leveling system works without a hitch. There was a bug that spawned invisible rocks. Fixed that. No more game breaking bugs. All hail state machines!</p>
+
+<h3>UPDATE 6:</h3>
+
+<p>You can now pick up powerups and the entire logic system for powerups has been added. Now it's just down to adding powerup types. The absorb rock and anti shrink ones have been added along with handling their sound effects.</p>
+
+<p>I'll focus on the level reducers next as i'm not going to add the grow power up yet since it was mostly pretty useless in the original codebase.</p>
+
+<p>Either way, the game is actually a game now. In addition the reset methods all work fine now so you can reset the game at any time. Cleaned up the state machines and removed the redundant player status state. This isn't pokemon. The player has a state machine handling the powerups already as well as being alive or dead. the status state was totally redundant.</p>

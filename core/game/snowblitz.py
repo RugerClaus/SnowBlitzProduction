@@ -12,7 +12,7 @@ class SnowBlitz:
         self.sound = sound
         self.game_state = game_state
         self.entitymanager = EntityManager(self.board_surface)
-        self.player = Player(self.board_surface,self.entitymanager,game_state)
+        self.player = Player(self.board_surface,self.entitymanager,sound,game_state)
         self.controls = Controls()
         self.controls.set_controls(pygame.K_a,pygame.K_d)
         self.start_time = self.board_surface.get_current_time()
@@ -32,12 +32,11 @@ class SnowBlitz:
         self.player.update()
         self.player.draw()
         
-        self.player.check_collisions(self.entitymanager.get_active_entities(),self.sound) #will add self.sound here for passing sound effects to keep them the fuck out of the player class
+        self.player.check_collisions(self.entitymanager.get_active_entities()) 
         self.entitymanager.spawn_snowflakes()
-
-        if self.player.current_level >= 3:
-            self.entitymanager.spawn_rocks()
-            self.entitymanager.check_collisions()
+        self.entitymanager.spawn_rocks(self.player.current_level)
+        self.entitymanager.spawn_powerups(self.player.current_level)
+        self.entitymanager.check_collisions()
         # General entity handling
         self.entitymanager.update_entities()
         self.entitymanager.draw_entities()  
@@ -61,3 +60,7 @@ class SnowBlitz:
         self.player.scale(event_h)
         self.progress_bar.update()
         self.progress_bar.draw()
+
+    def reset(self):
+        self.player.reset()
+        self.entitymanager.reset_entities()
