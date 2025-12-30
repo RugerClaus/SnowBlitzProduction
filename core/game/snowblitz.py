@@ -1,11 +1,15 @@
 import pygame
 from core.game.modes.endless import Endless
 from core.game.modes.tutorial.tutorial import Tutorial
-from core.game.modes.tutorial.prompts import Prompts
 from core.game.entities.player.player import Player
 from core.game.controls import Controls
 from core.game.entities.player.ui.sizebar import SizeBarManager
 from core.game.entities.entitymanager import EntityManager
+
+from core.game.modes.tutorial.tutorialmanager import TutorialManager
+from core.game.modes.tutorial.prompts import Prompts
+from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
+from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
 class SnowBlitz:
     def __init__(self,board_surface,sound,game_state):
@@ -18,6 +22,13 @@ class SnowBlitz:
         self.controls.set_controls(pygame.K_a,pygame.K_d)
         self.start_time = self.board_surface.get_current_time()
         self.progress_bar = SizeBarManager(self.board_surface,self.player,self.start_time)
+        
+        self.prompts = Prompts(self.board_surface,self.player)
+        self.tutorial_state = TutorialStateManager()
+        self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
+
+        self.tutorial = Tutorial(self.board_surface,self.player,self.entitymanager,self.controls,self.progress_bar,self.tutorial_state,self.tutorial_manager,self.prompts)
+        
         
 
     def handle_event(self):
@@ -33,12 +44,8 @@ class SnowBlitz:
         endless = Endless(self.progress_bar,self.player,self.entitymanager)
         endless.run()
         
-        
-        
     def init_tutorial(self):
-        prompts = Prompts(self.board_surface,self.player)
-        tutorial = Tutorial(self.progress_bar,self.player,self.entitymanager,prompts,self.controls)
-        tutorial.run()
+        self.tutorial.run()
 
     def init_blitz(self):
         pass
@@ -51,3 +58,8 @@ class SnowBlitz:
     def reset(self):
         self.player.reset()
         self.entitymanager.reset_entities()
+    
+    def reset_tutorial(self):
+        self.player.reset()
+        self.entitymanager.reset_entities()
+        self.tutorial_state.set_state(TUTORIALSTATE.RESET)

@@ -5,8 +5,10 @@ from core.state.GameLayer.statemanager import GameStateManager
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.game.snowblitz import SnowBlitz
+from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.menus.pause import Pause
 from core.menus.gameover import GameOverMenu
+from core.menus.win import Win
 
 class Game:
     def __init__(self, window, sound, menu_callback, quit_callback):
@@ -17,10 +19,13 @@ class Game:
         self.game_object = SnowBlitz(self.window, self.sound, self.state)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
         self.game_over_menu = GameOverMenu(self.window, self.reset_game, self.quit_to_menu, self.quit)
-        pygame.event.clear()
-        
+        self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
+            
+    def check_win(self): #this is basically only for the tutorial mode, but needs to be here. no way around it honestly just due to the ease of callback access
+        if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
+            self.win.update()
+            self.win.draw()
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -43,7 +48,8 @@ class Game:
             self.game_object.handle_event()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_7:
-                    self.game_object.player.current_level = 50
+                    self.game_object.tutorial_state.set_state(TUTORIALSTATE.LEVEL_REDUCERS)
+                    self.game_object.tutorial_manager.player.current_level = 19
 
 
         elif self.state.is_state(GAMESTATE.PAUSED):
@@ -53,6 +59,10 @@ class Game:
                     self.quit_to_menu()
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.handle_event(event)
+            
+        if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
+            self.win.handle_event(event)
+        
 
     def draw(self):
         if self.state.is_state(GAMESTATE.PAUSED):
@@ -64,7 +74,11 @@ class Game:
             elif self.game_mode.is_state(GAME_MODE.BLITZ):
                 self.game_object.init_blitz()
             elif self.game_mode.is_state(GAME_MODE.TUTORIAL):
+                self.game_over_menu = GameOverMenu(self.window,self.reset_tutorial, self.quit_to_menu, self.quit)
+                self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_tutorial)
+                self.win = Win(self.window,self.reset_tutorial,self.quit_to_menu,self.quit)
                 self.game_object.init_tutorial()
+                self.check_win()
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.update()
             self.game_over_menu.draw()
@@ -78,6 +92,7 @@ class Game:
 
     def quit_to_menu(self):
         self.reset_game()
+        self.reset_tutorial()
         self.menu_callback()
 
     def quit(self):
@@ -85,6 +100,11 @@ class Game:
 
     def reset_game(self):
         self.game_object.reset()
+        self.state.set_state(GAMESTATE.PLAYING)
+
+    def reset_tutorial(self):
+        print("resetting tutorial")
+        self.game_object.reset_tutorial()
         self.state.set_state(GAMESTATE.PLAYING)
 
     def set_game_mode(self, mode):

@@ -45,3 +45,11 @@
 <p>This is a major update. I have began implementing the Tutorial game mode to little success so far, but I have pretty much finished all the mechanics and entities and endless mode works well. I have given a new curve to the progression system in Endless mode by only increasing the level up size by 5 each time. this makes earlier levels easier and the game last longer. However the level reducers are still a massive aid to the challenge as you level up. I'll need playtesters to confirm, but I'm certain that the progression is pretty nice on that front.</p>
 
 <p>However I digress on that front. The endless mode is complete. I could add more powerups and I have some set up but haven't integrated them yet. The absorb rock and anti shrink are it for now, but they fit nicely with the progression. I just don't know how I feel about growth powerups anymore, but I'll definitely do the speed powerups.</p>
+
+<h3>UPDATE 8:</h3>
+
+<p>After taking a couple days break to play some minecraft, here we are. I finally finished the tutorial mode. It was a bit clunky to get going, but it works very well, and can easily be modified and updated. </p>
+
+<p>So here we have it. Two of three game modes are implemented, and I have begun to implement a developer mode to the greater framework. So the developer mode is the next big update. I may stifle development of Blitz mode in favor of it for A: my own sanity, and B: this is being released as a beta. I'll sell it for 2 bucks as the beta despite the namesake mode being completely unstarted, but the application at this point is robust enough to release. I will start working on the rest of the settings including controls, and volume. Then I will proceed to implement the developer mode.</p>
+
+<p>So finishing, i'm done for tonight I think. as much as I want to work on this more, a great book is calling my name and I have been putting off reading it just so I could get on implementing tutorial mode and making it fucking work. Well now it does, all the way to the win menu. I had to do some stupid modification of the game class to put it in, but it's the only mode you can win at I think for now. Otherwise I may have to rework the game states and just do it that way. Honestly that would have been cleaner, but it's really no trouble to fix at some point as a refactor of that class.</p>

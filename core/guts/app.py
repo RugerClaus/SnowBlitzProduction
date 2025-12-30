@@ -3,6 +3,8 @@ from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.statemanager import StateManager
 from core.state.ApplicationLayer.mode import APPMODE
 from core.state.ApplicationLayer.modemanager import ModeManager
+from core.state.ApplicationLayer.dev import DEVELOPER_MODE
+from core.state.ApplicationLayer.devmanager import DevManager
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.util.debugger import Debugger
 from core.guts.input.inputmanager import InputManager
@@ -17,6 +19,7 @@ class App:
         self.input = InputManager(window)
         self.state = StateManager()
         self.mode = ModeManager()
+        self.dev = DevManager()
         self.app_volume = 0.5
         self.sound = AudioEngine(self.app_volume)
         self.menu = Menu(window.get_screen(),self.sound,self.endless,self.blitz,self.tutorial,self.quit)
@@ -44,6 +47,13 @@ class App:
             self.mode.set_state(APPMODE.DEBUG)
         else:
             self.mode.set_state(APPMODE.PRIMARY)
+
+    def toggle_developer_mode(self):
+        if not self.dev.is_state(DEVELOPER_MODE.ON):
+            self.dev.set_state(DEVELOPER_MODE.ON)
+        else:
+            self.dev.set_state(DEVELOPER_MODE.OFF)
+
     def quit(self):
         self.state.set_state(APPSTATE.QUIT)
 
@@ -73,15 +83,15 @@ class App:
             
             if self.mode.is_state(APPMODE.DEBUG):
                 self.debugger.handle_event(event)
+            
+
 
             command = self.input.handle_event(event)
             if command == "debug":
                 self.toggle_debug_mode()
-
-            # This one is a test for outputting data to the console via an in game command.
-            # Another feature of the input buffer (IOSTREAM ;^)
-            elif command == "secret":
-                print("Kiss me!")
+            
+            elif command == "developer":
+                self.toggle_developer_mode()
 
             # This one is just a test, but I'll probably implement an entire debug 
             # menu. I'll write some functionality ideas here when I have them.

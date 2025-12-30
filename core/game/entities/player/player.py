@@ -77,6 +77,12 @@ class Player(Entity):
         self.rect.bottom = self.board_surface.get_height() - 100
         self.rect.centerx = int(self.x)
         self.board_surface.blit(self.surface, self.rect.topleft)
+    
+    def draw_wait(self):
+        self.surface.fill(self.color)
+        self.rect.bottom = self.board_surface.get_height() - 100
+        self.rect.centerx = int(self.x)
+        self.board_surface.blit(self.surface,self.rect.topleft)
 
     def check_collisions(self,entities):
         for entity in entities:

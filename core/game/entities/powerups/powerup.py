@@ -11,12 +11,8 @@ class PowerUp(Entity):
         self.spawn()
         super().__init__(self.x, self.y, board_surface, EntityType.POWERUP, self.diam)
 
-    def get_powerup_color(self):
-        if self.power_type == PowerUpType.ABSORB_ROCK:
-            return (0, 0, 255)
-        elif self.power_type == PowerUpType.ANTI_SHRINK:
-            return (0, 255, 0)
-        elif self.power_type == PowerUpType.GROW:
+    def get_powerup_color(self):   
+        if self.power_type == PowerUpType.GROW:
             return (255, 0, 0)
 
     def spawn(self):
@@ -25,7 +21,7 @@ class PowerUp(Entity):
         self.diam = self.diam
         self.color = self.get_powerup_color()
         self.speed = 0
-        self.surface = self.board_surface.make_surface(self.diam,self.diam)
+        self.surface = self.board_surface.make_surface(self.diam,self.diam,True)
         self.rect = self.surface.get_rect()
 
     def update(self):
