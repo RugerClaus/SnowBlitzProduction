@@ -28,16 +28,15 @@ class Player(Entity):
 
     def scale(self, event_h):
         scale_factor = event_h / self.original_height
-        self.base_size = 10 * scale_factor  # Scale the size of the player
+        self.base_size = 10 * scale_factor
         self.diam = self.diam * scale_factor
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
 
         pygame.draw.circle(self.surface, (255, 255, 255), (self.base_size, self.base_size), self.base_size)
 
-        # Keep player at a fixed position relative to screen height, but ensure the player does not go below the board_surface
-        self.y = event_h - self.base_size  # Adjust y based on the new size
+        self.y = event_h - self.base_size
         if self.y + self.base_size * 2 > self.board_surface.get_height():
-            self.y = self.board_surface.get_height() - self.base_size * 2  # Prevent bottom of player from going off-screen
+            self.y = self.board_surface.get_height() - self.base_size * 2
 
         self.rect = self.surface.get_rect()
         self.rect.bottom = self.board_surface.get_height() - 100

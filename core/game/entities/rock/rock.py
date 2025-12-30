@@ -34,7 +34,7 @@ class Rock(Entity):
             (108, 122, 137),  # Cool-toned shale
             (135, 115, 90),   # Desert rock
         ]
-        self.surface.fill(random.choice(colors))  # Then fill with color
+        self.surface.fill(random.choice(colors))
         
 
     def update(self):

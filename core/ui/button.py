@@ -40,7 +40,7 @@ class Button:
         if self.active and self.rect.collidepoint(mouse_pos) and mouse_click:
             if self.action:
                 self.action()
-            if not self.action: #needed edge case for buttons that do nothing
+            if not self.action:
                 self.action = None
 
     def get_text_height(self):

@@ -1,5 +1,3 @@
-
-
 class Tutorial:
     def __init__(self, board_surface, player, entitymanager, controls, progress_bar,state,tutorial_manager, prompts):
         self.board_surface = board_surface

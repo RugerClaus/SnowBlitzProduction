@@ -121,10 +121,9 @@ class PlayerMechanics:
         if not player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
             player.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
         else:
-            player.diam += rock.width / 4 #gain 1/4 of the rock's width
+            player.diam += rock.width / 4
     
     def calculate_powerup_duration(score):
-        # Check score ranges and return the corresponding duration, otherwise return a default duration
         if score >= 100000:
             return 7500
         elif score >= 50000:

@@ -21,7 +21,3 @@ class Endless:
 
         self.progress_bar.update()
         self.progress_bar.draw()
-
-        
-    
-    

@@ -1,4 +1,3 @@
-import pygame
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
 class TutorialManager:
