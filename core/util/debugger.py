@@ -92,6 +92,12 @@ class Debugger:
             self.surface.blit(player_movement_state_surf, (right_x - player_movement_state_surf.get_width(), right_y))
             right_y += player_movement_state_surf.get_height() * 1.2
 
+            #player_movement_state
+            player_power_state_text = f"Player Movement: {self.game.game_object.player.power_state.get_state()}"
+            player_power_state_surf = self.font_right.render(player_power_state_text, False, text_color)
+            self.surface.blit(player_power_state_surf, (right_x - player_power_state_surf.get_width(), right_y))
+            right_y += player_power_state_surf.get_height() * 1.2
+
         # Finally, blit the surface
         self.window.blit(self.surface, self.rect)
 
