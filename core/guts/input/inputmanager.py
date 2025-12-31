@@ -42,6 +42,11 @@ class InputManager:
                 self.released_keys.add(event.key)
 
             return None
+        
+    def rescale(self,w,h):
+        self.surface = self.window.make_surface(w,h,True)
+        self.draw_most_recent_keypress()
+
 
     def draw_most_recent_keypress(self):
         self.surface.fill((0, 0, 0, 0))  
@@ -56,7 +61,7 @@ class InputManager:
             keys_str = ", ".join(key_names)
             letter = self.font.render(keys_str, False, (255, 255, 255))
             rect = letter.get_rect(center=(self.surface.get_width() // 2,
-                                           self.surface.get_height() // 2))
+                                           letter.get_rect().height))
             self.surface.blit(letter, rect)
         else:
             self.last_key = None

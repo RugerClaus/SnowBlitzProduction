@@ -6,8 +6,10 @@ class MenuStateManager(BaseStateManager):
     def __init__(self):
 
         allowed_transitions = {
-            MENUSTATE.ROOT: [MENUSTATE.SETTINGS],
-            MENUSTATE.SETTINGS: [MENUSTATE.ROOT]
+            MENUSTATE.ROOT: [MENUSTATE.SETTINGS,MENUSTATE.CREDITS],
+            MENUSTATE.SETTINGS: [MENUSTATE.ROOT],
+            MENUSTATE.CREDITS: [MENUSTATE.ROOT]
+
         }
 
         super().__init__(

@@ -17,6 +17,7 @@ class SizeBarManager:
         self.rect_position = (0, 0)
         self.start_time = start_time
         self.font = FontEngine(35).font
+        self.score_font = FontEngine(60).font
 
     def scale(self):
         # Recalculate the position and size of the progress bar based on window resizing
@@ -40,10 +41,11 @@ class SizeBarManager:
         elapsed_ms = pygame.time.get_ticks() - self.start_time
         seconds = (elapsed_ms // 1000) % 60
         minutes = (elapsed_ms // 60000)
-        
+
+        # Prepare text
         time_text = f"Time: {minutes:02}:{seconds:02}"
         time_surface = self.font.render(time_text, True, (255, 255, 255))
-        
+
         size_text = f"Size: {round(self.player.diam)}"
         size_surface = self.font.render(size_text, True, (255, 255, 255))
 
@@ -54,17 +56,29 @@ class SizeBarManager:
         size_to_level_up_surface = self.font.render(size_to_level_up_text, True, (255,255,255))
 
         score_text = f"Score: {self.player.score}"
-        score_surface = self.font.render(score_text, True, (255,255,255))
+        score_surface = self.score_font.render(score_text, True, (255,255,0))
 
-        self.window.blit(time_surface, (10,60))
-        self.window.blit(size_surface, (10,90))
-        self.window.blit(level_surface, (10,120))
-        self.window.blit(size_to_level_up_surface, (self.window.get_width() - size_to_level_up_surface.get_rect().width - 10,60))
-        self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - 10,90))
+        line_spacing = 20
+
+        if self.location == SizeBar.TOP:
+            top_y = self.bar_height + 10
+            self.window.blit(time_surface, (10, top_y))
+            self.window.blit(size_surface, (10, top_y + line_spacing))
+            self.window.blit(level_surface, (10, top_y + line_spacing * 2))
+            self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - 10, top_y))
+            self.window.blit(size_to_level_up_surface, (self.window.get_width() - size_to_level_up_surface.get_rect().width - 10, top_y + line_spacing * 1.5))
+
+        elif self.location == SizeBar.BOTTOM:
+            bottom_y = self.window.get_height() - self.bar_height - 80 
+            self.window.blit(time_surface, (10, bottom_y + line_spacing))
+            self.window.blit(size_surface, (10, bottom_y + line_spacing * 2))
+            self.window.blit(level_surface, (10, bottom_y + line_spacing * 3))
+            self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - 10, bottom_y + line_spacing))
+            self.window.blit(size_to_level_up_surface, (self.window.get_width() - size_to_level_up_surface.get_rect().width - 10, bottom_y + line_spacing * 2.5))
 
     def draw(self):
 
-        self.draw_player_info()
+        self.surface.fill((0, 0, 0))
 
         if self.location in [SizeBar.TOP, SizeBar.BOTTOM]:
             size_avg = self.player.diam
@@ -72,22 +86,24 @@ class SizeBarManager:
             fill_width = int(self.bar_width * progress)
             fill_width = max(fill_width, 1)
 
-            self.surface.fill((0, 0, 0))  # Fill with black
-            outline_rect = pygame.Rect(0, 0, self.bar_width, self.bar_height)  # Outline of the bar
+            outline_rect = pygame.Rect(0, 0, self.bar_width, self.bar_height)
 
             fill_color = (
-                max(0, min(255, int(255 * (1 - progress)))),  # Clamp Red value
-                max(0, min(255, int(255 * progress))),        # Clamp Green value
-                0                                              # Blue stays at 0
+                max(0, min(255, int(255 * (1 - progress)))),
+                max(0, min(255, int(255 * progress))),
+                0
             )
             fill_rect = pygame.Rect(
                 outline_rect.left + 2,       
                 outline_rect.top + 2,        
-                fill_width - 4,              # Padding to prevent touching edges
-                self.bar_height - 4          # Padding
+                fill_width - 4,
+                self.bar_height - 4
             )
+
             pygame.draw.rect(self.surface, fill_color, fill_rect)
-            pygame.draw.rect(self.surface, (255, 255, 255), outline_rect, 2)  # White border
+            pygame.draw.rect(self.surface, (255, 255, 255), outline_rect, 2)
+
+        self.draw_player_info()
 
         self.window.blit(self.surface, self.rect_position)
 

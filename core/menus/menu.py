@@ -5,6 +5,7 @@ from core.ui.button import Button
 from helper import *
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
+from core.menus.credits import Credits
 
 class Menu(BaseMenu):
     def __init__(self, screen, sound, endless_callback, blitz_callback, tutorial_callback, quit_callback):
@@ -17,10 +18,12 @@ class Menu(BaseMenu):
         self.tutorial_callback = tutorial_callback
         self.quit_callback = quit_callback
         self.state = MenuStateManager()
+        self.credits = Credits(self.screen)
 
         self.title_image_original = pygame.image.load(asset("title")).convert_alpha()
         self.title_image = self.title_image_original
         self.title_rect = self.title_image.get_rect()
+        
 
         self.create_buttons()
         self.rescale_assets()
@@ -32,6 +35,7 @@ class Menu(BaseMenu):
         new_title_height = int(self.title_image_original.get_height() * scale_factor)
         self.title_image = pygame.transform.scale(self.title_image_original, (new_title_width, new_title_height))
         self.title_rect = self.title_image.get_rect(center=(screen_w // 2, int(screen_h * 0.2)))
+        self.credits.rescale()
 
     def create_buttons(self):
         screen_w, screen_h = self.screen.get_size()
@@ -52,6 +56,8 @@ class Menu(BaseMenu):
                     (255, 255, 255), (128, 0, 200), self.go_to_settings),
                 Button("Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
                     (255, 255, 255), (255, 0, 80), self.quit_callback),
+                Button("Credits", screen_w - screen_w // 8, screen_h - 100, 150, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.credits_callback),
             ]
         elif self.state.is_state(MENUSTATE.SETTINGS):
             self.buttons = [
@@ -60,6 +66,16 @@ class Menu(BaseMenu):
                 Button("Back", center_x, start_y + spacing * 1, btn_width, btn_height,
                     (255, 255, 255), (255, 0, 80), self.back_to_root),
             ]
+        elif self.state.is_state(MENUSTATE.CREDITS):
+
+            self.buttons = [
+                Button("Back", screen_w - screen_w // 8, screen_h - 100, 150, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.back_to_root),
+            ]
+
+    def credits_callback(self):
+        self.state.set_state(MENUSTATE.CREDITS)
+        self.create_buttons()
 
 
     def back_to_root(self):
@@ -91,7 +107,15 @@ class Menu(BaseMenu):
             int(20 + (35 - 20) * pulse)
         )
         self.screen.fill(fade_color)
-        self.screen.blit(self.title_image, self.title_rect)
+
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
             button.draw(self.screen, mouse_pos)
+
+        if self.state.is_state(MENUSTATE.ROOT):
+            self.screen.blit(self.title_image, self.title_rect)
+
+        if self.state.is_state(MENUSTATE.CREDITS):
+            self.credits.draw()
+
+        

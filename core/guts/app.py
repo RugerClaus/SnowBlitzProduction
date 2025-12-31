@@ -70,6 +70,8 @@ class App:
                 self.debugger.scale()
                 if self.state.is_state(APPSTATE.MAIN_MENU):
                     self.menu.scale()
+                if self.mode.is_state(APPMODE.DEBUG):
+                    self.input.rescale(event.w,event.h)
 
 
             if event.type == pygame.QUIT:

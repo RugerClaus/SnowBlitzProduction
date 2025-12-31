@@ -3,7 +3,7 @@ from core.game.modes.endless import Endless
 from core.game.modes.tutorial.tutorial import Tutorial
 from core.game.entities.player.player import Player
 from core.game.controls import Controls
-from core.game.entities.player.ui.sizebar import SizeBarManager
+from core.game.entities.player.ui.sizebar import SizeBarManager, SizeBar
 from core.game.entities.entitymanager import EntityManager
 
 from core.game.modes.tutorial.tutorialmanager import TutorialManager
@@ -60,6 +60,5 @@ class SnowBlitz:
         self.entitymanager.reset_entities()
     
     def reset_tutorial(self):
-        self.player.reset()
-        self.entitymanager.reset_entities()
+        self.reset()
         self.tutorial_state.set_state(TUTORIALSTATE.RESET)

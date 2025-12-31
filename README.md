@@ -53,3 +53,8 @@
 <p>So here we have it. Two of three game modes are implemented, and I have begun to implement a developer mode to the greater framework. So the developer mode is the next big update. I may stifle development of Blitz mode in favor of it for A: my own sanity, and B: this is being released as a beta. I'll sell it for 2 bucks as the beta despite the namesake mode being completely unstarted, but the application at this point is robust enough to release. I will start working on the rest of the settings including controls, and volume. Then I will proceed to implement the developer mode.</p>
 
 <p>So finishing, i'm done for tonight I think. as much as I want to work on this more, a great book is calling my name and I have been putting off reading it just so I could get on implementing tutorial mode and making it fucking work. Well now it does, all the way to the win menu. I had to do some stupid modification of the game class to put it in, but it's the only mode you can win at I think for now. Otherwise I may have to rework the game states and just do it that way. Honestly that would have been cleaner, but it's really no trouble to fix at some point as a refactor of that class.</p>
+
+
+<h3>UPDATE 9:</h3>
+
+<p>Minor update. I just added a credits display so that you can see who worked on the application as well as tweaking the debug overlay's draw_most_recent_keypress for the input. I also tweaked the size bar so that the entire player UI can be shifted from top to bottom and the text snaps to the sizebar. It's an illusion, it doesn't really snap to it, but it may as well for the user.</p>
