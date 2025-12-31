@@ -8,7 +8,7 @@ class Credits:
         self.authors = config["AUTHORS"]
 
     def draw(self):
-        title = f"Snow Blitz"
+        title = config["TITLE"]
         soundtrack = f"Soundtrack by {self.authors[0]}"
         design = f"Designed on the Distant Realms Python framework by {self.authors[0]}"
         logo = f"Logo by {self.authors[1]}"

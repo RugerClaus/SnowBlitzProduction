@@ -2487,3 +2487,4 @@
 {"timestamp": "2025-12-30T23:06:27.081254", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.MAIN_MENU"}
 {"timestamp": "2025-12-30T23:06:27.769590", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
 {"timestamp": "2025-12-30T23:06:51.602118", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
+{"timestamp": "2025-12-30T23:09:49.171624", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
