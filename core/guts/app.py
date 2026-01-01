@@ -25,7 +25,7 @@ class App:
         self.menu = Menu(window.get_screen(),self.sound,self.endless,self.blitz,self.tutorial,self.quit)
         self.game = Game(window,self.sound,self.go_to_menu,self.quit)
         self.debugger = Debugger(self.game,self.state,window,self.sound)
-        self.sound.play_music()
+        
 
     def _popup_test_toggle(self):
         self.popup_active = not self.popup_active
@@ -85,35 +85,20 @@ class App:
             
             if self.mode.is_state(APPMODE.DEBUG):
                 self.debugger.handle_event(event)
+
+            self.sound.handle_music_event(event)
             
-
-
             command = self.input.handle_event(event)
             if command == "debug":
                 self.toggle_debug_mode()
             
             elif command == "developer":
                 self.toggle_developer_mode()
-
-            # This one is just a test, but I'll probably implement an entire debug 
-            # menu. I'll write some functionality ideas here when I have them.
-            # ...
-            
-            # And here is an actual practical use of this engine. It was very smooth to implement
-            # by itself.
-            elif command == "musicon":
                 
-                self.sound.play_music()
-            
-            elif command == "musicoff":
-                self.sound.play_music('stop')
-                
-    
     def run(self):
         while not self.state.is_state(APPSTATE.QUIT):
             self.window.fill((0,0,0))
             self.handle_events()
-            
             
             if self.state.is_state(APPSTATE.MAIN_MENU):
                 self.menu.update()
@@ -128,6 +113,9 @@ class App:
                 self.debugger.update()
                 self.debugger.draw()
                 self.input.draw_most_recent_keypress()
+            
+            if self.dev.is_state(DEVELOPER_MODE.ON):
+                pass
 
             self.window.timer()
             self.window.update()

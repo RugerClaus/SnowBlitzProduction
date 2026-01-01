@@ -52,40 +52,41 @@ class PlayerMechanics:
     @staticmethod
     def calculate_shrink_rate(diam,player):
 
-        if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK) or player.shrink_rate == 0:
+        if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
             return 0
-        if diam >= 350:
-            shrink_rate = 1
-        elif diam >= 325:
-            shrink_rate = 0.9
-        elif diam >= 300:
-            shrink_rate = 0.8
-        elif diam >= 275:
-            shrink_rate = 0.7
-        elif diam >= 250:
-            shrink_rate = 0.6
-        elif diam >= 225:
-            shrink_rate = 0.5
-        elif diam >= 200:
-            shrink_rate = 0.4
-        elif diam >= 175:
-            shrink_rate = 0.3
-        elif diam >= 150:
-            shrink_rate = 0.2
-        elif diam >= 125:
-            shrink_rate = 0.1
-        elif diam >= 100:
-            shrink_rate = 0.09
-        elif diam >= 75:
-            shrink_rate = 0.08
-        elif diam >= 50:
-            shrink_rate = 0.07
-        elif diam >= 40:
-            shrink_rate = 0.05
-        elif diam >= 10:
-            shrink_rate = 0.02
         else:
-            shrink_rate = 0.01
+            if diam >= 350:
+                shrink_rate = 1
+            elif diam >= 325:
+                shrink_rate = 0.9
+            elif diam >= 300:
+                shrink_rate = 0.8
+            elif diam >= 275:
+                shrink_rate = 0.7
+            elif diam >= 250:
+                shrink_rate = 0.6
+            elif diam >= 225:
+                shrink_rate = 0.5
+            elif diam >= 200:
+                shrink_rate = 0.4
+            elif diam >= 175:
+                shrink_rate = 0.3
+            elif diam >= 150:
+                shrink_rate = 0.2
+            elif diam >= 125:
+                shrink_rate = 0.1
+            elif diam >= 100:
+                shrink_rate = 0.09
+            elif diam >= 75:
+                shrink_rate = 0.08
+            elif diam >= 50:
+                shrink_rate = 0.07
+            elif diam >= 40:
+                shrink_rate = 0.05
+            elif diam >= 10:
+                shrink_rate = 0.02
+            else:
+                shrink_rate = 0.01
         return shrink_rate
 
     @staticmethod

@@ -378,3 +378,11 @@
 {"timestamp": "2025-12-30T23:06:36.348498", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}
 {"timestamp": "2025-12-30T23:09:45.150108", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.CREDITS"}
 {"timestamp": "2025-12-30T23:09:47.423447", "type": "MENUSTATE", "from": "MENUSTATE.CREDITS", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2025-12-31T08:26:05.931824", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.CREDITS"}
+{"timestamp": "2025-12-31T08:26:24.141702", "type": "MENUSTATE", "from": "MENUSTATE.CREDITS", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2025-12-31T08:26:25.458726", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.CREDITS"}
+{"timestamp": "2025-12-31T08:26:26.150639", "type": "MENUSTATE", "from": "MENUSTATE.CREDITS", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2025-12-31T08:26:26.791581", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.CREDITS"}
+{"timestamp": "2025-12-31T08:26:27.497919", "type": "MENUSTATE", "from": "MENUSTATE.CREDITS", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2025-12-31T08:26:47.443054", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.SETTINGS"}
+{"timestamp": "2025-12-31T08:26:49.548199", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}

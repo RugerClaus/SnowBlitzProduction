@@ -48,9 +48,7 @@ class Game:
             self.game_object.handle_event()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_7:
-                    self.game_object.tutorial_state.set_state(TUTORIALSTATE.LEVEL_REDUCERS)
-                    self.game_object.tutorial_manager.player.current_level = 19
-
+                    self.game_object.player.current_level = 15
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)

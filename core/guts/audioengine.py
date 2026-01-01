@@ -73,12 +73,13 @@ class AudioEngine:
                 self.music_queue = list(self.music_tracks.keys())
                 random.shuffle(self.music_queue)
 
+            # Play the next track in the queue
             next_track = self.music_queue.pop()
             self.current_track = next_track
             pygame.mixer.music.load(self.music_tracks[next_track])
             pygame.mixer.music.set_volume(self.volume)
             pygame.mixer.music.play()
-        
+
         elif mode == "loop":
             self.music_active = True
             if self.current_track is None:
@@ -100,6 +101,11 @@ class AudioEngine:
 
         else:
             raise ValueError("Invalid mode for play_music")
+
+    def handle_music_event(self, event):
+        if event.type == self.MUSIC_END_EVENT:
+            if self.music_active and self.music_queue:
+                self.play_music("random")
 
     def toggle_music(self):
         if self.music_active:
