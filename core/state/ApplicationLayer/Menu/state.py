@@ -4,3 +4,4 @@ class MENUSTATE(Enum):
     ROOT = auto()
     SETTINGS = auto()
     CREDITS = auto()
+    AUDIO = auto()

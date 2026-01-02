@@ -1,4 +1,4 @@
-import random, pygame
+import random
 from core.game.entities.entity import Entity
 from core.game.entities.type import EntityType
 from core.game.entities.powerups.type import PowerUpType
@@ -39,5 +39,5 @@ class PowerUp(Entity):
 
     def draw(self):
         self.surface.fill((0,0,0,0))
-        pygame.draw.circle(self.surface, self.color, (self.diam // 2, self.diam // 2), self.diam // 2)
+        self.board_surface.draw_circle(self.surface, self.color, (self.diam // 2, self.diam // 2), float(self.diam // 2),self.type)
         self.board_surface.blit(self.surface, self.rect)

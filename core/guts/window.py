@@ -1,23 +1,40 @@
 import pygame
 
-from helper import get_colors
+from helper import get_colors,log_error
 from config import config
 
 class Window:
     def __init__(self):
         pygame.init()
-        self.default_width = 1280
-        self.default_height = 820
+        self.default_width = 1200
+        self.default_height = 800
         self.color = (255,0,0)
         self.width = self.default_width
         self.height = self.default_height
         self.fps = 60
         self.clock = pygame.time.Clock()
+        self.fullscreen = False
         self.set_screen()
         
-    def set_screen(self):
-        self.screen = pygame.display.set_mode((self.width,self.height),pygame.RESIZABLE)
+    def set_screen(self,width=None,height=None):
+        if width is None and height is None:
+            self.screen = pygame.display.set_mode((self.width,self.height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
+        elif width is not None and height is None:
+            self.screen = pygame.display.set_mode((width,self.height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
+        elif width is None and height is not None:
+            self.screen = pygame.display.set_mode((self.width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
+        else:
+            self.screen = pygame.display.set_mode((width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
         pygame.display.set_caption(config["TITLE"])
+        
+    
+    def toggle_fullscreen(self):
+        if not self.fullscreen:
+            self.fullscreen = True
+            self.set_screen()
+        else:
+            self.fullscreen = False
+            self.set_screen()
 
     def get_width(self):
         return self.screen.get_width()
@@ -61,6 +78,20 @@ class Window:
         overlay = Surface(self.get_width(), self.get_height(), True)
         overlay.fill((*color, alpha))
         return overlay
+    
+    def draw_circle(self,surface,color,center,radius,object=None):
+        if not isinstance(surface,Surface):
+            log_error(f"surface must be a Surface",object)
+        elif not isinstance(color,tuple) or len(color) != 3:
+            log_error(f"color must be a tuple: (r,g,b); found: value: {str(color)} type: {str(type(color))}",object)
+        elif not isinstance(center,tuple) or len(center) != 2:
+            log_error(f"center must be a tuple: (x,y); found: value: {str(center)} type: {str(type(center))}",object)
+        elif not isinstance(radius,float):
+            log_error(f"radius must be a floating point number (decimal); found: value: {str(radius)} type: {str(type(radius))}",object)
+        else:
+            pygame.draw.circle(surface,color,center,radius)
+            
+
 
     def blit(self,surface,destination):
         self.screen.blit(surface,destination)

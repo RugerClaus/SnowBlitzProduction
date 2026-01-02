@@ -1,4 +1,3 @@
-import pygame
 from core.game.entities.type import EntityType
 from core.game.entities.entity import Entity
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
@@ -32,7 +31,7 @@ class Player(Entity):
         self.diam = self.diam * scale_factor
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
 
-        pygame.draw.circle(self.surface, (255, 255, 255), (self.base_size, self.base_size), self.base_size)
+        self.board_surface.draw_circle(self.surface, (255, 255, 255), (self.base_size, self.base_size), float(self.base_size),self.type)
 
         self.y = event_h - self.base_size
         if self.y + self.base_size * 2 > self.board_surface.get_height():
@@ -70,8 +69,8 @@ class Player(Entity):
     def draw(self):
         self.surface.fill((0, 0, 0, 0))
 
-        pygame.draw.circle(self.surface, self.color,
-                           (self.base_size, self.base_size), self.base_size)
+        self.board_surface.draw_circle(self.surface, self.color,
+                           (self.base_size, self.base_size), self.base_size,self.type)
 
         self.rect.bottom = self.board_surface.get_height() - 100
         self.rect.centerx = int(self.x)

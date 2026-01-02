@@ -20,8 +20,7 @@ class App:
         self.state = StateManager()
         self.mode = ModeManager()
         self.dev = DevManager()
-        self.app_volume = 0.5
-        self.sound = AudioEngine(self.app_volume)
+        self.sound = AudioEngine()
         self.menu = Menu(window.get_screen(),self.sound,self.endless,self.blitz,self.tutorial,self.quit)
         self.game = Game(window,self.sound,self.go_to_menu,self.quit)
         self.debugger = Debugger(self.game,self.state,window,self.sound)
@@ -94,6 +93,10 @@ class App:
             
             elif command == "developer":
                 self.toggle_developer_mode()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F11:
+                    self.window.toggle_fullscreen()
                 
     def run(self):
         while not self.state.is_state(APPSTATE.QUIT):

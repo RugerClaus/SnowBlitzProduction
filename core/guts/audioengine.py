@@ -5,7 +5,7 @@ from mutagen import File
 from helper import audio_path
 
 class AudioEngine:
-    def __init__(self, volume=0.5):
+    def __init__(self):
         pygame.mixer.init()
         self.MUSIC_END_EVENT = pygame.USEREVENT + 1
         pygame.mixer.music.set_endevent(self.MUSIC_END_EVENT)
@@ -13,7 +13,7 @@ class AudioEngine:
         self.music_tracks = {}
         self.sound_effects = {}
         self.active_sfx = {}
-        self.volume = volume
+        self.volume = 0.5
         self.music_active = True
         self.music_queue = []
         self.current_track = None
@@ -114,3 +114,13 @@ class AudioEngine:
         else:
             self.play_music("random")
             self.music_active = True
+
+    def volume_up(self):
+        if self.volume < 1.0:
+            self.volume += 0.1
+            pygame.mixer.music.set_volume(self.volume)
+    
+    def volume_down(self):
+        if self.volume > 0:
+            self.volume -= 0.1
+            pygame.mixer.music.set_volume(self.volume)

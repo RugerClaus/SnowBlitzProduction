@@ -58,3 +58,12 @@
 <h3>UPDATE 9:</h3>
 
 <p>Minor update. I just added a credits display so that you can see who worked on the application as well as tweaking the debug overlay's draw_most_recent_keypress for the input. I also tweaked the size bar so that the entire player UI can be shifted from top to bottom and the text snaps to the sizebar. It's an illusion, it doesn't really snap to it, but it may as well for the user.</p>
+
+<h3>UPDATE 10:</h3>
+<p>We're getting so close to the beta release now! I added minimal audio settings within the settings menu. This allows for turning the music on and off, as well as adjusting the volume. I will probably add this to the framework at large as well. So big double plus good there. I added Blitz mode, but it's just a clone of Endless for now. </p>
+
+<p>Speaking of blitz mode I'm thinking of making it a bit of a doozy. We're gonna have weather events (besides snow), a timer on each level, and the progression will be easier. Going to add some entities like a freeze timer powerup and a powerup that gives the player a temporary speed boost. One other I'd like to add is a cannon to blast rocks!</p>
+
+<p>Just kidding haha! I completely decoupled pygame's logic from the game itself as well as the framework outside of the Window class. This meanst the framework is now fully agnostic of the graphics library. I just have to obey the calls in the API and I can do what I want. I also implemented an error logging system and have implemented it for rendering all of the entities. So we're happy there. Going to improve the error logging to expand to all application variables.</p>
+
+<p>So yeah this is a ground-breaking update and I'll soon be integrating those framework changes over to the primary engine codebase. We're getting there iteration by iteration.</p>

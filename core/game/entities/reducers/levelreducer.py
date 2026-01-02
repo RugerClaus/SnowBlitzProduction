@@ -1,4 +1,4 @@
-import random, pygame
+import random
 from core.game.entities.entity import Entity
 from core.game.entities.type import EntityType
 from core.game.entities.reducers.type import LRType
@@ -47,6 +47,6 @@ class LevelReducer(Entity):
 
     def draw(self):
         self.surface.fill(self.color)
-        pygame.draw.circle(self.surface, (255,255,255), (self.diam // 2, self.diam // 2), self.diam // 3)
+        self.board_surface.draw_circle(self.surface, (255,255,255), (self.diam // 2, self.diam // 2), float(self.diam // 3),self.type)
         self.draw_reducer_number(self.surface)
         self.board_surface.blit(self.surface, self.rect)

@@ -40,6 +40,16 @@ def log_state_transition(from_state, to_state, state_type, log_file=None):
     with open(log_file, "a") as f:
         f.write(json.dumps(log_data) + "\n")
 
+def log_error(error,object=None):
+    log_file = f"logs/error.log"
+    log_data = {
+        "timestamp": datetime.now().isoformat(),
+        "error": f"What happened: {error}"
+    }
+    if object is not None:
+        log_data["object"] = str(object)
+    with open(log_file,"a") as f:
+        f.write(json.dumps(log_data) + "\n")
 
 def get_colors(color):
     if color == "red":

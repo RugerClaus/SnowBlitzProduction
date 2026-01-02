@@ -7,7 +7,8 @@ class MenuStateManager(BaseStateManager):
 
         allowed_transitions = {
             MENUSTATE.ROOT: [MENUSTATE.SETTINGS,MENUSTATE.CREDITS],
-            MENUSTATE.SETTINGS: [MENUSTATE.ROOT],
+            MENUSTATE.SETTINGS: [MENUSTATE.ROOT,MENUSTATE.AUDIO],
+            MENUSTATE.AUDIO: [MENUSTATE.SETTINGS],
             MENUSTATE.CREDITS: [MENUSTATE.ROOT]
 
         }

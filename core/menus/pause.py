@@ -38,9 +38,19 @@ class Pause(BaseMenu):
             ]
         elif self.state.is_state(MENUSTATE.SETTINGS):
             self.buttons = [
-                Button(f"Music:", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
+                Button(f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
                 Button(f"Progress Bar: ", center_x, start_y + spacing * 1, btn_width * 1.8, btn_height, (255, 255, 255), (128, 0, 200), self.game.progress_bar.toggle_location),
                 Button("Back", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.back_to_root),
+            ]
+
+        elif self.state.is_state(MENUSTATE.AUDIO):
+            self.buttons = [
+                Button(f"+", center_x, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
+                Button(f"-", center_x, self.window.get_height() // 2 + spacing * 0.4, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
+                Button(f"Music: {'On' if self.sound.music_active else 'Off'}", center_x, self.window.get_height() // 2 + spacing * 1.5, 200, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
+                Button("Back", center_x, self.window.get_height() // 2 + spacing * 2.5, 150, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.go_to_settings)
             ]
 
     def update_toggle_buttons(self):
@@ -49,7 +59,8 @@ class Pause(BaseMenu):
                 button.set_new_text(f"Music: {'On' if self.sound.music_active else 'Off'}")
             if button.text.startswith("Progress Bar:"):
                 button.set_new_text(f"Progress Bar: {'Top' if self.game.progress_bar.location == SizeBar.TOP else 'Bottom'}")
-    
+                
+
     def update(self):
         self.update_toggle_buttons()
         if self.game.game_state.is_state(GAMESTATE.PLAYING):
@@ -57,6 +68,10 @@ class Pause(BaseMenu):
 
     def reset_menu(self):
         self.state.set_state(MENUSTATE.ROOT)
+        self.create_buttons()
+
+    def audio_settings(self):
+        self.state.set_state(MENUSTATE.AUDIO)
         self.create_buttons()
 
     def back_to_root(self):
@@ -89,13 +104,17 @@ class Pause(BaseMenu):
         )
         self.window.fill(fade_color)
 
-        text_color = (255, 255, 255)
-        paused_text = "PAUSED"
-        paused_surf = self.font.render(paused_text, False, text_color)
-        paused_rect = paused_surf.get_rect(center=(self.window.get_width() // 2, self.window.get_height() // 4))
-
-        self.window.blit(paused_surf, paused_rect)
-
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
             button.draw(self.window.get_screen(), mouse_pos)
+
+        self.set_title("PAUSED")
+
+        if self.state.is_state(MENUSTATE.SETTINGS):
+            self.set_title("SETTINGS")
+
+        if self.state.is_state(MENUSTATE.AUDIO):
+            self.set_title("AUDIO SETTINGS")
+            self.audio_text.draw(self.sound.volume)
+
+        self.draw_title()

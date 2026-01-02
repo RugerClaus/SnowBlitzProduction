@@ -1,4 +1,4 @@
-import random,pygame
+import random
 from core.game.entities.type import EntityType
 from core.game.entities.entity import Entity
 
@@ -32,5 +32,5 @@ class SnowFlake(Entity):
         self.spawn()            
 
     def draw(self):
-        pygame.draw.circle(self.surface, (255, 255, 255), (self.diam // 2, self.diam // 2), self.diam // 2)
+        self.board_surface.draw_circle(self.surface, (255, 255, 255), (self.diam // 2, self.diam // 2), float(self.diam // 2),self.type)
         self.board_surface.blit(self.surface, self.rect)
