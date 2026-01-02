@@ -11,5 +11,4 @@ class Tutorial:
 
     def run(self):
         self.tutorial_manager.update()
-        print(self.tutorial_manager.state.get_state())
         

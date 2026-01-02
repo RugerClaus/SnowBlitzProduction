@@ -1,5 +1,6 @@
 import pygame
 from core.game.modes.endless import Endless
+from core.game.modes.blitz import Blitz
 from core.game.modes.tutorial.tutorial import Tutorial
 from core.game.entities.player.player import Player
 from core.game.controls import Controls
@@ -49,7 +50,8 @@ class SnowBlitz:
         self.tutorial.run()
 
     def init_blitz(self):
-        pass
+        blitz = Blitz(self.progress_bar,self.player,self.entitymanager)
+        blitz.run()
 
     def resize(self, event_h):
         self.player.scale(event_h)

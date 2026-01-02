@@ -2507,3 +2507,7 @@
 {"timestamp": "2025-12-31T08:19:35.890053", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
 {"timestamp": "2025-12-31T08:26:32.757285", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
 {"timestamp": "2025-12-31T08:27:24.031310", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
+{"timestamp": "2026-01-01T17:37:27.591723", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
+{"timestamp": "2026-01-01T17:39:26.546976", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
+{"timestamp": "2026-01-01T17:41:36.747852", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
+{"timestamp": "2026-01-01T17:41:39.472675", "type": "APPSTATE", "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
