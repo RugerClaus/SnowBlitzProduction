@@ -10,7 +10,7 @@ class SnowFlake(Entity):
         
 
     def spawn(self):
-        self.x = random.randint(35, self.board_surface.get_width()-35)
+        self.x = random.randint(90, self.board_surface.get_width()-90)
         self.y = random.randint(-600, 0)
         self.diam = random.randint(1,30)
         

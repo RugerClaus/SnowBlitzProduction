@@ -1,4 +1,4 @@
-import random,pygame
+import random
 from core.game.entities.type import EntityType
 from core.game.entities.entity import Entity
 
@@ -12,7 +12,7 @@ class Rock(Entity):
 
 
     def spawn(self):
-        self.x = random.randint(55, self.board_surface.get_width()-55)
+        self.x = random.randint(90, self.board_surface.get_width()-90)
         self.y = random.randint(-600, -200)
         self.speed = 0
         self.width = random.randint(30,50)

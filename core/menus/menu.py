@@ -109,7 +109,7 @@ class Menu(BaseMenu):
         self.create_buttons()
 
     def draw(self):
-        t = pygame.time.get_ticks() / 1000
+        t = self.window.get_current_time() / 1000
         pulse = (math.sin(t) + 1) / 2
         fade_color = (
             int(20 + (35 - 20) * pulse),

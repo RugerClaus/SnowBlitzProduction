@@ -122,7 +122,6 @@ class App:
             elif self.state.is_state(APPSTATE.IN_GAME):
                 self.game.run()
             elif self.state.is_state(APPSTATE.QUIT):
-                pygame.quit()
                 sys.exit()
 
             if self.mode.is_state(APPMODE.DEBUG):

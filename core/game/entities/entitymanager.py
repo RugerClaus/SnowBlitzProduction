@@ -1,4 +1,4 @@
-import pygame,random
+import random
 from core.game.entities.snow.snowflake import SnowFlake
 from core.game.entities.rock.rock import Rock
 
@@ -31,6 +31,7 @@ class EntityManager:
         self.flake_interval = 500
         self.rock_interval = 800
         self.powerup_interval = 1500
+        self.reducer_interval = 10000
         
 
     def reset_entities(self):
@@ -67,7 +68,6 @@ class EntityManager:
         for entity_list in self.entities.values():
             for entity in entity_list:
                 entity.update()
-        self.reducer_interval = random.randint(5000,10000)
 
     def draw_entities(self):
         for entity_list in self.entities.values():
@@ -83,18 +83,27 @@ class EntityManager:
     def check_collisions(self):
         rocks = self.entities["rocks"]
         snowflakes = self.entities["snowflakes"]
+        powerups = self.entities["powerups"]
+        reducers = self.entities["level_reducers"]
 
         for rock in rocks:
             for snowflake in snowflakes:
-
                 if rock.rect.colliderect(snowflake.rect):
                     snowflake.rect.top += rock.rect.bottom + 5
                     snowflake.speed = rock.speed + 1
+            for powerup in powerups:
+                if rock.rect.colliderect(powerup.rect):
+                    powerup.rect.top += rock.rect.bottom + 5
+                    powerup.speed = rock.speed + 1
+            for reducer in reducers:
+                if rock.rect.colliderect(reducer.rect):
+                    reducer.rect.top += rock.rect.bottom + 5
+                    reducer.speed = rock.speed + 1
 
     def spawn_snowflakes(self):
         current_time = self.board_surface.get_current_time()
         if current_time - self.last_flake_spawn_time > self.flake_interval:
-            if len(self.entities["snowflakes"]) < 100:
+            if len(self.entities["snowflakes"]) < 50:
                 self.add_entity(EntityType.SNOWFLAKE)
                 self.last_flake_spawn_time = current_time
 
@@ -111,7 +120,7 @@ class EntityManager:
         current_time = self.board_surface.get_current_time()
 
         if current_time - self.last_powerup_spawn_time > self.powerup_interval:
-            if len(self.entities["powerups"]) < 5:
+            if len(self.entities["powerups"]) < 1:
                 if current_level >= 5:
                     self.add_entity(EntityType.POWERUP,PowerUpType.ABSORB_ROCK)
                     self.last_powerup_spawn_time = current_time
@@ -124,7 +133,7 @@ class EntityManager:
 
         if current_time - self.last_reducer_spawn_time > self.reducer_interval:
             
-            if len(self.entities["level_reducers"]) < 2:
+            if len(self.entities["level_reducers"]) < 1:
                 if current_level >= 15 and current_level < 30:
                     self.add_entity(EntityType.REDUCER,LRType.TWENTY)
                     self.last_reducer_spawn_time = current_time
