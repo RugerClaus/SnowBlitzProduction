@@ -30,26 +30,26 @@ class Pause(BaseMenu):
 
         if self.state.is_state(MENUSTATE.ROOT):
             self.buttons = [
-                Button("Resume", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.resume_callback),
-                Button("Main Menu", center_x, start_y + spacing * 1, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.menu_callback),
-                Button("Reset Game", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.reset_game_callback),
-                Button("Settings", center_x, start_y + spacing * 3, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.go_to_settings),
-                Button("Quit", center_x, start_y + spacing * 4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_callback),
+                Button(self.window, "Resume", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.resume_callback),
+                Button(self.window, "Main Menu", center_x, start_y + spacing * 1, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.menu_callback),
+                Button(self.window, "Reset Game", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.reset_game_callback),
+                Button(self.window, "Settings", center_x, start_y + spacing * 3, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.go_to_settings),
+                Button(self.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_callback),
             ]
         elif self.state.is_state(MENUSTATE.SETTINGS):
             self.buttons = [
-                Button(f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
-                Button(f"Progress Bar: ", center_x, start_y + spacing * 1, btn_width * 1.8, btn_height, (255, 255, 255), (128, 0, 200), self.game.progress_bar.toggle_location),
-                Button("Back", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.back_to_root),
+                Button(self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
+                Button(self.window, f"Progress Bar: ", center_x, start_y + spacing * 1, btn_width * 1.8, btn_height, (255, 255, 255), (128, 0, 200), self.game.progress_bar.toggle_location),
+                Button(self.window, "Back", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.back_to_root),
             ]
 
         elif self.state.is_state(MENUSTATE.AUDIO):
             self.buttons = [
-                Button(f"+", center_x, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
-                Button(f"-", center_x, self.window.get_height() // 2 + spacing * 0.4, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
-                Button(f"Music: {'On' if self.sound.music_active else 'Off'}", center_x, self.window.get_height() // 2 + spacing * 1.5, 200, btn_height,
+                Button(self.window, f"+", center_x, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
+                Button(self.window, f"-", center_x, self.window.get_height() // 2 + spacing * 0.4, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
+                Button(self.window, f"Music: {'On' if self.sound.music_active else 'Off'}", center_x, self.window.get_height() // 2 + spacing * 1.5, 200, btn_height,
                     (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
-                Button("Back", center_x, self.window.get_height() // 2 + spacing * 2.5, 150, btn_height,
+                Button(self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 2.5, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.go_to_settings)
             ]
 
@@ -106,7 +106,7 @@ class Pause(BaseMenu):
 
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
-            button.draw(self.window.get_screen(), mouse_pos)
+            button.draw(mouse_pos)
 
         self.set_title("PAUSED")
 

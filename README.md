@@ -71,3 +71,13 @@
 <h3>UPDATE 11:</h3>
 
 <p>I had to add error handling for pygame.mixer.init(). When demonstrating version Alpha 1.2.2 to some friends on their device, the game kept crashing at startup due to a lack of an audio device. We eventually connected one and the game worked mostly as expected. So this will prevent that from happening. Speaking of which, I noticed the sound wasn't working at all, but that was a very very outdated and experimental version. This program altogether is far more robust and handles things like that without any major issues.</p>
+
+<h3>UPDATE 12:</h3>
+
+<p>Okay so a lot has changed under the surface on this update. And on the surface of course. I have modified the Button class to no longer bother with pygame's calls and connected it to the window object directly. This way it can use the draw_rect function I have put there in case I decide to move this to raylib or something and I can just edit the logic there.</p>
+
+<p>I have added a splash screen at the app start up. This can be skipped and plays a demo sound "splash.mp3" which is royalty free. This will be replaced when I have access to ableton when I get home so I can spin something up.</p>
+
+<p>I went further with the buttons by making them rounded on the corners using pygame's border_radius flag in pygame.draw.rect, but i'll need to figure another way around it for other graphics libraries. Fortunately that system is decoupled from pygame so it should be a simple matter of editing the Window class to adapt for the api to another graphics backend.</p>
+
+<p>The new loadingmanager class handles all loading screens. Any time I need to implement anything that functions like a loading screen including the splash screen at the start of the program, and any other loading between levels or whatever, that can all be set up there now. Of course LOADINGSCREENSTATE is logged endlessly. CLEARED ERROR LOG</p>

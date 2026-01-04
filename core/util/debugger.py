@@ -4,11 +4,12 @@ from core.ui.font import FontEngine
 from core.state.ApplicationLayer.state import APPSTATE
 
 class Debugger:
-    def __init__(self,game,state,window,sound):
+    def __init__(self,game,state,window,sound,loading):
         self.sound = sound
         self.game = game
         self.state = state
         self.window = window
+        self.loading = loading
         self.surface = window.draw_overlay((0, 0, 0), 128)
         self.rect = self.surface.get_rect()
         self.font_left = FontEngine("UI").font
@@ -65,6 +66,12 @@ class Debugger:
         appstate_surf = self.font_right.render(appstate_text, False, text_color)
         self.surface.blit(appstate_surf, (right_x - appstate_surf.get_width(), right_y))
         right_y += appstate_surf.get_height() * 1.2
+
+        if self.state.is_state(APPSTATE.LOADING):
+            load_state_text = f"{self.loading.state.get_state()}"
+            load_state_surf = self.font_right.render(load_state_text,False,text_color)
+            self.surface.blit(load_state_surf,(right_x - load_state_surf.get_width(),right_y))
+            right_y += load_state_surf.get_height() * 1.2
 
         # Game state (if in game)
         if self.state.is_state(APPSTATE.IN_GAME):

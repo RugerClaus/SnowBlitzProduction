@@ -29,9 +29,6 @@ class SnowBlitz:
         self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
 
         self.tutorial = Tutorial(self.board_surface,self.player,self.entitymanager,self.controls,self.progress_bar,self.tutorial_state,self.tutorial_manager,self.prompts)
-        self.sound.play_music("random")
-        
-        
 
     def handle_event(self):
         keys = pygame.key.get_pressed()
@@ -55,6 +52,7 @@ class SnowBlitz:
 
     def resize(self, event_h):
         self.player.scale(event_h)
+        self.player.center()
         self.progress_bar.update()
         self.progress_bar.draw()
 

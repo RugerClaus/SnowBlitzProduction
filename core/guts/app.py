@@ -11,6 +11,7 @@ from core.guts.input.inputmanager import InputManager
 from core.game.game import Game
 from core.menus.menu import Menu
 from core.guts.audioengine import AudioEngine
+from core.loading.loadingmanager import LoadingManager
 
 class App:
     def __init__(self,window):
@@ -21,10 +22,10 @@ class App:
         self.mode = ModeManager()
         self.dev = DevManager()
         self.sound = AudioEngine()
-        self.menu = Menu(window.get_screen(),self.sound,self.endless,self.blitz,self.tutorial,self.quit)
+        self.menu = Menu(window,self.sound,self.endless,self.blitz,self.tutorial,self.quit)
         self.game = Game(window,self.sound,self.go_to_menu,self.quit)
-        self.debugger = Debugger(self.game,self.state,window,self.sound)
-        
+        self.loading = LoadingManager(self.window,self.state,self.sound)
+        self.debugger = Debugger(self.game,self.state,window,self.sound,self.loading)
 
     def _popup_test_toggle(self):
         self.popup_active = not self.popup_active
@@ -67,11 +68,11 @@ class App:
             if event.type == pygame.VIDEORESIZE:
                 self.window.scale(event.w,event.h)
                 self.debugger.scale()
-                if self.state.is_state(APPSTATE.MAIN_MENU):
-                    self.menu.scale()
-                if self.mode.is_state(APPMODE.DEBUG):
-                    self.input.rescale(event.w,event.h)
-
+                self.loading.rescale_assets()
+                self.menu.scale()
+                self.input.rescale(event.w,event.h)
+                if not self.state.is_state(APPSTATE.IN_GAME):
+                    self.game.resize(event.h)
 
             if event.type == pygame.QUIT:
                 self.state.set_state(APPSTATE.QUIT)
@@ -97,13 +98,25 @@ class App:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F11:
                     self.window.toggle_fullscreen()
-                
+                if self.state.is_state(APPSTATE.LOADING):
+                    if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE:
+                        self.state.set_state(APPSTATE.MAIN_MENU)
+                        self.sound.play_music()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.state.is_state(APPSTATE.LOADING):
+                    self.state.set_state(APPSTATE.MAIN_MENU)
+                    self.sound.play_music()
+
     def run(self):
         while not self.state.is_state(APPSTATE.QUIT):
             self.window.fill((0,0,0))
             self.handle_events()
+
+            if self.state.is_state(APPSTATE.LOADING):
+                self.loading.update()
+                self.loading.draw()
             
-            if self.state.is_state(APPSTATE.MAIN_MENU):
+            elif self.state.is_state(APPSTATE.MAIN_MENU):
                 self.menu.update()
                 self.menu.draw()
             elif self.state.is_state(APPSTATE.IN_GAME):

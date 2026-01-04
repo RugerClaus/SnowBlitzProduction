@@ -42,10 +42,6 @@ class Window:
     def get_height(self):
         return self.screen.get_height()
     
-    def scale(self):
-        self.width, self.height = self.screen.get_size()
-        self.set_screen()
-    
     def scale(self,target_width,target_height):
         self.screen = pygame.display.set_mode((target_width,target_height),pygame.RESIZABLE)
 
@@ -90,8 +86,25 @@ class Window:
             log_error(f"radius must be a floating point number (decimal); found: value: {str(radius)} type: {str(type(radius))}",object)
         else:
             pygame.draw.circle(surface,color,center,radius)
-            
 
+    def draw_rect(self, surface, color, rect, width=0, border_radius=None, object=None):
+        if not isinstance(surface, Surface):
+            log_error(f"surface must be a Surface", object)
+            return
+        elif not isinstance(color,tuple):
+            log_error("color must be a tuple",object)
+
+        elif not isinstance(rect,pygame.Rect):
+            log_error("rect must be a pygame.Rect") # this will change once I create my own solution for rects
+            
+        if border_radius:
+            pygame.draw.rect(surface, color, rect, width, border_radius)
+        else:
+            pygame.draw.rect(surface, color, rect, width)
+
+            
+    def load_image(self,file_like):
+        return pygame.image.load(file_like).convert_alpha()
 
     def blit(self,surface,destination):
         self.screen.blit(surface,destination)
@@ -133,12 +146,10 @@ class Surface(pygame.Surface):
         overlay = Surface(self.get_size()[0], self.get_size()[1], True)
         overlay.fill((*color, alpha))
         self.blit(overlay, (0, 0))
-
-    def scale(self):
-        self.width, self.height = self.get_size()
     
     def make_surface(self, width, height, alpha=False):
         return Surface(width, height, alpha)
+    
     def scale(self, window_width,window_height):
         scaled_surface = pygame.transform.scale(self, (window_width, window_height))
         

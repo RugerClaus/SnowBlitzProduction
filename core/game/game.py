@@ -33,12 +33,12 @@ class Game:
             self.pause_menu.reset_menu()
         else:
             self.state.set_state(GAMESTATE.PLAYING)
-        
+    
+    def resize(self,event_h):
+        self.game_object.resize(event_h)
 
     def handle_event(self, event, input):
         input.handle_event(event, True)
-        if event.type == pygame.VIDEORESIZE:
-            self.game_object.resize(event.h)
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:

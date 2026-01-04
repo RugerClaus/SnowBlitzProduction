@@ -6,12 +6,13 @@ class StateManager(BaseStateManager):
     def __init__(self):
 
         allowed_transitions = {
+            APPSTATE.LOADING: [APPSTATE.MAIN_MENU,APPSTATE.QUIT],
             APPSTATE.MAIN_MENU: [APPSTATE.IN_GAME,APPSTATE.QUIT],
             APPSTATE.IN_GAME: [APPSTATE.MAIN_MENU,APPSTATE.QUIT]
         }
         
         super().__init__(
-                initial_state=APPSTATE.MAIN_MENU,
+                initial_state=APPSTATE.LOADING,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
                 state_name="APPSTATE"

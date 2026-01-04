@@ -23,10 +23,10 @@ class EntityManager:
             "level_reducers": []
         }
 
-        self.last_flake_spawn_time = pygame.time.get_ticks()
-        self.last_rock_spawn_time = pygame.time.get_ticks()
-        self.last_powerup_spawn_time = pygame.time.get_ticks()
-        self.last_reducer_spawn_time = pygame.time.get_ticks()
+        self.last_flake_spawn_time = self.board_surface.get_current_time()
+        self.last_rock_spawn_time = self.board_surface.get_current_time()
+        self.last_powerup_spawn_time = self.board_surface.get_current_time()
+        self.last_reducer_spawn_time = self.board_surface.get_current_time()
 
         self.flake_interval = 500
         self.rock_interval = 800

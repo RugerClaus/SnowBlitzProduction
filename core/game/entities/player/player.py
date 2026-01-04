@@ -39,7 +39,10 @@ class Player(Entity):
 
         self.rect = self.surface.get_rect()
         self.rect.bottom = self.board_surface.get_height() - 100
-        self.rect.centerx = int(self.x)
+        self.rect.centerx = self.board_surface.get_width() // 2 
+
+    def center(self):
+        self.x = self.board_surface.get_width() // 2
 
     def update(self):
         self.powerup_duration = physics.calculate_powerup_duration(self.score)
@@ -112,7 +115,7 @@ class Player(Entity):
         self.rect.bottom = self.y
         self.rect.centerx = self.board_surface.get_width() // 2 
         self.x = self.rect.centerx
-        
+
         self.score = 0
         self.current_level = 1
         self.level_up_size = physics.calculate_level_up_size(self.current_level)

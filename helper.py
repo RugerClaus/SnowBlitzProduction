@@ -8,8 +8,8 @@ def asset(asset):
         return "assets/images/main/title.png"
     elif asset == "default_font":
         return 'assets/font/Pixeltype.ttf'
-    elif asset == "background":
-        return "assets/images/raycasted/stars.png"
+    elif asset == "splash":
+        return "assets/images/main/splash.png"
     elif asset == "gunnoshot":
         return "assets/images/raycasted/gunnoshot.png"
     elif asset == "gunshot":
