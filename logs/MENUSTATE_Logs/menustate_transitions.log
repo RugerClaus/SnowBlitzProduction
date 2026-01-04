@@ -570,3 +570,7 @@
 {"timestamp": "2026-01-04T03:30:07.793143", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.AUDIO"}
 {"timestamp": "2026-01-04T03:30:11.859544", "type": "MENUSTATE", "from": "MENUSTATE.AUDIO", "to": "MENUSTATE.SETTINGS"}
 {"timestamp": "2026-01-04T03:30:12.353610", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2026-01-04T05:16:15.611343", "type": "MENUSTATE", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.SETTINGS"}
+{"timestamp": "2026-01-04T05:16:16.320857", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.AUDIO"}
+{"timestamp": "2026-01-04T05:16:20.170066", "type": "MENUSTATE", "from": "MENUSTATE.AUDIO", "to": "MENUSTATE.SETTINGS"}
+{"timestamp": "2026-01-04T05:16:21.135938", "type": "MENUSTATE", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}

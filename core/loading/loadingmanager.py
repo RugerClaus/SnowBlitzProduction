@@ -16,6 +16,7 @@ class LoadingManager:
         self.title_image = self.title_image_original
         self.title_rect = self.title_image.get_rect(center=(self.window.get_width()//2,self.window.get_height()//2))
         self.start_time = self.window.get_current_time()
+        self.state.set_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN)
 
     def rescale_assets(self):
         window_w, window_h = self.window.get_size()
@@ -34,6 +35,5 @@ class LoadingManager:
         if self.state.is_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN):
             if current_time - self.start_time > 3500 or not self.parent_state.is_state(APPSTATE.LOADING):
                 self.state.set_state(LOAD_SCREEN_STATE.NONE)
-                
             else:
                 self.window.blit(self.title_image,self.title_rect)
