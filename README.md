@@ -67,3 +67,7 @@
 <p>Just kidding haha! I completely decoupled pygame's logic from the game itself as well as the framework outside of the Window class. This meanst the framework is now fully agnostic of the graphics library. I just have to obey the calls in the API and I can do what I want. I also implemented an error logging system and have implemented it for rendering all of the entities. So we're happy there. Going to improve the error logging to expand to all application variables.</p>
 
 <p>So yeah this is a ground-breaking update and I'll soon be integrating those framework changes over to the primary engine codebase. We're getting there iteration by iteration.</p>
+
+<h3>UPDATE 11:</h3>
+
+<p>I had to add error handling for pygame.mixer.init(). When demonstrating version Alpha 1.2.2 to some friends on their device, the game kept crashing at startup due to a lack of an audio device. We eventually connected one and the game worked mostly as expected. So this will prevent that from happening. Speaking of which, I noticed the sound wasn't working at all, but that was a very very outdated and experimental version. This program altogether is far more robust and handles things like that without any major issues.</p>

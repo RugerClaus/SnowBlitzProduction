@@ -2,13 +2,12 @@ import pygame
 import random
 import os
 from mutagen import File
-from helper import audio_path
+from helper import audio_path,log_error
 
 class AudioEngine:
     def __init__(self):
-        pygame.mixer.init()
-        self.MUSIC_END_EVENT = pygame.USEREVENT + 1
-        pygame.mixer.music.set_endevent(self.MUSIC_END_EVENT)
+        self.initialize_audio()
+        
 
         self.music_tracks = {}
         self.sound_effects = {}
@@ -19,6 +18,19 @@ class AudioEngine:
         self.current_track = None
 
         self.load_audio_files()
+
+    def initialize_audio(self):
+        
+        try:
+            pygame.mixer.init()
+            self.MUSIC_END_EVENT = pygame.USEREVENT + 1
+            pygame.mixer.music.set_endevent(self.MUSIC_END_EVENT)
+            print("Audio device initialized successfully.")
+            
+        except pygame.error:
+            
+            log_error(f"No available audio device. Retrying... PyGame: {str(pygame.error)}")
+
 
     def load_audio_files(self):
         self.load_music_tracks()
