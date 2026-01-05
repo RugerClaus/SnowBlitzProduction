@@ -93,4 +93,13 @@
 <p>The next major project will be to get all of pygame's input out of the game code and get it all into the input manager and have everything inherit the app's input object. This will allow me to change the input backend.</p>
 
 <p>I have learned so far that most games are just those three things: graphics, input, and audio. The rest is arbitrary and that's exactly what my framework does.</p>
+
+<h3>UPDATE 14:</h3> 
+
+<p>Pretty neat update. I added a rudimentary save file system for single files. This could in  theory make a save file system but it's not very scalable.I am using it for constants like whether or not the player has agreed to opt into the leaderboard.</p>
+
+<p>This is for the leaderboard section and the MENUSTATE is always checking for if the leaderboard opt in has been written to. It outputs a YES or NO. If the file is empty it decides that the leaderboard opt in has not been agreed to or disagreed with and prompts the player before going to the main menu.</p>
+<p></p>
+<p></p>
+<p></p>
 <p></p>

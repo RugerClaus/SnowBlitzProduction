@@ -9,7 +9,9 @@ class BaseMenu:
         self.window = window
         self.sound = sound
         self.font = FontEngine(90).font
+        self.query_font = FontEngine(40).font
         self.title = None
+        self.query = None
 
     def update_toggle_buttons(self):
         for button in self.buttons:
@@ -28,10 +30,21 @@ class BaseMenu:
         else:
             self.title = text
 
+    def set_query(self,text):
+        if text == None:
+            self.query = None
+        else:
+            self.query = text
+
     def draw_title(self):
         if self.title is not None:
             text_color = (255, 255, 255)
             surf = self.font.render(self.title, False, text_color)
+            rect = surf.get_rect(center=(self.window.get_width() // 2, self.window.get_height() // 4))
+            self.window.blit(surf, rect)
+        if self.query is not None:
+            text_color = (255, 255, 255)
+            surf = self.query_font.render(self.query, False, text_color)
             rect = surf.get_rect(center=(self.window.get_width() // 2, self.window.get_height() // 4))
             self.window.blit(surf, rect)
 

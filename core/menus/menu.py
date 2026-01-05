@@ -1,9 +1,9 @@
 import pygame
 import math
 from core.menus.basemenu import BaseMenu
+from core.menus.usercreator import UserCreator
 from core.ui.button import Button
 from helper import *
-from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
@@ -19,11 +19,20 @@ class Menu(BaseMenu):
         self.quit_callback = quit_callback
         self.state = MenuStateManager()
         self.credits = Credits(self.window)
+        self.agreed_to_leaderboard = check_leaderboard_opt()
+        self.user_creator = UserCreator(self)
 
         self.title_image_original = self.window.load_image(asset("title"))
         self.title_image = self.title_image_original
         self.title_rect = self.title_image.get_rect()
         
+        if self.agreed_to_leaderboard:
+            self.state.set_state(MENUSTATE.ROOT)
+            self.create_buttons()
+        else:
+            print(self.agreed_to_leaderboard)
+            self.state.set_state(MENUSTATE.LEADERBOARDOPTIN)
+            self.create_buttons()
 
         self.create_buttons()
         self.rescale_assets()
@@ -85,6 +94,32 @@ class Menu(BaseMenu):
                 Button(self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 3, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.go_to_settings)
             ]
+        elif self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
+            self.buttons = [
+                Button(self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_in),
+                Button(self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_out),
+            ]
+        elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
+            self.buttons = [
+                Button(self.window, f"Submit", center_x, self.window.get_height() // 2 + spacing * 0.4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.submit_username),
+            ]
+    
+    def submit_username(self):
+        self.user_creator.submit()
+
+    def leaderboard_opt_in(self):
+        write_constant_to_file('leaderboard_opt_in','YES')
+        self.query = None
+        self.state.set_state(MENUSTATE.CREATEUSERNAME)
+        self.create_buttons()
+
+    
+    def leaderboard_opt_out(self):
+        write_constant_to_file('leaderboard_opt_in', 'NO')
+        self.state.set_state(MENUSTATE.ROOT)
+        self.create_buttons()
+        self.query = None
+        
 
     def credits_callback(self):
         self.state.set_state(MENUSTATE.CREDITS)
@@ -124,7 +159,8 @@ class Menu(BaseMenu):
         )
         self.window.fill(fade_color)
 
-        
+        if self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
+            self.set_query("DO YOU AGREE TO HAVE YOUR SCORES POSTED ON A GLOBAL LEADERBOARD?")
 
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:

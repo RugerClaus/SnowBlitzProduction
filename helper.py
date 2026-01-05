@@ -50,6 +50,17 @@ def log_error(error,object=None):
     with open(log_file,"a") as f:
         f.write(json.dumps(log_data) + "\n")
 
+def log_event(event,object=None):
+    log_file = f"logs/event.log"
+    log_data = {
+        "timestamp": datetime.now().isoformat(),
+        "event": f"What happened: {event}"
+    }
+    if object is not None:
+        log_data["object"] = str(object)
+    with open(log_file,"a") as f:
+        f.write(json.dumps(log_data) + "\n")
+
 def get_colors(color):
     if color == "red":
         return (255,0,0)
@@ -76,3 +87,41 @@ def audio_path(type):
     else:
         print("Can't find audio path!")
         return None
+    
+import os
+
+def write_constant_to_file(filename, value):
+    constants_dir = 'saves/constants'
+    
+    if not os.path.exists(constants_dir):
+        os.makedirs(constants_dir)
+
+    file_path = os.path.join(constants_dir, filename)
+    
+    try:
+        with open(file_path, 'w') as file:
+            file.write(str(value))
+        log_event(f"Constant '{value}' written to {file_path}")
+    except Exception as e:
+        log_event(f"Error writing to file: {e}")
+
+def read_constant_from_file(filename):
+    file_path = os.path.join('saves/constants', filename)
+    
+    try:
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                return file.read().strip()
+        else:
+            log_event(f"File {file_path} does not exist.")
+            return None
+    except Exception as e:
+        log_error(f"Error reading from file: {e}")
+        return None
+
+def check_leaderboard_opt():
+    opt_in = read_constant_from_file('leaderboard_opt_in')
+    if opt_in is not None:
+        return True
+    else:
+        return False

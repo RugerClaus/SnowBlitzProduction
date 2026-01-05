@@ -5,4 +5,5 @@ class MENUSTATE(Enum):
     SETTINGS = auto()
     CREDITS = auto()
     AUDIO = auto()
-    PAUSEROOT = auto()
+    LEADERBOARDOPTIN = auto()
+    CREATEUSERNAME = auto()

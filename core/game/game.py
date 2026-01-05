@@ -7,7 +7,6 @@ from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.game.snowblitz import SnowBlitz
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.menus.pause import Pause
-from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.menus.gameover import GameOverMenu
 from core.menus.win import Win
 
