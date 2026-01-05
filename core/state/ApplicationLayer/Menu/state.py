@@ -7,3 +7,4 @@ class MENUSTATE(Enum):
     AUDIO = auto()
     LEADERBOARDOPTIN = auto()
     CREATEUSERNAME = auto()
+    LEADERBOARDVIEWER = auto()

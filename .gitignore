@@ -2,5 +2,5 @@
 **/__pycache__/
 /__pycache__
 /.vscode
-/saves
+/saves/constants/leaderboard_opt_in
 logs/**

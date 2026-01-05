@@ -125,3 +125,20 @@ def check_leaderboard_opt():
         return True
     else:
         return False
+    
+def create_volume_files():
+    file_path = 'saves/constants'
+    if not os.path.exists(f'{file_path}'):
+        os.makedirs(f'{file_path}')
+    
+    if not os.path.exists(f"{file_path}/music_volume"):
+        write_constant_to_file('music_volume','0.5')
+        log_event('Music volume file creation: music_volume file created')
+    else:
+        log_event('Music volume file creation: music_volume file exists')
+    
+    if not os.path.exists(f"{file_path}/sfx_volume"):
+        write_constant_to_file('sfx_volume','0.5')
+        log_event('SFX volume file creation: sfx_volume file created')
+    else:
+        log_event('SFX volume file creation: sfx_volume file exists')

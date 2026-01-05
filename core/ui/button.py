@@ -20,6 +20,7 @@ class Button:
         self.surface = self.window.make_surface(self.width, self.height)
         self.rect = self.surface.get_rect()
         self.sound = None
+        self.hover_sound_played = False
 
     def get_sound_engine(self,sound):
         self.sound = sound
@@ -29,8 +30,12 @@ class Button:
 
         if self.rect.collidepoint(mouse_pos):
             text_color = self.text_hovered_color
+            if not self.hover_sound_played:
+                self.sound.play_ui_sfx('button_hover')
+                self.hover_sound_played = True
         else:
             text_color = self.text_unhovered_color
+            self.hover_sound_played = False
 
         self.text_surface = self.font.render(self.text, True, text_color)
         self.rect = self.surface.get_rect(center=(self.x, self.y))

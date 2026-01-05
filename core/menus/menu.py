@@ -67,6 +67,8 @@ class Menu(BaseMenu):
                     (255, 255, 255), (255, 0, 80), self.quit_callback),
                 Button(self.window, "Credits", window_w - window_w // 8, window_h - 100, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.credits_callback),
+                Button(self.window, "Leaderboard", window_w // 8, window_h - 100, 300, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.view_leaderboard),
             ]
         elif self.state.is_state(MENUSTATE.SETTINGS):
             self.buttons = [
@@ -82,16 +84,21 @@ class Menu(BaseMenu):
             ]
         elif self.state.is_state(MENUSTATE.AUDIO):
             self.buttons = [
-                Button(self.window, f"-", center_x - 80, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
-                Button(self.window, f"V: {int(self.sound.volume*10)}", center_x, self.window.get_height() // 2 - spacing, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
-                Button(self.window, f"+", center_x + 80, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
-                Button(self.window, f"Music:", center_x, self.window.get_height() // 2 + spacing * 0.01, 200, btn_height,
+                Button(self.window, f"-", center_x - 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
+                Button(self.window, f"Music Vol: {int(self.sound.volume*10)}", center_x, self.window.get_height() // 2 - spacing, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
+                Button(self.window, f"+", center_x + 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
+                
+                Button(self.window, f"-", center_x - 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.sfx_volume_down),
+                Button(self.window, f"SFX Vol: {int(self.sound.sfx_volume*10)}", center_x, self.window.get_height() // 2 + spacing * 0.01, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
+                Button(self.window, f"+", center_x + 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.sfx_volume_up),
+                
+                Button(self.window, f"Music:", center_x, self.window.get_height() // 2 + spacing * 1, 200, btn_height,
                     (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
-                Button(self.window, f"UI SFX:", center_x, self.window.get_height() // 2 + spacing * 1, 200, btn_height,
+                Button(self.window, f"UI SFX:", center_x, self.window.get_height() // 2 + spacing * 2, 200, btn_height,
                     (255, 255, 255), (128, 0, 200), self.toggle_ui_sfx),
-                Button(self.window, f"Game SFX:", center_x, self.window.get_height() // 2 + spacing * 2, 300, btn_height,
+                Button(self.window, f"Game SFX:", center_x, self.window.get_height() // 2 + spacing * 3, 300, btn_height,
                     (255, 255, 255), (128, 0, 200), self.toggle_game_sfx),
-                Button(self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 3, 150, btn_height,
+                Button(self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 4, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.go_to_settings)
             ]
         elif self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
@@ -104,6 +111,11 @@ class Menu(BaseMenu):
                 Button(self.window, f"Submit", center_x, self.window.get_height() // 2 + spacing * 0.4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.submit_username),
             ]
     
+        elif self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
+            self.buttons = [
+                Button(self.window, "Back", window_w - window_w // 8, window_h - 100, 150, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.back_to_root),
+            ]
     def submit_username(self):
         self.user_creator.submit()
 
@@ -120,6 +132,9 @@ class Menu(BaseMenu):
         self.create_buttons()
         self.query = None
         
+    def view_leaderboard(self):
+        self.state.set_state(MENUSTATE.LEADERBOARDVIEWER)
+        self.create_buttons()
 
     def credits_callback(self):
         self.state.set_state(MENUSTATE.CREDITS)
@@ -137,7 +152,7 @@ class Menu(BaseMenu):
         self.state.set_state(MENUSTATE.SETTINGS)
         self.create_buttons()
 
-    def handle_event(self, event, sound_engine):
+    def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             for button in self.buttons:

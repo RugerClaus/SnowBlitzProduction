@@ -19,8 +19,10 @@ class BaseMenu:
                 button.set_new_text(f"Music: {'On' if self.sound.music_state.is_state(MUSIC_STATE.ON) else 'Off'}")
             elif button.text.startswith("UI SFX:") and self.sound is not None:
                 button.set_new_text(f"UI SFX: {'On' if self.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON) else 'Off'}")
-            elif button.text.startswith("V:") and self.sound is not None:
-                button.set_new_text(f"V: {int(self.sound.volume*10)}")
+            elif button.text.startswith("Music Vol:") and self.sound is not None:
+                button.set_new_text(f"Music Vol: {int(self.sound.volume*10)}")
+            elif button.text.startswith("SFX Vol:") and self.sound is not None:
+                button.set_new_text(f"SFX Vol: {int(self.sound.sfx_volume*10)}")
             elif button.text.startswith("Game SFX:") and self.sound is not None:
                 button.set_new_text(f"Game SFX: {'On' if self.sound.game_sfx_state.is_state(GAME_SFX_STATE.ON) else 'Off'}")
 

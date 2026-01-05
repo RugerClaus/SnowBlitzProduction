@@ -77,7 +77,7 @@ class App:
                 self.state.set_state(APPSTATE.QUIT)
             
             if self.state.is_state(APPSTATE.MAIN_MENU):
-                self.menu.handle_event(event,self.sound.volume)
+                self.menu.handle_event(event)
 
             elif self.state.is_state(APPSTATE.IN_GAME):
                 self.game.handle_event(event,self.input)
@@ -86,7 +86,7 @@ class App:
                 self.debugger.handle_event(event)
 
             self.sound.handle_music_event(event)
-            
+
             command = self.input.handle_event(event)
             if command == "debug":
                 self.toggle_debug_mode()

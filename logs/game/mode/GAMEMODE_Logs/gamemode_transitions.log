@@ -1,1 +1,5 @@
 {"timestamp": "2026-01-05T05:21:13.939144", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.ENDLESS"}
+{"timestamp": "2026-01-05T06:12:36.077107", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.ENDLESS"}
+{"timestamp": "2026-01-05T06:12:39.550105", "type": "GAMEMODE", "from": "GAME_MODE.ENDLESS", "to": "GAME_MODE.NONE"}
+{"timestamp": "2026-01-05T06:12:40.948619", "type": "GAMEMODE", "from": "GAME_MODE.NONE", "to": "GAME_MODE.ENDLESS"}
+{"timestamp": "2026-01-05T06:12:47.069972", "type": "GAMEMODE", "from": "GAME_MODE.ENDLESS", "to": "GAME_MODE.NONE"}

@@ -1,1 +1,5 @@
 {"timestamp": "2026-01-05T05:21:15.385282", "type": "GAMESTATE", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-05T06:12:37.704550", "type": "GAMESTATE", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-05T06:12:39.549585", "type": "GAMESTATE", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}
+{"timestamp": "2026-01-05T06:12:46.106204", "type": "GAMESTATE", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-05T06:12:47.069699", "type": "GAMESTATE", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}
