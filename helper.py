@@ -105,6 +105,19 @@ def write_constant_to_file(filename, value):
     except Exception as e:
         log_event(f"Error writing to file: {e}")
 
+def delete_constant_file(filename):
+    file_path = os.path.join('saves/constants', filename)
+    
+    try:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        else:
+            log_event(f"File {file_path} does not exist.")
+            return None
+    except Exception as e:
+        log_error(f"Error deleting file: {e}")
+        return None
+
 def read_constant_from_file(filename):
     file_path = os.path.join('saves/constants', filename)
     

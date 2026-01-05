@@ -8,3 +8,4 @@ class MENUSTATE(Enum):
     LEADERBOARDOPTIN = auto()
     CREATEUSERNAME = auto()
     LEADERBOARDVIEWER = auto()
+    DEVELOPERSETTINGS = auto()

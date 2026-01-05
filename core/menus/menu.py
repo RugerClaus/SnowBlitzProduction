@@ -4,12 +4,14 @@ from core.menus.basemenu import BaseMenu
 from core.menus.usercreator import UserCreator
 from core.ui.button import Button
 from helper import *
+from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
 
 class Menu(BaseMenu):
-    def __init__(self, window, sound, endless_callback, blitz_callback, tutorial_callback, quit_callback):
+    def __init__(self, developer_mode, window, sound, endless_callback, blitz_callback, tutorial_callback, quit_callback):
+        self.developer_mode = developer_mode
         self.window = window
         self.sound = sound
         super().__init__(window, sound)
@@ -20,7 +22,7 @@ class Menu(BaseMenu):
         self.state = MenuStateManager()
         self.credits = Credits(self.window)
         self.agreed_to_leaderboard = check_leaderboard_opt()
-        self.user_creator = UserCreator(self)
+        self.user_creator = UserCreator(self.window,self.sound,self.state)
 
         self.title_image_original = self.window.load_image(asset("title"))
         self.title_image = self.title_image_original
@@ -67,15 +69,23 @@ class Menu(BaseMenu):
                     (255, 255, 255), (255, 0, 80), self.quit_callback),
                 Button(self.window, "Credits", window_w - window_w // 8, window_h - 100, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.credits_callback),
-                Button(self.window, "Leaderboard", window_w // 8, window_h - 100, 300, btn_height,
+                Button(self.window, "Leaderboard", window_w // 8, window_h - 100, 275, btn_height,
                     (255, 255, 255), (255, 0, 80), self.view_leaderboard),
             ]
         elif self.state.is_state(MENUSTATE.SETTINGS):
-            self.buttons = [
-                Button(self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
-                Button(self.window, "Back", center_x, start_y + spacing * 1, btn_width, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.back_to_root),
-            ]
+            if self.developer_mode.is_state(DEVELOPER_MODE.ON):
+                self.buttons = [
+                    Button(self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
+                    Button(self.window, f"Developer Settings", center_x, start_y + spacing * 1, btn_width * 2, btn_height, (255, 255, 255), (128, 0, 200), self.developer_settings),
+                    Button(self.window, "Back", center_x, start_y + spacing * 2, btn_width, btn_height,
+                        (255, 255, 255), (255, 0, 80), self.back_to_root),
+                ]
+            else:
+                self.buttons = [
+                    Button(self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
+                    Button(self.window, "Back", center_x, start_y + spacing * 1, btn_width, btn_height,
+                        (255, 255, 255), (255, 0, 80), self.back_to_root),
+                ]
         elif self.state.is_state(MENUSTATE.CREDITS):
 
             self.buttons = [
@@ -102,10 +112,16 @@ class Menu(BaseMenu):
                     (255, 255, 255), (255, 0, 80), self.go_to_settings)
             ]
         elif self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
-            self.buttons = [
-                Button(self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_in),
-                Button(self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_out),
-            ]
+            if self.developer_mode.is_state(DEVELOPER_MODE.ON):
+                self.buttons = [
+                    Button(self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_in_dev),
+                    Button(self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_out),
+                ]
+            else:
+                self.buttons = [
+                    Button(self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_in),
+                    Button(self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_out),
+                ]
         elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.buttons = [
                 Button(self.window, f"Submit", center_x, self.window.get_height() // 2 + spacing * 0.4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.submit_username),
@@ -116,14 +132,56 @@ class Menu(BaseMenu):
                 Button(self.window, "Back", window_w - window_w // 8, window_h - 100, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.back_to_root),
             ]
+        elif self.state.is_state(MENUSTATE.DEVELOPERSETTINGS):
+            self.buttons = [
+                Button(self.window, "Reset Username", center_x, self.window.get_height() // 2 - spacing, btn_width + 50, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.reset_username),
+                Button(self.window, "Change Leaderboard Opt-in Status", center_x, self.window.get_height() // 2, btn_width * 2 + 150, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.change_opt_in),
+                Button(self.window, "Back", center_x, self.window.get_height() // 2 + spacing, 150, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.go_to_settings),
+            ]
+
+    def developer_settings(self):
+        self.state.set_state(MENUSTATE.DEVELOPERSETTINGS)
+        self.create_buttons()
+    
+    def change_opt_in(self):
+        self.state.set_state(MENUSTATE.LEADERBOARDOPTIN)
+        self.create_buttons()
+
+    def reset_username(self):
+        delete_constant_file('username')
+        self.state.set_state(MENUSTATE.CREATEUSERNAME)
+        self.create_buttons()
+
     def submit_username(self):
-        self.user_creator.submit()
+        username = self.user_creator.text_box.get_return_string()
+        if len(username) > 5:
+            self.user_creator.submit()
+            self.set_query(None)
+            self.state.set_state(MENUSTATE.ROOT)
+            self.create_buttons()
+        else:
+            self.set_query("Username must be at least 6 characters")
 
     def leaderboard_opt_in(self):
         write_constant_to_file('leaderboard_opt_in','YES')
         self.query = None
         self.state.set_state(MENUSTATE.CREATEUSERNAME)
         self.create_buttons()
+    
+    def leaderboard_opt_in_dev(self):
+        if read_constant_from_file('username') == None:
+            write_constant_to_file('leaderboard_opt_in','YES')
+            self.query = None
+            self.state.set_state(MENUSTATE.CREATEUSERNAME)
+            self.create_buttons()
+        else:
+            write_constant_to_file('leaderboard_opt_in','YES')
+            self.query = None
+            self.state.set_state(MENUSTATE.ROOT)
+            self.create_buttons()
 
     
     def leaderboard_opt_out(self):
@@ -159,6 +217,7 @@ class Menu(BaseMenu):
                 button.is_clicked(mouse_pos, True)
         elif event.type == pygame.VIDEORESIZE:
             self.scale()
+        self.user_creator.handle_event(event)
 
     def scale(self):
         self.rescale_assets()
@@ -175,6 +234,7 @@ class Menu(BaseMenu):
         self.window.fill(fade_color)
 
         if self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
+            self.set_title(None)
             self.set_query("DO YOU AGREE TO HAVE YOUR SCORES POSTED ON A GLOBAL LEADERBOARD?")
 
         mouse_pos = pygame.mouse.get_pos()
@@ -182,12 +242,19 @@ class Menu(BaseMenu):
             button.draw(mouse_pos)
             button.get_sound_engine(self.sound)
 
+        if self.state.is_state(MENUSTATE.CREATEUSERNAME):
+            self.set_title(None)
+            self.user_creator.draw()
+
         if self.state.is_state(MENUSTATE.ROOT):
             self.set_title(None)
             self.window.blit(self.title_image, self.title_rect)
 
         if self.state.is_state(MENUSTATE.SETTINGS):
             self.set_title("SETTINGS")
+        
+        if self.state.is_state(MENUSTATE.DEVELOPERSETTINGS):
+            self.set_title('DEVELOPER SETTINGS')
 
         if self.state.is_state(MENUSTATE.CREDITS):
             self.credits.draw()

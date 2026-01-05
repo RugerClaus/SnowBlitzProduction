@@ -10,6 +10,7 @@ class BaseMenu:
         self.sound = sound
         self.font = FontEngine(90).font
         self.query_font = FontEngine(40).font
+        self.type_font = FontEngine(25).font
         self.title = None
         self.query = None
 

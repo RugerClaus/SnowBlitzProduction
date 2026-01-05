@@ -1,4 +1,5 @@
 import pygame, sys
+from helper import *
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.statemanager import StateManager
 from core.state.ApplicationLayer.mode import APPMODE
@@ -21,10 +22,10 @@ class App:
         self.mode = ModeManager()
         self.dev = DevManager()
         self.sound = AudioEngine()
-        self.menu = Menu(window,self.sound,self.endless,self.blitz,self.tutorial,self.quit)
+        self.menu = Menu(self.dev,window,self.sound,self.endless,self.blitz,self.tutorial,self.quit)
         self.game = Game(window,self.sound,self.go_to_menu,self.quit)
         self.loading = LoadingManager(self.window,self.state,self.sound)
-        self.debugger = Debugger(self.game,self.state,window,self.sound,self.loading)
+        self.debugger = Debugger(self.game,self.state,window,self.sound,self.loading,self.dev)
 
     def _popup_test_toggle(self):
         self.popup_active = not self.popup_active
@@ -97,6 +98,8 @@ class App:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F11:
                     self.window.toggle_fullscreen()
+                if event.key == pygame.K_u:
+                    print(read_constant_from_file('username'))
                 if self.state.is_state(APPSTATE.LOADING):
                     if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE:
                         self.state.set_state(APPSTATE.MAIN_MENU)

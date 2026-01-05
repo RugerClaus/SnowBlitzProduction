@@ -1,12 +1,25 @@
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.network.user import User
 
-class UserCreator:
-    def __init__(self,main_menu):
-        self.main_menu = main_menu
-        self.user = User()
+from core.ui.textbox import TextBox
+from helper import *
 
+class UserCreator:
+    def __init__(self,window,sound,state):
+        self.window = window
+        self.sound = sound
+        self.state = state
+        self.user = User()
+        self.text_box = TextBox(self.window,self.sound)
+    
+    def handle_event(self,event):
+        self.text_box.handle_event(event)
+
+    def draw(self):
+        self.text_box.draw()
+    
     def submit(self):
-        
-        self.main_menu.state.set_state(MENUSTATE.ROOT)
-        self.main_menu.create_buttons()
+        username = self.text_box.get_return_string()
+        if username is not None:
+            print('writing username file')
+            write_constant_to_file('username',str(username))

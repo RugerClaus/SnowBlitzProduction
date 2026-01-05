@@ -16,9 +16,9 @@ class InputManager:
         self.last_key_time = 0
         self.key_display_timeout = 1000
 
-    def handle_event(self, event,gameplay=False):
-        now = pygame.time.get_ticks()
-        if gameplay:
+    def handle_event(self, event,needskeys=False):
+        now = self.window.get_current_time()
+        if needskeys:
             if event.type == pygame.KEYDOWN:
                 self.current_keys.add(event.key)
                 self.key_history[event.key] = now
@@ -43,6 +43,9 @@ class InputManager:
 
             return None
         
+    def get_key_name(self,key):
+        return pygame.key.name(key)
+
     def rescale(self,w,h):
         self.surface = self.window.make_surface(w,h,True)
         self.draw_most_recent_keypress()
@@ -50,7 +53,7 @@ class InputManager:
 
     def draw_most_recent_keypress(self):
         self.surface.fill((0, 0, 0, 0))  
-        now = pygame.time.get_ticks()
+        now = self.window.get_current_time()
 
         self.key_history = {k: t for k, t in self.key_history.items() if now - t < self.key_display_timeout}
 

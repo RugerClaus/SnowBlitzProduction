@@ -3,4 +3,5 @@
 /__pycache__
 /.vscode
 /saves/constants/leaderboard_opt_in
+/saves/constants/username
 logs/**

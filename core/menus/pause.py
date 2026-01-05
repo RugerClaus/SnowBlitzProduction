@@ -48,35 +48,33 @@ class Pause(BaseMenu):
 
         elif self.state.is_state(PAUSE_MENU_STATE.AUDIO):
             self.buttons = [
-                Button(self.window, f"-", center_x - 80, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
-                Button(self.window, f"V: {int(self.sound.volume*10)}", center_x, self.window.get_height() // 2 - spacing, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
-                Button(self.window, f"+", center_x + 80, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
-                Button(self.window, f"Music:", center_x, self.window.get_height() // 2 + spacing * 0.01, 200, btn_height,
+                Button(self.window, f"-", center_x - 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
+                Button(self.window, f"Music Vol: {int(self.sound.volume*10)}", center_x, self.window.get_height() // 2 - spacing, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
+                Button(self.window, f"+", center_x + 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
+                
+                Button(self.window, f"-", center_x - 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.sfx_volume_down),
+                Button(self.window, f"SFX Vol: {int(self.sound.sfx_volume*10)}", center_x, self.window.get_height() // 2 + spacing * 0.01, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
+                Button(self.window, f"+", center_x + 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.sfx_volume_up),
+                
+                Button(self.window, f"Music:", center_x, self.window.get_height() // 2 + spacing * 1, 200, btn_height,
                     (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
-                Button(self.window, f"UI SFX:", center_x, self.window.get_height() // 2 + spacing * 1, 200, btn_height,
+                Button(self.window, f"UI SFX:", center_x, self.window.get_height() // 2 + spacing * 2, 200, btn_height,
                     (255, 255, 255), (128, 0, 200), self.toggle_ui_sfx),
-                Button(self.window, f"Game SFX:", center_x, self.window.get_height() // 2 + spacing * 2, 300, btn_height,
+                Button(self.window, f"Game SFX:", center_x, self.window.get_height() // 2 + spacing * 3, 300, btn_height,
                     (255, 255, 255), (128, 0, 200), self.toggle_game_sfx),
-                Button(self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 3, 150, btn_height,
+                Button(self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 4, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.go_to_settings)
             ]
 
-    def update_toggle_buttons(self):
+    def update_toggle_game_buttons(self):
         for button in self.buttons:
-            if button.text.startswith("Music:"):
-                button.set_new_text(f"Music: {'On' if self.sound.music_state.is_state(MUSIC_STATE.ON) else 'Off'}")
             if button.text.startswith("Progress Bar:"):
                 button.set_new_text(f"Progress Bar: {'Top' if self.game.progress_bar.location == SizeBar.TOP else 'Bottom'}")
-            elif button.text.startswith("UI SFX:") and self.sound is not None:
-                button.set_new_text(f"UI SFX: {'On' if self.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON) else 'Off'}")
-            elif button.text.startswith("V:") and self.sound is not None:
-                button.set_new_text(f"V: {int(self.sound.volume*10)}")
-            elif button.text.startswith("Game SFX:") and self.sound is not None:
-                button.set_new_text(f"Game SFX: {'On' if self.sound.game_sfx_state.is_state(GAME_SFX_STATE.ON) else 'Off'}")
                 
 
     def update(self):
         self.update_toggle_buttons()
+        self.update_toggle_game_buttons()
         if self.game.game_state.is_state(GAMESTATE.PLAYING):
             self.back_to_root()
 

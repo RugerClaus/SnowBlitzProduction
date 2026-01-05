@@ -99,7 +99,12 @@
 <p>Pretty neat update. I added a rudimentary save file system for single files. This could in  theory make a save file system but it's not very scalable.I am using it for constants like whether or not the player has agreed to opt into the leaderboard.</p>
 
 <p>This is for the leaderboard section and the MENUSTATE is always checking for if the leaderboard opt in has been written to. It outputs a YES or NO. If the file is empty it decides that the leaderboard opt in has not been agreed to or disagreed with and prompts the player before going to the main menu.</p>
-<p></p>
-<p></p>
-<p></p>
+
+<h3>UPDATE 15:</h3> 
+
+<p>These updates are getting groundbreaking. I have successfully implemented a TextBox ui utility to make generic text boxes for input. They take and return their input. This is huge. I have fleshed out developer mode a bit as well displaying a warning in the debug overlay when it's active as well as adding developer settings to the settings menu when this mode is enabled.</p>
+
+<p>Overall this is a really big set of updates. The log files are all organized into focused directories as far as state transitioning goes. The volume is saved globally and permanently in the music_volume and sfx_volume constant files. This is a rudimentary save system for system level variables. You can now set your username and opt in to the leaderboard system. The output in those config files will be taken and read from by the network files and automatically integrate the player's highest score into the database with an option to update your high score at every game over screen if you beat your current top score.</p>
+
+<p>Not to mention i have fully fleshed out menu states and pause menu states. The volume controls control both sound effects and music separately. Game SFX is separated from UI SFX such as button clicking and can be toggled separately. Overall this engine is shaping up. I also did my first real implementation of input using soley the inputmanager class on the TextBox. It is decoupled from pygame's input now and the rest of the project will soon follow suit!</p>
 <p></p>
