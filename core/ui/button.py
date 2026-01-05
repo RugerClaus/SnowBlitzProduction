@@ -29,7 +29,6 @@ class Button:
 
         if self.rect.collidepoint(mouse_pos):
             text_color = self.text_hovered_color
-            print(self.rect.topleft)
         else:
             text_color = self.text_unhovered_color
 

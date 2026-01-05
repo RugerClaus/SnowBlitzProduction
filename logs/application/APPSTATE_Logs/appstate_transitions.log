@@ -2,3 +2,5 @@
 {"timestamp": "2026-01-05T03:24:41.019005", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
 {"timestamp": "2026-01-05T03:24:54.125835", "type": "APPSTATE", "from": "APPSTATE.LOADING", "to": "APPSTATE.MAIN_MENU"}
 {"timestamp": "2026-01-05T03:24:54.753332", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
+{"timestamp": "2026-01-05T03:39:04.909936", "type": "APPSTATE", "from": "APPSTATE.LOADING", "to": "APPSTATE.MAIN_MENU"}
+{"timestamp": "2026-01-05T03:39:10.217201", "type": "APPSTATE", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
