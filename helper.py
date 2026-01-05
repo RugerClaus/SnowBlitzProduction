@@ -23,20 +23,19 @@ def asset_frames(prefix, count, ext="png", folder="menu_bg"):
         frames.append(surf)
     return frames
 
-def log_state_transition(from_state, to_state, state_type, log_file=None):
-    import os
+def log_state_transition(from_state, to_state, state_type, sub_dir=None, log_file=None):
     log_data = {
         "timestamp": datetime.now().isoformat(),
         "type": state_type,
         "from": str(from_state),
         "to": str(to_state)
     }
-
-    if not log_file:
+    if sub_dir:
+        log_dir = f"logs/{sub_dir}/{state_type}_Logs"
+    else:
         log_dir = f"logs/{state_type}_Logs"
-        os.makedirs(log_dir, exist_ok=True)   # Create folder if missing
-        log_file = os.path.join(log_dir, f"{state_type.lower()}_transitions.log")
-
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, f"{state_type.lower()}_transitions.log")
     with open(log_file, "a") as f:
         f.write(json.dumps(log_data) + "\n")
 

@@ -1,5 +1,7 @@
 from core.ui.font import FontEngine
 
+from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
+
 class Button:
     def __init__(self, window, text, x, y, width, height, text_unhovered_color, text_hovered_color, action=None,active=True):
         self.window = window
@@ -17,12 +19,17 @@ class Button:
 
         self.surface = self.window.make_surface(self.width, self.height)
         self.rect = self.surface.get_rect()
+        self.sound = None
+
+    def get_sound_engine(self,sound):
+        self.sound = sound
 
     def draw(self, mouse_pos):
         self.surface.fill((0, 0, 0),0)
 
         if self.rect.collidepoint(mouse_pos):
             text_color = self.text_hovered_color
+            print(self.rect.topleft)
         else:
             text_color = self.text_unhovered_color
 
@@ -40,6 +47,10 @@ class Button:
         
         if self.active and self.rect.collidepoint(mouse_pos) and mouse_click:
             if self.action:
+                if self.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON):
+                    self.sound.play_ui_sfx('button_clicked')
+                else:
+                    print(f'interface sfx is disabled.{self.sound.interface_sfx_state.get_state()}')
                 self.action()
             if not self.action:
                 self.action = None

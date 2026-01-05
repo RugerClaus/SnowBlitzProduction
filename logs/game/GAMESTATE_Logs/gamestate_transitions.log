@@ -1,0 +1,2 @@
+{"timestamp": "2026-01-05T03:24:56.682920", "type": "GAMESTATE", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-05T03:24:57.281519", "type": "GAMESTATE", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}

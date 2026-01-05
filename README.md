@@ -81,3 +81,16 @@
 <p>I went further with the buttons by making them rounded on the corners using pygame's border_radius flag in pygame.draw.rect, but i'll need to figure another way around it for other graphics libraries. Fortunately that system is decoupled from pygame so it should be a simple matter of editing the Window class to adapt for the api to another graphics backend.</p>
 
 <p>The new loadingmanager class handles all loading screens. Any time I need to implement anything that functions like a loading screen including the splash screen at the start of the program, and any other loading between levels or whatever, that can all be set up there now. Of course LOADINGSCREENSTATE is logged endlessly. CLEARED ERROR LOG</p>
+
+<h3>UPDATE 13:</h3>
+
+<p>So here we are so far. i have upgraded all the audio settings and overhauled the audio engine to be purely state based for playing sounds.</p>
+
+<p>In addition I have completely revamped the state logging system by allowing the developer to set a sub directory in the log_state_transition function's arguments. You don't have to, but it's for clarity. It's an option.</p>
+
+<p>I have separated the game sfx state from the music state and the interface sound effect states. So you can have button clicks disabled while still hearing the music and the game sound effects, or whatever config you want.</p>
+
+<p>The next major project will be to get all of pygame's input out of the game code and get it all into the input manager and have everything inherit the app's input object. This will allow me to change the input backend.</p>
+
+<p>I have learned so far that most games are just those three things: graphics, input, and audio. The rest is arbitrary and that's exactly what my framework does.</p>
+<p></p>

@@ -15,7 +15,6 @@ from core.loading.loadingmanager import LoadingManager
 
 class App:
     def __init__(self,window):
-
         self.window = window
         self.input = InputManager(window)
         self.state = StateManager()
@@ -122,8 +121,8 @@ class App:
             elif self.state.is_state(APPSTATE.IN_GAME):
                 self.game.run()
             elif self.state.is_state(APPSTATE.QUIT):
+                pygame.quit()
                 sys.exit()
-
             if self.mode.is_state(APPMODE.DEBUG):
                 self.debugger.update()
                 self.debugger.draw()

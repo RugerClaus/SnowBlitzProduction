@@ -4,16 +4,28 @@ import os
 from mutagen import File
 from helper import audio_path,log_error
 
+from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
+from core.state.ApplicationLayer.Audio.Interface.statemanager import InterfaceSFXStateManager
+from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
+from core.state.ApplicationLayer.Audio.Music.statemanager import MusicStateManager
+from core.state.ApplicationLayer.Audio.Game.state import GAME_SFX_STATE
+from core.state.ApplicationLayer.Audio.Game.statemanager import GameSFXStateManager
+
 class AudioEngine:
     def __init__(self):
-        self.initialize_audio()
-        
+        self.interface_sfx_state = InterfaceSFXStateManager()
+        self.music_state = MusicStateManager()
+        self.game_sfx_state = GameSFXStateManager()
+        sound_on = self.initialize_audio()
+        if sound_on:
+            self.interface_sfx_state.set_state(INTERFACE_SFX_STATE.ON)
+            self.music_state.set_state(MUSIC_STATE.ON)
+            self.game_sfx_state.set_state(GAME_SFX_STATE.ON)
 
         self.music_tracks = {}
         self.sound_effects = {}
         self.active_sfx = {}
         self.volume = 0.5
-        self.music_active = True
         self.music_queue = []
         self.current_track = None
 
@@ -25,10 +37,13 @@ class AudioEngine:
             self.MUSIC_END_EVENT = pygame.USEREVENT + 1
             pygame.mixer.music.set_endevent(self.MUSIC_END_EVENT)
             print("Audio device initialized successfully.")
+            return True
+            
             
         except pygame.error:
-            
+            self.interface_sfx_state.set_state(INTERFACE_SFX_STATE.NONE)
             log_error(f"No available audio device. Retrying... PyGame: {str(pygame.error)}")
+            return False
 
     def load_audio_files(self):
         self.load_music_tracks()
@@ -56,15 +71,37 @@ class AudioEngine:
                 self.sound_effects[effect_name] = os.path.join(sfx_dir, filename)
     
     def play_sfx(self, effect_name):
-        if effect_name in self.sound_effects:
-            sfx_path = self.sound_effects[effect_name]
-            sound_effect = pygame.mixer.Sound(sfx_path)
-            sound_effect.set_volume(self.volume)
-            sound_effect.play()
-            self.active_sfx[effect_name] = sound_effect
-        else:
-            print(f"Sound effect '{effect_name}' not found.")
+        if self.game_sfx_state.is_state(GAME_SFX_STATE.ON):
+            if effect_name in self.sound_effects:
+                sfx_path = self.sound_effects[effect_name]
+                sound_effect = pygame.mixer.Sound(sfx_path)
+                sound_effect.set_volume(self.volume)
+                sound_effect.play()
+                self.active_sfx[effect_name] = sound_effect
+            else:
+                print(f"Sound effect '{effect_name}' not found.")
+        elif self.game_sfx_state.is_state(GAME_SFX_STATE.NONE):
+            log_error("Missing sound device", "AudioEngine: cannot set sound device")
     
+        else:
+            return "off"
+    
+    def play_ui_sfx(self, effect_name):
+        if self.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON):
+            if effect_name in self.sound_effects:
+                sfx_path = self.sound_effects[effect_name]
+                sound_effect = pygame.mixer.Sound(sfx_path)
+                sound_effect.set_volume(self.volume)
+                sound_effect.play()
+                self.active_sfx[effect_name] = sound_effect
+            else:
+                print(f"Sound effect '{effect_name}' not found.")
+        elif self.game_sfx_state.is_state(INTERFACE_SFX_STATE.NONE):
+            log_error("Missing sound device", "AudioEngine: cannot set sound device")
+    
+        else:
+            return "off"
+
     def stop_sfx(self, effect_name):
         if effect_name in self.active_sfx:
             self.active_sfx[effect_name].stop()
@@ -78,7 +115,7 @@ class AudioEngine:
 
     def play_music(self, mode="random"):
         if mode == "random":
-            self.music_active = True
+            self.music_state.set_state(MUSIC_STATE.ON)
             if not self.music_queue:
                 self.music_queue = list(self.music_tracks.keys())
                 random.shuffle(self.music_queue)
@@ -91,7 +128,7 @@ class AudioEngine:
             pygame.mixer.music.play()
 
         elif mode == "loop":
-            self.music_active = True
+            self.music_state.set_state(MUSIC_STATE.ON)
             if self.current_track is None:
                 return
             pygame.mixer.music.load(self.music_tracks[self.current_track])
@@ -99,7 +136,7 @@ class AudioEngine:
             pygame.mixer.music.play(-1)
 
         elif mode == "stop":
-            self.music_active = False
+            self.music_state.set_state(MUSIC_STATE.OFF)
             self.current_track = None
             pygame.mixer.music.stop()
 
@@ -114,16 +151,16 @@ class AudioEngine:
 
     def handle_music_event(self, event):
         if event.type == self.MUSIC_END_EVENT:
-            if self.music_active and self.music_queue:
+            if self.music_state.is_state(MUSIC_STATE.ON) and self.music_queue:
                 self.play_music("random")
 
     def toggle_music(self):
-        if self.music_active:
+        if self.music_state.is_state(MUSIC_STATE.ON):
             self.play_music("stop")
-            self.music_active = False
+            self.music_state.is_state(MUSIC_STATE.OFF)
         else:
             self.play_music("random")
-            self.music_active = True
+            self.music_state.set_state(MUSIC_STATE.ON)
 
     def volume_up(self):
         if self.volume < 1.0:

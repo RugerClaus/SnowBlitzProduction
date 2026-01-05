@@ -1,19 +1,26 @@
 from core.ui.font import FontEngine
-from core.menus.audio import Audio
+from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
+from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
+from core.state.ApplicationLayer.Audio.Game.state import GAME_SFX_STATE
+
+from helper import log_error
 class BaseMenu:
     def __init__(self, window, sound):
         self.window = window
         self.sound = sound
         self.font = FontEngine(90).font
-        self.audio_text = Audio(self.window)
         self.title = None
 
     def update_toggle_buttons(self):
         for button in self.buttons:
             if button.text.startswith("Music:") and self.sound is not None:
-                button.set_new_text(f"Music: {'On' if self.sound.music_active else 'Off'}")
-            elif button.text.startswith("SFX:") and self.sound is not None:
-                button.set_new_text(f"SFX: {'On' if self.sound.active_sfx else 'Off'}")
+                button.set_new_text(f"Music: {'On' if self.sound.music_state.is_state(MUSIC_STATE.ON) else 'Off'}")
+            elif button.text.startswith("UI SFX:") and self.sound is not None:
+                button.set_new_text(f"UI SFX: {'On' if self.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON) else 'Off'}")
+            elif button.text.startswith("V:") and self.sound is not None:
+                button.set_new_text(f"V: {int(self.sound.volume*10)}")
+            elif button.text.startswith("Game SFX:") and self.sound is not None:
+                button.set_new_text(f"Game SFX: {'On' if self.sound.game_sfx_state.is_state(GAME_SFX_STATE.ON) else 'Off'}")
 
     def set_title(self,text):
         if text == None:
@@ -30,3 +37,25 @@ class BaseMenu:
 
     def update(self):
         self.update_toggle_buttons()
+
+    def toggle_ui_sfx(self):
+        if not self.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.NONE):
+            if not self.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON):
+                self.sound.interface_sfx_state.set_state(INTERFACE_SFX_STATE.ON)
+            else:
+                self.sound.interface_sfx_state.set_state(INTERFACE_SFX_STATE.OFF)
+            self.update_toggle_buttons()
+        else:
+            log_error("No audio device found",f"{self.sound.interface_sfx_state.get_state()}: unable to enable button sound")
+            return
+        
+    def toggle_game_sfx(self):
+        if not self.sound.game_sfx_state.is_state(GAME_SFX_STATE.NONE):
+            if not self.sound.game_sfx_state.is_state(GAME_SFX_STATE.ON):
+                self.sound.game_sfx_state.set_state(GAME_SFX_STATE.ON)
+            else:
+                self.sound.game_sfx_state.set_state(GAME_SFX_STATE.OFF)
+            self.update_toggle_buttons()
+        else:
+            log_error("No audio device found",f"{self.sound.game_sfx_state.get_state()}: unable to enable button sound")
+            return

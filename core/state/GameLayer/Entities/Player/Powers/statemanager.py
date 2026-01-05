@@ -29,6 +29,6 @@ class PlayerPowerStateManager(BaseStateManager):
         super().__init__(
             initial_state=initial_state,
             allowed_transitions=allowed_transitions,
-            log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
+            log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type, 'game/player'),
             state_name="PLAYERPOWERSTATE"
         )

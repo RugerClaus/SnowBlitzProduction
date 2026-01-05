@@ -3,8 +3,9 @@ from core.ui.button import Button
 from core.menus.basemenu import BaseMenu
 
 class GameOverMenu(BaseMenu):
-    def __init__(self, window,restart_callback, main_menu_callback, quit_callback):
+    def __init__(self, sound, window,restart_callback, main_menu_callback, quit_callback):
         self.window = window
+        self.sound = sound
         super().__init__(window, None)
         self.restart_callback = restart_callback
         self.main_menu_callback = main_menu_callback
@@ -53,3 +54,4 @@ class GameOverMenu(BaseMenu):
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
             button.draw(mouse_pos)
+            button.get_sound_engine(self.sound)

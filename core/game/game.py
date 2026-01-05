@@ -19,7 +19,7 @@ class Game:
         self.game_object = SnowBlitz(self.window, self.sound, self.state)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.game_over_menu = GameOverMenu(self.window, self.reset_game, self.quit_to_menu, self.quit)
+        self.game_over_menu = GameOverMenu(self.sound,self.window, self.reset_game, self.quit_to_menu, self.quit)
         self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
             
     def check_win(self): #this is basically only for the tutorial mode, but needs to be here. no way around it honestly just due to the ease of callback access
@@ -72,9 +72,9 @@ class Game:
             elif self.game_mode.is_state(GAME_MODE.BLITZ):
                 self.game_object.init_blitz()
             elif self.game_mode.is_state(GAME_MODE.TUTORIAL):
-                self.game_over_menu = GameOverMenu(self.window,self.reset_tutorial, self.quit_to_menu, self.quit)
+                self.game_over_menu = GameOverMenu(self.sound,self.window,self.reset_tutorial, self.quit_to_menu, self.quit)
                 self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_tutorial)
-                self.win = Win(self.window,self.reset_tutorial,self.quit_to_menu,self.quit)
+                self.win = Win(self.sound,self.window,self.reset_tutorial,self.quit_to_menu,self.quit)
                 self.game_object.init_tutorial()
                 self.check_win()
         elif self.state.is_state(GAMESTATE.GAME_OVER):

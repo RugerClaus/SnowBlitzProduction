@@ -13,6 +13,6 @@ class ModeManager(BaseStateManager):
         super().__init__(
                 initial_state=APPMODE.PRIMARY,
                 allowed_transitions=allowed_transitions,
-                log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
+                log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type, 'application'),
                 state_name="APPMODE"
             )
