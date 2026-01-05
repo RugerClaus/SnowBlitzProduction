@@ -7,6 +7,7 @@ from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.game.snowblitz import SnowBlitz
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.menus.pause import Pause
+from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.menus.gameover import GameOverMenu
 from core.menus.win import Win
 
@@ -29,11 +30,11 @@ class Game:
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
-            self.state.set_state(GAMESTATE.PAUSED)
             self.pause_menu.reset_menu()
+            self.state.set_state(GAMESTATE.PAUSED)
         else:
             self.state.set_state(GAMESTATE.PLAYING)
-    
+
     def resize(self,event_h):
         self.game_object.resize(event_h)
 
@@ -42,7 +43,12 @@ class Game:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.toggle_pause()
+                
+                if self.state.is_state(GAMESTATE.PAUSED):
+                    self.pause_menu.back_to_root()
+                    self.toggle_pause()
+                else:
+                    self.toggle_pause()
         
         if self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.handle_event()
