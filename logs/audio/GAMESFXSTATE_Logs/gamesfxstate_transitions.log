@@ -338,3 +338,9 @@
 {"timestamp": "2026-01-06T09:46:08.002083", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
 {"timestamp": "2026-01-06T09:47:36", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
 {"timestamp": "2026-01-06T09:49:39.619896", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T10:35:18.585552", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T10:39:52.805265", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T10:40:48.311763", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T10:42:29.150101", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T10:43:14.109582", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T10:49:34.225990", "type": "GAMESFXSTATE", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}

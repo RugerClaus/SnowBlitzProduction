@@ -37,7 +37,8 @@ class GameOverMenu(BaseMenu):
             for button in self.buttons:
                 button.is_clicked(mouse_pos, True)
         elif event.type == pygame.VIDEORESIZE:
-            self.on_resize()
+            self.window.get_size()
+            self.create_buttons()
 
     def draw(self):
         t = self.window.get_current_time() / 1000

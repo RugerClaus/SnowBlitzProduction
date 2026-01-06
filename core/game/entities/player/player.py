@@ -70,7 +70,7 @@ class Player(Entity):
         elif direction == 'RIGHT':
             self.move_state.set_state(PLAYER_INTENT_STATE.MOVE_RIGHT)
         elif direction == 'NONE':
-            self.move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
+            self.move_state.set_state(PLAYER_INTENT_STATE.IDLE)
 
     def draw(self):
         self.surface.fill((0, 0, 0, 0))

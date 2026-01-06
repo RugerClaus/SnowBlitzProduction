@@ -59,8 +59,7 @@ class SizeBarManager:
         score_text = f"Score: {self.player.score}"
         score_surface = self.score_font.render(score_text, True, (255,255,0))
 
-        high_score = read_constant_from_file('high_score')
-        high_score_text = f"High Score: {high_score}"
+        high_score_text = f"High Score: {self.player.current_high_score}"
         high_score_surface = self.score_font.render(high_score_text, True, (255,74,128))
 
         line_spacing = 20

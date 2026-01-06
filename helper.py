@@ -23,10 +23,11 @@ def asset_frames(prefix, count, ext="png", folder="menu_bg"):
         frames.append(surf)
     return frames
 
-def log_state_transition(from_state, to_state, state_type, sub_dir=None, log_file=None):
+def log_state_transition(from_state, to_state, state_type, ticks=None, sub_dir=None, log_file=None):
     log_data = {
         "timestamp": datetime.now().isoformat(),
         "type": state_type,
+        "ticks": ticks,
         "from": str(from_state),
         "to": str(to_state)
     }

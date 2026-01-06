@@ -3,19 +3,19 @@ from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STAT
 from core.state.basestatemanager import BaseStateManager
 
 class PlayerMoveStateManager(BaseStateManager):
-    def __init__(self, initial_state=PLAYER_INTENT_STATE.IDLE_MOVE):
+    def __init__(self, initial_state=PLAYER_INTENT_STATE.IDLE):
         allowed_transitions = {
-            PLAYER_INTENT_STATE.IDLE_MOVE: [
+            PLAYER_INTENT_STATE.IDLE: [
                 PLAYER_INTENT_STATE.MOVE_LEFT,
                 PLAYER_INTENT_STATE.MOVE_RIGHT
             ],
             PLAYER_INTENT_STATE.MOVE_LEFT: [
                 PLAYER_INTENT_STATE.MOVE_RIGHT,
-                PLAYER_INTENT_STATE.IDLE_MOVE
+                PLAYER_INTENT_STATE.IDLE
             ],
             PLAYER_INTENT_STATE.MOVE_RIGHT: [
                 PLAYER_INTENT_STATE.MOVE_LEFT,
-                PLAYER_INTENT_STATE.IDLE_MOVE
+                PLAYER_INTENT_STATE.IDLE
             ]
         }
         super().__init__(

@@ -1,0 +1,5 @@
+{"timestamp": "2026-01-06T11:08:33.079382", "type": "INTERFACESFXSTATE", "ticks": "audio", "from": "INTERFACE_SFX_STATE.NONE", "to": "INTERFACE_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T11:10:20.189068", "type": "INTERFACESFXSTATE", "ticks": "audio", "from": "INTERFACE_SFX_STATE.NONE", "to": "INTERFACE_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T11:10:55.493145", "type": "INTERFACESFXSTATE", "ticks": "audio", "from": "INTERFACE_SFX_STATE.NONE", "to": "INTERFACE_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T11:11:15.921142", "type": "INTERFACESFXSTATE", "ticks": "audio", "from": "INTERFACE_SFX_STATE.NONE", "to": "INTERFACE_SFX_STATE.ON"}
+{"timestamp": "2026-01-06T11:14:05.242969", "type": "INTERFACESFXSTATE", "ticks": "audio", "from": "INTERFACE_SFX_STATE.NONE", "to": "INTERFACE_SFX_STATE.ON"}

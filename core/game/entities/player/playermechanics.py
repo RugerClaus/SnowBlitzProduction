@@ -19,14 +19,14 @@ class PlayerMechanics:
 
     @staticmethod
     def update_movement(move_state, speed, x):
-        acceleration = 0.05
+        acceleration = 1
         if move_state.is_state(PLAYER_INTENT_STATE.MOVE_LEFT):
-            speed -= acceleration
+            speed *= acceleration
             x -= speed
         elif move_state.is_state(PLAYER_INTENT_STATE.MOVE_RIGHT):
-            speed += acceleration
+            speed *= acceleration
             x += speed
-        elif move_state.is_state(PLAYER_INTENT_STATE.IDLE_MOVE):
+        elif move_state.is_state(PLAYER_INTENT_STATE.IDLE):
             acceleration = 0
             x += 0
         return x
@@ -42,7 +42,7 @@ class PlayerMechanics:
         if diam < 3:
 
             life_state.set_state(PLAYER_LIFE_STATE.DEAD)
-            move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
+            move_state.set_state(PLAYER_INTENT_STATE.IDLE)
             return True
         return False
 
@@ -219,5 +219,5 @@ class PlayerMechanics:
     @staticmethod
     def reset_states(player):
         player.life_state.set_state(PLAYER_LIFE_STATE.ALIVE)
-        player.move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
+        player.move_state.set_state(PLAYER_INTENT_STATE.IDLE)
         player.power_state.set_state(PLAYER_POWER_STATE.NONE)

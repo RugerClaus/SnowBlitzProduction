@@ -1,0 +1,5 @@
+{"timestamp": "2026-01-06T11:08:33.113969", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-06T11:10:20.222854", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-06T11:10:55.528516", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-06T11:11:15.958108", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-06T11:14:05.277879", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
