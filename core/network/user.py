@@ -31,7 +31,7 @@ class User:
                 else:
                     log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
             except requests.exceptions.RequestException as e:
-                log_error(f"Network error while sending username: {e}")
+                log_error(f"Network error while sending username: {e} Status: {response.status_code}; Response: {response.text}")
         else:
             log_error("Username is blank or invalid.")
     
@@ -45,12 +45,13 @@ class User:
                 "score": int(high_score)
             }
             try:
+                print("sending score to db")
                 response = requests.post(self.setuserhighscoreURL, json=data)
                 if response.status_code == 200:
                     log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
                 else:
                     log_error(f"Failed to send highscore for {username}. Status: {response.status_code}; Response: {response.text}")
             except requests.exceptions.RequestException as e:
-                log_error(f"Network error while sending high score: {e}")
+                log_error(f"Network error while sending high score: {e} Status: {response.status_code}; Response: {response.text}")
         else:
             log_error(f"Highscore or Username is missing. Highscore: {high_score}, Username: {username}")

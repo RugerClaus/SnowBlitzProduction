@@ -59,8 +59,9 @@ class SizeBarManager:
         score_text = f"Score: {self.player.score}"
         score_surface = self.score_font.render(score_text, True, (255,255,0))
 
-        high_score_text = f"High Score: {read_constant_from_file('high_score')}"
-        high_score_surface = self.score_font.render(score_text, True, (255,74,128))
+        high_score = read_constant_from_file('high_score')
+        high_score_text = f"High Score: {high_score}"
+        high_score_surface = self.score_font.render(high_score_text, True, (255,74,128))
 
         line_spacing = 20
 
@@ -68,18 +69,19 @@ class SizeBarManager:
             top_y = self.bar_height + 10
             self.window.blit(time_surface, (10, top_y))
             self.window.blit(size_surface, (10, top_y + line_spacing))
-            self.window.blit(level_surface, (10, top_y + line_spacing * 2))
-            self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - 10, top_y))
-            self.window.blit(size_to_level_up_surface, (self.window.get_width() - size_to_level_up_surface.get_rect().width - 10, top_y + line_spacing * 1.5))
+            self.window.blit(high_score_surface, (self.window.get_width() - high_score_surface.get_rect().width - 10, top_y))
+            self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - high_score_surface.get_rect().width - 40, top_y))
+            self.window.blit(level_surface, (self.window.get_width() - level_surface.get_rect().width - score_surface.get_rect().width - score_surface.get_rect().right * 2, top_y))
+            self.window.blit(size_to_level_up_surface, (time_surface.get_rect().right + 30, top_y))
 
         elif self.location == SizeBar.BOTTOM:
             bottom_y = self.window.get_height() - self.bar_height - 80 
             self.window.blit(time_surface, (10, bottom_y + line_spacing))
             self.window.blit(size_surface, (10, bottom_y + line_spacing * 2))
             self.window.blit(size_to_level_up_surface, (10, bottom_y + line_spacing * 3))
-            
-            self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - 10, bottom_y + line_spacing))
-            self.window.blit(level_surface, (self.window.get_width() - level_surface.get_rect().width - 10, bottom_y + line_spacing * 2.5))
+            self.window.blit(high_score_surface, (self.window.get_width() - high_score_surface.get_rect().width - 10, bottom_y + line_spacing * 2))
+            self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - high_score_surface.get_rect().width - 40, bottom_y + line_spacing * 2))
+            self.window.blit(level_surface, (self.window.get_width() - level_surface.get_rect().width - score_surface.get_rect().width - score_surface.get_rect().right * 2, bottom_y + line_spacing * 2))
 
     def draw(self):
 

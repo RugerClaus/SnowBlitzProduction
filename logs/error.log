@@ -1,0 +1,29 @@
+{"timestamp": "2026-01-05T09:18:05.458757", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:05.458881", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:07.933378", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:07.933463", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:08.253559", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:08.253635", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:08.430312", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:08.430385", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:08.622173", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:08.622230", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:09.037828", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:09.037898", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:09.518288", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:09.518373", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:13.859316", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:13.859407", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-05T09:18:14.612950", "error": "What happened: TextBox.string cannot be none", "object": "UserCreator"}
+{"timestamp": "2026-01-05T09:18:14.613022", "error": "What happened: failed to save username"}
+{"timestamp": "2026-01-06T07:55:59.085653", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0)"}
+{"timestamp": "2026-01-06T07:57:35.232561", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0)"}
+{"timestamp": "2026-01-06T07:59:56.109662", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status 200"}
+{"timestamp": "2026-01-06T08:00:53.369016", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status 200 Could not connect to the database SnowBlitzDatabase :could not find driver"}
+{"timestamp": "2026-01-06T08:06:20.413453", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status 200 Could not connect to the database SnowBlitzDatabase :could not find driver"}
+{"timestamp": "2026-01-06T08:07:15.176079", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status 200 Could not connect to the database SnowBlitzDatabase :could not find driver"}
+{"timestamp": "2026-01-06T08:08:01.862861", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status 200 Could not connect to the database SnowBlitzDatabase :could not find driver"}
+{"timestamp": "2026-01-06T08:10:22.395957", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status 200 Could not connect to the database SnowBlitzDatabase :SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'"}
+{"timestamp": "2026-01-06T08:14:04.511375", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status 200 Could not connect to the database SnowBlitzDatabase :SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'"}
+{"timestamp": "2026-01-06T08:41:19.178943", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status: 200; Response: Could not connect to the database SnowBlitzDatabase :SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost'"}
+{"timestamp": "2026-01-06T08:43:39.345535", "error": "What happened: Network error while sending username: Expecting value: line 1 column 1 (char 0) Status: 200; Response: Could not connect to the database SnowBlitzDatabase :SQLSTATE[HY000] [1044] Access denied for user 'snowblitz'@'localhost' to database 'SnowBlitzDatabase'"}

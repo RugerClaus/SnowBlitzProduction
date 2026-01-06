@@ -1,9 +1,10 @@
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
-from core.state.GameLayer.Entities.Player.HighScore.state import HIGH_SCORE_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.game.entities.powerups.type import PowerUpType
+
+from core.network.user import User
 from helper import write_constant_to_file,read_constant_from_file
 
 class PlayerMechanics:
@@ -45,24 +46,22 @@ class PlayerMechanics:
             return True
         return False
 
-    def check_death(player,game_state):
+    def check_death(player, game_state):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
-            high_score = read_constant_from_file('high_score')
-            if high_score:
-                if player.current_high_score <= int(high_score):
-                    write_constant_to_file('high_score',str(player.score))
-                    player.high_score_state.set_state(HIGH_SCORE_STATE.BROKEN)
-        else:
-            return
+
+            stored = read_constant_from_file('high_score')
+            stored = int(stored) if stored else 0
+
+            if player.score > stored:
+                write_constant_to_file('high_score', str(player.score))
+                User().send_high_score_to_api()
         
     def check_high_score(player):
-        high_score = read_constant_from_file('high_score')
-        if high_score:
-            if player.current_high_score >= int(high_score):
-                write_constant_to_file('high_score',str(player.score))
-        else:
-            write_constant_to_file('high_score',str(player.score))
+        stored = read_constant_from_file('high_score')
+        stored = int(stored) if stored else 0
+        if player.score >= int(stored):
+                player.current_high_score = player.score
 
     def check_power_state(player):
         if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):

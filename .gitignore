@@ -4,4 +4,4 @@
 /.vscode
 /saves/constants/leaderboard_opt_in
 /saves/constants/username
-logs/**
+saves/constants/high_score

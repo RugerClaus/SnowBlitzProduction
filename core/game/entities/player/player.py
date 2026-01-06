@@ -4,7 +4,6 @@ from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STAT
 from core.state.GameLayer.Entities.Player.Movement.statemanager import PlayerMoveStateManager
 from core.state.GameLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
 from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
-from core.state.GameLayer.Entities.Player.HighScore.statemanager import PlayerHighScoreStateManager
 from core.game.entities.player.playermechanics import PlayerMechanics as physics
 
 class Player(Entity):
@@ -23,7 +22,6 @@ class Player(Entity):
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
         self.power_state = PlayerPowerStateManager()
-        self.high_score_state = PlayerHighScoreStateManager()
 
         self.last_powerup_start_time = None
         self.powerup_duration = 5000

@@ -117,3 +117,6 @@
 
 <p>So yeah mind-bogglingly massive update. Once I have that figured out, I'll get the GUI for the high score visible and finally start implementing the leaderboard</p>
 
+<h3>UPDATE 16:</h3>
+
+<p>Final update before bed. I removed the entire idea of clicking a button to send your score. i just automatically send the newest high score to the database upon game over if the player's current score is higher than the current high score. eventually this will just pull from the server high score to keep things consistent. If you close the game midgame it will keep your score, so once I have the server be the ultimate source of truth for that, I can just delete the score file upon closing the game. and pre-emptively at the main menu so it always checks with the server. maybe i'll add a toggle for this warning players of the potential consequences.</p>
