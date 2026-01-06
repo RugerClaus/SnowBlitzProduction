@@ -22,9 +22,9 @@ class Win(BaseMenu):
         center_x = screen_w // 2
 
         self.buttons = [
-            Button(self.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.restart_callback),
-            Button(self.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.main_menu_callback),
-            Button(self.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_callback),
+            Button(self.sound, self.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.restart_callback),
+            Button(self.sound, self.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.main_menu_callback),
+            Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_callback),
         ]
 
     def on_resize(self):
@@ -54,4 +54,3 @@ class Win(BaseMenu):
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
             button.draw(mouse_pos)
-            button.get_sound_engine(self.sound)

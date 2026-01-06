@@ -1,16 +1,34 @@
-import pygame
+import pygame,math
 from core.ui.button import Button
 from core.menus.basemenu import BaseMenu
+from core.network.user import User
+
+from core.state.GameLayer.Entities.Player.HighScore.state import HIGH_SCORE_STATE
+
+from core.state.ApplicationLayer.Menu.GameOver.state import GAME_OVER_MENU_STATE
+from core.state.ApplicationLayer.Menu.GameOver.statemanager import GameOverMenuStateManager
+
+from helper import *
 
 class GameOverMenu(BaseMenu):
-    def __init__(self, sound, window,restart_callback, main_menu_callback, quit_callback):
+    def __init__(self, sound, window, high_score_state, restart_callback, main_menu_callback, quit_callback):
         self.window = window
         self.sound = sound
-        super().__init__(window, None)
+        self.high_score_state = high_score_state
+        self.state = GameOverMenuStateManager()
+        super().__init__(window, self.sound)
         self.restart_callback = restart_callback
         self.main_menu_callback = main_menu_callback
         self.quit_callback = quit_callback
         self.create_buttons()
+        
+        if self.high_score_state.is_state(HIGH_SCORE_STATE.BROKEN):
+            if check_leaderboard_opt():
+                if read_constant_from_file('leaderboard_opt_in') == "YES":
+                    self.state.set_state(GAME_OVER_MENU_STATE.HIGHSCORE)
+        else:
+            self.state.set_state(GAME_OVER_MENU_STATE.BASE)
+        print(str(self.state.get_state()))
 
     def create_buttons(self):
         self.buttons = []
@@ -20,12 +38,37 @@ class GameOverMenu(BaseMenu):
         start_y = screen_h // 4 + screen_h // 7
 
         center_x = screen_w // 2
+        if self.state.is_state(GAME_OVER_MENU_STATE.HIGHSCORE):
+            self.buttons = [
+                Button(self.sound, self.window, "Submit High Score to Leaderboard", center_x, start_y - spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.submit_high_score),
+                Button(self.sound, self.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.restart_high_score_callback),
+                Button(self.sound, self.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.main_menu_high_score_callback),
+                Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_high_score_callback),
+            ]
+        else:
+            self.buttons = [
+                    Button(self.sound, self.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.restart_callback),
+                    Button(self.sound, self.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.main_menu_callback),
+                    Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_callback),
+                ]
+    
+    def restart_high_score_callback(self):
+        self.high_score_state.set_state(HIGH_SCORE_STATE.NONE)
+        self.restart_callback()
+    
+    def main_menu_high_score_callback(self):
+        self.high_score_state.set_state(HIGH_SCORE_STATE.NONE)
+        self.main_menu_callback()
 
-        self.buttons = [
-            Button(self.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.restart_callback),
-            Button(self.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.main_menu_callback),
-            Button(self.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_callback),
-        ]
+    def quit_high_score_callback(self):
+        self.high_score_state.set_state(HIGH_SCORE_STATE.NONE)
+        self.quit_callback()    
+    
+    def submit_high_score(self):
+        user = User()
+        user.send_high_score_to_api()
+        self.high_score_state.set_state(HIGH_SCORE_STATE.NONE)
+        self.create_buttons()
 
     def on_resize(self):
         self.create_buttons()
@@ -39,11 +82,17 @@ class GameOverMenu(BaseMenu):
             self.on_resize()
 
     def update(self):
-        self.on_resize()
+        pass
 
     def draw(self):
-    
-        self.window.draw_overlay((0, 0, 0), 180)
+        t = self.window.get_current_time() / 1000
+        pulse = (math.sin(t) + 1) / 2
+        fade_color = (
+            int(20 + (35 - 20) * pulse),
+            0,
+            int(20 + (35 - 20) * pulse)
+        )
+        self.window.fill(fade_color)
 
         # Draw "GAME OVER" text
         text = self.font.render("GAME OVER", True, (255, 0, 0))
@@ -54,4 +103,3 @@ class GameOverMenu(BaseMenu):
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
             button.draw(mouse_pos)
-            button.get_sound_engine(self.sound)

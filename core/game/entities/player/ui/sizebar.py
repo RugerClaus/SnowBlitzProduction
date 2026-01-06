@@ -1,6 +1,7 @@
 import pygame
 from enum import Enum, auto
 from core.ui.font import FontEngine
+from helper import read_constant_from_file
 
 class SizeBar(Enum):
     BOTTOM = auto()
@@ -50,13 +51,16 @@ class SizeBarManager:
         size_surface = self.font.render(size_text, True, (255, 255, 255))
 
         level_text = f"Level: {self.player.current_level}"
-        level_surface = self.font.render(level_text, True, (255,255,255))
+        level_surface = self.score_font.render(level_text, True, (255,255,255))
 
         size_to_level_up_text = f"Size to level up: {self.player.level_up_size}"
         size_to_level_up_surface = self.font.render(size_to_level_up_text, True, (255,255,255))
 
         score_text = f"Score: {self.player.score}"
         score_surface = self.score_font.render(score_text, True, (255,255,0))
+
+        high_score_text = f"High Score: {read_constant_from_file('high_score')}"
+        high_score_surface = self.score_font.render(score_text, True, (255,74,128))
 
         line_spacing = 20
 
@@ -72,9 +76,10 @@ class SizeBarManager:
             bottom_y = self.window.get_height() - self.bar_height - 80 
             self.window.blit(time_surface, (10, bottom_y + line_spacing))
             self.window.blit(size_surface, (10, bottom_y + line_spacing * 2))
-            self.window.blit(level_surface, (10, bottom_y + line_spacing * 3))
+            self.window.blit(size_to_level_up_surface, (10, bottom_y + line_spacing * 3))
+            
             self.window.blit(score_surface, (self.window.get_width() - score_surface.get_rect().width - 10, bottom_y + line_spacing))
-            self.window.blit(size_to_level_up_surface, (self.window.get_width() - size_to_level_up_surface.get_rect().width - 10, bottom_y + line_spacing * 2.5))
+            self.window.blit(level_surface, (self.window.get_width() - level_surface.get_rect().width - 10, bottom_y + line_spacing * 2.5))
 
     def draw(self):
 

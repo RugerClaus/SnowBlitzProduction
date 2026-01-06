@@ -3,7 +3,8 @@ from core.ui.font import FontEngine
 from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
 
 class Button:
-    def __init__(self, window, text, x, y, width, height, text_unhovered_color, text_hovered_color, action=None,active=True):
+    def __init__(self, sound, window, text, x, y, width, height, text_unhovered_color, text_hovered_color, action=None,active=True):
+        self.sound = sound
         self.window = window
         self.text = text
         self.x = x
@@ -19,15 +20,10 @@ class Button:
 
         self.surface = self.window.make_surface(self.width, self.height)
         self.rect = self.surface.get_rect()
-        self.sound = None
         self.hover_sound_played = False
-
-    def get_sound_engine(self,sound):
-        self.sound = sound
 
     def draw(self, mouse_pos):
         self.surface.fill((0, 0, 0),0)
-
         if self.rect.collidepoint(mouse_pos):
             text_color = self.text_hovered_color
             if not self.hover_sound_played:

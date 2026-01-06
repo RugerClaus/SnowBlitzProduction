@@ -4,6 +4,7 @@ from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STAT
 from core.state.GameLayer.Entities.Player.Movement.statemanager import PlayerMoveStateManager
 from core.state.GameLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
 from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
+from core.state.GameLayer.Entities.Player.HighScore.statemanager import PlayerHighScoreStateManager
 from core.game.entities.player.playermechanics import PlayerMechanics as physics
 
 class Player(Entity):
@@ -14,12 +15,15 @@ class Player(Entity):
         self.entitymanager = entitymanager
         self.game_state = game_state
         self.sound = sound
+        self.current_high_score = physics.get_current_high_score()
+        print(self.current_high_score)
         super().__init__(self.x, self.y, board_surface, EntityType.PLAYER, self.base_size)
         self.reset()
 
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
         self.power_state = PlayerPowerStateManager()
+        self.high_score_state = PlayerHighScoreStateManager()
 
         self.last_powerup_start_time = None
         self.powerup_duration = 5000
@@ -45,6 +49,7 @@ class Player(Entity):
         self.x = self.board_surface.get_width() // 2
 
     def update(self):
+        physics.check_high_score(self)
         self.powerup_duration = physics.calculate_powerup_duration(self.score)
         self.shrink_rate = physics.calculate_shrink_rate(self.diam,self)
         self.diam -= self.shrink_rate

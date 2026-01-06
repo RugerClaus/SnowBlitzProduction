@@ -1,10 +1,21 @@
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
+from core.state.GameLayer.Entities.Player.HighScore.state import HIGH_SCORE_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.game.entities.powerups.type import PowerUpType
+from helper import write_constant_to_file,read_constant_from_file
 
 class PlayerMechanics:
+
+    @staticmethod
+    def get_current_high_score():
+        high_score = read_constant_from_file('high_score')
+        if high_score:
+            return int(high_score)
+        else:
+            return 0
+
     @staticmethod
     def update_movement(move_state, speed, x):
         acceleration = 0.05
@@ -31,14 +42,27 @@ class PlayerMechanics:
 
             life_state.set_state(PLAYER_LIFE_STATE.DEAD)
             move_state.set_state(PLAYER_INTENT_STATE.IDLE_MOVE)
-            return True  # Indicating death occurred
+            return True
         return False
 
     def check_death(player,game_state):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
+            high_score = read_constant_from_file('high_score')
+            if high_score:
+                if player.current_high_score <= int(high_score):
+                    write_constant_to_file('high_score',str(player.score))
+                    player.high_score_state.set_state(HIGH_SCORE_STATE.BROKEN)
         else:
             return
+        
+    def check_high_score(player):
+        high_score = read_constant_from_file('high_score')
+        if high_score:
+            if player.current_high_score >= int(high_score):
+                write_constant_to_file('high_score',str(player.score))
+        else:
+            write_constant_to_file('high_score',str(player.score))
 
     def check_power_state(player):
         if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
@@ -107,7 +131,7 @@ class PlayerMechanics:
 
     @staticmethod
     def resize(player):
-        bottom = player.rect.bottom  # save ground position
+        bottom = player.rect.bottom
         player.surface = player.board_surface.make_surface(player.diam, player.diam, True)
         player.rect = player.surface.get_rect()
         player.rect.bottom = bottom
@@ -161,14 +185,10 @@ class PlayerMechanics:
 
     @staticmethod
     def handle_powerup_timer(player):
-        # If the player has an active powerup
         if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
             if player.last_powerup_start_time:
                 current_time = player.board_surface.get_current_time()
-                
-                # Check if the powerup time has elapsed
                 if current_time - player.last_powerup_start_time > player.powerup_duration:
-                    
                     player.color = (255, 255, 255)
                     player.power_state.set_state(PLAYER_POWER_STATE.NONE)
                     player.last_powerup_start_time = None
@@ -178,8 +198,6 @@ class PlayerMechanics:
     def apply_powerup(player, new_power_state, duration):
         player.power_state.set_state(new_power_state)
         player.powerup_duration = duration
-        
-        # Reset the timer
         player.last_powerup_start_time = player.board_surface.get_current_time()
             
 

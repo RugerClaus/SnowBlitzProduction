@@ -19,7 +19,7 @@ class Game:
         self.game_object = SnowBlitz(self.window, self.sound, self.state)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.game_over_menu = GameOverMenu(self.sound,self.window, self.reset_game, self.quit_to_menu, self.quit)
+        self.game_over_menu = GameOverMenu(self.sound,self.window, self.game_object.player.high_score_state, self.reset_game, self.quit_to_menu, self.quit)
         self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
             
     def check_win(self): #this is basically only for the tutorial mode, but needs to be here. no way around it honestly just due to the ease of callback access

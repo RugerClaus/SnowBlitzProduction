@@ -107,4 +107,13 @@
 <p>Overall this is a really big set of updates. The log files are all organized into focused directories as far as state transitioning goes. The volume is saved globally and permanently in the music_volume and sfx_volume constant files. This is a rudimentary save system for system level variables. You can now set your username and opt in to the leaderboard system. The output in those config files will be taken and read from by the network files and automatically integrate the player's highest score into the database with an option to update your high score at every game over screen if you beat your current top score.</p>
 
 <p>Not to mention i have fully fleshed out menu states and pause menu states. The volume controls control both sound effects and music separately. Game SFX is separated from UI SFX such as button clicking and can be toggled separately. Overall this engine is shaping up. I also did my first real implementation of input using soley the inputmanager class on the TextBox. It is decoupled from pygame's input now and the rest of the project will soon follow suit!</p>
-<p></p>
+
+
+<h3>UPDATE 16:</h3>
+
+<p>We have network connectivity now. The username now can be updated in a remote database and so can the score high score once I fix the button logic in the game over menu. you will be able to click: submit score to leaderboard if their high score is higher than the high score at the start of the game. That logic works. It's the game over menu state that's giving me trouble.</p>
+
+<p>Other than that the User() class is purely an interface. It sends data to the server when asked to and nothing more. The high score state stores whether or not the current high score has been broken. this is ultimately determined by the player physics.</p>
+
+<p>So yeah mind-bogglingly massive update. Once I have that figured out, I'll get the GUI for the high score visible and finally start implementing the leaderboard</p>
+
