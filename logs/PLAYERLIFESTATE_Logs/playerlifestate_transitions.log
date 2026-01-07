@@ -4,3 +4,14 @@
 {"timestamp": "2026-01-06T11:14:51.420499", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
 {"timestamp": "2026-01-06T11:15:37.096745", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
 {"timestamp": "2026-01-06T11:17:28.013400", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T03:18:01.791346", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T03:18:28.599946", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T03:18:53.134143", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:19:28.603216", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:20:26.576946", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:21:38.517257", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:22:21.216457", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:23:02.700322", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:24:32.540897", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:24:56.184901", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T06:26:15.542226", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}

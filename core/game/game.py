@@ -36,6 +36,7 @@ class Game:
 
     def resize(self,event_h):
         self.game_object.resize(event_h)
+        self.game_over_menu.create_buttons()
 
     def handle_event(self, event, input):
         input.handle_event(event, True)
