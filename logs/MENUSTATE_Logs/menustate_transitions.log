@@ -125,3 +125,9 @@
 {"timestamp": "2026-01-07T23:32:25.253371", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.AUDIO"}
 {"timestamp": "2026-01-07T23:32:26.600705", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.AUDIO", "to": "MENUSTATE.SETTINGS"}
 {"timestamp": "2026-01-07T23:32:27.307342", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.SETTINGS", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2026-01-08T01:04:30.743714", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDOPTIN"}
+{"timestamp": "2026-01-08T01:04:35.363308", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.LEADERBOARDOPTIN", "to": "MENUSTATE.CREATEUSERNAME"}
+{"timestamp": "2026-01-08T01:04:39.428040", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.CREATEUSERNAME", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2026-01-08T01:13:11.200831", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDOPTIN"}
+{"timestamp": "2026-01-08T01:13:12.537801", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.LEADERBOARDOPTIN", "to": "MENUSTATE.CREATEUSERNAME"}
+{"timestamp": "2026-01-08T01:13:16.730995", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.CREATEUSERNAME", "to": "MENUSTATE.ROOT"}

@@ -71,3 +71,7 @@
 {"timestamp": "2026-01-07T23:32:21.222091", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN", "to": "LOAD_SCREEN_STATE.NONE"}
 {"timestamp": "2026-01-08T00:55:12.597412", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
 {"timestamp": "2026-01-08T00:57:09.690368", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-08T00:59:09.187969", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-08T01:02:21.833074", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-08T01:04:30.758662", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-08T01:13:11.216519", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}

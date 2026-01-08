@@ -3,8 +3,8 @@ import requests,json
 from helper import *
 class User:
     def __init__(self):
-        self.setusernameURL = 'http://localhost:8000/createUsername.php'
-        self.setuserhighscoreURL = 'http://localhost:8000/setUserHighScore.php'
+        self.setusernameURL = 'https://snowblitz.net/api/createUsername.php'
+        self.setuserhighscoreURL = 'https://snowblitz.net/api/setUserHighScore.php'
 
     def get_username(self):
         username = read_constant_from_file('username')
@@ -26,13 +26,10 @@ class User:
             data = {"username": str(username)}
             try:
                 response = requests.post(self.setusernameURL, json=data)
-                if response:
-                    if response.status_code == 200:
-                        log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
-                    else:
-                        log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
+                if response.status_code == 200:
+                    log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
                 else:
-                    log_error(f"No server found")
+                    log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
             except requests.exceptions.RequestException as e:
                 log_error(f"Network error while sending username: {e} Status: {response.status_code}; Response: {response.text}")
         else:
@@ -50,13 +47,10 @@ class User:
             try:
                 print("sending score to db")
                 response = requests.post(self.setuserhighscoreURL, json=data)
-                if response:
-                    if response.status_code == 200:
-                        log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
-                    else:
-                        log_error(f"Failed to send highscore for {username}. Status: {response.status_code}; Response: {response.text}")
+                if response.status_code == 200:
+                    log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
                 else:
-                    log_error(f"No server found")
+                    log_error(f"Failed to send highscore for {username}. Status: {response.status_code}; Response: {response.text}")
             except requests.exceptions.RequestException as e:
                 log_error(f"Network error while sending high score: {e} Status: {response.status_code}; Response: {response.text}")
         else:
