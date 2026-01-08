@@ -1,0 +1,5 @@
+{"timestamp": "2026-01-07T08:05:15.456467", "type": "APPMODE", "ticks": "application", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2026-01-07T08:08:15.807308", "type": "APPMODE", "ticks": "application", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2026-01-07T19:12:08.807707", "type": "APPMODE", "ticks": "application", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}
+{"timestamp": "2026-01-07T19:12:10.892078", "type": "APPMODE", "ticks": "application", "from": "APPMODE.DEBUG", "to": "APPMODE.PRIMARY"}
+{"timestamp": "2026-01-07T19:30:26.897705", "type": "APPMODE", "ticks": "application", "from": "APPMODE.PRIMARY", "to": "APPMODE.DEBUG"}

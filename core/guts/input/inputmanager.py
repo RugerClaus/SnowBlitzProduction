@@ -16,6 +16,21 @@ class InputManager:
         self.last_key_time = 0
         self.key_display_timeout = 1000
 
+    def video_resize_event(self):
+        return pygame.VIDEORESIZE
+    
+    def mouse_button_down(self):
+        return pygame.MOUSEBUTTONDOWN
+    
+    def get_mouse_pos(self):
+        return pygame.mouse.get_pos()
+    
+    def keydown(self):
+        return pygame.KEYDOWN
+
+    def quit_event(self):
+        return pygame.QUIT
+
     def handle_event(self, event,needskeys=False):
         now = self.window.get_current_time()
         if needskeys:
@@ -42,6 +57,9 @@ class InputManager:
                 self.released_keys.add(event.key)
 
             return None
+        
+    def input_event(self):
+        return pygame.event.get()
         
     def get_key_name(self,key):
         return pygame.key.name(key)

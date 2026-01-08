@@ -1,5 +1,3 @@
-import pygame
-
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.Loading.state import LOAD_SCREEN_STATE
 from core.state.ApplicationLayer.Loading.statemanager import LoadingStateManager

@@ -1,2 +1,9 @@
 {"timestamp": "2026-01-06T11:15:38.508888", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.MOVEMENT_PROMPT", "to": "TUTORIALSTATE.RESET"}
 {"timestamp": "2026-01-07T03:16:31.759987", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.MOVEMENT_PROMPT", "to": "TUTORIALSTATE.RESET"}
+{"timestamp": "2026-01-07T08:07:09.962990", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.MOVEMENT_PROMPT", "to": "TUTORIALSTATE.BEGIN"}
+{"timestamp": "2026-01-07T08:07:12.456075", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.BEGIN", "to": "TUTORIALSTATE.SNOW_PROMPT"}
+{"timestamp": "2026-01-07T08:07:13.016698", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.SNOW_PROMPT", "to": "TUTORIALSTATE.SNOW"}
+{"timestamp": "2026-01-07T08:07:21.602085", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.MOVEMENT_PROMPT", "to": "TUTORIALSTATE.RESET"}
+{"timestamp": "2026-01-07T08:07:23.194211", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.RESET", "to": "TUTORIALSTATE.MOVEMENT_PROMPT"}
+{"timestamp": "2026-01-07T08:07:23.995847", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.MOVEMENT_PROMPT", "to": "TUTORIALSTATE.RESET"}
+{"timestamp": "2026-01-07T19:25:09.641909", "type": "TUTORIALSTATE", "ticks": "game/mode/tutorial", "from": "TUTORIALSTATE.MOVEMENT_PROMPT", "to": "TUTORIALSTATE.RESET"}

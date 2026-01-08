@@ -37,3 +37,16 @@
 {"timestamp": "2026-01-07T06:26:04.776991", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
 {"timestamp": "2026-01-07T06:26:05.000190", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}
 {"timestamp": "2026-01-07T06:26:15.542695", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.GAME_OVER"}
+{"timestamp": "2026-01-07T08:07:14.543185", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-07T08:07:20.720002", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-07T08:07:21.601931", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}
+{"timestamp": "2026-01-07T08:07:23.466039", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-07T08:07:23.995684", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}
+{"timestamp": "2026-01-07T08:07:45.975567", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-07T08:12:37.597821", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}
+{"timestamp": "2026-01-07T08:12:40.202873", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.GAME_OVER"}
+{"timestamp": "2026-01-07T08:12:41.180373", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.GAME_OVER", "to": "GAMESTATE.PLAYING"}
+{"timestamp": "2026-01-07T19:25:07.939399", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-07T19:25:09.641724", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PAUSED", "to": "GAMESTATE.PLAYING"}
+{"timestamp": "2026-01-07T19:34:00.163578", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}
+{"timestamp": "2026-01-07T20:13:06.480992", "type": "GAMESTATE", "ticks": "game", "from": "GAMESTATE.PLAYING", "to": "GAMESTATE.PAUSED"}

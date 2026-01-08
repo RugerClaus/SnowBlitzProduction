@@ -1,5 +1,3 @@
-import pygame
-
 from core.state.GameLayer.state import GAMESTATE
 from core.state.GameLayer.statemanager import GameStateManager
 from core.state.GameLayer.GameMode.state import GAME_MODE
@@ -11,16 +9,17 @@ from core.menus.gameover import GameOverMenu
 from core.menus.win import Win
 
 class Game:
-    def __init__(self, window, sound, menu_callback, quit_callback):
+    def __init__(self, window, sound, input, menu_callback, quit_callback):
         self.state = GameStateManager()
         self.game_mode = GameModeManager()
         self.window = window
         self.sound = sound
+        self.input = input
         self.game_object = SnowBlitz(self.window, self.sound, self.state)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
-        self.game_over_menu = GameOverMenu(self.sound,self.window, self.reset_game, self.quit_to_menu, self.quit)
-        self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
+        self.game_over_menu = GameOverMenu(self.sound,self.window, self.input, self.reset_game, self.quit_to_menu, self.quit)
+        self.pause_menu = Pause(self.window, self.game_object, self.sound, self.input, self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
             
     def check_win(self): #this is basically only for the tutorial mode, but needs to be here. no way around it honestly just due to the ease of callback access
         if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
@@ -39,10 +38,9 @@ class Game:
         self.game_over_menu.create_buttons()
 
     def handle_event(self, event, input):
-        input.handle_event(event, True)
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
+        if event.type == self.input.keydown():
+            if self.input.get_key_name(event.key) == "escape":
                 
                 if self.state.is_state(GAMESTATE.PAUSED):
                     self.pause_menu.back_to_root()
@@ -52,15 +50,13 @@ class Game:
         
         if self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.handle_event()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_7:
+            if event.type == self.input.keydown():
+                if self.input.get_key_name(event.key) == "7":
                     self.game_object.player.current_level = 15
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
-            if event.type == pygame.KEYDOWN:
-                if input.last_key == pygame.K_9:
-                    self.quit_to_menu()
+
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.handle_event(event)
             
@@ -78,9 +74,9 @@ class Game:
             elif self.game_mode.is_state(GAME_MODE.BLITZ):
                 self.game_object.init_blitz()
             elif self.game_mode.is_state(GAME_MODE.TUTORIAL):
-                self.game_over_menu = GameOverMenu(self.sound,self.window,self.reset_tutorial, self.quit_to_menu, self.quit)
-                self.pause_menu = Pause(self.window, self.game_object, self.sound,self.toggle_pause, self.quit_to_menu, self.quit, self.reset_tutorial)
-                self.win = Win(self.sound,self.window,self.reset_tutorial,self.quit_to_menu,self.quit)
+                self.game_over_menu = GameOverMenu(self.sound,self.window,self.input,self.reset_tutorial, self.quit_to_menu, self.quit)
+                self.pause_menu = Pause(self.window, self.game_object, self.sound, self.input, self.toggle_pause, self.quit_to_menu, self.quit, self.reset_tutorial)
+                self.win = Win(self.sound,self.window,self.input,self.reset_tutorial,self.quit_to_menu,self.quit)
                 self.game_object.init_tutorial()
                 self.check_win()
         elif self.state.is_state(GAMESTATE.GAME_OVER):

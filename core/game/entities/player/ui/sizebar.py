@@ -39,7 +39,7 @@ class SizeBarManager:
             self.location = SizeBar.BOTTOM
 
     def draw_player_info(self):
-        elapsed_ms = pygame.time.get_ticks() - self.start_time
+        elapsed_ms = self.window.get_current_time() - self.start_time
         seconds = (elapsed_ms // 1000) % 60
         minutes = (elapsed_ms // 60000)
 
@@ -92,22 +92,22 @@ class SizeBarManager:
             fill_width = int(self.bar_width * progress)
             fill_width = max(fill_width, 1)
 
-            outline_rect = pygame.Rect(0, 0, self.bar_width, self.bar_height)
+            outline_rect = self.window.Rect(0, 0, self.bar_width, self.bar_height)
 
             fill_color = (
                 max(0, min(255, int(255 * (1 - progress)))),
                 max(0, min(255, int(255 * progress))),
                 0
             )
-            fill_rect = pygame.Rect(
+            fill_rect = self.window.Rect(
                 outline_rect.left + 2,       
                 outline_rect.top + 2,        
                 fill_width - 4,
                 self.bar_height - 4
             )
 
-            pygame.draw.rect(self.surface, fill_color, fill_rect)
-            pygame.draw.rect(self.surface, (255, 255, 255), outline_rect, 2)
+            self.window.draw_rect(self.surface, fill_color, fill_rect)
+            self.window.draw_rect(self.surface, (255, 255, 255), outline_rect, 2)
 
         self.draw_player_info()
 

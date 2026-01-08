@@ -1,4 +1,3 @@
-import pygame
 import math
 from core.menus.basemenu import BaseMenu
 from core.ui.button import Button
@@ -11,9 +10,10 @@ from core.game.entities.player.ui.sizebar import SizeBar
 from core.state.GameLayer.state import GAMESTATE
 
 class Pause(BaseMenu):
-    def __init__(self, window, game, sound, resume_callback, menu_callback, quit_callback, reset_game_callback):
+    def __init__(self, window, game, sound, input, resume_callback, menu_callback, quit_callback, reset_game_callback):
         self.window = window
         self.sound = sound
+        self.input = input
         self.game = game
         super().__init__(window, sound)
         self.resume_callback = resume_callback
@@ -98,17 +98,17 @@ class Pause(BaseMenu):
         self.create_buttons()
 
     def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_pos = pygame.mouse.get_pos()
+        if event.type == self.input.mouse_button_down() and event.button == 1:
+            mouse_pos = self.input.get_mouse_pos()
             for button in self.buttons:
                 button.is_clicked(mouse_pos, True)
                 
 
-        elif event.type == pygame.VIDEORESIZE:
+        elif event.type == self.input.video_resize_event():
             self.on_resize()
 
     def draw(self):
-        t = pygame.time.get_ticks() / 1000
+        t = self.window.get_current_time() / 1000
         pulse = (math.sin(t) + 1) / 2
         fade_color = (
             0,
@@ -117,7 +117,7 @@ class Pause(BaseMenu):
         )
         self.window.fill(fade_color)
 
-        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos = self.input.get_mouse_pos()
         for button in self.buttons:
             button.draw(mouse_pos)
 

@@ -1,12 +1,11 @@
-import pygame
-
 from core.ui.font import FontEngine
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class Debugger:
-    def __init__(self,game,state,window,sound,loading,developer_mode):
+    def __init__(self,game,state,window,sound,input,loading,developer_mode):
         self.sound = sound
+        self.input = input
         self.game = game
         self.state = state
         self.window = window
@@ -26,13 +25,7 @@ class Debugger:
         self.rect = self.surface.get_rect()
 
     def handle_event(self,event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
-                if self.check_in_game_state():
-                    print("In game")
-                else:
-                    print("Not in game")
-        if event.type == pygame.VIDEORESIZE:
+        if event.type == self.input.video_resize_event():
             self.scale()
     
 

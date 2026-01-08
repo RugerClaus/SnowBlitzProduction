@@ -1,4 +1,3 @@
-import pygame
 import math
 from core.menus.basemenu import BaseMenu
 from core.menus.usercreator import UserCreator
@@ -10,10 +9,11 @@ from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
 
 class Menu(BaseMenu):
-    def __init__(self, developer_mode, window, sound, endless_callback, blitz_callback, tutorial_callback, quit_callback):
+    def __init__(self, developer_mode, window, sound, input, endless_callback, blitz_callback, tutorial_callback, quit_callback):
         self.developer_mode = developer_mode
         self.window = window
         self.sound = sound
+        self.input = input
         super().__init__(window, sound)
         self.endless_callback = endless_callback
         self.blitz_callback = blitz_callback
@@ -22,7 +22,7 @@ class Menu(BaseMenu):
         self.state = MenuStateManager()
         self.credits = Credits(self.window)
         self.agreed_to_leaderboard = check_leaderboard_opt()
-        self.user_creator = UserCreator(self.window,self.sound,self.state)
+        self.user_creator = UserCreator(self.window,self.sound,self.state,self.input)
 
         self.title_image_original = self.window.load_image(asset("title"))
         self.title_image = self.title_image_original
@@ -47,6 +47,7 @@ class Menu(BaseMenu):
         self.title_image = pygame.transform.scale(self.title_image_original, (new_title_width, new_title_height))
         self.title_rect = self.title_image.get_rect(center=(window_w // 2, int(window_h * 0.2)))
         self.credits.rescale()
+        self.user_creator.scale()
 
     def create_buttons(self):
         window_w, window_h = self.window.get_size()
@@ -211,11 +212,11 @@ class Menu(BaseMenu):
         self.create_buttons()
 
     def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_pos = pygame.mouse.get_pos()
+        if event.type == self.input.mouse_button_down() and event.button == 1:
+            mouse_pos = self.input.get_mouse_pos()
             for button in self.buttons:
                 button.is_clicked(mouse_pos, True)
-        elif event.type == pygame.VIDEORESIZE:
+        elif event.type == self.input.video_resize_event():
             self.scale()
         self.user_creator.handle_event(event)
 
@@ -237,7 +238,7 @@ class Menu(BaseMenu):
             self.set_title(None)
             self.set_query("DO YOU AGREE TO HAVE YOUR SCORES POSTED ON A GLOBAL LEADERBOARD?")
 
-        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos = self.input.get_mouse_pos()
         for button in self.buttons:
             button.draw(mouse_pos)
 

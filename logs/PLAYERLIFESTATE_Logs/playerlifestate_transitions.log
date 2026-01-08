@@ -15,3 +15,4 @@
 {"timestamp": "2026-01-07T06:24:32.540897", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
 {"timestamp": "2026-01-07T06:24:56.184901", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
 {"timestamp": "2026-01-07T06:26:15.542226", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-07T08:12:40.185804", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}

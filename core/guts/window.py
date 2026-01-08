@@ -15,6 +15,7 @@ class Window:
         self.clock = pygame.time.Clock()
         self.fullscreen = False
         self.set_screen()
+        self.Rect = pygame.Rect
         
     def set_screen(self,width=None,height=None):
         if width is None and height is None:
@@ -121,6 +122,9 @@ class Window:
     def get_fps(self):
         return self.clock.get_fps()
     
+    def quit(self):
+        return pygame.quit()
+
 class Surface(pygame.Surface):
     def __init__(self, width, height, alpha=False):
         flags = pygame.SRCALPHA if alpha else 0
