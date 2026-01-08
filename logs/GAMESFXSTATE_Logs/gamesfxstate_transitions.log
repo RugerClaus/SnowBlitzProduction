@@ -63,3 +63,13 @@
 {"timestamp": "2026-01-07T19:33:58.505763", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
 {"timestamp": "2026-01-07T19:55:28.665816", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
 {"timestamp": "2026-01-07T20:12:55.951344", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-07T22:21:34.946672", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-07T22:29:54.103987", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-07T22:31:10.098543", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-07T22:47:26.064445", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-07T23:30:04.413239", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-07T23:30:47.449417", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.ON", "to": "GAME_SFX_STATE.OFF"}
+{"timestamp": "2026-01-07T23:30:47.964849", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.OFF", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-07T23:32:17.680925", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-08T00:55:12.563987", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}
+{"timestamp": "2026-01-08T00:57:09.652996", "type": "GAMESFXSTATE", "ticks": "audio", "from": "GAME_SFX_STATE.NONE", "to": "GAME_SFX_STATE.ON"}

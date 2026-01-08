@@ -15,3 +15,5 @@
 {"timestamp": "2026-01-07T08:08:25.162327", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.AUDIO"}
 {"timestamp": "2026-01-07T08:12:35.620409", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.AUDIO", "to": "PAUSE_MENU_STATE.SETTINGS"}
 {"timestamp": "2026-01-07T08:12:36.429710", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.ROOT"}
+{"timestamp": "2026-01-07T22:57:56.527066", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.ROOT", "to": "PAUSE_MENU_STATE.SETTINGS"}
+{"timestamp": "2026-01-07T22:57:58.531712", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.ROOT"}

@@ -72,3 +72,16 @@
 {"timestamp": "2026-01-07T19:33:58.505687", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
 {"timestamp": "2026-01-07T19:55:28.665764", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
 {"timestamp": "2026-01-07T20:12:55.951287", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-07T22:21:34.946619", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-07T22:21:46.074385", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.ON", "to": "MUSIC_STATE.OFF"}
+{"timestamp": "2026-01-07T22:29:54.103934", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-07T22:31:10.098468", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-07T22:31:18.731757", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.ON", "to": "MUSIC_STATE.OFF"}
+{"timestamp": "2026-01-07T22:47:26.064283", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-07T22:47:34.525624", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.ON", "to": "MUSIC_STATE.OFF"}
+{"timestamp": "2026-01-07T23:30:04.413169", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-07T23:30:53.576663", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.ON", "to": "MUSIC_STATE.OFF"}
+{"timestamp": "2026-01-07T23:30:54.846478", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.OFF", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-07T23:32:17.680856", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-08T00:55:12.563929", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}
+{"timestamp": "2026-01-08T00:57:09.652920", "type": "MUSICSTATE", "ticks": "audio", "from": "MUSIC_STATE.NONE", "to": "MUSIC_STATE.ON"}

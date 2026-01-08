@@ -26,10 +26,13 @@ class User:
             data = {"username": str(username)}
             try:
                 response = requests.post(self.setusernameURL, json=data)
-                if response.status_code == 200:
-                    log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
+                if response:
+                    if response.status_code == 200:
+                        log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
+                    else:
+                        log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
                 else:
-                    log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
+                    log_error(f"No server found")
             except requests.exceptions.RequestException as e:
                 log_error(f"Network error while sending username: {e} Status: {response.status_code}; Response: {response.text}")
         else:
@@ -47,10 +50,13 @@ class User:
             try:
                 print("sending score to db")
                 response = requests.post(self.setuserhighscoreURL, json=data)
-                if response.status_code == 200:
-                    log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
+                if response:
+                    if response.status_code == 200:
+                        log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
+                    else:
+                        log_error(f"Failed to send highscore for {username}. Status: {response.status_code}; Response: {response.text}")
                 else:
-                    log_error(f"Failed to send highscore for {username}. Status: {response.status_code}; Response: {response.text}")
+                    log_error(f"No server found")
             except requests.exceptions.RequestException as e:
                 log_error(f"Network error while sending high score: {e} Status: {response.status_code}; Response: {response.text}")
         else:

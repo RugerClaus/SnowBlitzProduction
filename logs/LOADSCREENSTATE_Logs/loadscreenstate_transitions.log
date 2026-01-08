@@ -61,3 +61,13 @@
 {"timestamp": "2026-01-07T19:33:58.538026", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
 {"timestamp": "2026-01-07T19:55:28.700863", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
 {"timestamp": "2026-01-07T20:12:55.982925", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-07T22:21:34.982797", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-07T22:29:54.137009", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-07T22:31:10.132617", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-07T22:47:26.098905", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-07T23:30:04.445483", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-07T23:30:07.947715", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN", "to": "LOAD_SCREEN_STATE.NONE"}
+{"timestamp": "2026-01-07T23:32:17.715917", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-07T23:32:21.222091", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN", "to": "LOAD_SCREEN_STATE.NONE"}
+{"timestamp": "2026-01-08T00:55:12.597412", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
+{"timestamp": "2026-01-08T00:57:09.690368", "type": "LOADSCREENSTATE", "ticks": "application/loadscreenstates", "from": "LOAD_SCREEN_STATE.NONE", "to": "LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN"}
