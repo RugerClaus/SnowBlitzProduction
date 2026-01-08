@@ -1,4 +1,3 @@
-import pygame
 from enum import Enum, auto
 from core.ui.font import FontEngine
 from helper import read_constant_from_file
