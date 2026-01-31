@@ -24,6 +24,7 @@ function build_linux() {
 
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
+    --noconsole \
     --name "$APP_NAME" \
     --add-data "$ROOT/assets:assets" \
     --add-data "$ROOT/logs:logs" \
@@ -48,6 +49,7 @@ function build_windows() {
 
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
+    --noconsole \
     --name "$APP_NAME.exe" \
     --add-data "$ROOT/assets;assets" \
     --add-data "$ROOT/logs;logs" \
@@ -73,6 +75,7 @@ function build_macos() {
 
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
+    --noconsole \
     --name "$APP_NAME" \
     --add-data "$ROOT/assets:assets" \
     --add-data "$ROOT/logs:logs" \
