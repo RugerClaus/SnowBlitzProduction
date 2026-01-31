@@ -134,3 +134,9 @@
 <p>So we've come full circle. The next updates will be adding error and event logging to every single part of the program for more observability and finally adding the developer console to expose the game object and all its variables. From there I'll have to integrate the steamworks API. For now though, I should probably focus on the game more, and then add the error/event logging everywhere. Just to make sure the game is good enough for release. It's totally playable, and engaging, but I feel I could make the game itself more polished (i.e. add a ground that the snowball moves on (this is a no brainer that could be added in a few minutes) or maybe the sun).</p>
 
 <p>I'm at the point now, where an actual release is totally reasonable. I can start packaging this as it is now and start distributing to the play testers and then finally create an isolated repo for this codebase and remove it as a branch on the Distant Realms Framework's repo.</p>
+
+
+TO BUILD:
+
+USE chmod +x build.sh
+THEN ./build.sh [OPERATING_SYSTEM_TYPE]
