@@ -27,4 +27,5 @@ class UserCreator:
         if username is not None:
             print('writing username file')
             write_constant_to_file('username',str(username))
+            self.text_box.box.clear()
             self.user.send_username_to_api()

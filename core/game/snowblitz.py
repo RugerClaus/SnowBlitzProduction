@@ -4,7 +4,7 @@ from core.game.modes.blitz import Blitz
 from core.game.modes.tutorial.tutorial import Tutorial
 from core.game.entities.player.player import Player
 from core.game.controls import Controls
-from core.game.entities.player.ui.sizebar import SizeBarManager, SizeBar
+from core.game.entities.player.ui.uimanager import PlayerUIManager
 from core.game.entities.entitymanager import EntityManager
 
 from core.game.modes.tutorial.tutorialmanager import TutorialManager
@@ -22,8 +22,7 @@ class SnowBlitz:
         self.controls = Controls()
         self.controls.set_controls(pygame.K_a,pygame.K_d)
         self.start_time = self.board_surface.get_current_time()
-        self.progress_bar = SizeBarManager(self.board_surface,self.player,self.start_time)
-        
+        self.progress_bar = PlayerUIManager(self.board_surface,self.player,self.start_time)
         self.prompts = Prompts(self.board_surface,self.player)
         self.tutorial_state = TutorialStateManager()
         self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
@@ -58,6 +57,7 @@ class SnowBlitz:
 
     def reset(self):
         self.player.reset()
+        self.progress_bar.draw()
         self.entitymanager.reset_entities()
     
     def reset_tutorial(self):

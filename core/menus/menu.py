@@ -126,6 +126,7 @@ class Menu(BaseMenu):
         elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.buttons = [
                 Button(self.sound, self.window, f"Submit", center_x, self.window.get_height() // 2 + spacing * 0.4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.submit_username),
+                Button(self.sound, self.window, f"Back", center_x, self.window.get_height() // 2 + spacing * 1.4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.back_to_root),
             ]
     
         elif self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
@@ -152,7 +153,6 @@ class Menu(BaseMenu):
         self.create_buttons()
 
     def reset_username(self):
-        delete_constant_file('username')
         self.state.set_state(MENUSTATE.CREATEUSERNAME)
         self.create_buttons()
 

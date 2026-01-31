@@ -120,3 +120,9 @@
 <h3>UPDATE 16:</h3>
 
 <p>Final update before bed. I removed the entire idea of clicking a button to send your score. i just automatically send the newest high score to the database upon game over if the player's current score is higher than the current high score. eventually this will just pull from the server high score to keep things consistent. If you close the game midgame it will keep your score, so once I have the server be the ultimate source of truth for that, I can just delete the score file upon closing the game. and pre-emptively at the main menu so it always checks with the server. maybe i'll add a toggle for this warning players of the potential consequences.</p>
+
+<h3>UPDATE 17:</h3>
+
+<p>So this is a relatively minor update. Really just some QOL stuff. Fixed the scaling and positioning for the in game UI text (score,level,high score). Fixed scaling for the game over menu. Which was a problem. Just reinitialized the object upon resize in the GameObject.</p>
+
+<p>So i've been sitting here thinking I lack a game object. Much like main stream game engines which have such an object for accessing all the game's variables. I'm silly. Of course I do. It's the game class, which is functionally the same as any other game engine's Game Object. You can absolutely do that. The game_object in Game gives specific access to the game whereas the Game class is a shell for that along with core game functionality (pausing, game over, etc...) whereas the game_object property on it actually gives access to the game and all its attributes, functions and variables itself. A bit messy IMO, and I can clean it up later. This is really just an architectural lesson for me.</p>

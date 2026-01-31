@@ -37,7 +37,6 @@ class GameOverMenu(BaseMenu):
             for button in self.buttons:
                 button.is_clicked(mouse_pos, True)
         elif event.type == self.input.video_resize_event():
-            self.window.get_size()
             self.create_buttons()
 
     def draw(self):
@@ -52,7 +51,7 @@ class GameOverMenu(BaseMenu):
 
         text = self.font.render("GAME OVER", True, (255, 0, 0))
         rect = text.get_rect(center=(self.window.get_screen().get_width() // 2, self.window.get_screen().get_height() // 4))
-        self.window.get_screen().blit(text, rect)
+        self.window.blit(text, rect)
 
         mouse_pos = self.input.get_mouse_pos()
         for button in self.buttons:

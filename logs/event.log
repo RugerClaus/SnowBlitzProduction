@@ -27954,3 +27954,270 @@
 {"timestamp": "2026-01-08T01:13:49.562003", "event": "What happened: File saves/constants/high_score does not exist."}
 {"timestamp": "2026-01-08T01:13:49.562130", "event": "What happened: Constant '85' written to saves/constants/high_score"}
 {"timestamp": "2026-01-08T01:13:49.739165", "event": "What happened: Highscore added for rugerclaus. Status: 200; Response: {'success': True, 'message': 'New score added to leaderboard'}"}
+{"timestamp": "2026-01-20T01:40:55.902747", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-20T01:40:55.902954", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-20T01:42:14.062293", "event": "What happened: Constant '414' written to saves/constants/high_score"}
+{"timestamp": "2026-01-20T01:42:14.211650", "event": "What happened: Highscore added for assaultdroid. Status: 200; Response: {'success': True, 'message': 'Score updated successfully'}"}
+{"timestamp": "2026-01-20T01:46:50.922601", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-20T01:46:50.922879", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-20T01:47:04.039519", "event": "What happened: File saves/constants/username does not exist."}
+{"timestamp": "2026-01-20T01:47:06.724255", "event": "What happened: Constant 'assaultdroid' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:47:06.850542", "event": "What happened: Username added to global database. Status: 200; Response: {'success': False, 'message': 'Username already exists'}"}
+{"timestamp": "2026-01-20T01:47:12.005420", "event": "What happened: Constant 'assaultdroid' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:47:12.055592", "event": "What happened: Username added to global database. Status: 200; Response: {'success': False, 'message': 'Username already exists'}"}
+{"timestamp": "2026-01-20T01:48:47.780332", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-20T01:48:47.780594", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-20T01:48:57.428010", "event": "What happened: File saves/constants/username does not exist."}
+{"timestamp": "2026-01-20T01:49:00.634158", "event": "What happened: Constant 'assaultdroid' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:49:00.695145", "event": "What happened: Username added to global database. Status: 200; Response: {'success': False, 'message': 'Username already exists'}"}
+{"timestamp": "2026-01-20T01:49:05.811047", "event": "What happened: File saves/constants/username does not exist."}
+{"timestamp": "2026-01-20T01:49:07.402658", "event": "What happened: File saves/constants/username does not exist."}
+{"timestamp": "2026-01-20T01:49:09.829473", "event": "What happened: Constant 'assaultdroid' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:49:09.880243", "event": "What happened: Username added to global database. Status: 200; Response: {'success': False, 'message': 'Username already exists'}"}
+{"timestamp": "2026-01-20T01:50:59.181140", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-20T01:50:59.181539", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-20T01:51:14.551548", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-20T01:51:14.551698", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-20T01:51:18.049237", "event": "What happened: File saves/constants/username does not exist."}
+{"timestamp": "2026-01-20T01:51:21.507325", "event": "What happened: File saves/constants/username does not exist."}
+{"timestamp": "2026-01-20T01:51:23.873243", "event": "What happened: Constant 'assaultdroid' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:51:23.984403", "event": "What happened: Username added to global database. Status: 200; Response: {'success': False, 'message': 'Username already exists'}"}
+{"timestamp": "2026-01-20T01:52:07.395828", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-20T01:52:07.396158", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-20T01:52:16.692012", "event": "What happened: File saves/constants/username does not exist."}
+{"timestamp": "2026-01-20T01:52:19.227952", "event": "What happened: Constant 'assaultdroid' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:52:19.282257", "event": "What happened: Username added to global database. Status: 200; Response: {'success': False, 'message': 'Username already exists'}"}
+{"timestamp": "2026-01-20T01:52:30.630664", "event": "What happened: Constant 'stonewall' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:52:30.687594", "event": "What happened: Username added to global database. Status: 200; Response: {'success': True, 'message': 'Username created successfully'}"}
+{"timestamp": "2026-01-20T01:52:55.316615", "event": "What happened: Constant 'assaultdroid' written to saves/constants/username"}
+{"timestamp": "2026-01-20T01:52:55.371227", "event": "What happened: Username added to global database. Status: 200; Response: {'success': False, 'message': 'Username already exists'}"}
+{"timestamp": "2026-01-24T03:28:53.730854", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-24T03:28:53.731130", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-24T03:28:59.267648", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-24T03:28:59.267881", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-24T03:30:07.975531", "event": "What happened: Constant '0.2' written to saves/constants/music_volume"}
+{"timestamp": "2026-01-24T03:30:08.121811", "event": "What happened: Constant '0.1' written to saves/constants/music_volume"}
+{"timestamp": "2026-01-24T03:30:09.372470", "event": "What happened: Constant '0.3' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:30:09.548155", "event": "What happened: Constant '0.4' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:30:09.725237", "event": "What happened: Constant '0.5' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:30:09.854075", "event": "What happened: Constant '0.6' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:30:10.705053", "event": "What happened: Constant '0.5' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:30:10.869570", "event": "What happened: Constant '0.4' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:30:11.027967", "event": "What happened: Constant '0.3' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:30:11.190630", "event": "What happened: Constant '0.2' written to saves/constants/sfx_volume"}
+{"timestamp": "2026-01-24T03:31:44.333715", "event": "What happened: Constant '520' written to saves/constants/high_score"}
+{"timestamp": "2026-01-24T03:31:44.505791", "event": "What happened: Highscore added for assaultdroid. Status: 200; Response: {'success': True, 'message': 'Score updated successfully'}"}
+{"timestamp": "2026-01-24T03:36:13.750529", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-24T03:36:13.750651", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T19:34:43.309429", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T19:34:43.309729", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:20:57.899949", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:20:57.901055", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:21:23.999935", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:21:24.000160", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:21:40.374703", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:21:40.375197", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:22:08.358782", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:22:08.359185", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:23:43.772721", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:23:43.772898", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:24:47.812237", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:24:47.812382", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:25:01.218584", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:25:01.218759", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:27:14.503397", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:27:14.503664", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:27:34.276989", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:27:34.277306", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:28:04.130798", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:28:04.131040", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:28:28.421177", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:28:28.421726", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:29:04.951974", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:29:04.952137", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:31:22.904590", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:31:22.904716", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:31:48.607838", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:31:48.608145", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:32:06.665469", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:32:06.665726", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:32:17.574655", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:32:17.574960", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:32:30.033348", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:32:30.033593", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:33:12.613739", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:33:12.614073", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:33:32.055330", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:33:32.055462", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:33:45.751778", "event": "What happened: Constant '0.0' written to saves/constants/music_volume"}
+{"timestamp": "2026-01-30T22:34:48.424467", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:34:48.424603", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:35:16.907391", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:35:16.907531", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:36:13.529799", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:36:13.529953", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:36:28.090857", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:36:28.091127", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:36:51.102343", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:36:51.102493", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:37:15.794732", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:37:15.794915", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:37:48.815605", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:37:48.815741", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:38:32.993676", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:38:32.993819", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:39:44.661852", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:39:44.662007", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:40:25.459981", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:40:25.460116", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:41:05.296635", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:41:05.296920", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:41:26.194744", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:41:26.194860", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:41:53.663839", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:41:53.664236", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T22:42:07.119886", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T22:42:07.120209", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:28:14.740728", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:28:14.740901", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:28:48.041932", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:28:48.042263", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:31:31.968919", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:31:31.969283", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:31:55.813295", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:31:55.813470", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:32:21.835671", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:32:21.835903", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:32:29.322709", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:32:29.322914", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:32:45.292631", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:32:45.292769", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:33:22.495007", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:33:22.495302", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:33:36.165815", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:33:36.165966", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:34:46.415853", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:34:46.416040", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:34:58.023524", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:34:58.023694", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:35:19.118456", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:35:19.118626", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:35:42.968153", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:35:42.968333", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:37:13.289538", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:37:13.289794", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:37:43.036110", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:37:43.036283", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:38:01.328029", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:38:01.328197", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:38:30.915915", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:38:30.916104", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:38:49.112427", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:38:49.112555", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:39:24.346832", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:39:24.347150", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:39:47.631959", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:39:47.632092", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:40:18.957039", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:40:18.957211", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:41:08.790067", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:41:08.790219", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:44:19.147325", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:44:19.147646", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:44:23.066509", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:44:23.066661", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:45:09.394862", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:45:09.395031", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:45:55.867171", "event": "What happened: Constant '0.1' written to saves/constants/music_volume"}
+{"timestamp": "2026-01-30T23:45:56.091779", "event": "What happened: Constant '0.2' written to saves/constants/music_volume"}
+{"timestamp": "2026-01-30T23:45:58.037283", "event": "What happened: Constant '0.1' written to saves/constants/music_volume"}
+{"timestamp": "2026-01-30T23:46:54.647095", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:46:54.647265", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:47:16.508067", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:47:16.508242", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:47:37.960871", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:47:37.961160", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:48:23.894932", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:48:23.895057", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:48:57.412634", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:48:57.412845", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:49:17.353217", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:49:17.353438", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:49:26.603291", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:49:26.603462", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:49:38.146642", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:49:38.146811", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:49:47.231462", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:49:47.231614", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:50:43.678174", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:50:43.678404", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:51:42.470006", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:51:42.470171", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:51:58.663397", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:51:58.663595", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:52:10.232439", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:52:10.232664", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:52:29.548504", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:52:29.548650", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:53:10.058704", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:53:10.058849", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:54:16.669075", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:54:16.669316", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:54:42.858755", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:54:42.858911", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:54:57.607864", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:54:57.608030", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:55:10.928655", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:55:10.928815", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:55:18.037994", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:55:18.038303", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:55:31.370111", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:55:31.370424", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:55:43.822856", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:55:43.823056", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:56:01.071777", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:56:01.072052", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:57:52.997776", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:57:52.997943", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-30T23:58:48.167938", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-30T23:58:48.168080", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:01:52.618039", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:01:52.618219", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:02:21.529614", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:02:21.529839", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:05:41.779534", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:05:41.779708", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:06:00.486537", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:06:00.487027", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:06:57.997030", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:06:57.997176", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:07:25.750221", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:07:25.750513", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:07:49.242611", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:07:49.242879", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:08:08.924967", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:08:08.925100", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:09:01.620736", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:09:01.620910", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:10:12.278258", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:10:12.278456", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:12:22.177524", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:12:22.177692", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:12:33.941102", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:12:33.941282", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:12:52.997730", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:12:52.997874", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:15:37.379072", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:15:37.379350", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:17:55.015742", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:17:55.016010", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:18:24.645240", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:18:24.645461", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:18:37.231258", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:18:37.231400", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:19:31.658361", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:19:31.658535", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:19:47.073214", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:19:47.073365", "event": "What happened: SFX volume file creation: sfx_volume file exists"}
+{"timestamp": "2026-01-31T00:33:03.309866", "event": "What happened: Music volume file creation: music_volume file exists"}
+{"timestamp": "2026-01-31T00:33:03.310012", "event": "What happened: SFX volume file creation: sfx_volume file exists"}

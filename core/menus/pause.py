@@ -6,7 +6,7 @@ from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
 from core.state.ApplicationLayer.Audio.Game.state import GAME_SFX_STATE
 from core.state.ApplicationLayer.Menu.Pause.state import PAUSE_MENU_STATE
 from core.state.ApplicationLayer.Menu.Pause.statemanager import PauseMenuStateManager
-from core.game.entities.player.ui.sizebar import SizeBar
+from core.game.entities.player.ui.uimanager import SizeBar
 from core.state.GameLayer.state import GAMESTATE
 
 class Pause(BaseMenu):
