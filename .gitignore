@@ -5,3 +5,6 @@
 /saves/constants/leaderboard_opt_in
 /saves/constants/username
 saves/constants/high_score
+/executable/linux
+/executable/windows
+/executable/macos
