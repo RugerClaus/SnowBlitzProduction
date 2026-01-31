@@ -467,3 +467,7 @@
 {"timestamp": "2026-01-31T04:57:19.388625", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.LEADERBOARDVIEWER", "to": "MENUSTATE.ROOT"}
 {"timestamp": "2026-01-31T05:01:52.336079", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDVIEWER"}
 {"timestamp": "2026-01-31T05:01:53.635829", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.LEADERBOARDVIEWER", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2026-01-31T07:30:13.609898", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDOPTIN"}
+{"timestamp": "2026-01-31T07:30:17.241413", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.LEADERBOARDOPTIN", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2026-01-31T07:30:48.402978", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDOPTIN"}
+{"timestamp": "2026-01-31T07:30:51.081314", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.LEADERBOARDOPTIN", "to": "MENUSTATE.ROOT"}

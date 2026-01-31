@@ -1,4 +1,4 @@
 config = {
-    "TITLE": "Snow Blitz Beta 1.0.0", # you can set the title for the window here
+    "TITLE": "Snow Blitz Beta Play Test Demo 0.9.1", # you can set the title for the window here
     "AUTHORS": ["Roger Falck", "Reina Meza"]
 }
