@@ -65,3 +65,12 @@
 {"timestamp": "2026-01-31T00:19:42.942200", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
 {"timestamp": "2026-01-31T00:20:00.902792", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
 {"timestamp": "2026-01-31T00:33:24.552996", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T03:03:24.027636", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T03:05:33.178081", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T03:08:21.918710", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T03:09:08.915111", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T03:10:02.117336", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T03:10:54.244075", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T04:47:14.822331", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T04:49:13.129985", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}
+{"timestamp": "2026-01-31T04:50:34.788991", "type": "PLAYERLIFESTATE", "ticks": "game/player", "from": "PLAYER_LIFE_STATE.ALIVE", "to": "PLAYER_LIFE_STATE.DEAD"}

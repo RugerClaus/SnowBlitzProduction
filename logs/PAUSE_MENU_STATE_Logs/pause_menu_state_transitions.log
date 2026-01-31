@@ -55,3 +55,14 @@
 {"timestamp": "2026-01-30T23:59:00.319427", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.ROOT"}
 {"timestamp": "2026-01-30T23:59:03.164449", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.ROOT", "to": "PAUSE_MENU_STATE.SETTINGS"}
 {"timestamp": "2026-01-30T23:59:03.855618", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.ROOT"}
+{"timestamp": "2026-01-31T04:45:21.559058", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.ROOT", "to": "PAUSE_MENU_STATE.SETTINGS"}
+{"timestamp": "2026-01-31T04:45:22.973219", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.ROOT"}
+{"timestamp": "2026-01-31T04:45:31.962237", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.ROOT", "to": "PAUSE_MENU_STATE.SETTINGS"}
+{"timestamp": "2026-01-31T04:45:32.507542", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.AUDIO"}
+{"timestamp": "2026-01-31T04:45:35.388991", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.AUDIO", "to": "PAUSE_MENU_STATE.ROOT"}
+{"timestamp": "2026-01-31T04:45:52.494179", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.ROOT", "to": "PAUSE_MENU_STATE.SETTINGS"}
+{"timestamp": "2026-01-31T04:45:54.601580", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.AUDIO"}
+{"timestamp": "2026-01-31T04:45:56.102420", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.AUDIO", "to": "PAUSE_MENU_STATE.SETTINGS"}
+{"timestamp": "2026-01-31T04:45:57.160483", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.ROOT"}
+{"timestamp": "2026-01-31T04:50:14.302386", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.ROOT", "to": "PAUSE_MENU_STATE.SETTINGS"}
+{"timestamp": "2026-01-31T04:50:15.009663", "type": "PAUSE_MENU_STATE", "ticks": "application/menustates/pause", "from": "PAUSE_MENU_STATE.SETTINGS", "to": "PAUSE_MENU_STATE.ROOT"}

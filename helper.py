@@ -156,3 +156,23 @@ def create_volume_files():
         log_event('SFX volume file creation: sfx_volume file created')
     else:
         log_event('SFX volume file creation: sfx_volume file exists')
+
+def draw_loading(font,window,text_string):
+        import math
+        t = window.get_current_time() / 500
+        pulse = (math.sin(t) + 1) / 2  # 0 → 1
+
+        dark = 40      # dark grey
+        light = 255    # white
+
+        fade_color = (
+            int(dark + (light - dark) * pulse),
+            int(dark + (light - dark) * pulse),
+            int(dark + (light - dark) * pulse),
+        )
+        text = font.render(text_string, True, fade_color)
+        rect = text.get_rect(center=(
+            window.get_width() // 2,
+            window.get_height() // 2
+        ))
+        window.blit(text, rect)

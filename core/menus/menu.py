@@ -7,6 +7,7 @@ from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
+from core.menus.leaderboardviewer import LeaderboardViewer
 
 class Menu(BaseMenu):
     def __init__(self, developer_mode, window, sound, input, endless_callback, blitz_callback, tutorial_callback, quit_callback):
@@ -23,6 +24,7 @@ class Menu(BaseMenu):
         self.credits = Credits(self.window)
         self.agreed_to_leaderboard = check_leaderboard_opt()
         self.user_creator = UserCreator(self.window,self.sound,self.state,self.input)
+        self.leaderboard = LeaderboardViewer(self.window,self.sound,self.state,self.input,self.back_to_root)
 
         self.title_image_original = self.window.load_image(asset("title"))
         self.title_image = self.title_image_original
@@ -193,6 +195,7 @@ class Menu(BaseMenu):
         
     def view_leaderboard(self):
         self.state.set_state(MENUSTATE.LEADERBOARDVIEWER)
+        self.leaderboard.refresh()
         self.create_buttons()
 
     def credits_callback(self):
@@ -262,4 +265,8 @@ class Menu(BaseMenu):
         if self.state.is_state(MENUSTATE.AUDIO):
             self.set_title("AUDIO SETTINGS")
         
+        if self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
+            self.leaderboard.fetch_and_display()
+            self.set_title("Top 10 Leaderboard")
+
         self.draw_title()
