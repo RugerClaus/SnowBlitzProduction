@@ -13,6 +13,6 @@ class DevManager(BaseStateManager):
         super().__init__(
                 initial_state=DEVELOPER_MODE.OFF,
                 allowed_transitions=allowed_transitions,
-                log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type, 'application'),
+                log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
                 state_name="DEVELOPER_MODE"
             )

@@ -463,3 +463,7 @@
 {"timestamp": "2026-01-31T04:50:55.071749", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.LEADERBOARDVIEWER", "to": "MENUSTATE.ROOT"}
 {"timestamp": "2026-01-31T04:56:44.973521", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDVIEWER"}
 {"timestamp": "2026-01-31T04:56:46.070477", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.LEADERBOARDVIEWER", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2026-01-31T04:57:18.137288", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDVIEWER"}
+{"timestamp": "2026-01-31T04:57:19.388625", "type": "MENUSTATE", "ticks": "application/menustates", "from": "MENUSTATE.LEADERBOARDVIEWER", "to": "MENUSTATE.ROOT"}
+{"timestamp": "2026-01-31T05:01:52.336079", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.ROOT", "to": "MENUSTATE.LEADERBOARDVIEWER"}
+{"timestamp": "2026-01-31T05:01:53.635829", "type": "MENUSTATE", "ticks": null, "from": "MENUSTATE.LEADERBOARDVIEWER", "to": "MENUSTATE.ROOT"}

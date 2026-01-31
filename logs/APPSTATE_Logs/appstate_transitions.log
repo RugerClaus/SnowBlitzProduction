@@ -784,3 +784,10 @@
 {"timestamp": "2026-01-31T04:51:04.706955", "type": "APPSTATE", "ticks": "application", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
 {"timestamp": "2026-01-31T04:56:44.379459", "type": "APPSTATE", "ticks": "application", "from": "APPSTATE.LOADING", "to": "APPSTATE.MAIN_MENU"}
 {"timestamp": "2026-01-31T04:56:46.664815", "type": "APPSTATE", "ticks": "application", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2026-01-31T04:57:17.044872", "type": "APPSTATE", "ticks": "application", "from": "APPSTATE.LOADING", "to": "APPSTATE.MAIN_MENU"}
+{"timestamp": "2026-01-31T04:57:19.921245", "type": "APPSTATE", "ticks": "application", "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2026-01-31T05:01:34.790403", "type": "APPSTATE", "ticks": null, "from": "APPSTATE.LOADING", "to": "APPSTATE.MAIN_MENU"}
+{"timestamp": "2026-01-31T05:01:37.635504", "type": "APPSTATE", "ticks": null, "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.QUIT"}
+{"timestamp": "2026-01-31T05:01:51.244281", "type": "APPSTATE", "ticks": null, "from": "APPSTATE.LOADING", "to": "APPSTATE.MAIN_MENU"}
+{"timestamp": "2026-01-31T05:01:54.426197", "type": "APPSTATE", "ticks": null, "from": "APPSTATE.MAIN_MENU", "to": "APPSTATE.IN_GAME"}
+{"timestamp": "2026-01-31T05:01:56.112791", "type": "APPSTATE", "ticks": null, "from": "APPSTATE.IN_GAME", "to": "APPSTATE.QUIT"}
