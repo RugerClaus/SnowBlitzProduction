@@ -8,5 +8,5 @@ saves/constants/high_score
 saves/constants/music_volume
 saves/constants/sfx_volume
 /executable
-logs/*
-!logs/
+logs/*/*.log
+logs/*.log
