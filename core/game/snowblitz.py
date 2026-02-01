@@ -1,41 +1,36 @@
-import pygame
 from core.game.modes.endless import Endless
 from core.game.modes.blitz import Blitz
 from core.game.modes.tutorial.tutorial import Tutorial
 from core.game.entities.player.player import Player
-from core.game.controls import Controls
 from core.game.entities.player.ui.uimanager import PlayerUIManager
 from core.game.entities.entitymanager import EntityManager
-
 from core.game.modes.tutorial.tutorialmanager import TutorialManager
 from core.game.modes.tutorial.prompts import Prompts
 from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
 class SnowBlitz:
-    def __init__(self,board_surface,sound,game_state):
+    def __init__(self,board_surface,sound,game_state,input):
         self.board_surface = board_surface
         self.sound = sound
         self.game_state = game_state
+        self.input = input
         self.entitymanager = EntityManager(self.board_surface)
         self.player = Player(self.board_surface,self.entitymanager,sound,game_state)
-        self.controls = Controls()
-        self.controls.set_controls(pygame.K_a,pygame.K_d)
         self.start_time = self.board_surface.get_current_time()
         self.progress_bar = PlayerUIManager(self.board_surface,self.player,self.start_time)
         self.prompts = Prompts(self.board_surface,self.player)
         self.tutorial_state = TutorialStateManager()
-        self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
-
-        self.tutorial = Tutorial(self.board_surface,self.player,self.entitymanager,self.controls,self.progress_bar,self.tutorial_state,self.tutorial_manager,self.prompts)
+        self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.input.game_controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
+        self.tutorial = Tutorial(self.board_surface,self.player,self.entitymanager,self.input.game_controls,self.progress_bar,self.tutorial_state,self.tutorial_manager,self.prompts)
 
     def handle_event(self):
-        keys = pygame.key.get_pressed()
-        if keys[self.controls.move_left]:
+        keys = self.input.get_pressed_keys()
+        if keys[self.input.game_controls.move_left]:
             self.player.move('LEFT')
-        elif keys[self.controls.move_right]:
+        elif keys[self.input.game_controls.move_right]:
             self.player.move('RIGHT')
-        if not (keys[self.controls.move_left] or keys[self.controls.move_right]):
+        if not (keys[self.input.game_controls.move_left] or keys[self.input.game_controls.move_right]):
             self.player.move('NONE')
 
     def init_endless(self):

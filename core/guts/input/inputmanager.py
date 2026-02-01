@@ -1,4 +1,5 @@
 import pygame
+from core.guts.input.controls import Controls
 from core.guts.input.iostream import IOSTREAM
 from core.ui.font import FontEngine
 
@@ -15,10 +16,11 @@ class InputManager:
         self.last_key = None
         self.last_key_time = 0
         self.key_display_timeout = 1000
+        self.game_controls = Controls()
 
     def video_resize_event(self):
         return pygame.VIDEORESIZE
-    
+
     def mouse_button_down(self):
         return pygame.MOUSEBUTTONDOWN
     
@@ -30,6 +32,14 @@ class InputManager:
 
     def quit_event(self):
         return pygame.QUIT
+
+    def set_game_controls(self,move_left=None, move_right=None):
+        if move_left is not None and move_right is not None:
+            self.game_controls.set_controls(move_left, move_right)
+        elif move_left is not None:
+            self.game_controls.set_controls(move_left, self.game_controls.move_right)
+        elif move_right is not None:
+            self.game_controls.set_controls(self.game_controls.move_left, move_right)
 
     def handle_event(self, event,needskeys=False):
         now = self.window.get_current_time()
@@ -63,6 +73,9 @@ class InputManager:
         
     def get_key_name(self,key):
         return pygame.key.name(key)
+    
+    def get_pressed_keys(self):
+        return pygame.key.get_pressed()
 
     def rescale(self,w,h):
         self.surface = self.window.make_surface(w,h,True)
