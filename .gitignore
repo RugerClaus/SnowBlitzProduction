@@ -1,6 +1,6 @@
 /virtualenv
-**/__pycache__/
-/__pycache__
+__pycache__
+*.pyc
 /.vscode
 /saves/constants/leaderboard_opt_in
 /saves/constants/username
