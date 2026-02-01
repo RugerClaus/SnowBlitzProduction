@@ -63,7 +63,7 @@ class Game:
             self.win.handle_event(event)
         
         if event.type == self.input.video_resize_event():
-            self.game_over_menu = GameOverMenu(self.sound,self.window,self.input,self.reset_tutorial, self.quit_to_menu, self.quit)
+            self.game_over_menu.create_buttons()
             self.pause_menu = Pause(self.window, self.game_object, self.sound, self.input,  self.toggle_pause, self.quit_to_menu, self.quit, self.reset_tutorial)
             self.win = Win(self.sound,self.window,self.input,self.reset_tutorial,self.quit_to_menu,self.quit)
             self.resize(event.h)    

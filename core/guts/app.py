@@ -73,6 +73,8 @@ class App:
                 self.input.rescale(event.w,event.h)
                 if not self.state.is_state(APPSTATE.IN_GAME):
                     self.game.resize(event.h)
+                    self.game.game_over_menu.create_buttons()
+                    self.game.pause_menu.create_buttons()
 
             if event.type == self.input.quit_event():
                 self.state.set_state(APPSTATE.QUIT)
