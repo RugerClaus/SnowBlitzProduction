@@ -2,7 +2,8 @@ import threading
 from helper import *
 from core.ui.font import FontEngine
 from core.network.leaderboard import Leaderboard
-
+from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
+from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchStateManager
 class LeaderboardViewer():
     def __init__(self,window,sound,state,input,root_callback):
         self.window = window
@@ -13,37 +14,59 @@ class LeaderboardViewer():
         self.leaderboard = Leaderboard()
         self.font = FontEngine(50).font
         
-        self.loading = False
+        self.fetch_manager = FetchStateManager()
         self.cached_data = None
         self.fetch_thread = None
 
+        self.lock = threading.Lock()
+
     def start_fetch(self):
-        if self.fetch_thread and self.fetch_thread.is_alive():
+        if not self.fetch_manager.is_state(FETCH_STATE.IDLE):
             return
 
-        self.loading = True
-        self.fetch_thread = threading.Thread(target=self._fetch_task, daemon=True)
-        self.fetch_thread.start()
+        self.fetch_thread = threading.Thread(target=self.fetch_task, daemon=True) # had to get creative for this of course
+        self.fetch_thread.start()                                                  # users no likey frozen screens
 
-    def _fetch_task(self):
-        status, data = self.leaderboard.fetch_leaderboard()
-        self.loading = False
+    def fetch_task(self):
+        self.fetch_manager.set_state(FETCH_STATE.FETCHING)
+        
+        try:
+            status, data = self.leaderboard.fetch_leaderboard()
+        except Exception as e:
+            log_event("Fetch exception", str(e))
+            with self.lock:
+                self.cached_data = None
+                self.fetch_manager.set_state(FETCH_STATE.ERROR)
+            return
 
-        if status == "success" and data:
-            self.cached_data = data
-        else:
-            self.cached_data = None
-            self.fetch_status = status
+        with self.lock:
+            self.cached_data = data if status == "success" else None
+
+            if status == "success":
+                self.fetch_manager.set_state(FETCH_STATE.SUCCESS)
+            elif status == "timeout":
+                self.fetch_manager.set_state(FETCH_STATE.TIMEOUT)
+            else:
+                self.fetch_manager.set_state(FETCH_STATE.ERROR)
 
     def fetch_and_display(self):
         if self.cached_data is None:
-            if not self.loading:
+            if self.fetch_manager.is_state(FETCH_STATE.IDLE):
                 self.start_fetch()
-            if hasattr(self, "fetch_status") and self.fetch_status == "timeout":
+            elif self.fetch_manager.is_state(FETCH_STATE.TIMEOUT):
+                self.cached_data = None
                 self.display_timeout()
-            else: 
+            elif self.fetch_manager.is_state(FETCH_STATE.ERROR):
+                self.cached_data = None
+                log_error("Error fetching leaderboard data.")
+                self.fetch_manager.set_state(FETCH_STATE.IDLE)
+            elif self.fetch_manager.is_state(FETCH_STATE.FETCHING):
                 draw_loading(self.font, self.window, "Loading Leaderboard...")
-
+            elif self.fetch_manager.is_state(FETCH_STATE.SUCCESS):
+                self.fetch_manager.set_state(FETCH_STATE.IDLE)
+            elif self.fetch_manager.is_state(FETCH_STATE.CANCELLED):
+                self.cached_data = None
+                self.fetch_manager.set_state(FETCH_STATE.IDLE)
             return
 
         self.display_leaderboard(self.cached_data)

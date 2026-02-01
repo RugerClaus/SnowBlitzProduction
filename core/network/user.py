@@ -1,4 +1,6 @@
-import requests,json
+# oh god do I hate try catch blocks. I finally needed to use them here but still i hate them. I could use a state machine, but that seems overengineered for the 2 network files I forsee existing for a long time
+
+import requests # begone unused dependencies
 
 from helper import *
 class User:

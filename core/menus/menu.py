@@ -8,6 +8,7 @@ from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
 from core.menus.leaderboardviewer import LeaderboardViewer
+from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
 
 class Menu(BaseMenu):
     def __init__(self, developer_mode, window, sound, input, endless_callback, blitz_callback, tutorial_callback, quit_callback):
@@ -134,7 +135,7 @@ class Menu(BaseMenu):
         elif self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
             self.buttons = [
                 Button(self.sound, self.window, "Back", window_w - window_w // 8, window_h - 100, 150, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.back_to_root),
+                    (255, 255, 255), (255, 0, 80), self.leaderboard_back_to_root),
             ]
         elif self.state.is_state(MENUSTATE.DEVELOPERSETTINGS):
             self.buttons = [
@@ -167,6 +168,10 @@ class Menu(BaseMenu):
             self.create_buttons()
         else:
             self.set_query("Username must be at least 6 characters")
+
+    def leaderboard_back_to_root(self):
+        self.leaderboard.fetch_manager.set_state(FETCH_STATE.CANCELLED)
+        self.back_to_root()
 
     def leaderboard_opt_in(self):
         write_constant_to_file('leaderboard_opt_in','YES')
