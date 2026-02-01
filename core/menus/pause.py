@@ -42,7 +42,7 @@ class Pause(BaseMenu):
         elif self.state.is_state(PAUSE_MENU_STATE.SETTINGS):
             self.buttons = [
                 Button(self.sound, self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
-                Button(self.sound, self.window, f"Progress Bar: ", center_x, start_y + spacing * 1, btn_width * 1.8, btn_height, (255, 255, 255), (128, 0, 200), self.game.progress_bar.toggle_location),
+                Button(self.sound, self.window, f"Progress Bar: ", center_x, start_y + spacing * 1, btn_width * 1.9, btn_height, (255, 255, 255), (128, 0, 200), self.game.progress_bar.toggle_location),
                 Button(self.sound, self.window, "Back", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.back_to_root),
             ]
 
@@ -56,11 +56,11 @@ class Pause(BaseMenu):
                 Button(self.sound, self.window, f"SFX Vol: {int(self.sound.sfx_volume*10)}", center_x, self.window.get_height() // 2 + spacing * 0.01, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
                 Button(self.sound, self.window, f"+", center_x + 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.sfx_volume_up),
                 
-                Button(self.sound, self.window, f"Music:", center_x, self.window.get_height() // 2 + spacing * 1, 200, btn_height,
+                Button(self.sound, self.window, f"Music:", center_x, self.window.get_height() // 2 + spacing * 1, 240, btn_height,
                     (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
-                Button(self.sound, self.window, f"UI SFX:", center_x, self.window.get_height() // 2 + spacing * 2, 200, btn_height,
+                Button(self.sound, self.window, f"UI SFX:", center_x, self.window.get_height() // 2 + spacing * 2, 240, btn_height,
                     (255, 255, 255), (128, 0, 200), self.toggle_ui_sfx),
-                Button(self.sound, self.window, f"Game SFX:", center_x, self.window.get_height() // 2 + spacing * 3, 300, btn_height,
+                Button(self.sound, self.window, f"Game SFX:", center_x, self.window.get_height() // 2 + spacing * 3, 340, btn_height,
                     (255, 255, 255), (128, 0, 200), self.toggle_game_sfx),
                 Button(self.sound, self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 4, 150, btn_height,
                     (255, 255, 255), (255, 0, 80), self.go_to_settings)
