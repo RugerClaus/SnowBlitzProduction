@@ -3,5 +3,5 @@
 Development version Beta 0.9.1 - 2026-02-01 
 --------------------------------------------
 - Deployed application for first round of playtesting
-- No currently known issues with this build\
+- No currently known issues with this build
 - Optimized Build Script to remove internal assets after build completion
