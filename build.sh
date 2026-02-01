@@ -16,6 +16,17 @@ function copy_assets() {
   cp -r "$ROOT/saves" "$TARGET"
 }
 
+function cleanup_internal() {
+  INTERNAL_DIR="$1/_internal"
+
+  if [ -d "$INTERNAL_DIR" ]; then
+    echo "Cleaning up _internal directory..."
+    rm -rf "$INTERNAL_DIR/assets"
+    rm -rf "$INTERNAL_DIR/logs"
+    rm -rf "$INTERNAL_DIR/saves"
+  fi
+}
+
 function build_linux() {
   echo "Building Linux..."
 
@@ -39,6 +50,7 @@ function build_linux() {
   rm -rf "$TMP_DIST"
 
   copy_assets "$FINAL_DIST"
+  cleanup_internal "$FINAL_DIST"
 }
 
 function build_windows() {
@@ -116,3 +128,4 @@ esac
 rm -rf "$WORK_ROOT"
 rm -rf "$SPEC_ROOT"
 echo "Build completed."
+rm -rf executable/_internal/assets
