@@ -68,6 +68,7 @@ function build() {
   copy_assets "$FINAL_DIST"
   cleanup_internal "$FINAL_DIST"
 }
+build
 
 rm -rf "$WORK_ROOT"
 rm -rf "$SPEC_ROOT"
