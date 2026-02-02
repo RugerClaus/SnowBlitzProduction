@@ -62,21 +62,21 @@ function build_windows() {
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
     --noconsole \
-    --name "$APP_NAME.exe" \
-    --add-data "$ROOT/assets;assets" \
-    --add-data "$ROOT/logs;logs" \
-    --add-data "$ROOT/saves;saves" \
+    --name "$APP_NAME" \
+    --add-data "$ROOT/assets:assets" \
+    --add-data "$ROOT/logs:logs" \
+    --add-data "$ROOT/saves:saves" \
     --distpath "$TMP_DIST" \
-    --workpath "$WORK_ROOT/windows" \
-    --specpath "$SPEC_ROOT/windows"
+    --workpath "$WORK_ROOT/linux" \
+    --specpath "$SPEC_ROOT/linux"
 
   rm -rf "$FINAL_DIST"
   mkdir -p "$FINAL_DIST"
-  mv "$TMP_DIST/$APP_NAME.exe" "$FINAL_DIST"/
   mv "$TMP_DIST/$APP_NAME"/* "$FINAL_DIST"/
   rm -rf "$TMP_DIST"
 
   copy_assets "$FINAL_DIST"
+  cleanup_internal "$FINAL_DIST"
 }
 
 function build_macos() {
