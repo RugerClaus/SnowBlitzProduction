@@ -80,33 +80,45 @@ class LeaderboardViewer():
     def display_leaderboard(self, data):
         center_x = self.window.get_width() // 2
         start_y = self.window.get_height() // 3
-        row_height = 60
-        column_gap = 300
+        row_height = 40
+        column_gap = 400
 
-        username_x = center_x - column_gap // 2
+        username_x = center_x - column_gap
         score_x = center_x + column_gap // 2
 
         header_color = (255, 255, 0)
         text_color = (255, 255, 255)
 
+        header_y = start_y - (row_height/2+15)
+
         username_header = self.font.render("Username", True, header_color)
         score_header = self.font.render("Score", True, header_color)
 
-        self.window.blit(username_header, username_header.get_rect(center=(username_x, start_y)))
-        self.window.blit(score_header, score_header.get_rect(center=(score_x, start_y)))
+        self.window.blit(username_header, username_header.get_rect(left=username_x, top=header_y))
+        self.window.blit(score_header, score_header.get_rect(left=score_x, top=header_y))
 
         sorted_data = sorted(data, key=lambda x: x['score'], reverse=True)[:10]
 
         for row, entry in enumerate(sorted_data):
             y = start_y + (row + 1) * row_height
 
-            username_surf = self.font.render(entry["username"], True, text_color)
+            row_number_text = f"{str(row+1)}. "
+            username_text = entry['username']
+
+            row_number_surf = self.font.render(row_number_text, True, text_color)
+            username_surf = self.font.render(username_text, True, text_color)
             score_surf = self.font.render(str(entry["score"]), True, text_color)
 
-            self.window.blit(username_surf, username_surf.get_rect(center=(username_x, y)))
-            self.window.blit(score_surf, score_surf.get_rect(center=(score_x, y)))
+            row_number_x = username_x
+            username_x_offset = row_number_surf.get_width()
+
+            self.window.blit(row_number_surf, row_number_surf.get_rect(left=row_number_x, centery=y))
+            self.window.blit(username_surf, username_surf.get_rect(left=row_number_x + row_number_surf.get_width(), centery=y))
+            self.window.blit(score_surf, score_surf.get_rect(left=score_x, centery=y))
 
         log_event("Displaying leaderboard data.", f"{self.leaderboard}")
+
+
 
     def refresh(self):
         self.cached_data = None

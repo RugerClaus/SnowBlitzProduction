@@ -1,3 +1,4 @@
+from helper import log_error
 class BaseStateManager:
     def __init__(self, initial_state, allowed_transitions, log_fn=None, state_name="STATE"):
         """
@@ -21,7 +22,9 @@ class BaseStateManager:
             self.previous_state = self.state
             self.state = new_state
             print(self.get_state())
-
+        else:
+            log_error(f"{new_state} not in allowed transitions for {self.state}")
+            
     def is_state(self, state):
         return self.state == state
 

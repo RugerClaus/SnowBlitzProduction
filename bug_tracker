@@ -1,0 +1,2 @@
+linux builds will need to have permissions set. So I need to modify the build system to output a tar.gz file for linux distros to keep the execute flag. 
+---- this has a solution: include a first time startup .sh script with each public distribution of the linux binary

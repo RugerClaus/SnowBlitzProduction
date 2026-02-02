@@ -29,3 +29,16 @@ python3 -m venv virtualenv
 source virtualenv/bin/activate
 pip install pygame-ce pyinstaller mutagen requests
 python3 main.py
+```
+
+**FEATURE ADDITIONS**
+
+<p>For feature additions, before coming up with your own you should take a look at the requested_additions file in the root directory of this repository and see if you can piece in any of those requested features. Then submit a pull request to have your code merged into the main branch. This is mostly notation for me though</p>
+
+**BUGS**
+
+<p>For fixing bugs, please start in the bug_tracker file of this directory. For now it's a bit unorganized until I can set up a database and bug tracking section of the website. Then I'll make an easy UI to manage that stuff, but at the current scale of the project, we also have a lot of cushioning, so it shouldn't be super prudent to do so immediately.</p>
+
+**COMMITS**
+
+<p>Keep your commit messages as clear and concise as possible. We have no established versioning for commits, and we're going to rely on commit messages for minor updates to the main branch. Just the way it is. If you want to change it, build the infrastructure.</p>
