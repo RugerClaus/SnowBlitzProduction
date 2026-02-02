@@ -1,4 +1,4 @@
-from core.menus.centertext import CenterText
+from core.ui.centertext import CenterText
 from config import config
 
 class Credits(CenterText):
@@ -9,7 +9,7 @@ class Credits(CenterText):
     def draw(self):
         title = config["TITLE"]
         soundtrack = f"Soundtrack by {self.authors[0]}"
-        design = f"Designed on the Distant Realms Python framework by {self.authors[0]}"
+        design = f"Designed on the Distant Realms Python \n framework by {self.authors[0]}"
         logo = f"Logo by {self.authors[1]}"
         self._draw_centered_text(f"{title}\n{soundtrack}\n{design}\n{logo}\n")
 
