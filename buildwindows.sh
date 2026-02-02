@@ -4,20 +4,16 @@ set -e
 APP_NAME="SnowBlitz_Beta_PlayTest_Demo_0.9.1"
 MAIN="main.py"
 
-# Get the absolute path of the current script directory
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST_ROOT="$ROOT/executable"
 WORK_ROOT="$ROOT/build"
 SPEC_ROOT="$ROOT/specs"
 
-# Ensure paths are formatted correctly for Windows Git Bash
 ASSETS_PATH="$ROOT/assets"
 LOGS_PATH="$ROOT/logs"
 SAVES_PATH="$ROOT/saves"
 
-# Convert Unix-style paths to Windows-style paths for pyinstaller
 convert_to_windows_path() {
-  # This function converts Unix-style Git Bash paths to Windows paths
   local unix_path="$1"
   echo "$(cygpath -w "$unix_path")"
 }
@@ -25,7 +21,7 @@ convert_to_windows_path() {
 # Convert paths
 ASSETS_PATH_WIN=$(convert_to_windows_path "$ASSETS_PATH")
 LOGS_PATH_WIN=$(convert_to_windows_path "$LOGS_PATH")
-SAVES_PATH_WIN=$(convert_to_windows_path "$SAVES_PATH"
+SAVES_PATH_WIN=$(convert_to_windows_path "$SAVES_PATH")
 
 function copy_assets() {
   TARGET="$1"
@@ -72,8 +68,6 @@ function build() {
   copy_assets "$FINAL_DIST"
   cleanup_internal "$FINAL_DIST"
 }
-
-build
 
 rm -rf "$WORK_ROOT"
 rm -rf "$SPEC_ROOT"
