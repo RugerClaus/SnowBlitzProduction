@@ -71,8 +71,8 @@ function build_windows() {
     --add-data "$ROOT/logs:logs" \
     --add-data "$ROOT/saves:saves" \
     --distpath "$TMP_DIST" \
-    --workpath "$WORK_ROOT/linux" \
-    --specpath "$SPEC_ROOT/linux"
+    --workpath "$WORK_ROOT/windows" \
+    --specpath "$SPEC_ROOT/windows"
 
   rm -rf "$FINAL_DIST"
   mkdir -p "$FINAL_DIST"
