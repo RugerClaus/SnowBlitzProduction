@@ -1,6 +1,7 @@
 import pygame
 from core.guts.input.controls import Controls
 from core.guts.input.iostream import IOSTREAM
+from core.guts.input.keys import Keys
 from core.ui.font import FontEngine
 
 
@@ -16,6 +17,7 @@ class InputManager:
         self.last_key = None
         self.last_key_time = 0
         self.key_display_timeout = 1000
+        self.keys = Keys()
         self.game_controls = Controls()
 
     def video_resize_event(self):

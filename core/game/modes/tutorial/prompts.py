@@ -2,9 +2,10 @@ import pygame
 from core.ui.font import FontEngine
 
 class Prompts:
-    def __init__(self, board_surface, player):
+    def __init__(self, board_surface, player, input):
         self.board_surface = board_surface
         self.player = player
+        self.input = input
         self.font = FontEngine(35).font
 
         self.player_has_moved = False
@@ -48,8 +49,8 @@ class Prompts:
             self.player_has_moved = True
 
     def handle_continue_input(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
+        keys = self.input.get_pressed_keys()
+        if keys[self.input.keys.space_key()]:
             self.player_has_continued = True
 
     def _draw_centered_text(self, text):
