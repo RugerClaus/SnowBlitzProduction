@@ -2,7 +2,7 @@
 
 <h2>Welcome To Snow Blitz. Stay open, friends!</h2>
 
-<p>Any issues, you can email me at dev@snowblitz.net</p>
+<p>Any issues, you can email me (rugerclaus) at dev@snowblitz.net</p>
 
 <p>This README markdown file will be used to document the framework, the game, and all the APIs allowing everything to connect.</p>
 
