@@ -93,15 +93,14 @@ class Update:
             response = requests.get(update_files_url, timeout=TIMEOUT_SECONDS, stream=True)
 
             if response.status_code == 200:
-                os.makedirs(self.update_folder, exist_ok=True)
-                file_path = os.path.join(self.update_folder, "update.zip")
+                file_path = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "update.zip")
 
                 with open(file_path, "wb") as f:
                     for chunk in response.iter_content(chunk_size=8192):
                         if chunk:
                             f.write(chunk)
 
-                log_event("Update ZIP downloaded successfully.")
+                log_event(f"Update ZIP downloaded successfully to {file_path}")
                 self.fetch_state_manager.set_state(FETCH_STATE.SUCCESS)
                 return True
 
@@ -114,6 +113,7 @@ class Update:
             log_error("Timeout occurred while downloading update ZIP.")
             self.fetch_state_manager.set_state(FETCH_STATE.ERROR)
             return False
+
 
     def download_file(self, file_url, file_name):
         try:
