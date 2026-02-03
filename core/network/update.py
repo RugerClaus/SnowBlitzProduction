@@ -6,9 +6,8 @@ from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchStateManager
 from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
 from core.state.ApplicationLayer.NetworkLayer.Update.statemanager import UpdateStateManager
-from enum import Enum
 
-TIMEOUT_SECONDS = 5
+TIMEOUT_SECONDS = 40
 
 class Update:
     def __init__(self):
@@ -27,7 +26,6 @@ class Update:
                 version_data = response.json()
                 log_event(f"Fetched version data. Status: {response.status_code}; Response: {version_data}")
 
-                # Extract version number from the 'data' list
                 data = version_data.get("data", [])
                 if data:
                     self.server_version = data[0].get("version_number")
@@ -70,75 +68,45 @@ class Update:
             return ("error", str(e))
 
     def start(self):
+        if self.fetch_state_manager.is_state(FETCH_STATE.ERROR):
+            self.fetch_state_manager.set_state(FETCH_STATE.IDLE)
         log_event(f"Starting the update process... from {config.get('VERSION')} to {self.server_version}")
 
         os_type = config.get("OS").lower()
-        update_files_url = f'https://snowblitz.net/downloads/update/latest/{os_type}'
+        update_files_url = f'https://snowblitz.net/downloads/update/latest/{os_type}/{config.get("UPDATE_ZIP_NAME")}'
 
         log_event(f"Download URL: {update_files_url}")
 
         if not self.download_update_files(update_files_url):
-            log_error("Failed to download update files.")
+            log_error(f"Failed to download update files." )
             return ("error", "Failed to download update files.")
 
     def download_update_files(self, update_files_url):
         self.fetch_state_manager.set_state(FETCH_STATE.FETCHING)
 
         try:
-            response = requests.get(update_files_url, timeout=TIMEOUT_SECONDS)
+            response = requests.get(update_files_url, timeout=TIMEOUT_SECONDS, stream=True)
 
             if response.status_code == 200:
-                files_data = response.json()
-                log_event(f"Fetched update files. Status: {response.status_code}; Response: {files_data}")
+                os.makedirs(self.update_folder, exist_ok=True)
+                file_path = os.path.join(self.update_folder, "update.zip")
 
-                files_to_download = files_data.get('files', [])
+                with open(file_path, "wb") as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
 
-                if not files_to_download:
-                    log_error("No update files found.")
-                    self.fetch_state_manager.set_state(FETCH_STATE.ERROR)
-                    return False
-
-                os_type = config["OS"].lower()
-
-                files_for_os = []
-                for file_info in files_to_download:
-                    if os_type in file_info['name'].lower():
-                        files_for_os.append(file_info)
-
-                if not files_for_os:
-                    log_error(f"No update files found for OS: {os_type}")
-                    self.fetch_state_manager.set_state(FETCH_STATE.ERROR)
-                    return False
-
-                total_files = len(files_for_os)
-                downloaded_files = 0
-
-                # Download files and update progress
-                for file_info in files_for_os:
-                    file_url = file_info['url']
-                    file_name = file_info['name']
-                    file_path = self.download_file(file_url, file_name)
-
-                    if file_path:
-                        downloaded_files += 1
-                        self.fetch_state_manager.update_progress(int((downloaded_files / total_files) * 100))
-
-                log_event("All update files downloaded successfully.")
+                log_event("Update ZIP downloaded successfully.")
                 self.fetch_state_manager.set_state(FETCH_STATE.SUCCESS)
                 return True
 
             else:
-                log_error(f"Failed to fetch update files. Status: {response.status_code}; Response: {response.text}")
+                log_error(f"Failed to download update ZIP. HTTP {response.status_code}")
                 self.fetch_state_manager.set_state(FETCH_STATE.ERROR)
                 return False
 
         except requests.exceptions.Timeout:
-            log_error("Timeout occurred while fetching update files.")
-            self.fetch_state_manager.set_state(FETCH_STATE.ERROR)
-            return False
-
-        except requests.exceptions.RequestException as e:
-            log_error(f"Network error while fetching update files: {e}")
+            log_error("Timeout occurred while downloading update ZIP.")
             self.fetch_state_manager.set_state(FETCH_STATE.ERROR)
             return False
 

@@ -10,3 +10,4 @@ saves/constants/sfx_volume
 /executable
 logs/*/*.log
 logs/*.log
+update/
