@@ -9,6 +9,8 @@ from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
 from core.menus.leaderboardviewer import LeaderboardViewer
 from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
+from core.network.update import Update
+from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
 
 class Menu(BaseMenu):
     def __init__(self, developer_mode, window, sound, input, endless_callback, blitz_callback, tutorial_callback, quit_callback):
@@ -59,7 +61,9 @@ class Menu(BaseMenu):
         start_y = window_h // 4 + window_h // 7
         center_x = window_w // 2
 
-        if self.state.is_state(MENUSTATE.ROOT):
+        update = Update()
+
+        if self.state.is_state(MENUSTATE.ROOT) and update.state.is_state(UPDATE_STATE.CURRENT):
             self.buttons = [
                 Button(self.sound, self.window, "Endless Mode", center_x, start_y, btn_width, btn_height,
                     (255, 255, 255), (128, 0, 200), self.endless_callback),
@@ -71,6 +75,25 @@ class Menu(BaseMenu):
                     (255, 255, 255), (128, 0, 200), self.go_to_settings),
                 Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
                     (255, 255, 255), (255, 0, 80), self.quit_callback),
+                Button(self.sound, self.window, "Credits", window_w - window_w // 8, window_h - 100, 200, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.credits_callback),
+                Button(self.sound, self.window, "Leaderboard", window_w // 8 + 50, window_h - 100, window_w // 4 if window_w < 800 else 300, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.view_leaderboard),
+            ]
+        if self.state.is_state(MENUSTATE.ROOT) and update.state.is_state(UPDATE_STATE.AVAILABLE):
+            self.buttons = [
+                Button(self.sound, self.window, "Endless Mode", center_x, start_y, btn_width, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.endless_callback),
+                Button(self.sound, self.window, "Blitz Mode", center_x, start_y + spacing, btn_width, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.blitz_callback),
+                Button(self.sound, self.window, "Tutorial", center_x, start_y + spacing * 2, btn_width, btn_height,
+                    (255, 255, 255), (128, 128, 128), self.tutorial_callback),
+                Button(self.sound, self.window, "Settings", center_x, start_y + spacing * 3, btn_width, btn_height,
+                    (255, 255, 255), (128, 0, 200), self.go_to_settings),
+                Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
+                    (255, 255, 255), (255, 0, 80), self.quit_callback),
+                Button(self.sound, self.window, "Update", window_w - window_w // 8, window_h - 200, 220, btn_height,
+                    (255, 255, 255), (255, 0, 80), update.start),
                 Button(self.sound, self.window, "Credits", window_w - window_w // 8, window_h - 100, 200, btn_height,
                     (255, 255, 255), (255, 0, 80), self.credits_callback),
                 Button(self.sound, self.window, "Leaderboard", window_w // 8 + 50, window_h - 100, window_w // 4 if window_w < 800 else 300, btn_height,

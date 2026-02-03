@@ -9,3 +9,4 @@ class MENUSTATE(Enum):
     CREATEUSERNAME = auto()
     LEADERBOARDVIEWER = auto()
     DEVELOPERSETTINGS = auto()
+    ROOT_UPDATE_AVAILABLE = auto()
