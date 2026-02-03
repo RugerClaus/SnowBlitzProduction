@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e
 
-APP_NAME="SnowBlitz_Beta_PlayTest_Demo_0.9.1"
+APP_NAME="snowblitz"
 MAIN="main.py"
+UPDATER_MAIN="updater.py"
+UPDATER_NAME="updater"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST_ROOT="$ROOT/executable"
@@ -18,7 +20,6 @@ convert_to_windows_path() {
   echo "$(cygpath -w "$unix_path")"
 }
 
-# Convert paths
 ASSETS_PATH_WIN=$(convert_to_windows_path "$ASSETS_PATH")
 LOGS_PATH_WIN=$(convert_to_windows_path "$LOGS_PATH")
 SAVES_PATH_WIN=$(convert_to_windows_path "$SAVES_PATH")
@@ -41,8 +42,8 @@ function cleanup_internal() {
   fi
 }
 
-function build() {
-  echo "Building Windows..."
+function build_main() {
+  echo "Building Windows game executable..."
 
   TMP_DIST="$DIST_ROOT/windows_tmp"
   FINAL_DIST="$DIST_ROOT/windows"
@@ -50,8 +51,8 @@ function build() {
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
     --noconsole \
-    --clean \
     --windowed \
+    --clean \
     --name "$APP_NAME" \
     --add-data "$ASSETS_PATH_WIN;assets" \
     --add-data "$LOGS_PATH_WIN;logs" \
@@ -68,9 +69,33 @@ function build() {
   copy_assets "$FINAL_DIST"
   cleanup_internal "$FINAL_DIST"
 }
-build
+
+function build_updater() {
+  echo "Building Windows updater executable..."
+
+  TMP_DIST="$DIST_ROOT/updater_tmp"
+  FINAL_DIST="$DIST_ROOT/windows"
+
+  pyinstaller "$ROOT/$UPDATER_MAIN" \
+    --onefile \
+    --console \
+    --clean \
+    --name "$UPDATER_NAME" \
+    --distpath "$TMP_DIST" \
+    --workpath "$WORK_ROOT/updater" \
+    --specpath "$SPEC_ROOT/updater"
+
+  mv "$TMP_DIST/$UPDATER_NAME.exe" "$FINAL_DIST/$UPDATER_NAME.exe"
+
+  rm -rf "$TMP_DIST"
+}
+
+build_main
+
+build_updater
 
 rm -rf "$WORK_ROOT"
 rm -rf "$SPEC_ROOT"
+
 echo "Build completed."
 rm -rf "$DIST_ROOT/_internal/assets"

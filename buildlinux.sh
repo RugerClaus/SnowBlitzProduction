@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e
 
-APP_NAME="SnowBlitz_Beta_PlayTest_Demo_0.9.1"
+APP_NAME="snowblitz"
 MAIN="main.py"
+UPDATER_MAIN="updater.py"
+UPDATER_NAME="updater"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST_ROOT="$ROOT/executable"
@@ -27,8 +29,8 @@ function cleanup_internal() {
   fi
 }
 
-function build() {
-  echo "Building Linux..."
+function build_main() {
+  echo "Building Linux game executable..."
 
   TMP_DIST="$DIST_ROOT/linux_tmp"
   FINAL_DIST="$DIST_ROOT/linux"
@@ -36,8 +38,8 @@ function build() {
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
     --noconsole \
-    --clean \
     --windowed \
+    --clean \
     --name "$APP_NAME" \
     --add-data "$ROOT/assets:assets" \
     --add-data "$ROOT/logs:logs" \
@@ -54,9 +56,33 @@ function build() {
   copy_assets "$FINAL_DIST"
   cleanup_internal "$FINAL_DIST"
 }
-build
+
+function build_updater() {
+  echo "Building Linux updater executable..."
+
+  TMP_DIST="$DIST_ROOT/updater_tmp"
+  FINAL_DIST="$DIST_ROOT/linux"
+
+  pyinstaller "$ROOT/$UPDATER_MAIN" \
+    --onefile \
+    --console \
+    --clean \
+    --name "$UPDATER_NAME" \
+    --distpath "$TMP_DIST" \
+    --workpath "$WORK_ROOT/updater" \
+    --specpath "$SPEC_ROOT/updater"
+
+  mv "$TMP_DIST/$UPDATER_NAME" "$FINAL_DIST/$UPDATER_NAME"
+
+  rm -rf "$TMP_DIST"
+}
+
+build_main
+
+build_updater
 
 rm -rf "$WORK_ROOT"
 rm -rf "$SPEC_ROOT"
+
 echo "Build completed."
-rm -rf executable/_internal/assets
+rm -rf "$DIST_ROOT/_internal/assets"

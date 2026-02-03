@@ -1,4 +1,4 @@
-import os
+import os,sys,subprocess
 import requests
 from helper import log_error, log_event
 from config import config
@@ -70,6 +70,7 @@ class Update:
     def start(self):
         if self.fetch_state_manager.is_state(FETCH_STATE.ERROR):
             self.fetch_state_manager.set_state(FETCH_STATE.IDLE)
+
         log_event(f"Starting the update process... from {config.get('VERSION')} to {self.server_version}")
 
         os_type = config.get("OS").lower()
@@ -77,9 +78,13 @@ class Update:
 
         log_event(f"Download URL: {update_files_url}")
 
-        if not self.download_update_files(update_files_url):
-            log_error(f"Failed to download update files." )
+        if self.download_update_files(update_files_url):
+            log_event("Update files downloaded, launching updater...")
+            self.trigger_updater_and_exit()
+        else:
+            log_error("Failed to download update files.")
             return ("error", "Failed to download update files.")
+
 
     def download_update_files(self, update_files_url):
         self.fetch_state_manager.set_state(FETCH_STATE.FETCHING)
@@ -133,3 +138,25 @@ class Update:
         except requests.exceptions.RequestException as e:
             log_error(f"Network error while downloading {file_name}: {e}")
             return None
+
+
+    def trigger_updater_and_exit(self):
+        os_type = config.get("OS").lower()
+        updater_exe = config.get("UPDATER_WINDOWS") if os_type.startswith("win") else config.get("UPDATER_LINUX")
+        
+        updater_path = os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), updater_exe)
+
+        log_event(f"Launching updater: {updater_path}")
+
+        try:
+            if sys.platform.startswith("win"):
+                subprocess.Popen([updater_path], shell=True)
+            else:
+                os.chmod(updater_path, 0o755)
+                subprocess.Popen([updater_path])
+        except Exception as e:
+            log_error(f"Failed to launch updater: {e}")
+            return
+
+        sys.exit(0)
+
