@@ -3,6 +3,7 @@ import sys
 import zipfile
 import shutil
 import subprocess
+import time
 from helper import log_event, log_error
 
 if getattr(sys, 'frozen', False):
@@ -51,6 +52,9 @@ def unpack_update():
         os.rmdir(extracted_folder)
         log_event("Update unpacked and merged successfully!")
 
+        os.remove(UPDATE_ZIP)
+        log_event(f"Removed update zip {UPDATE_ZIP}")
+
     except zipfile.BadZipFile:
         log_error(f"Failed to unpack update: bad ZIP file {UPDATE_ZIP}")
         sys.exit(1)
@@ -68,11 +72,15 @@ def launch_game():
     log_event(f"Launching {GAME_EXECUTABLE} at {exe_path}...")
     try:
         if sys.platform.startswith("win"):
-            os.startfile(exe_path)
+            subprocess.Popen([exe_path], shell=True, cwd=ROOT_DIR)
         else:
             os.chmod(exe_path, 0o755)
-            subprocess.Popen([exe_path])
+            subprocess.Popen([exe_path], cwd=ROOT_DIR)
+
         log_event(f"{GAME_EXECUTABLE} launched successfully!")
+
+        time.sleep(2)
+
     except Exception as e:
         log_error(f"Failed to launch {GAME_EXECUTABLE}: {e}")
 
