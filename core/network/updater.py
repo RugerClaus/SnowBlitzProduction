@@ -15,7 +15,7 @@ from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchS
 from core.state.ApplicationLayer.NetworkLayer.Patch.state import PATCH_STATE
 from core.state.ApplicationLayer.NetworkLayer.Patch.statemanager import PatchStateManager
 
-TIMEOUT_SECONDS = 40
+TIMEOUT_SECONDS = 60
 
 class Updater:
     def __init__(self):
