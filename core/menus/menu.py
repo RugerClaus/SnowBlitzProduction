@@ -286,9 +286,11 @@ class Menu(BaseMenu):
             self.user_creator.draw()
 
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
+            self.set_title("")
             self.window.blit(self.title_image, self.title_rect)
         
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.AVAILABLE):
+            self.set_title("")
             self.window.blit(self.title_image, self.title_rect)
             self.draw_update_text()
             
