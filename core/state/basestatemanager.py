@@ -21,7 +21,6 @@ class BaseStateManager:
                 self.log_fn(self.state, new_state, self.state_name)
             self.previous_state = self.state
             self.state = new_state
-            print(self.get_state())
         else:
             log_error(f"{new_state} not in allowed transitions for {self.state}")
             

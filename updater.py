@@ -38,16 +38,16 @@ def unpack_update():
         log_event(f"Moving files from {extracted_folder} into root directory...")
 
         for item in os.listdir(extracted_folder):
-            src = os.path.join(extracted_folder, item)
-            dst = os.path.join(ROOT_DIR, item)
+            source = os.path.join(extracted_folder, item)
+            destination = os.path.join(ROOT_DIR, item)
 
-            if os.path.exists(dst):
-                if os.path.isdir(dst):
-                    shutil.rmtree(dst)
+            if os.path.exists(destination):
+                if os.path.isdir(destination):
+                    shutil.rmtree(destination)
                 else:
-                    os.remove(dst)
+                    os.remove(destination)
 
-            shutil.move(src, dst)
+            shutil.move(source, destination)
 
         os.rmdir(extracted_folder)
         log_event("Update unpacked and merged successfully!")
@@ -64,18 +64,18 @@ def unpack_update():
 
 
 def launch_game():
-    exe_path = os.path.join(ROOT_DIR, GAME_EXECUTABLE)
-    if not os.path.exists(exe_path):
-        log_error(f"Executable not found: {exe_path}")
+    executable_path = os.path.join(ROOT_DIR, GAME_EXECUTABLE)
+    if not os.path.exists(executable_path):
+        log_error(f"Executable not found: {executable_path}")
         return
 
-    log_event(f"Launching {GAME_EXECUTABLE} at {exe_path}...")
+    log_event(f"Launching {GAME_EXECUTABLE} at {executable_path}...")
     try:
         if sys.platform.startswith("win"):
-            subprocess.Popen([exe_path], shell=True, cwd=ROOT_DIR)
+            subprocess.Popen([executable_path], cwd=ROOT_DIR)
         else:
-            os.chmod(exe_path, 0o755)
-            subprocess.Popen([exe_path], cwd=ROOT_DIR)
+            os.chmod(executable_path, 0o755)
+            subprocess.Popen([executable_path], cwd=ROOT_DIR)
 
         log_event(f"{GAME_EXECUTABLE} launched successfully!")
 

@@ -76,7 +76,7 @@ def get_colors(color):
     elif color == "white":
         return (255,255,255)
     else:
-        print("Can't find color!")
+        log_error("Can't find color!")
         return (128,128,128)
     
 def audio_path(type):
@@ -86,7 +86,7 @@ def audio_path(type):
     elif type == "sfx":
         return f"assets/sounds/sfx"
     else:
-        print("Can't find audio path!")
+        log_error("Can't find audio path!")
         return None
 
 def write_constant_to_file(filename, value):
@@ -94,16 +94,16 @@ def write_constant_to_file(filename, value):
     
     if not os.path.exists(constants_dir):
         os.makedirs(constants_dir)
-        print(f"Directory created: {constants_dir}")  # Debugging line
+        log_event(f"Directory created: {constants_dir}")
 
     file_path = os.path.join(constants_dir, filename)
     
     try:
         with open(file_path, 'w') as file:
             file.write(str(value))
-        print(f"Constant '{value}' written to {file_path}")  # Debugging line
+        log_event(f"Constant '{value}' written to {file_path}")
     except Exception as e:
-        print(f"Error writing to file: {e}")
+        log_error(f"Error writing to file: {e}")
 
 
 def read_constant_from_file(filename):
