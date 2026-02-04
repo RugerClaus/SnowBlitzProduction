@@ -23,9 +23,9 @@ class GameOverMenu(BaseMenu):
         center_x = window_w // 2
 
         self.buttons = [
-            Button(self.sound, self.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.restart_callback),
-            Button(self.sound, self.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.main_menu_callback),
-            Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.quit_callback),
+            Button(self.sound, self.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.restart_callback),
+            Button(self.sound, self.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.main_menu_callback),
+            Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.quit_callback),
         ]
 
     def on_resize(self):

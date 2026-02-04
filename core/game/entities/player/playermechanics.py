@@ -15,6 +15,7 @@ class PlayerMechanics:
         if high_score:
             return int(high_score)
         else:
+            write_constant_to_file('high_score',0)
             return 0
 
     @staticmethod

@@ -13,7 +13,8 @@ from core.state.ApplicationLayer.Audio.Game.statemanager import GameSFXStateMana
 
 class AudioEngine:
     def __init__(self):
-        create_volume_files()
+        default_volume = 0.3
+        create_volume_files(str(default_volume))
         self.interface_sfx_state = InterfaceSFXStateManager()
         self.music_state = MusicStateManager()
         self.game_sfx_state = GameSFXStateManager()
@@ -165,7 +166,7 @@ class AudioEngine:
             self.music_state.set_state(MUSIC_STATE.ON)
 
     def volume_up(self):
-        if self.volume < 1.0:
+        if self.volume < 0.5:
             self.volume += 0.1
             self.volume = round(self.volume, 1)
             write_constant_to_file('music_volume',str(self.volume))
@@ -179,7 +180,7 @@ class AudioEngine:
             pygame.mixer.music.set_volume(self.volume)
 
     def sfx_volume_up(self):
-        if self.sfx_volume < 1.0:
+        if self.sfx_volume < 0.5:
             self.sfx_volume += 0.1
             self.sfx_volume = round(self.sfx_volume, 1)
             write_constant_to_file('sfx_volume',str(self.sfx_volume))

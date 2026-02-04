@@ -88,36 +88,23 @@ def audio_path(type):
     else:
         print("Can't find audio path!")
         return None
-    
-import os
 
 def write_constant_to_file(filename, value):
     constants_dir = 'saves/constants'
     
     if not os.path.exists(constants_dir):
         os.makedirs(constants_dir)
+        print(f"Directory created: {constants_dir}")  # Debugging line
 
     file_path = os.path.join(constants_dir, filename)
     
     try:
         with open(file_path, 'w') as file:
             file.write(str(value))
-        log_event(f"Constant '{value}' written to {file_path}")
+        print(f"Constant '{value}' written to {file_path}")  # Debugging line
     except Exception as e:
-        log_event(f"Error writing to file: {e}")
+        print(f"Error writing to file: {e}")
 
-def delete_constant_file(filename):
-    file_path = os.path.join('saves/constants', filename)
-    
-    try:
-        if os.path.exists(file_path):
-            os.remove(file_path)
-        else:
-            log_event(f"File {file_path} does not exist.")
-            return None
-    except Exception as e:
-        log_error(f"Error deleting file: {e}")
-        return None
 
 def read_constant_from_file(filename):
     file_path = os.path.join('saves/constants', filename)
@@ -140,19 +127,19 @@ def check_leaderboard_opt():
     else:
         return False
     
-def create_volume_files():
+def create_volume_files(default_volume):
     file_path = 'saves/constants'
     if not os.path.exists(f'{file_path}'):
         os.makedirs(f'{file_path}')
     
     if not os.path.exists(f"{file_path}/music_volume"):
-        write_constant_to_file('music_volume','0.5')
+        write_constant_to_file('music_volume',f'{default_volume}')
         log_event('Music volume file creation: music_volume file created')
     else:
         log_event('Music volume file creation: music_volume file exists')
     
     if not os.path.exists(f"{file_path}/sfx_volume"):
-        write_constant_to_file('sfx_volume','0.5')
+        write_constant_to_file('sfx_volume',f'{default_volume}')
         log_event('SFX volume file creation: sfx_volume file created')
     else:
         log_event('SFX volume file creation: sfx_volume file exists')

@@ -1,4 +1,4 @@
-import math
+import math,webbrowser
 from core.menus.basemenu import BaseMenu
 from core.menus.usercreator import UserCreator
 from core.ui.button import Button
@@ -28,6 +28,7 @@ class Menu(BaseMenu):
         self.agreed_to_leaderboard = check_leaderboard_opt()
         self.user_creator = UserCreator(self.window,self.sound,self.state,self.input)
         self.leaderboard = LeaderboardViewer(self.window,self.sound,self.state,self.input,self.back_to_root)
+        self.updater = Update()
 
         self.title_image_original = self.window.load_image(asset("title"))
         self.title_image = self.title_image_original
@@ -40,7 +41,7 @@ class Menu(BaseMenu):
             print(self.agreed_to_leaderboard)
             self.state.set_state(MENUSTATE.LEADERBOARDOPTIN)
             self.create_buttons()
-
+            
         self.create_buttons()
         self.rescale_assets()
 
@@ -61,114 +62,121 @@ class Menu(BaseMenu):
         start_y = window_h // 4 + window_h // 7
         center_x = window_w // 2
 
-        update = Update()
+        
 
-        if self.state.is_state(MENUSTATE.ROOT) and update.state.is_state(UPDATE_STATE.CURRENT):
+        if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.buttons = [
                 Button(self.sound, self.window, "Endless Mode", center_x, start_y, btn_width, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.endless_callback),
+                    (255, 255, 255), self.button_action_true_color, self.endless_callback),
                 Button(self.sound, self.window, "Blitz Mode", center_x, start_y + spacing, btn_width, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.blitz_callback),
+                    (255, 255, 255), self.button_action_false_color, self.blitz_callback,False),
                 Button(self.sound, self.window, "Tutorial", center_x, start_y + spacing * 2, btn_width, btn_height,
-                    (255, 255, 255), (128, 128, 128), self.tutorial_callback),
+                    (255, 255, 255), self.button_action_true_color, self.tutorial_callback),
                 Button(self.sound, self.window, "Settings", center_x, start_y + spacing * 3, btn_width, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.go_to_settings),
+                    (255, 255, 255), self.button_action_true_color, self.go_to_settings),
                 Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.quit_callback),
+                    (255, 255, 255), self.button_action_true_color, self.quit_callback),
                 Button(self.sound, self.window, "Credits", window_w - window_w // 8, window_h - 100, 200, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.credits_callback),
+                    (255, 255, 255), self.button_action_true_color, self.credits_callback),
+                Button(self.sound, self.window, "Website", window_w // 8 + 50, window_h - 200, 200, btn_height,
+                    (255, 255, 255), self.button_action_true_color, self.open_website,True,(50,205,50)),
                 Button(self.sound, self.window, "Leaderboard", window_w // 8 + 50, window_h - 100, window_w // 4 if window_w < 800 else 300, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.view_leaderboard),
+                    (255, 255, 255), self.button_action_true_color, self.view_leaderboard),
             ]
-        if self.state.is_state(MENUSTATE.ROOT) and update.state.is_state(UPDATE_STATE.AVAILABLE):
+        if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.AVAILABLE):
             self.buttons = [
                 Button(self.sound, self.window, "Endless Mode", center_x, start_y, btn_width, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.endless_callback),
+                    (255, 255, 255), self.button_action_true_color, self.endless_callback),
                 Button(self.sound, self.window, "Blitz Mode", center_x, start_y + spacing, btn_width, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.blitz_callback),
+                    (255, 255, 255), self.button_action_true_color, self.blitz_callback),
                 Button(self.sound, self.window, "Tutorial", center_x, start_y + spacing * 2, btn_width, btn_height,
-                    (255, 255, 255), (128, 128, 128), self.tutorial_callback),
+                    (255, 255, 255), self.button_action_false_color, self.tutorial_callback),
                 Button(self.sound, self.window, "Settings", center_x, start_y + spacing * 3, btn_width, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.go_to_settings),
+                    (255, 255, 255), self.button_action_true_color, self.go_to_settings),
                 Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.quit_callback),
-                Button(self.sound, self.window, "Update", window_w - window_w // 8, window_h - 200, 220, btn_height,
-                    (255, 255, 255), (255, 0, 80), update.start),
+                    (255, 255, 255), self.button_action_true_color, self.quit_callback),
+                Button(self.sound, self.window, "Update!", window_w - window_w // 8, window_h - 200, 220, btn_height,
+                    (255, 255, 255), self.button_action_true_color, self.updater.start, True, (255, 165, 0)),
                 Button(self.sound, self.window, "Credits", window_w - window_w // 8, window_h - 100, 200, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.credits_callback),
+                    (255, 255, 255), self.button_action_true_color, self.credits_callback),
+                Button(self.sound, self.window, "Website", window_w // 8 + 50, window_h - 200, 200, btn_height,
+                    (255, 255, 255), self.button_action_true_color, self.open_website,True,(50,205,50)),
                 Button(self.sound, self.window, "Leaderboard", window_w // 8 + 50, window_h - 100, window_w // 4 if window_w < 800 else 300, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.view_leaderboard),
+                    (255, 255, 255), self.button_action_true_color, self.view_leaderboard),
             ]
         elif self.state.is_state(MENUSTATE.SETTINGS):
             if self.developer_mode.is_state(DEVELOPER_MODE.ON):
                 self.buttons = [
-                    Button(self.sound, self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
-                    Button(self.sound, self.window, f"Developer Settings", center_x, start_y + spacing * 1, btn_width * 2, btn_height, (255, 255, 255), (128, 0, 200), self.developer_settings),
+                    Button(self.sound, self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.audio_settings),
+                    Button(self.sound, self.window, f"Developer Settings", center_x, start_y + spacing * 1, btn_width * 2, btn_height, (255, 255, 255), self.button_action_true_color, self.developer_settings),
                     Button(self.sound, self.window, "Back", center_x, start_y + spacing * 2, btn_width, btn_height,
-                        (255, 255, 255), (255, 0, 80), self.back_to_root),
+                        (255, 255, 255), self.button_action_true_color, self.back_to_root),
                 ]
             else:
                 self.buttons = [
-                    Button(self.sound, self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.audio_settings),
+                    Button(self.sound, self.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.audio_settings),
                     Button(self.sound, self.window, "Back", center_x, start_y + spacing * 1, btn_width, btn_height,
-                        (255, 255, 255), (255, 0, 80), self.back_to_root),
+                        (255, 255, 255), self.button_action_true_color, self.back_to_root),
                 ]
         elif self.state.is_state(MENUSTATE.CREDITS):
 
             self.buttons = [
                 Button(self.sound, self.window, "Back", window_w - window_w // 8, window_h - 100, 150, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.back_to_root),
+                    (255, 255, 255), self.button_action_true_color, self.back_to_root),
             ]
         elif self.state.is_state(MENUSTATE.AUDIO):
             self.buttons = [
-                Button(self.sound, self.window, f"-", center_x - 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_down),
+                Button(self.sound, self.window, f"-", center_x - 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.sound.volume_down),
                 Button(self.sound, self.window, f"Music Vol: {int(self.sound.volume*10)}", center_x, self.window.get_height() // 2 - spacing, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
-                Button(self.sound, self.window, f"+", center_x + 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.volume_up),
+                Button(self.sound, self.window, f"+", center_x + 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.sound.volume_up),
                 
-                Button(self.sound, self.window, f"-", center_x - 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.sfx_volume_down),
+                Button(self.sound, self.window, f"-", center_x - 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.sound.sfx_volume_down),
                 Button(self.sound, self.window, f"SFX Vol: {int(self.sound.sfx_volume*10)}", center_x, self.window.get_height() // 2 + spacing * 0.01, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
-                Button(self.sound, self.window, f"+", center_x + 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), (128, 0, 200), self.sound.sfx_volume_up),
+                Button(self.sound, self.window, f"+", center_x + 200, self.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.sound.sfx_volume_up),
                 
                 Button(self.sound, self.window, f"Music:", center_x, self.window.get_height() // 2 + spacing * 1, 240, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.sound.toggle_music),
+                    (255, 255, 255), self.button_action_true_color, self.sound.toggle_music),
                 Button(self.sound, self.window, f"UI SFX:", center_x, self.window.get_height() // 2 + spacing * 2, 240, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.toggle_ui_sfx),
+                    (255, 255, 255), self.button_action_true_color, self.toggle_ui_sfx),
                 Button(self.sound, self.window, f"Game SFX:", center_x, self.window.get_height() // 2 + spacing * 3, 340, btn_height,
-                    (255, 255, 255), (128, 0, 200), self.toggle_game_sfx),
+                    (255, 255, 255), self.button_action_true_color, self.toggle_game_sfx),
                 Button(self.sound, self.window, "Back", center_x, self.window.get_height() // 2 + spacing * 4, 150, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.go_to_settings)
+                    (255, 255, 255), self.button_action_true_color, self.go_to_settings)
             ]
         elif self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
             if self.developer_mode.is_state(DEVELOPER_MODE.ON):
                 self.buttons = [
-                    Button(self.sound, self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_in_dev),
-                    Button(self.sound, self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_out),
+                    Button(self.sound, self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_in_dev),
+                    Button(self.sound, self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_out),
                 ]
             else:
                 self.buttons = [
-                    Button(self.sound, self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_in),
-                    Button(self.sound, self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), (128, 0, 200), self.leaderboard_opt_out),
+                    Button(self.sound, self.window, f"Yes", center_x - btn_width, self.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_in),
+                    Button(self.sound, self.window, f"No", center_x + btn_width, self.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_out),
                 ]
         elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.buttons = [
-                Button(self.sound, self.window, f"Submit", center_x, self.window.get_height() // 2 + spacing * 0.4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.submit_username),
-                Button(self.sound, self.window, f"Back", center_x, self.window.get_height() // 2 + spacing * 1.4, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.back_to_root),
+                Button(self.sound, self.window, f"Submit", center_x, self.window.get_height() // 2 + spacing * 0.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.submit_username),
+                Button(self.sound, self.window, f"Back", center_x, self.window.get_height() // 2 + spacing * 1.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.back_to_root),
             ]
     
         elif self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
             self.buttons = [
                 Button(self.sound, self.window, "Back", window_w - window_w // 8, window_h - 100, 150, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.leaderboard_back_to_root),
+                    (255, 255, 255), self.button_action_true_color, self.leaderboard_back_to_root),
             ]
         elif self.state.is_state(MENUSTATE.DEVELOPERSETTINGS):
             self.buttons = [
                 Button(self.sound, self.window, "Reset Username", center_x, self.window.get_height() // 2 - spacing, btn_width + 50, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.reset_username),
+                    (255, 255, 255), self.button_action_true_color, self.reset_username),
                 Button(self.sound, self.window, "Change Leaderboard Opt-in Status", center_x, self.window.get_height() // 2, btn_width * 2 + 150, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.change_opt_in),
+                    (255, 255, 255), self.button_action_true_color, self.change_opt_in),
                 Button(self.sound, self.window, "Back", center_x, self.window.get_height() // 2 + spacing, 150, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.go_to_settings),
+                    (255, 255, 255), self.button_action_true_color, self.go_to_settings),
             ]
+
+    def open_website(self):
+        webbrowser.open("https://snowblitz.net", new=2)
 
     def developer_settings(self):
         self.state.set_state(MENUSTATE.DEVELOPERSETTINGS)
@@ -277,10 +285,13 @@ class Menu(BaseMenu):
             self.set_title(None)
             self.user_creator.draw()
 
-        if self.state.is_state(MENUSTATE.ROOT):
-            self.set_title(None)
+        if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.window.blit(self.title_image, self.title_rect)
-
+        
+        if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.AVAILABLE):
+            self.window.blit(self.title_image, self.title_rect)
+            self.draw_update_text()
+            
         if self.state.is_state(MENUSTATE.SETTINGS):
             self.set_title("SETTINGS")
         

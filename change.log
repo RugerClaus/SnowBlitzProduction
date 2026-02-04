@@ -29,4 +29,12 @@ Development version Beta 0.9.3 - UNRELEASED
     - Causes ungodly compatibility issues
 - Fixed a bug where the PLAYER_POWER_STATE was being set to PowerUpType.TYPE, which is a totally impossible transition.
     - logging for invalid state transitions is paying dividends now
-    
+
+- Made button hover UI more uniform setting a standard color for text when mouse is hovering over a button
+    - active buttons will have text that turns PURPLE when hovering and will change the program state to whatever that button does
+    - inactive buttons will have text that turns GREY when hovering and will not change anything in the program state
+
+- Added button to link to the website from the game
+- Made update button pop out and more obvious with contrasting background color
+- Set alpha value on button surfaces (this should have been done months ago)
+- Set max volume to 5 and changed default volume to 3
