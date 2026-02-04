@@ -10,7 +10,7 @@
 
 <p>This branch, the main branch will be for cutting edge features. Features need to be at least feature complete upon commit unless i'm personally feeling lazy.</p>
 
-<p>The most recent stable update released (source code), will be available on its own branch. We will delete that branch upon a new version.</p>
+<p>The most recent stable update released (source code), will be available on <a href="https://snowblitz.net/downloads/source/SnowBlitz_Beta_Source_Latest.zip">DOWNLOAD LINK FROM SNOWBLITZ.NET</a></p>
 
 <p>Previous versions will be archived on <b>snowblitz.net/downloads/archive/source</b>, and will be organized by version, latest first. I hate going into some software archive and finding it difficult to locate downloads. Every single list item MUST BE a download link for that version. The same applies to <b>snowblitz.net/downloads/archive/builds/[linux|windows|macos]</b>, and players will have an easy time regardless of their skill level. This is the MOST IMPORTANT part of the project.</p>
 
