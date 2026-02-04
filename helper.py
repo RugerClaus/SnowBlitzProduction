@@ -162,8 +162,8 @@ def draw_loading(font,window,text_string):
         t = window.get_current_time() / 500
         pulse = (math.sin(t) + 1) / 2  # 0 → 1
 
-        dark = 40      # dark grey
-        light = 255    # white
+        dark = 40
+        light = 255   
 
         fade_color = (
             int(dark + (light - dark) * pulse),
