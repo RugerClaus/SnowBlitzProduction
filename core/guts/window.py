@@ -26,7 +26,7 @@ class Window:
             self.screen = pygame.display.set_mode((self.width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
         else:
             self.screen = pygame.display.set_mode((width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
-        pygame.display.set_caption(f"{config["TITLE"]} {config["VERSION"]}")
+        pygame.display.set_caption(f"{config['TITLE']} {config['VERSION']}")
         
     
     def toggle_fullscreen(self):

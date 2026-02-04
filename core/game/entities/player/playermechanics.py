@@ -192,13 +192,26 @@ class PlayerMechanics:
                     player.power_state.set_state(PLAYER_POWER_STATE.NONE)
                     player.last_powerup_start_time = None
                     player.shrink_rate = PlayerMechanics.calculate_shrink_rate(player.diam,player)
+    @staticmethod
+    def map_powerup_to_state(powerup_type):
+        if powerup_type == PowerUpType.ABSORB_ROCK:
+            return PLAYER_POWER_STATE.ABSORB_ROCK
+        elif powerup_type == PowerUpType.ANTI_SHRINK:
+            return PLAYER_POWER_STATE.ANTI_SHRINK
+        return None 
     
     @staticmethod
     def apply_powerup(player, new_power_state, duration):
-        player.power_state.set_state(new_power_state)
+        
+        mapped_state = PlayerMechanics.map_powerup_to_state(new_power_state)
+
+        if mapped_state:
+            player.power_state.set_state(mapped_state)
+
         player.powerup_duration = duration
         player.last_powerup_start_time = player.board_surface.get_current_time()
-            
+
+                
 
     @staticmethod
     def handle_reducer(player,reducer):
