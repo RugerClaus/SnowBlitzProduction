@@ -38,3 +38,4 @@ Development version Beta 0.9.3 - UNRELEASED
 - Made update button pop out and more obvious with contrasting background color and added text near the title indicating update availability
 - Set alpha value on button surfaces (this should have been done months ago)
 - Set max volume to 5 and changed default volume to 3
+- Made tutorial prompts check the actual key bindings to tell the player how to play
