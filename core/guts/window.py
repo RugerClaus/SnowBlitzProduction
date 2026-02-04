@@ -1,6 +1,6 @@
 import pygame
 
-from helper import get_colors,log_error
+from helper import get_colors,log_error,asset
 from config import config
 
 class Window:
@@ -27,7 +27,12 @@ class Window:
         else:
             self.screen = pygame.display.set_mode((width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
         pygame.display.set_caption(f"{config['TITLE']} {config['VERSION']}")
+
+        icon = self.load_image(asset("linux_icon")).convert_alpha()
+        pygame.display.set_icon(icon)
         
+    def transform_scale(self, original_surface, new_surface_width, new_surface_height):
+        return pygame.transform.scale(original_surface, (new_surface_width, new_surface_height))
     
     def toggle_fullscreen(self):
         if not self.fullscreen:

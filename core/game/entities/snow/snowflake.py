@@ -7,6 +7,7 @@ class SnowFlake(Entity):
         self.board_surface = board_surface
         self.spawn()
         super().__init__(self.x, self.y, board_surface, EntityType.SNOWFLAKE, self.diam)
+        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
         
 
     def spawn(self):
@@ -16,7 +17,6 @@ class SnowFlake(Entity):
         
         self.speed = 0
         self.surface = self.board_surface.make_surface(self.diam,self.diam,True)
-        self.rect = self.surface.get_rect()
 
     def update(self):
         acceleration = 0.03

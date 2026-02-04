@@ -1,6 +1,8 @@
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.Loading.state import LOAD_SCREEN_STATE
 from core.state.ApplicationLayer.Loading.statemanager import LoadingStateManager
+from core.state.ApplicationLayer.Audio.SFX.state import SYSTEM_SFX_STATE
+from core.game.entities.entitymanager import EntityManager
 from helper import asset
 
 class LoadingManager:
@@ -8,17 +10,24 @@ class LoadingManager:
         self.window = window
         self.parent_state = parent_state
         self.sound = sound
-        self.sound.play_sfx('splash')
         self.state = LoadingStateManager()
-        self.title_image_original = self.window.load_image(asset("splash")).convert_alpha()
-        self.title_image = self.title_image_original
-        self.title_rect = self.title_image.get_rect(center=(self.window.get_width()//2,self.window.get_height()//2))
+        self.entitymanager = EntityManager(self.window)
+        self.splash_one_original = self.window.load_image(asset("splashpt1")).convert_alpha()
+        self.splash_one = self.splash_one_original
+        self.splash_one_rect = self.splash_one.get_rect(center=(self.window.get_width()//2,self.window.get_height()//2))
+        self.splash_two_original = self.window.load_image(asset("splashpt2")).convert_alpha()
+        self.splash_two = self.splash_two_original
+        self.splash_two_rect = self.splash_two.get_rect(center=(self.window.get_width()//2,self.window.get_height()//2))
+        self.splash_one_sfx_played = False
+        self.splash_two_sfx_played = False
+        self.splash_two_start_time = None
         self.start_time = self.window.get_current_time()
-        self.state.set_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN)
+        self.state.set_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_ONE)
 
     def rescale_assets(self):
         window_w, window_h = self.window.get_size()
-        self.title_rect = self.title_image.get_rect(center=(window_w // 2, window_h // 2 - 50))
+        self.splash_one_rect = self.splash_one.get_rect(center=(window_w // 2, window_h // 2 - 50))
+        self.splash_two_rect = self.splash_two.get_rect(center=(window_w // 2, window_h // 2 - 50))
 
     def update(self):
         if self.state.is_state(LOAD_SCREEN_STATE.NONE):
@@ -26,12 +35,51 @@ class LoadingManager:
             self.sound.play_music()
         if not self.parent_state.is_state(APPSTATE.LOADING):
             self.state.set_state(LOAD_SCREEN_STATE.NONE)
+            self.sound.system_sfx_state.set_state(SYSTEM_SFX_STATE.OFF)
             self.sound.play_music()
+            
+        
+        if self.state.is_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO):
+            self.entitymanager.update_entities()
+            self.entitymanager.spawn_snowflakes()
+
+    def play_splash_2_fade_in(self):
+        current_time = self.window.get_current_time()
+        
+        if self.splash_two_start_time is None:
+            self.splash_two_start_time = current_time
+            if not self.splash_two_sfx_played:
+                self.sound.play_sfx("splash2")
+                self.splash_two_sfx_played = True
+        
+        # time to make you think because many parts of this codebase are not only insecure, but too neat
+                
+        el = current_time - self.splash_two_start_time
+        du = 9300
+        alpha = (el / du) * 255
+        if alpha > 255:
+            alpha = 255
+        
+        self.splash_two.set_alpha(alpha)
+
+        self.window.blit(self.splash_two,self.splash_two_rect)
+
+        if el >= du:
+            self.state.set_state(LOAD_SCREEN_STATE.NONE)
 
     def draw(self):
         current_time = self.window.get_current_time()
-        if self.state.is_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN):
-            if current_time - self.start_time > 3500 or not self.parent_state.is_state(APPSTATE.LOADING):
-                self.state.set_state(LOAD_SCREEN_STATE.NONE)
-            else:
-                self.window.blit(self.title_image,self.title_rect)
+        if self.state.is_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_ONE):
+            self.window.blit(self.splash_one, self.splash_one_rect)
+
+            if not self.splash_one_sfx_played:
+                self.sound.play_sfx("splash1")
+                self.splash_one_sfx_played = True
+        if current_time - self.start_time > 2500:
+            self.state.set_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO)
+        if self.state.is_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO):
+            
+            self.play_splash_2_fade_in()  
+            self.entitymanager.draw_entities()  
+
+

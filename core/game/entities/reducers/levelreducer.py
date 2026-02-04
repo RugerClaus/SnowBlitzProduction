@@ -13,6 +13,7 @@ class LevelReducer(Entity):
         self.font = FontEngine(30).font
         self.spawn()
         super().__init__(self.x, self.y, board_surface, EntityType.REDUCER, self.diam)
+        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
 
     def get_reducer_number(self):
         pass
@@ -23,7 +24,6 @@ class LevelReducer(Entity):
         self.diam = self.diam
         self.speed = 0
         self.surface = self.board_surface.make_surface(self.diam,self.diam)
-        self.rect = self.surface.get_rect()
 
     def update(self):
         acceleration = 0.05

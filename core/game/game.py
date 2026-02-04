@@ -1,3 +1,4 @@
+from helper import log_event, log_error
 from core.state.GameLayer.state import GAMESTATE
 from core.state.GameLayer.statemanager import GameStateManager
 from core.state.GameLayer.GameMode.state import GAME_MODE
@@ -108,7 +109,7 @@ class Game:
         self.state.set_state(GAMESTATE.PLAYING)
 
     def reset_tutorial(self):
-        print("resetting tutorial")
+        log_event("resetting tutorial")
         self.game_object.reset_tutorial()
         self.state.set_state(GAMESTATE.PLAYING)
 

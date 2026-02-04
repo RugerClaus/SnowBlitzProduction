@@ -37,6 +37,7 @@ function build_main() {
 
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
+    --icon="assets/images/build/linux.png" \
     --noconsole \
     --windowed \
     --clean \

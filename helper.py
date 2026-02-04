@@ -1,5 +1,4 @@
 import os
-import pygame
 import json
 from datetime import datetime
 
@@ -8,21 +7,19 @@ def asset(asset):
         return "assets/images/main/title.png"
     elif asset == "default_font":
         return 'assets/font/OpenSansPX.ttf'
-    elif asset == "splash":
-        return "assets/images/main/splash.png"
+    elif asset == "splashpt1":
+        return "assets/images/main/splashpt1.png"
+    elif asset == "splashpt2":
+        return "assets/images/main/splashpt2.png"
+    elif asset == "linux_icon":
+        return "assets/images/build/linux.png"
+    elif asset == "windows_icon":
+        return "assets/images/build/windows.ico"
     elif asset == "gunnoshot":
         return "assets/images/raycasted/gunnoshot.png"
     elif asset == "gunshot":
         return "assets/images/raycasted/gunshot.png"
     
-def asset_frames(prefix, count, ext="png", folder="menu_bg"):
-    frames = []
-    for i in range(1, count + 1):
-        path = os.path.join("assets", "images", "main",folder, f"{prefix}_{i}.{ext}")
-        surf = pygame.image.load(path).convert_alpha()
-        frames.append(surf)
-    return frames
-
 def log_state_transition(from_state, to_state, state_type, ticks=None, sub_dir=None, log_file=None):
     log_data = {
         "timestamp": datetime.now().isoformat(),

@@ -68,7 +68,8 @@ class App:
             if event.type == self.input.video_resize_event():
                 self.window.scale(event.w,event.h)
                 self.debugger.scale()
-                self.loading.rescale_assets()
+                if self.state.is_state(APPSTATE.LOADING):
+                    self.loading.rescale_assets()
                 self.menu.scale()
                 self.input.rescale(event.w,event.h)
                 if not self.state.is_state(APPSTATE.IN_GAME):

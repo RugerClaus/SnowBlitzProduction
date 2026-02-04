@@ -5,11 +5,9 @@ from core.game.entities.entity import Entity
 class Rock(Entity):
     def __init__(self, board_surface):
         self.board_surface = board_surface
-        
         self.spawn()
-        
         super().__init__(self.x, self.y, board_surface, EntityType.ROCK)
-
+        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
 
     def spawn(self):
         self.x = random.randint(90, self.board_surface.get_width()-90)
@@ -18,7 +16,6 @@ class Rock(Entity):
         self.width = random.randint(30,50)
         self.height = random.randint(30,50)
         self.surface = self.board_surface.make_surface(self.width,self.height)
-        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
         colors = [
             (112, 128, 144),  # Slate Gray
             (169, 169, 169),  # Dark Gray

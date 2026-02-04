@@ -10,6 +10,8 @@ from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
 from core.state.ApplicationLayer.Audio.Music.statemanager import MusicStateManager
 from core.state.ApplicationLayer.Audio.Game.state import GAME_SFX_STATE
 from core.state.ApplicationLayer.Audio.Game.statemanager import GameSFXStateManager
+from core.state.ApplicationLayer.Audio.SFX.state import SYSTEM_SFX_STATE
+from core.state.ApplicationLayer.Audio.SFX.statemanager import SystemSFXStateManager
 
 class AudioEngine:
     def __init__(self):
@@ -18,11 +20,13 @@ class AudioEngine:
         self.interface_sfx_state = InterfaceSFXStateManager()
         self.music_state = MusicStateManager()
         self.game_sfx_state = GameSFXStateManager()
+        self.system_sfx_state = SystemSFXStateManager()
         sound_on = self.initialize_audio()
         if sound_on:
             self.interface_sfx_state.set_state(INTERFACE_SFX_STATE.ON)
             self.music_state.set_state(MUSIC_STATE.ON)
             self.game_sfx_state.set_state(GAME_SFX_STATE.ON)
+            self.system_sfx_state.set_state(SYSTEM_SFX_STATE.ON)
 
         self.music_tracks = {}
         self.sound_effects = {}
@@ -39,7 +43,7 @@ class AudioEngine:
             pygame.mixer.init()
             self.MUSIC_END_EVENT = pygame.USEREVENT + 1
             pygame.mixer.music.set_endevent(self.MUSIC_END_EVENT)
-            print("Audio device initialized successfully.")
+            log_event("Audio device initialized successfully.")
             return True
             
             
@@ -71,18 +75,17 @@ class AudioEngine:
                 sound_file = File(sfx_path)
                 effect_name = sound_file.get('title', [filename])[0]
                 effect_name = os.path.splitext(effect_name)[0]
-                self.sound_effects[effect_name] = os.path.join(sfx_dir, filename)
+                self.sound_effects[effect_name] = pygame.mixer.Sound(sfx_path)
     
     def play_sfx(self, effect_name):
         if self.game_sfx_state.is_state(GAME_SFX_STATE.ON):
             if effect_name in self.sound_effects:
-                sfx_path = self.sound_effects[effect_name]
-                sound_effect = pygame.mixer.Sound(sfx_path)
+                sound_effect = self.sound_effects[effect_name]
                 sound_effect.set_volume(self.sfx_volume)
                 sound_effect.play()
                 self.active_sfx[effect_name] = sound_effect
             else:
-                print(f"Sound effect '{effect_name}' not found.")
+                log_error(f"Sound effect '{effect_name}' not found.")
         elif self.game_sfx_state.is_state(GAME_SFX_STATE.NONE):
             log_error("Missing sound device", "AudioEngine: cannot set sound device")
     
@@ -98,8 +101,24 @@ class AudioEngine:
                 sound_effect.play()
                 self.active_sfx[effect_name] = sound_effect
             else:
-                print(f"Sound effect '{effect_name}' not found.")
+                log_error(f"Sound effect '{effect_name}' not found.")
         elif self.game_sfx_state.is_state(INTERFACE_SFX_STATE.NONE):
+            log_error("Missing sound device", "AudioEngine: cannot set sound device")
+    
+        else:
+            return "off"
+        
+    def play_system_sfx(self, effect_name):
+        if self.interface_sfx_state.is_state(SYSTEM_SFX_STATE.ON):
+            if effect_name in self.sound_effects:
+                sfx_path = self.sound_effects[effect_name]
+                sound_effect = pygame.mixer.Sound(sfx_path)
+                sound_effect.set_volume(self.sfx_volume)
+                sound_effect.play()
+                self.active_sfx[effect_name] = sound_effect
+            else:
+                log_error(f"Sound effect '{effect_name}' not found.")
+        elif self.game_sfx_state.is_state(SYSTEM_SFX_STATE.NONE):
             log_error("Missing sound device", "AudioEngine: cannot set sound device")
     
         else:
@@ -111,7 +130,7 @@ class AudioEngine:
             del self.active_sfx[effect_name]
 
     def stop_all_sfx(self):
-        print('Stopping all SFX')
+        log_event('Stopping all SFX')
         for sfx in self.active_sfx.values():
             sfx.stop()
         self.active_sfx.clear()

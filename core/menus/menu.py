@@ -50,7 +50,7 @@ class Menu(BaseMenu):
         new_title_width = int(window_w * 0.5)
         scale_factor = new_title_width / self.title_image_original.get_width()
         new_title_height = int(self.title_image_original.get_height() * scale_factor)
-        self.title_image = pygame.transform.scale(self.title_image_original, (new_title_width, new_title_height))
+        self.title_image = self.window.transform_scale(self.title_image_original, new_title_width, new_title_height)
         self.title_rect = self.title_image.get_rect(center=(window_w // 2, int(window_h * 0.2)))
         self.credits.rescale()
         self.user_creator.scale()

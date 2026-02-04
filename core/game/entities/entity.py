@@ -1,3 +1,5 @@
+# if i ever want to mess with global entities
+
 from core.game.entities.type import EntityType
 
 class Entity:
