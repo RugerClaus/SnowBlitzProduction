@@ -21,7 +21,7 @@ Development version Beta 0.9.2 - 2026-02-03
 - Added a NEW SYSTEM for updating the application at the click of a button 
 - Added updater executable that gets created at build time so that the game can update
 
-Development version Beta 0.9.3 - UNRELEASED
+Development version Beta 0.9.3 - 2026-02-04
 --------------------------------------------
 
 - Fixed a bug where linux builds would not start if they were running a version of python previous to 3.12
