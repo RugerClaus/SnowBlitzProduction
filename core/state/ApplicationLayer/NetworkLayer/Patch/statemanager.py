@@ -2,7 +2,7 @@ from core.state.ApplicationLayer.NetworkLayer.Patch.state import PATCH_STATE
 from core.state.basestatemanager import BaseStateManager
 from helper import log_state_transition
 
-class UpdateStateManager(BaseStateManager):
+class PatchStateManager(BaseStateManager):
     def __init__(self):
 
         allowed_transitions = {

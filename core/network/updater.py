@@ -154,7 +154,6 @@ class Updater:
         if self.server_updater_version:
             if self.server_updater_version > self.current_updater_version:
                 log_event(f"New updater version available: {self.server_updater_version}. Current version: {self.current_updater_version}.")
-                # Update state to AVAILABLE
                 self.state.set_state(PATCH_STATE.AVAILABLE)
 
                 if self.download_updater():
