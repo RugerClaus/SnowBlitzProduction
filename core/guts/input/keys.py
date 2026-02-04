@@ -4,6 +4,7 @@ class Keys:
     def __init__(self):
         self.info = "This is a class of methods to return pygame keys, but can work for any other backend."
         #will make the whole system more robust so i can clean out and modularize the input system.
+        # now we are officially ready to make a simple set of control schemes for the player to choose from later on
 
     def space_key(self):
         return pygame.K_SPACE
@@ -13,3 +14,9 @@ class Keys:
     
     def d_key(self):
         return pygame.K_d
+    
+    def left_arrow_key(self):
+        return pygame.K_LEFT
+    
+    def right_arrow_key(self):
+        return pygame.K_RIGHT

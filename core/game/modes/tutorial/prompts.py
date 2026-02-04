@@ -1,4 +1,3 @@
-import pygame
 from core.ui.font import FontEngine
 
 class Prompts:
@@ -6,14 +5,14 @@ class Prompts:
         self.board_surface = board_surface
         self.player = player
         self.input = input
-        self.font = FontEngine(35).font
+        self.font = FontEngine(55).font
 
         self.player_has_moved = False
         self.player_has_continued = False
 
     def movement_prompt(self):
         if not self.player_has_moved:
-            self._draw_centered_text("Press A or D to move")
+            self._draw_centered_text(f"Press {self.input.get_current_left_control()} or {self.input.get_current_right_control()} to move")
 
     def snow_prompt(self):
         if not self.player_has_continued:
@@ -44,7 +43,7 @@ class Prompts:
             self._draw_centered_text("Tutorial Complete!\nPress SPACE to go to the main menu")
 
     def handle_movement_input(self, controls):
-        keys = pygame.key.get_pressed()
+        keys = self.input.get_pressed_keys()
         if keys[controls.move_left] or keys[controls.move_right]:
             self.player_has_moved = True
 

@@ -20,6 +20,12 @@ class InputManager:
         self.keys = Keys()
         self.game_controls = Controls()
 
+    def get_current_left_control(self):
+        return self.get_key_name(self.game_controls.move_left).capitalize()
+    
+    def get_current_right_control(self):
+        return self.get_key_name(self.game_controls.move_right).capitalize()
+
     def video_resize_event(self):
         return pygame.VIDEORESIZE
 
