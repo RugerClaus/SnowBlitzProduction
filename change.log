@@ -49,3 +49,4 @@ Development version Beta 0.9.4 - UNRELEASED
 - Renamed APPMODE to DEBUG_STATE and rehandled it as a debug overlay state manager
     - Basically, the debug overlay shows active states (next part of this upgrade) and can be toggled
     - Eventually I will be adding OS info, as well as hardware info. Preparing this for larger games.
+- Put all environment specific logic into an `example.config.py` and made `setup.py` to load the real config file for the dev
