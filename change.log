@@ -40,7 +40,7 @@ Development version Beta 0.9.3 - 2026-02-04
 - Set max volume to 5 and changed default volume to 3
 - Made tutorial prompts check the actual key bindings to tell the player how to play
 
-Development version Beta 0.9.4 - UNRELEASED
+Development version Beta 0.9.4 - 2026-02-04
 -------------------------------------------
 - Added to the splash screen system and introduced game mechanics in the loading screen
 - Fixed a bug where entities would artifact at the top left hand corner of the screen
