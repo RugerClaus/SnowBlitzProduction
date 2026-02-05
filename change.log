@@ -50,3 +50,7 @@ Development version Beta 0.9.4 - UNRELEASED
     - Basically, the debug overlay shows active states (next part of this upgrade) and can be toggled
     - Eventually I will be adding OS info, as well as hardware info. Preparing this for larger games.
 - Put all environment specific logic into an `example.config.py` and made `setup.py` to load the real config file for the dev
+- Added a score multiplier
+- Added new entity type: Multiplier Upgrade
+- Added masking for player collisions
+- Added Multiplier Upgrade section to Tutorial Mode

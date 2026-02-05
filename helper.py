@@ -15,8 +15,8 @@ def asset(asset):
         return "assets/images/build/linux.png"
     elif asset == "windows_icon":
         return "assets/images/build/windows.ico"
-    elif asset == "gunnoshot":
-        return "assets/images/raycasted/gunnoshot.png"
+    elif asset == "multiplierupgrade":
+        return "assets/images/main/multiplierupgrade.png"
     elif asset == "gunshot":
         return "assets/images/raycasted/gunshot.png"
     

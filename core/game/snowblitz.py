@@ -9,6 +9,8 @@ from core.game.modes.tutorial.prompts import Prompts
 from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
+from core.game.entities.type import EntityType
+
 class SnowBlitz:
     def __init__(self,board_surface,sound,game_state,input):
         self.board_surface = board_surface
@@ -32,6 +34,9 @@ class SnowBlitz:
             self.player.move('RIGHT')
         if not (keys[self.input.game_controls.move_left] or keys[self.input.game_controls.move_right]):
             self.player.move('NONE')
+        
+        if keys[self.input.keys.h_key()]:
+            self.entitymanager.add_entity(EntityType.MULTIPLIER_UPGRADE)
 
     def init_endless(self):
         endless = Endless(self.progress_bar,self.player,self.entitymanager)

@@ -17,6 +17,10 @@ class Window:
         self.set_screen()
         self.Rect = pygame.Rect
         
+
+    def mask(self,surface):
+        return pygame.mask.from_surface(surface)
+
     def set_screen(self,width=None,height=None):
         if width is None and height is None:
             self.screen = pygame.display.set_mode((self.width,self.height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
@@ -28,7 +32,7 @@ class Window:
             self.screen = pygame.display.set_mode((width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
         pygame.display.set_caption(f"{config['TITLE']} {config['VERSION']}")
 
-        icon = self.load_image(asset("linux_icon")).convert_alpha()
+        icon = self.load_image(asset("linux_icon"))
         pygame.display.set_icon(icon)
         
     def transform_scale(self, original_surface, new_surface_width, new_surface_height):

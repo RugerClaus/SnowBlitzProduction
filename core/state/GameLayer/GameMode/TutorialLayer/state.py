@@ -7,6 +7,8 @@ class TUTORIALSTATE(Enum):
     SNOW = auto()
     ROCKS_PROMPT = auto()
     ROCKS = auto()
+    MULTIPLIER_UPGRADES_PROMPT = auto()
+    MULTIPLIER_UPGRADES = auto()
     POWERUPS_PROMPT = auto()
     POWERUPS = auto()
     LEVEL_REDUCER_PROMPT = auto()

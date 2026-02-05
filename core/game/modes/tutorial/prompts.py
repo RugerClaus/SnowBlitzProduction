@@ -26,6 +26,15 @@ class Prompts:
                 "Rocks are dangerous! Avoid them\nPress SPACE to continue"
             )
 
+    def multiplier_upgrades_prompt(self):
+        if not self.player_has_continued:
+            self._draw_centered_text(
+                "Multiplier Upgrades increase your score multiplier by 1.\n"
+                "They spawn once every 2.5 minutes initially,\n"
+                "but appear more often the more you collect them.\n"
+                "Press SPACE to continue."
+            )
+            
     def powerup_prompt(self):
         if not self.player_has_continued:
             self._draw_centered_text(

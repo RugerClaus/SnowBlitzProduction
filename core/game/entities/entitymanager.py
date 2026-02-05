@@ -9,6 +9,8 @@ from core.game.entities.reducers.twenty import Twenty
 from core.game.entities.reducers.fifty import Fifty
 from core.game.entities.reducers.hundred import OneHundred
 
+from core.game.entities.multiplier.multiplierupgrade import MultiplierUpgrade
+
 from core.game.entities.type import EntityType
 from core.game.entities.powerups.type  import PowerUpType
 from core.game.entities.reducers.type import LRType
@@ -20,18 +22,25 @@ class EntityManager:
             "rocks": [],
             "powerups": [],
             "snowflakes": [],
-            "level_reducers": []
+            "level_reducers": [],
+            "multiplierupgrades": [],
         }
 
         self.last_flake_spawn_time = self.board_surface.get_current_time()
         self.last_rock_spawn_time = self.board_surface.get_current_time()
         self.last_powerup_spawn_time = self.board_surface.get_current_time()
         self.last_reducer_spawn_time = self.board_surface.get_current_time()
+        self.last_multiplierupgrade_spawn_time = self.board_surface.get_current_time()
 
         self.flake_interval = 500
         self.rock_interval = 800
         self.powerup_interval = 1500
         self.reducer_interval = 10000
+        self.multiplierupgrade_interval = 150000
+        self.multiplierupgrade_min_interval = 75000
+        self.multiplier_upgrade_decay = 0.9
+
+        self.multiplier_tutorial_upgrade_interval = 10000
         
 
     def reset_entities(self):
@@ -39,7 +48,8 @@ class EntityManager:
             "rocks": [],
             "powerups": [],
             "snowflakes": [],
-            "level_reducers": []
+            "level_reducers": [],
+            "multiplierupgrades": [],
         }
 
     def add_entity(self, entity_type, sub_type=None):
@@ -49,6 +59,8 @@ class EntityManager:
                 
             elif entity_type == EntityType.SNOWFLAKE:
                 self.entities["snowflakes"].append(SnowFlake(self.board_surface))
+            elif entity_type == EntityType.MULTIPLIER_UPGRADE:
+                self.entities["multiplierupgrades"].append(MultiplierUpgrade(self.board_surface))
 
         else:
             if isinstance(sub_type,PowerUpType):
@@ -106,6 +118,28 @@ class EntityManager:
             if len(self.entities["snowflakes"]) < 50:
                 self.add_entity(EntityType.SNOWFLAKE)
                 self.last_flake_spawn_time = current_time
+
+    def spawn_multiplier_upgrades(self, current_level=None, tutorial=False):
+        current_time = self.board_surface.get_current_time()
+
+        if not tutorial and not current_level:
+            if current_time - self.last_multiplierupgrade_spawn_time > self.multiplierupgrade_interval:
+                if len(self.entities["multiplierupgrades"]) < 1:
+                    self.add_entity(EntityType.MULTIPLIER_UPGRADE)
+                    self.last_multiplierupgrade_spawn_time = current_time
+
+                    # Reduce interval for next spawn
+                    self.multiplierupgrade_interval = max(
+                        int(self.multiplierupgrade_interval * self.multiplier_upgrade_decay),
+                        self.multiplierupgrade_min_interval
+                    )
+        else:
+            if current_time - self.last_multiplierupgrade_spawn_time > self.multiplier_tutorial_upgrade_interval:
+                if len(self.entities["multiplierupgrades"]) < 1:
+                    if current_level >= 4:
+                        self.add_entity(EntityType.MULTIPLIER_UPGRADE)
+                        self.last_multiplierupgrade_spawn_time = current_time
+
 
     def spawn_rocks(self,current_level):
         current_time = self.board_surface.get_current_time()

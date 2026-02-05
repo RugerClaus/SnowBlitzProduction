@@ -18,6 +18,10 @@ class Player(Entity):
         print(self.current_high_score)
         super().__init__(self.x, self.y, board_surface, EntityType.PLAYER, self.base_size)
         self.reset()
+        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
+        self.rect.bottom = self.y
+        self.rect.centerx = self.board_surface.get_width() // 2 
+        self.x = self.rect.centerx
 
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
@@ -26,6 +30,10 @@ class Player(Entity):
         self.last_powerup_start_time = None
         self.powerup_duration = 5000
         self.shrink_rate = None
+
+        self.multiplier = 1
+        self.multiplier_timer = 0
+        self.multiplier_duration = 3000 
 
     def scale(self, event_h):
         scale_factor = event_h / self.original_height
@@ -52,7 +60,8 @@ class Player(Entity):
         self.shrink_rate = physics.calculate_shrink_rate(self.diam,self)
         self.diam -= self.shrink_rate
         self.base_size = self.diam / 2
-        self.score += physics.check_multiplier()
+        physics.update_multiplier(self)
+        self.score += int(1.1 * self.multiplier)
         
         self.x = physics.update_movement(self.move_state, self.speed, self.x)
         physics.resize(self)
@@ -90,35 +99,37 @@ class Player(Entity):
         self.board_surface.blit(self.surface,self.rect.topleft)
 
     def check_collisions(self,entities):
+        player_mask = self.board_surface.mask(self.surface)
+
         for entity in entities:
-            if self.rect.colliderect(entity.rect):
+            entity_mask = self.board_surface.mask(entity.surface)
+            offset = (entity.rect.x - self.rect.x, entity.rect.y - self.rect.y)
+            if player_mask.overlap(entity_mask, offset):
                 if entity.type == EntityType.SNOWFLAKE:
                     physics.collect_snowflake(self,entity)
                     self.sound.play_sfx('snow')
                     entity.collected()
                     self.score += entity.diam
                 elif entity.type == EntityType.ROCK:
-                    physics.handle_rock(self,entity)
-
+                        physics.handle_rock(self,entity)
                 elif entity.type == EntityType.POWERUP:
                     physics.handle_powerup(self,entity)
                     entity.collected()
                     physics.apply_powerup(self,entity.power_type,self.powerup_duration)
-
                 elif entity.type == EntityType.REDUCER:
                     physics.handle_reducer(self,entity)
+                    entity.collected()
+                elif entity.type == EntityType.MULTIPLIER_UPGRADE:
+                    physics.increase_multiplier(self)
                     entity.collected()
 
     def reset(self):
         self.original_height = self.board_surface.get_height()
         self.diam = 10
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
-        self.rect = self.surface.get_rect()
         self.speed = 5
         self.color = (255, 255, 255)
-        self.rect.bottom = self.y
-        self.rect.centerx = self.board_surface.get_width() // 2 
-        self.x = self.rect.centerx
+        
 
         self.score = 0
         self.current_level = 1

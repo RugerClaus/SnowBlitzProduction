@@ -24,6 +24,7 @@ class TutorialManager:
         self.progress_bar.draw()
         self.entitymanager.spawn_snowflakes()
         self.entitymanager.spawn_rocks(self.player.current_level)
+        self.entitymanager.spawn_multiplier_upgrades()
         self.entitymanager.spawn_powerups(self.player.current_level)
         self.entitymanager.spawn_reducers(self.player.current_level)
         self.entitymanager.update_entities()
@@ -93,6 +94,32 @@ class TutorialManager:
             self.progress_bar.draw()
             self.entitymanager.spawn_snowflakes()
             self.entitymanager.spawn_rocks(self.player.current_level)
+            self.entitymanager.spawn_multiplier_upgrades(self.player.current_level,True)
+            self.entitymanager.update_entities()
+            self.entitymanager.draw_entities()
+            self.entitymanager.spawn_rocks(self.player.current_level)
+            self.player.check_collisions(self.entitymanager.get_active_entities())
+
+            for multiplierupgrade in self.entitymanager.entities["multiplierupgrades"]:
+                if multiplierupgrade.y >= self.board_surface.get_height() // 4:
+                    self.state.set_state(TUTORIALSTATE.MULTIPLIER_UPGRADES_PROMPT)
+
+        elif self.state.is_state(TUTORIALSTATE.MULTIPLIER_UPGRADES_PROMPT):
+            self.wait()
+            self.prompts.multiplier_upgrades_prompt()
+            self.prompts.handle_continue_input()
+            if self.prompts.player_has_continued:
+                self.prompts.player_has_continued = False
+                self.state.set_state(TUTORIALSTATE.MULTIPLIER_UPGRADES)
+        
+        elif self.state.is_state(TUTORIALSTATE.MULTIPLIER_UPGRADES):
+            self.player.update()
+            self.player.draw()
+            self.progress_bar.update()
+            self.progress_bar.draw()
+            self.entitymanager.spawn_snowflakes()
+            self.entitymanager.spawn_rocks(self.player.current_level)
+            self.entitymanager.spawn_multiplier_upgrades()
             self.entitymanager.spawn_powerups(self.player.current_level)
             self.entitymanager.update_entities()
             self.entitymanager.draw_entities()

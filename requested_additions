@@ -2,10 +2,6 @@
 REQUESTED FEATURES:
 ##########################
 
-NOT ADDED - score multiplier that increases with level increases or maybe powerups that are rare, and have some challenging mechanic to acquire and cause the player's score multipier to increase by a (small) degree
-
-NOT ADDED - level reducers should be an arrow
-
 NOT ADDED - unlockable cosmetics for the snowball
 
 NOT ADDED - add particle effects for watter droplets shooting off snowball
@@ -21,3 +17,5 @@ ADDED - Make Update button an alternate color so it pops out when an update is a
 ADDED - a link in the game to the website - maybe a button on the main menu outside of the main menu section maybe above the leaderboard button
 
 ADDED - volume should only go from 1 to 5 for both sfx and music
+
+ADDED - score multiplier that increases when picking up a score multiplier upgrade. These spawn no more than once every 5 minutes

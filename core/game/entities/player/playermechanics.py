@@ -128,11 +128,17 @@ class PlayerMechanics:
     @staticmethod
     def calculate_level_up_size(current_level):
         return 10 + (current_level) * 5
-
+    
     @staticmethod
-    def check_multiplier():
-        return 3
-
+    def update_multiplier(player):
+            current_time = player.board_surface.get_current_time()
+            if current_time - player.multiplier_timer > player.multiplier_duration:
+                player.multiplier = 1
+                
+    @staticmethod
+    def increase_multiplier(player):
+        player.multiplier += 1
+        player.multiplier_timer = player.board_surface.get_current_time()
 
     @staticmethod
     def resize(player):

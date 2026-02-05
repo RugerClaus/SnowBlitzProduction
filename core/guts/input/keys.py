@@ -15,6 +15,9 @@ class Keys:
     def d_key(self):
         return pygame.K_d
     
+    def h_key(self):
+        return pygame.K_h
+    
     def left_arrow_key(self):
         return pygame.K_LEFT
     
