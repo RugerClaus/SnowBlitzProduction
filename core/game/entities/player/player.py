@@ -127,7 +127,7 @@ class Player(Entity):
         self.original_height = self.board_surface.get_height()
         self.diam = 10
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
-        self.speed = 5
+        self.speed = 7
         self.color = (255, 255, 255)
         
 

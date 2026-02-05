@@ -1,3 +1,4 @@
+import math
 from core.game.modes.endless import Endless
 from core.game.modes.blitz import Blitz
 from core.game.modes.tutorial.tutorial import Tutorial
@@ -9,14 +10,18 @@ from core.game.modes.tutorial.prompts import Prompts
 from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
-from core.game.entities.type import EntityType
+from core.state.GameLayer.GameMode.state import GAME_MODE
+
+# from core.game.mechanics.daycycle.daycycle import DayCycle
+# from core.game.entities.sun.sun import Sun
 
 class SnowBlitz:
-    def __init__(self,board_surface,sound,game_state,input):
+    def __init__(self,board_surface,sound,game_state,input,mode):
         self.board_surface = board_surface
         self.sound = sound
         self.game_state = game_state
         self.input = input
+        self.mode = mode
         self.entitymanager = EntityManager(self.board_surface)
         self.player = Player(self.board_surface,self.entitymanager,sound,game_state)
         self.start_time = self.board_surface.get_current_time()
@@ -25,6 +30,14 @@ class SnowBlitz:
         self.tutorial_state = TutorialStateManager()
         self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.input.game_controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
         self.tutorial = Tutorial(self.board_surface,self.player,self.entitymanager,self.input.game_controls,self.progress_bar,self.tutorial_state,self.tutorial_manager,self.prompts)
+
+        # this stuff will take a while to iron out
+        # self.day_cycle = DayCycle(self.board_surface)
+        # self.sun = Sun(self.board_surface,self.day_cycle)
+
+        if self.mode.is_state(GAME_MODE.TUTORIAL):
+            self.player.speed = 5
+            print(self.player.speed)
 
     def handle_event(self):
         keys = self.input.get_pressed_keys()
@@ -35,14 +48,12 @@ class SnowBlitz:
         if not (keys[self.input.game_controls.move_left] or keys[self.input.game_controls.move_right]):
             self.player.move('NONE')
         
-        if keys[self.input.keys.h_key()]:
-            self.entitymanager.add_entity(EntityType.MULTIPLIER_UPGRADE)
-
     def init_endless(self):
-        endless = Endless(self.progress_bar,self.player,self.entitymanager)
+        endless = Endless(self.progress_bar, self.player, self.entitymanager)
         endless.run()
         
     def init_tutorial(self):
+        self.board_surface.fill((0,0,0))
         self.tutorial.run()
 
     def init_blitz(self):

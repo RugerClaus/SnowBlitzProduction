@@ -54,3 +54,4 @@ Development version Beta 0.9.4 - UNRELEASED
 - Added new entity type: Multiplier Upgrade
 - Added masking for player collisions
 - Added Multiplier Upgrade section to Tutorial Mode
+- Implemented a half baked daylight cycle that is not ready for the game.

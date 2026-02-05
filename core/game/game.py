@@ -16,7 +16,7 @@ class Game:
         self.window = window
         self.sound = sound
         self.input = input
-        self.game_object = SnowBlitz(self.window, self.sound, self.state,self.input)
+        self.game_object = SnowBlitz(self.window, self.sound, self.state,self.input,self.game_mode)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
         self.game_over_menu = GameOverMenu(self.sound,self.window, self.input, self.reset_game, self.quit_to_menu, self.quit)

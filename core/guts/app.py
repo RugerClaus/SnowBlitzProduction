@@ -127,6 +127,7 @@ class App:
                 self.menu.update()
                 self.menu.draw()
             elif self.state.is_state(APPSTATE.IN_GAME):
+                
                 self.game.run()
             elif self.state.is_state(APPSTATE.QUIT):
                 self.window.quit()

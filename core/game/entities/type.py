@@ -7,3 +7,4 @@ class EntityType(Enum):
     ROCK = auto()
     REDUCER = auto()
     MULTIPLIER_UPGRADE = auto()
+    SUN = auto()

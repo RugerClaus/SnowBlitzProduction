@@ -59,7 +59,11 @@ class Window:
         return self.screen.get_size()
 
     def timer(self):
-        self.clock.tick(self.fps)
+        return self.clock.tick(self.fps)
+    
+    def get_delta_time(self):
+        ms = self.timer()
+        return ms / 1000.0
     
     def get_current_time(self):
         return pygame.time.get_ticks()
