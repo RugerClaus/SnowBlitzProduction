@@ -50,10 +50,10 @@ class DebugOverlay:
         self.surface.blit(song_surf, (left_x, left_y))
         left_y += song_surf.get_height() * 1.2
 
-        day_time_text = f"{str(self.game.game_object.day_cycle.get_elapsed_seconds())}"
-        daytime_surf = self.font_left.render(day_time_text,False,text_color)
-        self.surface.blit(daytime_surf,(left_x,left_y))
-        left_y += daytime_surf.get_height() * 1.2
+        # day_time_text = f"{str(self.game.game_object.day_cycle.get_elapsed_seconds())}"
+        # daytime_surf = self.font_left.render(day_time_text,False,text_color)
+        # self.surface.blit(daytime_surf,(left_x,left_y))
+        # left_y += daytime_surf.get_height() * 1.2
 
         right_x = surface_width - 10
         right_y = 10
