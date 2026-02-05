@@ -19,7 +19,10 @@ TIMEOUT_SECONDS = 60
 
 class Updater:
     def __init__(self):
-        self.update_url = 'https://snowblitz.net/downloads/patch/patched_updater.zip'
+        os_type = config.get("OS").lower()
+        self.update_url = f"{config.get("API").get("UPDATER_FILE_URL")}/{os_type}/{config.get("UPDATER_FILE_ZIP")}"
+        if not self.update_url:
+            log_error("UPDATE URL url not set in config")
         self.state = PatchStateManager()
         self.fetch_state_manager = FetchStateManager()
 
@@ -34,7 +37,7 @@ class Updater:
         self.start()
 
     def fetch_server_updater_version(self):
-        version_url = 'https://snowblitz.net/api/getCurrentUpdaterVersion.php'
+        version_url = config.config.get("API").get("CURRENT_VERSION")
 
         try:
             response = requests.get(version_url, timeout=TIMEOUT_SECONDS)
@@ -62,7 +65,6 @@ class Updater:
             self.server_updater_version = None
 
     def download_updater(self):
-        """Download the patched updater zip from the server."""
         self.fetch_state_manager.set_state(FETCH_STATE.FETCHING)
 
         try:
@@ -94,7 +96,6 @@ class Updater:
             return False
 
     def unpack_updater(self):
-        """Unpack the downloaded updater zip and replace the old updater executable."""
         if not os.path.exists(self.updater_zip):
             log_error(f"Patched updater zip not found at {self.updater_zip}")
             return False
@@ -146,7 +147,6 @@ class Updater:
         sys.exit(0)
 
     def start(self):
-        """Start the updater replacement process if needed."""
         log_event("Starting the updater replacement process...")
 
         self.fetch_server_updater_version()

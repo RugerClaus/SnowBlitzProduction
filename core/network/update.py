@@ -11,7 +11,9 @@ TIMEOUT_SECONDS = 60
 
 class Update:
     def __init__(self):
-        self.currentVersionURL = 'https://snowblitz.net/api/getCurrentGameVersion.php'
+        self.currentVersionURL = config.get("API").get("CURRENT_VERSION")
+        if not self.currentVersionURL:
+            log_error("Current Version url not set in config")
         self.state = UpdateStateManager()
         self.fetch_state_manager = FetchStateManager()
 
@@ -74,7 +76,9 @@ class Update:
         log_event(f"Starting the update process... from {config.get('VERSION')} to {self.server_version}")
 
         os_type = config.get("OS").lower()
-        update_files_url = f'https://snowblitz.net/downloads/update/latest/{os_type}/{config.get("UPDATE_ZIP_NAME")}'
+        update_files_url = f'{config.get("API").get("UPDATE_FILE_URL")}/{os_type}/{config.get("UPDATE_ZIP_NAME")}'
+        if not update_files_url:
+            log_error("Update Files url not set in config")
 
         log_event(f"Download URL: {update_files_url}")
 

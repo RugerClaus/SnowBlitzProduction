@@ -8,5 +8,12 @@ config = {
     "UPDATE_ZIP_NAME": "snowblitz_update_latest.zip",
     "UPDATER_WINDOWS": "updater.exe",
     "UPDATER_LINUX": "updater",
-    "UPDATER_VERSION": "0.0.2"
+    "UPDATER_VERSION": "0.0.2",
+    "API": {
+        "LEADERBOARD": "",
+        "USER_AUTH": "",
+        "UPDATE_SCORE": "",
+        "UPDATE_FILE_URL": "",
+        "CURRENT_VERSION": "",
+    }
 }

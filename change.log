@@ -45,3 +45,7 @@ Development version Beta 0.9.4 - UNRELEASED
 - Added to the splash screen system and introduced game mechanics in the loading screen
 - Fixed a bug where entities would artifact at the top left hand corner of the screen
     - This bug was around for quite some time. Zap you go
+- Made player's username flash if they are on the leaderboard
+- Renamed APPMODE to DEBUG_STATE and rehandled it as a debug overlay state manager
+    - Basically, the debug overlay shows active states (next part of this upgrade) and can be toggled
+    - Eventually I will be adding OS info, as well as hardware info. Preparing this for larger games.

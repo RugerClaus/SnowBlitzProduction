@@ -11,3 +11,4 @@ saves/constants/sfx_volume
 logs/*/*.log
 logs/*.log
 update/
+config.py

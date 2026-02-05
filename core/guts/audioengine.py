@@ -124,6 +124,17 @@ class AudioEngine:
         else:
             return "off"
 
+    def fade_out_music(self, duration):
+        steps = max(1, duration // 50)
+        step_volume = self.volume / steps
+
+        for i in range(steps):
+            pygame.time.delay(50)
+            self.volume = max(0, self.volume - step_volume)
+            pygame.mixer.music.set_volume(self.volume)
+        pygame.mixer.music.stop()
+        self.current_track = None
+
     def stop_sfx(self, effect_name):
         if effect_name in self.active_sfx:
             self.active_sfx[effect_name].stop()

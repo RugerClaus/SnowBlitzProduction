@@ -1,11 +1,14 @@
 import requests
+from config import config
 from helper import log_error, log_event
 
 TIMEOUT_SECONDS = 5
 
 class Leaderboard:
     def __init__(self):
-        self.leaderboardURL = 'https://snowblitz.net/api/getLeaderboard.php'
+        self.leaderboardURL = config.get("API").get("LEADERBOARD")
+        if not self.leaderboardURL:
+            log_error("Leaderboard url not set in config")
 
     def fetch_leaderboard(self):
         try:

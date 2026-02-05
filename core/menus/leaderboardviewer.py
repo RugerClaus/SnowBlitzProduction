@@ -1,9 +1,10 @@
-import threading
+import threading,math
 from helper import *
 from core.ui.font import FontEngine
 from core.network.leaderboard import Leaderboard
 from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchStateManager
+from core.network.user import User
 class LeaderboardViewer():
     def __init__(self,window,sound,state,input,root_callback):
         self.window = window
@@ -19,6 +20,8 @@ class LeaderboardViewer():
         self.fetch_thread = None
 
         self.lock = threading.Lock()
+
+        self.user = User()
 
     def start_fetch(self):
         if not self.fetch_manager.is_state(FETCH_STATE.IDLE):
@@ -62,14 +65,13 @@ class LeaderboardViewer():
                 self.fetch_manager.set_state(FETCH_STATE.IDLE)
             elif self.fetch_manager.is_state(FETCH_STATE.FETCHING):
                 draw_loading(self.font, self.window, "Loading Leaderboard...")
-            elif self.fetch_manager.is_state(FETCH_STATE.SUCCESS):
-                self.fetch_manager.set_state(FETCH_STATE.IDLE)
             elif self.fetch_manager.is_state(FETCH_STATE.CANCELLED):
                 self.cached_data = None
                 self.fetch_manager.set_state(FETCH_STATE.IDLE)
             return
 
         self.display_leaderboard(self.cached_data)
+        self.fetch_manager.set_state(FETCH_STATE.IDLE)
 
 
     def display_timeout(self):
@@ -88,6 +90,16 @@ class LeaderboardViewer():
 
         header_color = (255, 255, 0)
         text_color = (255, 255, 255)
+        t = self.window.get_current_time() / 100
+        pulse = (math.sin(t) + 1) / 2
+        fade_color = (
+            int(20 + (200 - 10) * pulse),
+            255,
+            int(20 + (200 - 10) * pulse),
+        )
+        player_text_color = fade_color
+        
+        
 
         header_y = start_y - (row_height/2+15)
 
@@ -105,9 +117,10 @@ class LeaderboardViewer():
             row_number_text = f"{str(row+1)}. "
             username_text = entry['username']
 
-            row_number_surf = self.font.render(row_number_text, True, text_color)
-            username_surf = self.font.render(username_text, True, text_color)
-            score_surf = self.font.render(str(entry["score"]), True, text_color)
+            row_number_surf = self.font.render(row_number_text, True, text_color if username_text != self.user.get_username() else player_text_color)
+            
+            username_surf = self.font.render(username_text, True, text_color if username_text != self.user.get_username() else player_text_color)
+            score_surf = self.font.render(str(entry["score"]), True, text_color if username_text != self.user.get_username() else player_text_color)
 
             row_number_x = username_x
             username_x_offset = row_number_surf.get_width()
@@ -116,6 +129,7 @@ class LeaderboardViewer():
             self.window.blit(username_surf, username_surf.get_rect(left=row_number_x + row_number_surf.get_width(), centery=y))
             self.window.blit(score_surf, score_surf.get_rect(left=score_x, centery=y))
 
+        
         log_event("Displaying leaderboard data.", f"{self.leaderboard}")
 
 

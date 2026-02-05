@@ -52,6 +52,7 @@ class Player(Entity):
         self.shrink_rate = physics.calculate_shrink_rate(self.diam,self)
         self.diam -= self.shrink_rate
         self.base_size = self.diam / 2
+        self.score += physics.check_multiplier()
         
         self.x = physics.update_movement(self.move_state, self.speed, self.x)
         physics.resize(self)

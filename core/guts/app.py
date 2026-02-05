@@ -2,12 +2,12 @@ import sys
 from helper import *
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.statemanager import StateManager
-from core.state.ApplicationLayer.mode import APPMODE
-from core.state.ApplicationLayer.modemanager import ModeManager
+from core.state.ApplicationLayer.Debug.state import DEBUG_STATE
+from core.state.ApplicationLayer.Debug.statemanager import DebugStateManager
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.ApplicationLayer.devmanager import DevManager
 from core.state.GameLayer.GameMode.state import GAME_MODE
-from core.util.debugger import Debugger
+from core.util.debugoverlay import DebugOverlay
 from core.guts.input.inputmanager import InputManager
 from core.game.game import Game
 from core.menus.menu import Menu
@@ -19,13 +19,13 @@ class App:
         self.window = window
         self.input = InputManager(window)
         self.state = StateManager()
-        self.mode = ModeManager()
+        self.mode = DebugStateManager()
         self.dev = DevManager()
         self.sound = AudioEngine()
         self.menu = Menu(self.dev,window,self.sound,self.input,self.endless,self.blitz,self.tutorial,self.quit)
         self.game = Game(window,self.sound,self.input,self.go_to_menu,self.quit)
         self.loading = LoadingManager(self.window,self.state,self.sound)
-        self.debugger = Debugger(self.game,self.state,window,self.sound,self.input,self.loading,self.dev)
+        self.debug_overlay = DebugOverlay(self.game,self.state,window,self.sound,self.input,self.loading,self.dev)
 
     def _popup_test_toggle(self):
         self.popup_active = not self.popup_active
@@ -43,10 +43,10 @@ class App:
         self.game.set_game_mode(GAME_MODE.TUTORIAL)
 
     def toggle_debug_mode(self):
-        if not self.mode.is_state(APPMODE.DEBUG):
-            self.mode.set_state(APPMODE.DEBUG)
+        if not self.mode.is_state(DEBUG_STATE.ON):
+            self.mode.set_state(DEBUG_STATE.ON)
         else:
-            self.mode.set_state(APPMODE.PRIMARY)
+            self.mode.set_state(DEBUG_STATE.OFF)
 
     def toggle_developer_mode(self):
         if not self.dev.is_state(DEVELOPER_MODE.ON):
@@ -67,7 +67,7 @@ class App:
         for event in self.input.input_event():
             if event.type == self.input.video_resize_event():
                 self.window.scale(event.w,event.h)
-                self.debugger.scale()
+                self.debug_overlay.scale()
                 if self.state.is_state(APPSTATE.LOADING):
                     self.loading.rescale_assets()
                 self.menu.scale()
@@ -82,12 +82,14 @@ class App:
             
             if self.state.is_state(APPSTATE.MAIN_MENU):
                 self.menu.handle_event(event)
+                self.sound.stop_sfx("splash1")
+                self.sound.stop_sfx("splash2")
 
             elif self.state.is_state(APPSTATE.IN_GAME):
                 self.game.handle_event(event,self.input)
             
-            if self.mode.is_state(APPMODE.DEBUG):
-                self.debugger.handle_event(event)
+            if self.mode.is_state(DEBUG_STATE.ON):
+                self.debug_overlay.handle_event(event)
 
             self.sound.handle_music_event(event)
 
@@ -129,9 +131,9 @@ class App:
             elif self.state.is_state(APPSTATE.QUIT):
                 self.window.quit()
                 sys.exit()
-            if self.mode.is_state(APPMODE.DEBUG):
-                self.debugger.update()
-                self.debugger.draw()
+            if self.mode.is_state(DEBUG_STATE.ON):
+                self.debug_overlay.update()
+                self.debug_overlay.draw()
                 self.input.draw_most_recent_keypress()
             
             if self.dev.is_state(DEVELOPER_MODE.ON):

@@ -130,6 +130,11 @@ class PlayerMechanics:
         return 10 + (current_level) * 5
 
     @staticmethod
+    def check_multiplier():
+        return 3
+
+
+    @staticmethod
     def resize(player):
         bottom = player.rect.bottom
         player.surface = player.board_surface.make_surface(player.diam, player.diam, True)

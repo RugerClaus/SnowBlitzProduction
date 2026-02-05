@@ -2,7 +2,7 @@ from core.ui.font import FontEngine
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
-class Debugger:
+class DebugOverlay:
     def __init__(self,game,state,window,sound,input,loading,developer_mode):
         self.sound = sound
         self.input = input

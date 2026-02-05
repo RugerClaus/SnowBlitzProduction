@@ -1,12 +1,16 @@
 # oh god do I hate try catch blocks. I finally needed to use them here but still i hate them. I could use a state machine, but that seems overengineered for the 2 network files I forsee existing for a long time
 
-import requests
+import requests, config
 
 from helper import *
 class User:
     def __init__(self):
-        self.setusernameURL = 'https://snowblitz.net/api/createUsername.php'
-        self.setuserhighscoreURL = 'https://snowblitz.net/api/setUserHighScore.php'
+        self.setusernameURL = config.config.get("API").get("USER_AUTH")
+        if not self.setusernameURL:
+            log_error("Username Auth url not set in config")
+        self.setuserhighscoreURL = config.config.get("API").get("UPDATE_SCORE")
+        if not self.setuserhighscoreURL:
+            log_error("Update Score url not set in config")
 
     def get_username(self):
         username = read_constant_from_file('username')
