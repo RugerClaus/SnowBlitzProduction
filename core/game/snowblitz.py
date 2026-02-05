@@ -35,10 +35,6 @@ class SnowBlitz:
         # self.day_cycle = DayCycle(self.board_surface)
         # self.sun = Sun(self.board_surface,self.day_cycle)
 
-        if self.mode.is_state(GAME_MODE.TUTORIAL):
-            self.player.speed = 5
-            print(self.player.speed)
-
     def handle_event(self):
         keys = self.input.get_pressed_keys()
         if keys[self.input.game_controls.move_left]:

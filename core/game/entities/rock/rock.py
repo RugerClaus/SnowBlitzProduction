@@ -41,7 +41,7 @@ class Rock(Entity):
         if self.speed >= 10:
             acceleration = 0
         self.rect.topleft = (self.x, self.y)
-        if self.y > self.board_surface.get_height() - 100:
+        if self.y > self.board_surface.get_height() + 100:
             self.spawn()
 
     def draw(self):

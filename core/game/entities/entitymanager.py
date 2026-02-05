@@ -37,8 +37,8 @@ class EntityManager:
         self.powerup_interval = 1500
         self.reducer_interval = 10000
         self.multiplierupgrade_interval = 150000
-        self.multiplierupgrade_min_interval = 75000
-        self.multiplier_upgrade_decay = 0.9
+        self.multiplierupgrade_min_interval = 10000
+        self.multiplier_upgrade_decay = 1
 
         self.multiplier_tutorial_upgrade_interval = 10000
         

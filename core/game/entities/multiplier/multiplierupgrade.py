@@ -27,7 +27,7 @@ class MultiplierUpgrade(Entity):
         self.y += self.speed
         self.rect.topleft = (self.x, self.y)
 
-        if self.y > self.board_surface.get_height():
+        if self.y > self.board_surface.get_height() + 100:
             self.active = False
 
     def collected(self):
