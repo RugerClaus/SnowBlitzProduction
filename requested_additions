@@ -6,6 +6,12 @@ NOT ADDED - unlockable cosmetics for the snowball
 
 NOT ADDED - add particle effects for watter droplets shooting off snowball
 
+NOT ADDED - need to add a settings option for client info showing the version and telling if it's the latest
+
+NOT ADDED - need to add modal with changelog to show what changed in latest version after updating.
+
+NOT ADDED - need to add a client password for the username creation system. basically i'll just include it in the config.py since it's basically an environment file
+
 ##########################
 COMPLETED:
 ##########################
