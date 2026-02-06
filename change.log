@@ -40,7 +40,7 @@ Development version Beta 0.9.3 - 2026-02-04
 - Set max volume to 5 and changed default volume to 3
 - Made tutorial prompts check the actual key bindings to tell the player how to play
 
-Development version Beta 0.9.4 - 2026-02-04
+Development version Beta 0.9.4 - 2026-02-05
 -------------------------------------------
 - Added to the splash screen system and introduced game mechanics in the loading screen
 - Fixed a bug where entities would artifact at the top left hand corner of the screen
@@ -55,3 +55,7 @@ Development version Beta 0.9.4 - 2026-02-04
 - Added masking for player collisions
 - Added Multiplier Upgrade section to Tutorial Mode
 - Implemented a half baked daylight cycle that is not ready for the game.
+
+Development version Beta 0.9.4a - 2026-02-05
+--------------------------------------------
+- HOTFIX No username creation possible. =FIXED

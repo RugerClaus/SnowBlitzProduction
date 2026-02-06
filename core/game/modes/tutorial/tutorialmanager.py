@@ -20,8 +20,7 @@ class TutorialManager:
     def final(self):
         self.player.update()
         self.player.draw()
-        self.progress_bar.update()
-        self.progress_bar.draw()
+        
         self.entitymanager.spawn_snowflakes()
         self.entitymanager.spawn_rocks(self.player.current_level)
         self.entitymanager.spawn_multiplier_upgrades()
@@ -29,7 +28,10 @@ class TutorialManager:
         self.entitymanager.spawn_reducers(self.player.current_level)
         self.entitymanager.update_entities()
         self.entitymanager.draw_entities()
-        self.entitymanager.spawn_rocks(self.player.current_level)
+
+        self.progress_bar.update()
+        self.progress_bar.draw()
+
         self.player.check_collisions(self.entitymanager.get_active_entities())
 
     def update(self):
@@ -46,11 +48,11 @@ class TutorialManager:
         elif self.state.is_state(TUTORIALSTATE.BEGIN):
             self.player.update()
             self.player.draw()
-            self.progress_bar.update()
-            self.progress_bar.draw()
             self.entitymanager.spawn_snowflakes()
             self.entitymanager.update_entities()
             self.entitymanager.draw_entities()
+            self.progress_bar.update()
+            self.progress_bar.draw()
             for snowflake in self.entitymanager.entities["snowflakes"]:
                 if snowflake.y >= self.board_surface.get_height() // 4:
                     self.state.set_state(TUTORIALSTATE.SNOW_PROMPT)
@@ -66,12 +68,12 @@ class TutorialManager:
         elif self.state.is_state(TUTORIALSTATE.SNOW):
             self.player.update()
             self.player.draw()
-            self.progress_bar.update()
-            self.progress_bar.draw()
             self.entitymanager.update_entities()
             self.entitymanager.draw_entities()
             self.entitymanager.spawn_snowflakes()
             self.entitymanager.spawn_rocks(self.player.current_level)
+            self.progress_bar.update()
+            self.progress_bar.draw()
             self.entitymanager.check_collisions()
             self.player.check_collisions(self.entitymanager.get_active_entities())
 
@@ -90,14 +92,13 @@ class TutorialManager:
         elif self.state.is_state(TUTORIALSTATE.ROCKS):
             self.player.update()
             self.player.draw()
-            self.progress_bar.update()
-            self.progress_bar.draw()
             self.entitymanager.spawn_snowflakes()
             self.entitymanager.spawn_rocks(self.player.current_level)
             self.entitymanager.spawn_multiplier_upgrades(self.player.current_level,True)
             self.entitymanager.update_entities()
             self.entitymanager.draw_entities()
-            self.entitymanager.spawn_rocks(self.player.current_level)
+            self.progress_bar.update()
+            self.progress_bar.draw()
             self.player.check_collisions(self.entitymanager.get_active_entities())
 
             for multiplierupgrade in self.entitymanager.entities["multiplierupgrades"]:
@@ -123,7 +124,8 @@ class TutorialManager:
             self.entitymanager.spawn_powerups(self.player.current_level)
             self.entitymanager.update_entities()
             self.entitymanager.draw_entities()
-            self.entitymanager.spawn_rocks(self.player.current_level)
+            self.progress_bar.update()
+            self.progress_bar.draw()
             self.player.check_collisions(self.entitymanager.get_active_entities())
 
             for powerup in self.entitymanager.entities["powerups"]:
