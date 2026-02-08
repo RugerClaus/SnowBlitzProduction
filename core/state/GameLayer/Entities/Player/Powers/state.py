@@ -5,3 +5,4 @@ class PLAYER_POWER_STATE(Enum):
     ABSORB_ROCK = auto()
     ANTI_SHRINK = auto()
     GROW_SLOW = auto()
+    SPEED_BOOST = auto()

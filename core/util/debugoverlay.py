@@ -110,10 +110,15 @@ class DebugOverlay:
             self.surface.blit(player_movement_state_surf, (right_x - player_movement_state_surf.get_width(), right_y))
             right_y += player_movement_state_surf.get_height() * 1.2
 
-            player_power_state_text = f"Player Movement: {self.game.game_object.player.power_state.get_state()}"
+            player_power_state_text = f"Player Powerup: {self.game.game_object.player.power_state.get_state()}"
             player_power_state_surf = self.font_right.render(player_power_state_text, False, text_color)
             self.surface.blit(player_power_state_surf, (right_x - player_power_state_surf.get_width(), right_y))
             right_y += player_power_state_surf.get_height() * 1.2
+
+            player_speed_state_text = f"Player Speed: {self.game.game_object.player.speed_state.get_state()}"
+            player_speed_state_surf = self.font_right.render(player_speed_state_text, False, text_color)
+            self.surface.blit(player_speed_state_surf, (right_x - player_speed_state_surf.get_width(), right_y))
+            right_y += player_speed_state_surf.get_height() * 1.2
 
         self.window.blit(self.surface, self.rect)
 

@@ -17,8 +17,8 @@ def asset(asset):
         return "assets/images/build/windows.ico"
     elif asset == "multiplierupgrade":
         return "assets/images/main/multiplierupgrade.png"
-    elif asset == "gunshot":
-        return "assets/images/raycasted/gunshot.png"
+    elif asset == "clock":
+        return "assets/images/main/clock.png"
     
 def log_state_transition(from_state, to_state, state_type, ticks=None, sub_dir=None, log_file=None):
     log_data = {

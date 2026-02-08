@@ -8,22 +8,32 @@ class PlayerPowerStateManager(BaseStateManager):
             PLAYER_POWER_STATE.NONE: [
                 PLAYER_POWER_STATE.ABSORB_ROCK,
                 PLAYER_POWER_STATE.ANTI_SHRINK,
-                PLAYER_POWER_STATE.GROW_SLOW
+                PLAYER_POWER_STATE.GROW_SLOW,
+                PLAYER_POWER_STATE.SPEED_BOOST
             ],
             PLAYER_POWER_STATE.ABSORB_ROCK: [
                 PLAYER_POWER_STATE.ANTI_SHRINK,
                 PLAYER_POWER_STATE.GROW_SLOW,
-                PLAYER_POWER_STATE.NONE
+                PLAYER_POWER_STATE.NONE,
+                PLAYER_POWER_STATE.SPEED_BOOST
             ],
             PLAYER_POWER_STATE.ANTI_SHRINK: [
                 PLAYER_POWER_STATE.ABSORB_ROCK,
                 PLAYER_POWER_STATE.GROW_SLOW,
-                PLAYER_POWER_STATE.NONE
+                PLAYER_POWER_STATE.NONE,
+                PLAYER_POWER_STATE.SPEED_BOOST
             ],
             PLAYER_POWER_STATE.GROW_SLOW: [
                 PLAYER_POWER_STATE.ABSORB_ROCK,
                 PLAYER_POWER_STATE.ANTI_SHRINK,
-                PLAYER_POWER_STATE.NONE
+                PLAYER_POWER_STATE.NONE,
+                PLAYER_POWER_STATE.SPEED_BOOST
+            ],
+            PLAYER_POWER_STATE.SPEED_BOOST: [
+                PLAYER_POWER_STATE.ABSORB_ROCK,
+                PLAYER_POWER_STATE.ANTI_SHRINK,
+                PLAYER_POWER_STATE.NONE,
+                PLAYER_POWER_STATE.GROW_SLOW
             ]
         }
         super().__init__(

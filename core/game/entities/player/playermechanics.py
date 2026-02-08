@@ -1,6 +1,8 @@
+import math
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
+from core.state.GameLayer.Entities.Player.Speed.state import SPEED_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.game.entities.powerups.type import PowerUpType
 
@@ -17,6 +19,16 @@ class PlayerMechanics:
         else:
             write_constant_to_file('high_score',0)
             return 0
+
+    @staticmethod
+    def update_speed(speed_state):
+        if speed_state.is_state(SPEED_STATE.NORMAL):
+            return 7
+        elif speed_state.is_state(SPEED_STATE.SLOW):
+            return 4
+        elif speed_state.is_state(SPEED_STATE.FAST):
+            return 10
+
 
     @staticmethod
     def update_movement(move_state, speed, x):
@@ -70,6 +82,9 @@ class PlayerMechanics:
                 player.color = (0,0,255)
             elif player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
                 player.color = (0,255,0)
+            elif player.power_state.is_state(PLAYER_POWER_STATE.SPEED_BOOST):
+                player.color = (150,150,150)
+                player.speed_state.set_state(SPEED_STATE.FAST)
         else:
             player.color = (255,255,255)
         
@@ -177,6 +192,8 @@ class PlayerMechanics:
             player.power_state.set_state(PLAYER_POWER_STATE.ABSORB_ROCK)
         elif powerup.power_type == PowerUpType.ANTI_SHRINK:
             player.power_state.set_state(PLAYER_POWER_STATE.ANTI_SHRINK)
+        elif powerup.power_type == PowerUpType.SPEED_BOOST:
+            player.power_state.set_state(PLAYER_POWER_STATE.SPEED_BOOST)
 
     @staticmethod
     def handle_powerup(player, powerup):
@@ -192,7 +209,9 @@ class PlayerMechanics:
             if player.last_powerup_start_time is None: 
                 player.last_powerup_start_time = player.board_surface.get_current_time()
                 player.shrink_rate = 0
-
+        elif player.power_state.is_state(PLAYER_POWER_STATE.SPEED_BOOST):
+            if player.last_powerup_start_time is None:
+                player.last_powerup_start_time = player.board_surface.get_current_time()
 
     @staticmethod
     def handle_powerup_timer(player):

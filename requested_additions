@@ -12,6 +12,7 @@ NOT ADDED - need to add modal with changelog to show what changed in latest vers
 
 NOT ADDED - need to add a client password for the username creation system. basically i'll just include it in the config.py since it's basically an environment file
 
+
 ##########################
 COMPLETED:
 ##########################
@@ -25,3 +26,7 @@ ADDED - a link in the game to the website - maybe a button on the main menu outs
 ADDED - volume should only go from 1 to 5 for both sfx and music
 
 ADDED - score multiplier that increases when picking up a score multiplier upgrade. These spawn no more than once every 5 minutes
+
+ADDED - add a system for the shift button where you can slow the player down.
+
+ADDED - add a speed boost powerup

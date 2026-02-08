@@ -78,8 +78,10 @@ class Menu(BaseMenu):
                     (255, 255, 255), self.button_action_true_color, self.quit_callback),
                 Button(self.sound, self.window, "Credits", window_w - window_w // 8, window_h - 100, 200, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.credits_callback),
+                Button(self.sound, self.window, "Our Discord", window_w - window_w // 8 - 50, window_h - 200, 300, btn_height,
+                    (255, 0, 0), self.button_action_true_color, self.discord_invite, True, (50,205,50)),
                 Button(self.sound, self.window, "Website", window_w // 8 + 50, window_h - 200, 200, btn_height,
-                    (255, 255, 255), self.button_action_true_color, self.open_website,True,(50,205,50)),
+                    (255, 0, 0), self.button_action_true_color, self.open_website,True,(50,205,50)),
                 Button(self.sound, self.window, "Leaderboard", window_w // 8 + 50, window_h - 100, window_w // 4 if window_w < 800 else 300, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.view_leaderboard),
             ]
@@ -95,8 +97,10 @@ class Menu(BaseMenu):
                     (255, 255, 255), self.button_action_true_color, self.go_to_settings),
                 Button(self.sound, self.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.quit_callback),
-                Button(self.sound, self.window, "Update!", window_w - window_w // 8, window_h - 200, 220, btn_height,
+                Button(self.sound, self.window, "Update!", window_w - window_w // 8, window_h - 300, 220, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.updater.start, True, (255, 165, 0)),
+                Button(self.sound, self.window, "Our Discord", window_w - window_w // 8 - 50, window_h - 200, 300, btn_height,
+                    (255, 0, 0), self.button_action_true_color, self.discord_invite, True, (50,205,50)),
                 Button(self.sound, self.window, "Credits", window_w - window_w // 8, window_h - 100, 200, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.credits_callback),
                 Button(self.sound, self.window, "Website", window_w // 8 + 50, window_h - 200, 200, btn_height,
@@ -177,6 +181,10 @@ class Menu(BaseMenu):
 
     def open_website(self):
         webbrowser.open("https://snowblitz.net", new=2)
+
+    def discord_invite(self):
+        webbrowser.open("https://discord.gg/PaWjydfUFX", new=2)
+
 
     def developer_settings(self):
         self.state.set_state(MENUSTATE.DEVELOPERSETTINGS)

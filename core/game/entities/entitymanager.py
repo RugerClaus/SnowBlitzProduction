@@ -4,6 +4,7 @@ from core.game.entities.rock.rock import Rock
 
 from core.game.entities.powerups.absorb_rock import AbsorbRock
 from core.game.entities.powerups.anti_shrink import AntiShrink
+from core.game.entities.powerups.speed_boost import SpeedBoost
 
 from core.game.entities.reducers.twenty import Twenty
 from core.game.entities.reducers.fifty import Fifty
@@ -24,18 +25,21 @@ class EntityManager:
             "snowflakes": [],
             "level_reducers": [],
             "multiplierupgrades": [],
+            "speedboosts":[],
         }
 
         self.last_flake_spawn_time = self.board_surface.get_current_time()
         self.last_rock_spawn_time = self.board_surface.get_current_time()
         self.last_powerup_spawn_time = self.board_surface.get_current_time()
         self.last_reducer_spawn_time = self.board_surface.get_current_time()
+        self.last_speed_boost_spawn_time = self.board_surface.get_current_time()
         self.last_multiplierupgrade_spawn_time = self.board_surface.get_current_time()
 
         self.flake_interval = 500
         self.rock_interval = 800
         self.powerup_interval = 1500
         self.reducer_interval = 10000
+        self.speed_boost_interval = 10000
         self.multiplierupgrade_interval = 150000
         self.multiplierupgrade_min_interval = 10000
         self.multiplier_upgrade_decay = 1
@@ -50,6 +54,7 @@ class EntityManager:
             "snowflakes": [],
             "level_reducers": [],
             "multiplierupgrades": [],
+            "speedboosts": []
         }
 
     def add_entity(self, entity_type, sub_type=None):
@@ -68,6 +73,8 @@ class EntityManager:
                     self.entities["powerups"].append(AbsorbRock(self.board_surface))
                 elif sub_type == PowerUpType.ANTI_SHRINK:
                     self.entities["powerups"].append(AntiShrink(self.board_surface))
+                elif sub_type == PowerUpType.SPEED_BOOST:
+                    self.entities["speedboosts"].append(SpeedBoost(self.board_surface))
             elif isinstance(sub_type,LRType):
                 if sub_type == LRType.TWENTY:
                     self.entities["level_reducers"].append(Twenty(self.board_surface))
@@ -128,7 +135,6 @@ class EntityManager:
                     self.add_entity(EntityType.MULTIPLIER_UPGRADE)
                     self.last_multiplierupgrade_spawn_time = current_time
 
-                    # Reduce interval for next spawn
                     self.multiplierupgrade_interval = max(
                         int(self.multiplierupgrade_interval * self.multiplier_upgrade_decay),
                         self.multiplierupgrade_min_interval

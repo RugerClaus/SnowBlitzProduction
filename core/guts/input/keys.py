@@ -23,3 +23,9 @@ class Keys:
     
     def right_arrow_key(self):
         return pygame.K_RIGHT
+    
+    def left_shift_key(self):
+        return pygame.K_LSHIFT
+    
+    def right_shift_key(self):
+        return pygame.K_RSHIFT

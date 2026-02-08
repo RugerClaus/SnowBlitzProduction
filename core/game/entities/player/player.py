@@ -1,6 +1,8 @@
 from core.game.entities.type import EntityType
 from core.game.entities.entity import Entity
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
+from core.state.GameLayer.Entities.Player.Speed.state import SPEED_STATE
+from core.state.GameLayer.Entities.Player.Speed.statemanager import SpeedStateManager
 from core.state.GameLayer.Entities.Player.Movement.statemanager import PlayerMoveStateManager
 from core.state.GameLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
 from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
@@ -26,6 +28,7 @@ class Player(Entity):
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
         self.power_state = PlayerPowerStateManager()
+        self.speed_state = SpeedStateManager()
 
         self.last_powerup_start_time = None
         self.powerup_duration = 5000
@@ -63,6 +66,7 @@ class Player(Entity):
         physics.update_multiplier(self)
         self.score += int(1.1 * self.multiplier)
         
+        self.speed = physics.update_speed(self.speed_state)
         self.x = physics.update_movement(self.move_state, self.speed, self.x)
         physics.resize(self)
         physics.check_size_death(self.diam, self.life_state, self.move_state)
@@ -77,10 +81,20 @@ class Player(Entity):
     def move(self, direction):
         if direction == 'LEFT':
             self.move_state.set_state(PLAYER_INTENT_STATE.MOVE_LEFT)
+            self.speed_state.set_state(SPEED_STATE.NORMAL)
         elif direction == 'RIGHT':
             self.move_state.set_state(PLAYER_INTENT_STATE.MOVE_RIGHT)
+            self.speed_state.set_state(SPEED_STATE.NORMAL)
         elif direction == 'NONE':
             self.move_state.set_state(PLAYER_INTENT_STATE.IDLE)
+            self.speed_state.set_state(SPEED_STATE.NORMAL)
+
+        if direction == 'SLOW_LEFT':
+            self.move_state.set_state(PLAYER_INTENT_STATE.MOVE_LEFT)
+            self.speed_state.set_state(SPEED_STATE.SLOW)
+        elif direction == 'SLOW_RIGHT':
+            self.move_state.set_state(PLAYER_INTENT_STATE.MOVE_RIGHT)
+            self.speed_state.set_state(SPEED_STATE.SLOW)
 
     def draw(self):
         self.surface.fill((0, 0, 0, 0))

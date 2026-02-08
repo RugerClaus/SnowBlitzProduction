@@ -57,5 +57,12 @@ Development version Beta 0.9.4 - 2026-02-05
 - Implemented a half baked daylight cycle that is not ready for the game.
 
 Development version Beta 0.9.5 - 2026-02-05
---------------------------------------------
+
 - HOTFIX No username creation possible. -FIXED
+
+Development version Beta 0.9.5 - UNRELEASED
+--------------------------------------------
+
+- Added Speed Boost powerup
+- Added the ability to slow the player down by holding shift
+- Added SPEED_STATE for managing player speed (SLOW<NORMAL,FAST)

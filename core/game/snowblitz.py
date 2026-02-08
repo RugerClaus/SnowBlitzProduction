@@ -10,6 +10,9 @@ from core.game.modes.tutorial.prompts import Prompts
 from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
+from core.game.entities.type import EntityType
+from core.game.entities.powerups.type import PowerUpType
+
 from core.state.GameLayer.GameMode.state import GAME_MODE
 
 # from core.game.mechanics.daycycle.daycycle import DayCycle
@@ -37,12 +40,26 @@ class SnowBlitz:
 
     def handle_event(self):
         keys = self.input.get_pressed_keys()
-        if keys[self.input.game_controls.move_left]:
-            self.player.move('LEFT')
-        elif keys[self.input.game_controls.move_right]:
-            self.player.move('RIGHT')
+        print(self.player.speed)
+
+        if not keys[self.input.game_controls.slow]:
+            if keys[self.input.game_controls.move_left]:
+                self.player.move('LEFT')
+            elif keys[self.input.game_controls.move_right]:
+                self.player.move('RIGHT')
+        else:
+            if keys[self.input.game_controls.move_left]:
+                self.player.move('SLOW_LEFT')
+            elif keys[self.input.game_controls.move_right]:
+                self.player.move('SLOW_RIGHT')
         if not (keys[self.input.game_controls.move_left] or keys[self.input.game_controls.move_right]):
             self.player.move('NONE')
+
+        #below is setup for spawning in entities and other game functions that need to be tested.
+        #i could be less messy about it since I do have a centralized system for input, but this will keep it nice and scoped
+
+        if keys[self.input.keys.h_key()]:
+            self.entitymanager.add_entity(EntityType.POWERUP,PowerUpType.SPEED_BOOST)
         
     def init_endless(self):
         endless = Endless(self.progress_bar, self.player, self.entitymanager)
