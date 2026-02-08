@@ -199,7 +199,10 @@ class Menu(BaseMenu):
             ]
 
     def back_to_root_changelog(self):
-        write_envar_to_file('recentlyupdated', 'false')
+        if self.developer_mode.is_state(DEVELOPER_MODE.ON):
+            write_envar_to_file('recentlyupdated', 'true')
+        else:
+            write_envar_to_file('recentlyupdated', 'false')
         self.state.set_state(MENUSTATE.ROOT)
         self.create_buttons()
 
