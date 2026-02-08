@@ -1,3 +1,4 @@
+Development version Beta 0.9.6 - 2026-02-08
 - Added Speed Boost powerup
 - Added the ability to slow the player down by holding LSHIFT
 - Added SPEED_STATE for managing player speed (SLOW,NORMAL,FAST)
