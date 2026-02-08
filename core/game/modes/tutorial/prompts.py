@@ -12,7 +12,8 @@ class Prompts:
 
     def movement_prompt(self):
         if not self.player_has_moved:
-            self._draw_centered_text(f"Press {self.input.get_current_left_control()} or {self.input.get_current_right_control()} to move")
+            self._draw_centered_text(f"Press {self.input.get_current_left_control()} or {self.input.get_current_right_control()} to move\n"
+                                     f"Press and hold {self.input.get_current_slow_control()} to move slower")
 
     def snow_prompt(self):
         if not self.player_has_continued:
@@ -24,6 +25,12 @@ class Prompts:
         if not self.player_has_continued:
             self._draw_centered_text(
                 "Rocks are dangerous! Avoid them\nPress SPACE to continue"
+            )
+    
+    def speed_boost_prompt(self):
+        if not self.player_has_continued:
+            self._draw_centered_text(
+                "The clocks are speed boosts \n They boost the player's speed \n"
             )
 
     def multiplier_upgrades_prompt(self):

@@ -125,6 +125,19 @@ class EntityManager:
             if len(self.entities["snowflakes"]) < 50:
                 self.add_entity(EntityType.SNOWFLAKE)
                 self.last_flake_spawn_time = current_time
+        
+    def spawn_speed_boosts(self,current_level=None):
+        current_time = self.board_surface.get_current_time()
+        if current_level and current_level == 2:
+            if current_time - self.last_speed_boost_spawn_time > 1000:
+                if len(self.entities["speedboosts"]) < 1:
+                    self.add_entity(EntityType.POWERUP,PowerUpType.SPEED_BOOST)
+                    self.last_speed_boost_spawn_time = current_time
+        else:
+            if current_time - self.last_speed_boost_spawn_time > self.speed_boost_interval:
+                if len(self.entities["speedboosts"]) < 1:
+                    self.add_entity(EntityType.POWERUP,PowerUpType.SPEED_BOOST)
+                    self.last_speed_boost_spawn_time = current_time
 
     def spawn_multiplier_upgrades(self, current_level=None, tutorial=False):
         current_time = self.board_surface.get_current_time()

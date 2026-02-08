@@ -1,5 +1,8 @@
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
+from core.game.entities.type import EntityType
+from core.game.entities.powerups.type import PowerUpType
+
 class TutorialManager:
     def __init__(self, board_surface, prompts, controls, entitymanager, player, progress_bar,state):
         self.board_surface = board_surface
@@ -71,7 +74,32 @@ class TutorialManager:
             self.entitymanager.update_entities()
             self.entitymanager.draw_entities()
             self.entitymanager.spawn_snowflakes()
+            self.entitymanager.spawn_speed_boosts(self.player.current_level)
+            self.progress_bar.update()
+            self.progress_bar.draw()
+            self.entitymanager.check_collisions()
+            self.player.check_collisions(self.entitymanager.get_active_entities())
+
+            for boost in self.entitymanager.entities["speedboosts"]:
+                if boost.y >= self.board_surface.get_height() // 4:
+                    self.state.set_state(TUTORIALSTATE.SPEED_BOOST_PROMPT)
+
+        elif self.state.is_state(TUTORIALSTATE.SPEED_BOOST_PROMPT):
+            self.wait()
+            self.prompts.speed_boost_prompt()
+            self.prompts.handle_continue_input()
+            if self.prompts.player_has_continued:
+                self.prompts.player_has_continued = False
+                self.state.set_state(TUTORIALSTATE.SPEED_BOOST)
+
+        elif self.state.is_state(TUTORIALSTATE.SPEED_BOOST):
+            self.player.update()
+            self.player.draw()
+            self.entitymanager.update_entities()
+            self.entitymanager.draw_entities()
+            self.entitymanager.spawn_snowflakes()
             self.entitymanager.spawn_rocks(self.player.current_level)
+            self.entitymanager.spawn_speed_boosts()
             self.progress_bar.update()
             self.progress_bar.draw()
             self.entitymanager.check_collisions()

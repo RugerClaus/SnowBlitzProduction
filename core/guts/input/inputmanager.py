@@ -25,6 +25,9 @@ class InputManager:
     
     def get_current_right_control(self):
         return self.get_key_name(self.game_controls.move_right).capitalize()
+    
+    def get_current_slow_control(self):
+        return self.get_key_name(self.game_controls.slow).capitalize()
 
     def video_resize_event(self):
         return pygame.VIDEORESIZE

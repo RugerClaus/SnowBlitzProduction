@@ -1,9 +1,6 @@
 import math
 from core.menus.basemenu import BaseMenu
 from core.ui.button import Button
-from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
-from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
-from core.state.ApplicationLayer.Audio.Game.state import GAME_SFX_STATE
 from core.state.ApplicationLayer.Menu.Pause.state import PAUSE_MENU_STATE
 from core.state.ApplicationLayer.Menu.Pause.statemanager import PauseMenuStateManager
 from core.game.entities.player.ui.uimanager import SizeBar

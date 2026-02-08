@@ -143,9 +143,10 @@ class Menu(BaseMenu):
         elif self.state.is_state(MENUSTATE.CHANGELOG):
 
             self.buttons = [
-                Button(self.sound, self.window, "Go To Menu", window_w - window_w // 8, window_h - 100, 250, btn_height,
+                Button(self.sound, self.window, "Go To Menu", window_w - window_w // 8 - 50, window_h - 100, 300, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.back_to_root_changelog),
             ]
+            
         elif self.state.is_state(MENUSTATE.AUDIO):
             self.buttons = [
                 Button(self.sound, self.window, f"-", center_x - 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.sound.volume_down),

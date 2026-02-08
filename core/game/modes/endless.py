@@ -16,6 +16,7 @@ class Endless:
         self.entitymanager.spawn_snowflakes()
         self.entitymanager.spawn_rocks(self.player.current_level)
         self.entitymanager.spawn_multiplier_upgrades()
+        self.entitymanager.spawn_speed_boosts()
         self.entitymanager.spawn_powerups(self.player.current_level)
         self.entitymanager.spawn_reducers(self.player.current_level)
         self.entitymanager.check_collisions()
