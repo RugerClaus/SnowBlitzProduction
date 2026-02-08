@@ -8,10 +8,6 @@ NOT ADDED - add particle effects for watter droplets shooting off snowball
 
 NOT ADDED - need to add a settings option for client info showing the version and telling if it's the latest
 
-NOT ADDED - need to add modal with changelog to show what changed in latest version after updating.
-
-NOT ADDED - need to add a client password for the username creation system. basically i'll just include it in the config.py since it's basically an environment file
-
 
 ##########################
 COMPLETED:
@@ -30,3 +26,7 @@ ADDED - score multiplier that increases when picking up a score multiplier upgra
 ADDED - add a system for the shift button where you can slow the player down.
 
 ADDED - add a speed boost powerup
+
+ADDED - private api key for creating username and setting high score on the server to maintain integrity of db
+
+ADDED - most recent changelog appears after updating

@@ -29,7 +29,7 @@ class User:
     def send_username_to_api(self):
         username = self.get_username()
         if username:
-            data = {"username": str(username)}
+            data = {"username": str(username),"key":config.config.get("API_KEY")}
             try:
                 response = requests.post(self.setusernameURL, json=data)
                 if response.status_code == 200:
@@ -44,11 +44,13 @@ class User:
     def send_high_score_to_api(self):
         high_score = self.get_high_score()
         username = self.get_username()
+        key = config.config.get("API_KEY")
 
         if high_score and username:
             data = {
                 "username": str(username),
-                "score": int(high_score)
+                "score": int(high_score),
+                "key": str(key)
             }
             try:
                 print("sending score to db")

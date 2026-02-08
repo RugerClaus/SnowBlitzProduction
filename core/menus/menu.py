@@ -12,6 +12,8 @@ from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.network.update import Update
 from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
 
+from core.menus.changelog import ChangeLog
+
 class Menu(BaseMenu):
     def __init__(self, developer_mode, window, sound, input, endless_callback, blitz_callback, tutorial_callback, quit_callback):
         self.developer_mode = developer_mode
@@ -26,9 +28,11 @@ class Menu(BaseMenu):
         self.state = MenuStateManager()
         self.credits = Credits(self.window)
         self.agreed_to_leaderboard = check_leaderboard_opt()
+        self.recently_updated = check_recently_updated()
         self.user_creator = UserCreator(self.window,self.sound,self.state,self.input)
         self.leaderboard = LeaderboardViewer(self.window,self.sound,self.state,self.input,self.back_to_root)
         self.updater = Update()
+        self.change_log = ChangeLog(self.window)
 
         self.title_image_original = self.window.load_image(asset("title"))
         self.title_image = self.title_image_original
@@ -38,10 +42,18 @@ class Menu(BaseMenu):
             self.state.set_state(MENUSTATE.ROOT)
             self.create_buttons()
         else:
-            print(self.agreed_to_leaderboard)
             self.state.set_state(MENUSTATE.LEADERBOARDOPTIN)
             self.create_buttons()
-            
+        
+        recently_updated_file = read_envar_from_file('recentlyupdated')
+
+        if self.recently_updated:
+            if recently_updated_file == "false":
+                self.state.set_state(MENUSTATE.ROOT)
+            if recently_updated_file == "true":
+                self.state.set_state(MENUSTATE.CHANGELOG)
+                self.create_buttons()
+
         self.create_buttons()
         self.rescale_assets()
 
@@ -128,6 +140,12 @@ class Menu(BaseMenu):
                 Button(self.sound, self.window, "Back", window_w - window_w // 8, window_h - 100, 150, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.back_to_root),
             ]
+        elif self.state.is_state(MENUSTATE.CHANGELOG):
+
+            self.buttons = [
+                Button(self.sound, self.window, "Go To Menu", window_w - window_w // 8, window_h - 100, 250, btn_height,
+                    (255, 255, 255), self.button_action_true_color, self.back_to_root_changelog),
+            ]
         elif self.state.is_state(MENUSTATE.AUDIO):
             self.buttons = [
                 Button(self.sound, self.window, f"-", center_x - 200, self.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.sound.volume_down),
@@ -178,6 +196,11 @@ class Menu(BaseMenu):
                 Button(self.sound, self.window, "Back", center_x, self.window.get_height() // 2 + spacing, 150, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.go_to_settings),
             ]
+
+    def back_to_root_changelog(self):
+        write_envar_to_file('recentlyupdated', 'false')
+        self.state.set_state(MENUSTATE.ROOT)
+        self.create_buttons()
 
     def open_website(self):
         webbrowser.open("https://snowblitz.net", new=2)
@@ -301,6 +324,7 @@ class Menu(BaseMenu):
             self.set_title("")
             self.window.blit(self.title_image, self.title_rect)
             self.draw_update_text()
+
             
         if self.state.is_state(MENUSTATE.SETTINGS):
             self.set_title("SETTINGS")
@@ -309,7 +333,12 @@ class Menu(BaseMenu):
             self.set_title('DEVELOPER SETTINGS')
 
         if self.state.is_state(MENUSTATE.CREDITS):
+            self.set_title("CREDITS:")
             self.credits.draw()
+
+        if self.state.is_state(MENUSTATE.CHANGELOG):
+            self.set_title("CHANGELOG:")
+            self.change_log.draw()
 
         if self.state.is_state(MENUSTATE.AUDIO):
             self.set_title("AUDIO SETTINGS")

@@ -1,0 +1,5 @@
+- Added Speed Boost powerup
+- Added the ability to slow the player down by holding LSHIFT
+- Added SPEED_STATE for managing player speed (SLOW,NORMAL,FAST)
+- Added API key on both client and server to maintain database integrity
+- Added system to show latest changelog upon updating, but only then

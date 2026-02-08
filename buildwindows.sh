@@ -14,6 +14,7 @@ SPEC_ROOT="$ROOT/specs"
 ASSETS_PATH="$ROOT/assets"
 LOGS_PATH="$ROOT/logs"
 SAVES_PATH="$ROOT/saves"
+ENVIRONMENT_PATH="$ROOT/environment"
 
 convert_to_windows_path() {
   local unix_path="$1"
@@ -23,12 +24,14 @@ convert_to_windows_path() {
 ASSETS_PATH_WIN=$(convert_to_windows_path "$ASSETS_PATH")
 LOGS_PATH_WIN=$(convert_to_windows_path "$LOGS_PATH")
 SAVES_PATH_WIN=$(convert_to_windows_path "$SAVES_PATH")
+ENVIRONMENT_PATH_WIN=$(convert_to_windows_path "$ENVIRONMENT_PATH")
 
 function copy_assets() {
   TARGET="$1"
   cp -r "$ASSETS_PATH" "$TARGET"
   cp -r "$LOGS_PATH" "$TARGET"
   cp -r "$SAVES_PATH" "$TARGET"
+  cp -r "$ENVIRONMENT_PATH" "$TARGET"
 }
 
 function cleanup_internal() {
@@ -39,6 +42,7 @@ function cleanup_internal() {
     rm -rf "$INTERNAL_DIR/assets"
     rm -rf "$INTERNAL_DIR/logs"
     rm -rf "$INTERNAL_DIR/saves"
+    rm -rf "$INTERNAL_DIR/environment"
   fi
 }
 
@@ -57,6 +61,7 @@ function build_main() {
     --add-data "$ASSETS_PATH_WIN;assets" \
     --add-data "$LOGS_PATH_WIN;logs" \
     --add-data "$SAVES_PATH_WIN;saves" \
+    --add-data "$ENVIRONMENT_PATH_WIN/environment:environment" \
     --distpath "$TMP_DIST" \
     --workpath "$WORK_ROOT/windows" \
     --specpath "$SPEC_ROOT/windows"

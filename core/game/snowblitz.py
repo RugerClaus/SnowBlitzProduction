@@ -40,7 +40,6 @@ class SnowBlitz:
 
     def handle_event(self):
         keys = self.input.get_pressed_keys()
-        print(self.player.speed)
 
         if not keys[self.input.game_controls.slow]:
             if keys[self.input.game_controls.move_left]:

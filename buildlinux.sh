@@ -16,6 +16,8 @@ function copy_assets() {
   cp -r "$ROOT/assets" "$TARGET"
   cp -r "$ROOT/logs" "$TARGET"
   cp -r "$ROOT/saves" "$TARGET"
+  cp -r "$ROOT/environment" "$TARGET"
+  cp "$ROOT/changelog.txt" "$TARGET"
 }
 
 function cleanup_internal() {
@@ -26,6 +28,7 @@ function cleanup_internal() {
     rm -rf "$INTERNAL_DIR/assets"
     rm -rf "$INTERNAL_DIR/logs"
     rm -rf "$INTERNAL_DIR/saves"
+    rm -rf "$INTERNAL_DIR/environment"
   fi
 }
 
@@ -45,9 +48,11 @@ function build_main() {
     --add-data "$ROOT/assets:assets" \
     --add-data "$ROOT/logs:logs" \
     --add-data "$ROOT/saves:saves" \
+    --add-data "$ROOT/environment:environment" \
     --distpath "$TMP_DIST" \
     --workpath "$WORK_ROOT/linux" \
-    --specpath "$SPEC_ROOT/linux"
+    --specpath "$SPEC_ROOT/linux" \
+    --debug all
 
   rm -rf "$FINAL_DIST"
   mkdir -p "$FINAL_DIST"

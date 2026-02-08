@@ -6,7 +6,7 @@ class FetchStateManager(BaseStateManager):
     def __init__(self):
 
         allowed_transitions = {
-            FETCH_STATE.IDLE: [FETCH_STATE.FETCHING],
+            FETCH_STATE.IDLE: [FETCH_STATE.FETCHING,FETCH_STATE.CANCELLED],
             FETCH_STATE.FETCHING: [FETCH_STATE.ERROR, FETCH_STATE.SUCCESS,FETCH_STATE.TIMEOUT],
             FETCH_STATE.ERROR: [FETCH_STATE.IDLE],
             FETCH_STATE.SUCCESS: [FETCH_STATE.IDLE],

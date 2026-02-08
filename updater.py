@@ -4,7 +4,7 @@ import zipfile
 import shutil
 import subprocess
 import time
-from helper import log_event, log_error
+from helper import log_event, log_error,write_envar_to_file
 
 if getattr(sys, 'frozen', False):
     ROOT_DIR = os.path.dirname(sys.executable)
@@ -54,6 +54,7 @@ def unpack_update():
 
         os.remove(UPDATE_ZIP)
         log_event(f"Removed update zip {UPDATE_ZIP}")
+        write_envar_to_file("recentlyupdated","true")
 
     except zipfile.BadZipFile:
         log_error(f"Failed to unpack update: bad ZIP file {UPDATE_ZIP}")

@@ -102,6 +102,35 @@ def write_constant_to_file(filename, value):
     except Exception as e:
         log_error(f"Error writing to file: {e}")
 
+def write_envar_to_file(filename, value):
+    env_dir = 'environment'
+    
+    if not os.path.exists(env_dir):
+        os.makedirs(env_dir)
+        log_event(f"Directory created: {env_dir}")
+
+    file_path = os.path.join(env_dir, filename)
+    
+    try:
+        with open(file_path, 'w') as file:
+            file.write(str(value))
+        log_event(f"Constant '{value}' written to {file_path}")
+    except Exception as e:
+        log_error(f"Error writing to file: {e}")
+
+def read_envar_from_file(filename):
+    file_path = os.path.join('environment', filename)
+    
+    try:
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                return file.read().strip()
+        else:
+            log_event(f"File {file_path} does not exist.")
+            return None
+    except Exception as e:
+        log_error(f"Error reading from file: {e}")
+        return None
 
 def read_constant_from_file(filename):
     file_path = os.path.join('saves/constants', filename)
@@ -120,6 +149,13 @@ def read_constant_from_file(filename):
 def check_leaderboard_opt():
     opt_in = read_constant_from_file('leaderboard_opt_in')
     if opt_in is not None:
+        return True
+    else:
+        return False
+    
+def check_recently_updated():
+    updated = read_envar_from_file('recentlyupdated')
+    if updated is not None:
         return True
     else:
         return False

@@ -17,7 +17,6 @@ class Player(Entity):
         self.game_state = game_state
         self.sound = sound
         self.current_high_score = physics.get_current_high_score()
-        print(self.current_high_score)
         super().__init__(self.x, self.y, board_surface, EntityType.PLAYER, self.base_size)
         self.reset()
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
