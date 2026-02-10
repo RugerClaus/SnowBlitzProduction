@@ -15,11 +15,14 @@ class Leaderboard:
             response = requests.get(self.leaderboardURL, timeout=TIMEOUT_SECONDS)
 
             if response.status_code == 200:
-                leaderboard_data = response.json()
-                log_event(f"Fetched leaderboard data. Status: {response.status_code}; Response: {leaderboard_data}")
-                return ("success",leaderboard_data)
-            if response.status_code == 200 and setusername:
-                return leaderboard_data
+                if not setusername:
+                    leaderboard_data = response.json()
+                    log_event(f"Fetched leaderboard data. Status: {response.status_code}; Response: {leaderboard_data}")
+                    return ("success",leaderboard_data)
+                else:
+                    log_event(f"Setting high score to user's high score on server if it exists")
+                    leaderboard_data = response.json()
+                    return leaderboard_data
 
             else:
                 log_error(f"Failed to fetch leaderboard. Status: {response.status_code}; Response: {response.text}")
