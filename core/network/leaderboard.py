@@ -10,13 +10,15 @@ class Leaderboard:
         if not self.leaderboardURL:
             log_error("Leaderboard url not set in config")
 
-    def fetch_leaderboard(self):
+    def fetch_leaderboard(self,setusername=False):
         try:
             response = requests.get(self.leaderboardURL, timeout=TIMEOUT_SECONDS)
 
             if response.status_code == 200:
                 leaderboard_data = response.json()
                 log_event(f"Fetched leaderboard data. Status: {response.status_code}; Response: {leaderboard_data}")
+                return ("success",leaderboard_data)
+            if response.status_code == 200 and setusername:
                 return leaderboard_data
 
             else:

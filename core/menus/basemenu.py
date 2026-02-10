@@ -46,7 +46,7 @@ class BaseMenu:
         if self.title is not None:
             text_color = (255, 255, 255)
             surf = self.font.render(self.title, False, text_color)
-            rect = surf.get_rect(center=(self.window.get_width() // 2, self.window.get_height() // 4))
+            rect = surf.get_rect(center=(self.window.get_width() // 2, self.window.get_height() // 6))
             self.window.blit(surf, rect)
         if self.query is not None:
             text_color = (255, 255, 255)

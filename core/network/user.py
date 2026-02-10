@@ -38,7 +38,7 @@ class User:
                     log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
                     response_data = response.json()
                     if response_data.get("message") == "Username already exists":
-                        leaderboard = self.scores.fetch_leaderboard()
+                        leaderboard = self.scores.fetch_leaderboard(True)
                         for line in leaderboard:
                             if line.get("username") == username:
                                 write_constant_to_file('high_score',line.get("score"))

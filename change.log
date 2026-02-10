@@ -75,4 +75,5 @@ Development version Beta 0.9.6_01 - 2026-02-10
 - Set timer to 0 every time you have to restart the game/go to menu
 - Fixed state bug where the program would skip asking the user for a leaderboard opt in
 - Fixed issue where if user chooses the same username with a fresh client, their high score will pull from the server immediately
-
+- Made changelog screen split up lines and added error handling properly without pesky print statements
+- Added --dev flag for main.py file so that developers can leave necessary constants alone while still testing the program
