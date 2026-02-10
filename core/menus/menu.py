@@ -46,13 +46,13 @@ class Menu(BaseMenu):
             self.create_buttons()
         
         recently_updated_file = read_envar_from_file('recentlyupdated')
-
-        if self.recently_updated:
-            if recently_updated_file == "false":
-                self.state.set_state(MENUSTATE.ROOT)
-            if recently_updated_file == "true":
-                self.state.set_state(MENUSTATE.CHANGELOG)
-                self.create_buttons()
+        if self.state.is_state(MENUSTATE.ROOT):
+            if self.recently_updated:
+                if recently_updated_file == "false":
+                    self.state.set_state(MENUSTATE.ROOT)
+                if recently_updated_file == "true":
+                    self.state.set_state(MENUSTATE.CHANGELOG)
+                    self.create_buttons()
 
         self.create_buttons()
         self.rescale_assets()

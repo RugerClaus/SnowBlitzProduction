@@ -17,7 +17,7 @@ class Leaderboard:
             if response.status_code == 200:
                 leaderboard_data = response.json()
                 log_event(f"Fetched leaderboard data. Status: {response.status_code}; Response: {leaderboard_data}")
-                return ("success", leaderboard_data)
+                return leaderboard_data
 
             else:
                 log_error(f"Failed to fetch leaderboard. Status: {response.status_code}; Response: {response.text}")

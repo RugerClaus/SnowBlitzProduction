@@ -2,9 +2,11 @@
 
 import requests, config
 
+from core.network.leaderboard import Leaderboard
 from helper import *
 class User:
     def __init__(self):
+        self.scores = Leaderboard()
         self.setusernameURL = config.config.get("API").get("USER_AUTH")
         if not self.setusernameURL:
             log_error("Username Auth url not set in config")
@@ -34,6 +36,12 @@ class User:
                 response = requests.post(self.setusernameURL, json=data)
                 if response.status_code == 200:
                     log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
+                    response_data = response.json()
+                    if response_data.get("message") == "Username already exists":
+                        leaderboard = self.scores.fetch_leaderboard()
+                        for line in leaderboard:
+                            if line.get("username") == username:
+                                write_constant_to_file('high_score',line.get("score"))
                 else:
                     log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
             except requests.exceptions.RequestException as e:

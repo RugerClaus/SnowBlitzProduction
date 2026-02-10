@@ -69,3 +69,10 @@ Development version Beta 0.9.6 - 2026-02-08
 - Added SPEED_STATE for managing player speed (SLOW,NORMAL,FAST)
 - Added API key on both client and server to maintain database integrity
 - Added system to show latest changelog upon updating, but only then
+
+Development version Beta 0.9.6_01 - 2026-02-10
+----------------------------------------------
+- Set timer to 0 every time you have to restart the game/go to menu
+- Fixed state bug where the program would skip asking the user for a leaderboard opt in
+- Fixed issue where if user chooses the same username with a fresh client, their high score will pull from the server immediately
+
