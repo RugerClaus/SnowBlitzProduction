@@ -39,6 +39,7 @@ class SnowBlitz:
         # self.sun = Sun(self.board_surface,self.day_cycle)
 
     def handle_event(self):
+
         keys = self.input.get_pressed_keys()
 
         if not keys[self.input.game_controls.slow]:
@@ -58,9 +59,20 @@ class SnowBlitz:
         #i could be less messy about it since I do have a centralized system for input, but this will keep it nice and scoped
 
         if keys[self.input.keys.h_key()]:
-            self.entitymanager.add_entity(EntityType.POWERUP,PowerUpType.SPEED_BOOST)
+            self.entitymanager.add_entity(EntityType.MULTIPLIER_UPGRADE)
         
+
+    def draw(self):
+        if self.mode.is_state(GAME_MODE.ENDLESS):
+            self.init_endless()
+        elif self.mode.is_state(GAME_MODE.TUTORIAL):
+            self.init_tutorial()
+        elif self.mode.is_state(GAME_MODE.BLITZ):
+            self.init_blitz()
+        print(self.entitymanager.last_multiplierupgrade_spawn_time,self.board_surface.get_current_time())
+
     def init_endless(self):
+        
         endless = Endless(self.progress_bar, self.player, self.entitymanager)
         endless.run()
         
@@ -79,11 +91,9 @@ class SnowBlitz:
         self.progress_bar.draw()
 
     def reset(self):
+        self.tutorial_state.set_state(TUTORIALSTATE.RESET)
         self.player.reset()
         self.progress_bar.reset_timer()
         self.progress_bar.draw()
         self.entitymanager.reset_entities()
-    
-    def reset_tutorial(self):
-        self.reset()
-        self.tutorial_state.set_state(TUTORIALSTATE.RESET)
+        self.entitymanager.reset_spawn_timers()

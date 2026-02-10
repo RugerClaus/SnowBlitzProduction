@@ -28,12 +28,7 @@ class EntityManager:
             "speedboosts":[],
         }
 
-        self.last_flake_spawn_time = self.board_surface.get_current_time()
-        self.last_rock_spawn_time = self.board_surface.get_current_time()
-        self.last_powerup_spawn_time = self.board_surface.get_current_time()
-        self.last_reducer_spawn_time = self.board_surface.get_current_time()
-        self.last_speed_boost_spawn_time = self.board_surface.get_current_time()
-        self.last_multiplierupgrade_spawn_time = self.board_surface.get_current_time()
+        self.reset_spawn_timers()
 
         self.flake_interval = 500
         self.rock_interval = 800
@@ -56,6 +51,15 @@ class EntityManager:
             "multiplierupgrades": [],
             "speedboosts": []
         }
+
+    def reset_spawn_timers(self):
+        current_time = self.board_surface.get_current_time()
+        self.last_flake_spawn_time = current_time
+        self.last_rock_spawn_time = current_time
+        self.last_powerup_spawn_time = current_time
+        self.last_reducer_spawn_time = current_time
+        self.last_speed_boost_spawn_time = current_time
+        self.last_multiplierupgrade_spawn_time = current_time
 
     def add_entity(self, entity_type, sub_type=None):
         if sub_type is None:

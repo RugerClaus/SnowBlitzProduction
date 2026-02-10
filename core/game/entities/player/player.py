@@ -121,19 +121,18 @@ class Player(Entity):
                 if entity.type == EntityType.SNOWFLAKE:
                     physics.collect_snowflake(self,entity)
                     self.sound.play_sfx('snow')
-                    entity.collected()
                     self.score += entity.diam
                 elif entity.type == EntityType.ROCK:
                         physics.handle_rock(self,entity)
                 elif entity.type == EntityType.POWERUP:
                     physics.handle_powerup(self,entity)
-                    entity.collected()
                     physics.apply_powerup(self,entity.power_type,self.powerup_duration)
                 elif entity.type == EntityType.REDUCER:
                     physics.handle_reducer(self,entity)
-                    entity.collected()
                 elif entity.type == EntityType.MULTIPLIER_UPGRADE:
                     physics.increase_multiplier(self)
+                
+                if entity.type is not EntityType.ROCK:
                     entity.collected()
 
     def reset(self):

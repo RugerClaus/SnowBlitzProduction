@@ -32,14 +32,17 @@ class App:
 
     def endless(self):
         self.state.set_state(APPSTATE.IN_GAME)
+        self.game.game_object.reset()
         self.game.set_game_mode(GAME_MODE.ENDLESS)
     
     def blitz(self):
         self.state.set_state(APPSTATE.IN_GAME)
+        self.game.game_object.reset()
         self.game.set_game_mode(GAME_MODE.BLITZ)
     
     def tutorial(self):
         self.state.set_state(APPSTATE.IN_GAME)
+        self.game.game_object.reset()
         self.game.set_game_mode(GAME_MODE.TUTORIAL)
 
     def toggle_debug_mode(self):

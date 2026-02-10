@@ -3,7 +3,6 @@ class Endless:
         self.progress_bar = progress_bar
         self.player = player
         self.entitymanager = entitymanager
-        
 
     def run(self):
         self.player.update()

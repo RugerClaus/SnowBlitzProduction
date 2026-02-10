@@ -75,16 +75,8 @@ class Game:
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
-            if self.game_mode.is_state(GAME_MODE.ENDLESS):
-                self.game_object.init_endless()
-            elif self.game_mode.is_state(GAME_MODE.BLITZ):
-                self.game_object.init_blitz()
-            elif self.game_mode.is_state(GAME_MODE.TUTORIAL):
-                self.game_over_menu = GameOverMenu(self.sound,self.window,self.input,self.reset_tutorial, self.quit_to_menu, self.quit)
-                self.pause_menu = Pause(self.window, self.game_object, self.sound, self.input, self.toggle_pause, self.quit_to_menu, self.quit, self.reset_tutorial)
-                self.win = Win(self.sound,self.window,self.input,self.reset_tutorial,self.quit_to_menu,self.quit)
-                self.game_object.init_tutorial()
-                self.check_win()
+            self.game_object.draw()
+            
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             
             self.game_over_menu.draw()
