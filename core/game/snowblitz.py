@@ -28,7 +28,7 @@ class SnowBlitz:
         self.entitymanager = EntityManager(self.board_surface)
         self.player = Player(self.board_surface,self.entitymanager,sound,game_state)
         self.start_time = self.board_surface.get_current_time()
-        self.progress_bar = PlayerUIManager(self.board_surface,self.player,self.start_time)
+        self.progress_bar = PlayerUIManager(self.board_surface,self.player)
         self.prompts = Prompts(self.board_surface,self.player,self.input)
         self.tutorial_state = TutorialStateManager()
         self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.input.game_controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
@@ -80,6 +80,7 @@ class SnowBlitz:
 
     def reset(self):
         self.player.reset()
+        self.progress_bar.reset_timer()
         self.progress_bar.draw()
         self.entitymanager.reset_entities()
     

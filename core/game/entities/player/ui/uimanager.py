@@ -7,7 +7,7 @@ class SizeBar(Enum):
     TOP = auto()
 
 class PlayerUIManager:
-    def __init__(self, window, player, start_time):
+    def __init__(self, window, player):
         self.location = SizeBar.BOTTOM
         self.window = window
         self.player = player
@@ -15,9 +15,9 @@ class PlayerUIManager:
         self.bar_height = 20  # Default height for top/bottom bars
         self.surface = self.window.make_surface(self.bar_width, self.bar_height, True)  # Using your custom surface creation
         self.rect_position = (0, 0)
-        self.start_time = start_time
         self.font = FontEngine(30).font
         self.score_font = FontEngine(50).font
+        self.last_reset_time = self.window.get_current_time()
         
     def scale(self):
         # Recalculate the position and size of the progress bar based on window resizing
@@ -37,8 +37,12 @@ class PlayerUIManager:
         else:
             self.location = SizeBar.BOTTOM
 
+    def reset_timer(self):
+        self.last_reset_time = self.window.get_current_time()
+
     def draw_player_info(self):
-        elapsed_ms = self.window.get_current_time() - self.start_time
+        now = self.window.get_current_time()
+        elapsed_ms = now - self.last_reset_time
         seconds = (elapsed_ms // 1000) % 60
         minutes = (elapsed_ms // 60000)
 
@@ -53,8 +57,6 @@ class PlayerUIManager:
 
         size_to_level_up_text = f"Size to level up: {self.player.level_up_size}"
         size_to_level_up_surface = self.font.render(size_to_level_up_text, True, (255,255,255))
-
-        
 
         line_spacing = 20
 
