@@ -293,6 +293,10 @@ class Menu(BaseMenu):
         elif event.type == self.input.video_resize_event():
             self.scale()
         self.user_creator.handle_event(event)
+        if self.state.is_state(MENUSTATE.CREATEUSERNAME):
+            keys = self.input.get_pressed_keys()
+            if keys[self.input.keys.return_key()]:
+                self.submit_username()
 
     def scale(self):
         self.rescale_assets()
@@ -318,6 +322,7 @@ class Menu(BaseMenu):
 
         if self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.set_title(None)
+            self.set_query("Please enter a username: ")
             self.user_creator.draw()
 
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):

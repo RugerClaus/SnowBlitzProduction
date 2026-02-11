@@ -5,7 +5,7 @@ class ChangeLog(LeftAlignedText):
     def __init__(self, board_surface):
         super().__init__(board_surface)
         self.changelog_text = []
-        self.max_char_count = 65
+        self.max_char_count = 90
         self.load_changelog_from_file("changelog.txt")
 
     def load_changelog_from_file(self, file_path):

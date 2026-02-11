@@ -34,8 +34,6 @@ class Player(Entity):
         self.shrink_rate = None
 
         self.multiplier = 1
-        self.multiplier_timer = 0
-        self.multiplier_duration = 3000 
 
     def scale(self, event_h):
         scale_factor = event_h / self.original_height
@@ -62,7 +60,6 @@ class Player(Entity):
         self.shrink_rate = physics.calculate_shrink_rate(self.diam,self)
         self.diam -= self.shrink_rate
         self.base_size = self.diam / 2
-        physics.update_multiplier(self)
         self.score += int(1.1 * self.multiplier)
         
         self.speed = physics.update_speed(self.speed_state)
@@ -122,17 +119,15 @@ class Player(Entity):
                     physics.collect_snowflake(self,entity)
                     self.sound.play_sfx('snow')
                     self.score += entity.diam
+                    entity.collected()
                 elif entity.type == EntityType.ROCK:
                         physics.handle_rock(self,entity)
                 elif entity.type == EntityType.POWERUP:
                     physics.handle_powerup(self,entity)
                     physics.apply_powerup(self,entity.power_type,self.powerup_duration)
+                    entity.collected()
                 elif entity.type == EntityType.REDUCER:
                     physics.handle_reducer(self,entity)
-                elif entity.type == EntityType.MULTIPLIER_UPGRADE:
-                    physics.increase_multiplier(self)
-                
-                if entity.type is not EntityType.ROCK:
                     entity.collected()
 
     def reset(self):
@@ -141,6 +136,7 @@ class Player(Entity):
         self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
         self.speed = 7
         self.color = (255, 255, 255)
+        self.multiplier = 1
         
 
         self.score = 0

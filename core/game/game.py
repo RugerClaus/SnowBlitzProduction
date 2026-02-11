@@ -1,7 +1,7 @@
 from helper import log_event, log_error
 from core.state.GameLayer.state import GAMESTATE
 from core.state.GameLayer.statemanager import GameStateManager
-from core.state.GameLayer.GameMode.state import GAME_MODE
+from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.game.snowblitz import SnowBlitz
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
@@ -10,12 +10,13 @@ from core.menus.gameover import GameOverMenu
 from core.menus.win import Win
 
 class Game:
-    def __init__(self, window, sound, input, menu_callback, quit_callback):
+    def __init__(self, window, sound, input, dev_mode, menu_callback, quit_callback):
         self.state = GameStateManager()
         self.game_mode = GameModeManager()
         self.window = window
         self.sound = sound
         self.input = input
+        self.dev_mode = dev_mode
         self.game_object = SnowBlitz(self.window, self.sound, self.state,self.input,self.game_mode)
         self.menu_callback = menu_callback
         self.quit_callback = quit_callback
@@ -51,8 +52,9 @@ class Game:
         if self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.handle_event()
             if event.type == self.input.keydown():
-                if self.input.get_key_name(event.key) == "7":
-                    self.game_object.player.current_level = 15
+                if self.dev_mode.is_state(DEVELOPER_MODE.ON):
+                    if self.input.get_key_name(event.key) == "7":
+                        self.game_object.player.current_level = 15
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
@@ -90,7 +92,6 @@ class Game:
 
     def quit_to_menu(self):
         self.reset_game()
-        self.reset_tutorial()
         self.menu_callback()
 
     def quit(self):
@@ -102,7 +103,6 @@ class Game:
 
     def reset_tutorial(self):
         log_event("resetting tutorial")
-        self.game_object.reset_tutorial()
         self.state.set_state(GAMESTATE.PLAYING)
 
     def set_game_mode(self, mode):

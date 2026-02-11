@@ -6,5 +6,4 @@ class EntityType(Enum):
     SNOWFLAKE = auto()
     ROCK = auto()
     REDUCER = auto()
-    MULTIPLIER_UPGRADE = auto()
     SUN = auto()

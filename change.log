@@ -70,10 +70,13 @@ Development version Beta 0.9.6 - 2026-02-08
 - Added API key on both client and server to maintain database integrity
 - Added system to show latest changelog upon updating, but only then
 
-Development version Beta 0.9.6_01 - 2026-02-10
-----------------------------------------------
+Development version Beta 0.9.7 - 2026-02-11
+--------------------------------------------
 - Set timer to 0 every time you have to restart the game/go to menu
 - Fixed state bug where the program would skip asking the user for a leaderboard opt in
 - Fixed issue where if user chooses the same username with a fresh client, their high score will pull from the server immediately
-- Made changelog screen split up lines and added error handling properly without pesky print statements
-- Added --dev flag for main.py file so that developers can leave necessary constants alone while still testing the program
+- Made changelog screen split up lines
+- Added error handling properly without pesky print statements
+- Removed Multiplier Upgrade entity and replaced the multiplier system
+- Multiplier increases by 1 every 10 levels now
+- You can now press enter to submit your username and not just the submit button

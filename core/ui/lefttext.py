@@ -2,7 +2,7 @@ from core.ui.font import FontEngine
 
 class LeftAlignedText:
     def __init__(self, board_surface):
-        self.font = FontEngine(40).font
+        self.font = FontEngine(30).font
         self.board_surface = board_surface
 
     def _draw_left_aligned_text(self, text):

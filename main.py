@@ -14,10 +14,7 @@ def main():
     app = App(window)
 
     if args.dev:
-        print("Developer mode enabled.")
         app.dev.set_state(DEVELOPER_MODE.ON)
-    
-    # Run the app
     app.run()
 
 if __name__ == "__main__":

@@ -8,6 +8,9 @@ NOT ADDED - add particle effects for watter droplets shooting off snowball
 
 NOT ADDED - need to add a settings option for client info showing the version and telling if it's the latest
 
+NOT ADDED - Need to add a ui system for scrolling menus and text to prepare for the full leaderboard visibility within the client
+
+NOT ADDED - Need to add a feedback section under settings
 
 ##########################
 COMPLETED:
@@ -21,7 +24,7 @@ ADDED - a link in the game to the website - maybe a button on the main menu outs
 
 ADDED - volume should only go from 1 to 5 for both sfx and music
 
-ADDED - score multiplier that increases when picking up a score multiplier upgrade. These spawn no more than once every 5 minutes
+ADDED - score multiplier that increases every 10 levels
 
 ADDED - add a system for the shift button where you can slow the player down.
 

@@ -23,7 +23,7 @@ class App:
         self.dev = DevManager()
         self.sound = AudioEngine()
         self.menu = Menu(self.dev,window,self.sound,self.input,self.endless,self.blitz,self.tutorial,self.quit)
-        self.game = Game(window,self.sound,self.input,self.go_to_menu,self.quit)
+        self.game = Game(window,self.sound,self.input,self.dev,self.go_to_menu,self.quit)
         self.loading = LoadingManager(self.window,self.state,self.sound)
         self.debug_overlay = DebugOverlay(self.game,self.state,window,self.sound,self.input,self.loading,self.dev)
 

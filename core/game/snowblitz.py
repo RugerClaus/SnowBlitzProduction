@@ -57,9 +57,6 @@ class SnowBlitz:
 
         #below is setup for spawning in entities and other game functions that need to be tested.
         #i could be less messy about it since I do have a centralized system for input, but this will keep it nice and scoped
-
-        if keys[self.input.keys.h_key()]:
-            self.entitymanager.add_entity(EntityType.MULTIPLIER_UPGRADE)
         
 
     def draw(self):
@@ -69,7 +66,6 @@ class SnowBlitz:
             self.init_tutorial()
         elif self.mode.is_state(GAME_MODE.BLITZ):
             self.init_blitz()
-        print(self.entitymanager.last_multiplierupgrade_spawn_time,self.board_surface.get_current_time())
 
     def init_endless(self):
         
