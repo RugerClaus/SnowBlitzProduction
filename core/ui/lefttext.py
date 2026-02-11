@@ -1,13 +1,13 @@
 from core.ui.font import FontEngine
 
 class LeftAlignedText:
-    def __init__(self, board_surface):
+    def __init__(self, window):
         self.font = FontEngine(30).font
-        self.board_surface = board_surface
+        self.window = window
 
     def _draw_left_aligned_text(self, text):
         lines = text.split("\n")
-        surface_height = self.board_surface.get_height()
+        surface_height = self.window.get_height()
 
         total_height = len(lines) * self.font.get_height() * 1.2
         start_y = surface_height // 2 - total_height // 2
@@ -17,4 +17,4 @@ class LeftAlignedText:
         for i, line in enumerate(lines):
             surf = self.font.render(line, True, (255, 255, 255))
             rect = surf.get_rect(topleft=(margin_left, start_y + i * self.font.get_height() * 1.1))
-            self.board_surface.blit(surf, rect)
+            self.window.blit(surf, rect)

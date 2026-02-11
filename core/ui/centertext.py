@@ -1,14 +1,14 @@
 from core.ui.font import FontEngine
 
 class CenterText:
-    def __init__(self,board_surface):
+    def __init__(self,window):
         self.font = FontEngine(40).font
-        self.board_surface = board_surface
+        self.window = window
 
     def _draw_centered_text(self, text):
         lines = text.split("\n")
-        surface_height = self.board_surface.get_height()
-        surface_width = self.board_surface.get_width()
+        surface_height = self.window.get_height()
+        surface_width = self.window.get_width()
 
         total_height = len(lines) * self.font.get_height() * 1.2
         start_y = surface_height // 2 - total_height // 2
@@ -17,4 +17,4 @@ class CenterText:
             surf = self.font.render(line, True, (255, 255, 255))
             rect = surf.get_rect(center=(surface_width // 2,
                                          start_y + i * self.font.get_height() * 1.1))
-            self.board_surface.blit(surf, rect)
+            self.window.blit(surf, rect)
