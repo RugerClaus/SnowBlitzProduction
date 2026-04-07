@@ -55,6 +55,7 @@ class AudioEngine:
     def load_audio_files(self):
         self.load_music_tracks()
         self.load_sound_effects()
+        self.load_menu_track()
     
     def load_music_tracks(self):
         music_dir = audio_path("music")
@@ -76,6 +77,16 @@ class AudioEngine:
                 effect_name = sound_file.get('title', [filename])[0]
                 effect_name = os.path.splitext(effect_name)[0]
                 self.sound_effects[effect_name] = pygame.mixer.Sound(sfx_path)
+
+    def load_menu_track(self):
+        music_dir = audio_path("music")
+        for filename in os.listdir(music_dir):
+            if filename == "LoFiSi - JumpyJuggernaut.mp3":
+                track_path = os.path.join(music_dir, filename)
+                audio_file = File(track_path)
+                title = audio_file.get('title', [filename])[0]
+                self.music_tracks[title] = track_path
+                self.menu_track = track_path
     
     def play_sfx(self, effect_name):
         if self.game_sfx_state.is_state(GAME_SFX_STATE.ON):
@@ -165,6 +176,13 @@ class AudioEngine:
             if self.current_track is None:
                 return
             pygame.mixer.music.load(self.music_tracks[self.current_track])
+            pygame.mixer.music.set_volume(self.volume)
+            pygame.mixer.music.play(-1)
+
+        elif mode == "menu":
+            self.music_state.set_state(MUSIC_STATE.ON)
+            pygame.mixer.music.load(self.menu_track)
+            self.current_track = "LoFiSi - JumpyJuggernaut"
             pygame.mixer.music.set_volume(self.volume)
             pygame.mixer.music.play(-1)
 

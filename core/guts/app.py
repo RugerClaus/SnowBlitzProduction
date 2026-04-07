@@ -1,147 +1,109 @@
 import sys
 from helper import *
 from core.state.ApplicationLayer.state import APPSTATE
-from core.state.ApplicationLayer.statemanager import StateManager
 from core.state.ApplicationLayer.Debug.state import DEBUG_STATE
-from core.state.ApplicationLayer.Debug.statemanager import DebugStateManager
+
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.state.ApplicationLayer.devmanager import DevManager
+
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.util.debugoverlay import DebugOverlay
-from core.guts.input.inputmanager import InputManager
+
 from core.game.game import Game
 from core.menus.menu import Menu
-from core.guts.audioengine import AudioEngine
+
 from core.loading.loadingmanager import LoadingManager
 
 class App:
-    def __init__(self,window):
-        self.window = window
-        self.input = InputManager(window)
-        self.state = StateManager()
-        self.mode = DebugStateManager()
-        self.dev = DevManager()
-        self.sound = AudioEngine()
-        self.menu = Menu(self.dev,window,self.sound,self.input,self.endless,self.blitz,self.tutorial,self.quit)
-        self.game = Game(window,self.sound,self.input,self.dev,self.go_to_menu,self.quit)
-        self.loading = LoadingManager(self.window,self.state,self.sound)
-        self.debug_overlay = DebugOverlay(self.game,self.state,window,self.sound,self.input,self.loading,self.dev)
+    def __init__(self,sub_system_object):
 
-    def _popup_test_toggle(self):
-        self.popup_active = not self.popup_active
-
-    def endless(self):
-        self.state.set_state(APPSTATE.IN_GAME)
-        self.game.game_object.reset()
-        self.game.set_game_mode(GAME_MODE.ENDLESS)
-    
-    def blitz(self):
-        self.state.set_state(APPSTATE.IN_GAME)
-        self.game.game_object.reset()
-        self.game.set_game_mode(GAME_MODE.BLITZ)
-    
-    def tutorial(self):
-        self.state.set_state(APPSTATE.IN_GAME)
-        self.game.game_object.reset()
-        self.game.set_game_mode(GAME_MODE.TUTORIAL)
-
-    def toggle_debug_mode(self):
-        if not self.mode.is_state(DEBUG_STATE.ON):
-            self.mode.set_state(DEBUG_STATE.ON)
-        else:
-            self.mode.set_state(DEBUG_STATE.OFF)
-
-    def toggle_developer_mode(self):
-        if not self.dev.is_state(DEVELOPER_MODE.ON):
-            self.dev.set_state(DEVELOPER_MODE.ON)
-        else:
-            self.dev.set_state(DEVELOPER_MODE.OFF)
-
-    def quit(self):
-        self.state.set_state(APPSTATE.QUIT)
-
-    def go_to_menu(self):
-        self.state.set_state(APPSTATE.MAIN_MENU)
-        self.game.reset_game()
-        self.game.game_mode.set_state(GAME_MODE.NONE)
-        self.menu.scale()
+        self.system = sub_system_object
+        self.game = Game(self.system)
+        self.menu = Menu(self.system,self.game,self.system.quit)
+        self.loading = LoadingManager(self.system.window,self.system.app_state,self.system.sound)
+        self.debug_overlay = DebugOverlay(self.game,self.system.app_state,self.system.window,self.system.sound,self.system.input,self.loading,self.system.control_state)
     
     def handle_events(self):
-        for event in self.input.input_event():
-            if event.type == self.input.video_resize_event():
-                self.window.scale(event.w,event.h)
+        for event in self.system.input.input_event():
+            if event.type == self.system.input.video_resize_event():
+                self.system.window.scale(event.w,event.h)
                 self.debug_overlay.scale()
-                if self.state.is_state(APPSTATE.LOADING):
+                if self.system.app_state.is_state(APPSTATE.LOADING):
                     self.loading.rescale_assets()
                 self.menu.scale()
-                self.input.rescale(event.w,event.h)
-                if not self.state.is_state(APPSTATE.IN_GAME):
+                self.system.input.rescale(event.w,event.h)
+                if not self.system.app_state.is_state(APPSTATE.IN_GAME):
                     self.game.resize(event.h)
                     self.game.game_over_menu.create_buttons()
                     self.game.pause_menu.create_buttons()
 
-            if event.type == self.input.quit_event():
-                self.state.set_state(APPSTATE.QUIT)
+            if event.type == self.system.input.quit_event():
+                self.system.app_state.set_state(APPSTATE.QUIT)
             
-            if self.state.is_state(APPSTATE.MAIN_MENU):
+            if self.system.app_state.is_state(APPSTATE.MAIN_MENU):
                 self.menu.handle_event(event)
-                self.sound.stop_sfx("splash1")
-                self.sound.stop_sfx("splash2")
+                self.system.sound.stop_sfx("splash1")
+                self.system.sound.stop_sfx("splash2")
 
-            elif self.state.is_state(APPSTATE.IN_GAME):
-                self.game.handle_event(event,self.input)
+            elif self.system.app_state.is_state(APPSTATE.IN_GAME):
+                self.game.handle_event(event,self.system.input)
             
-            if self.mode.is_state(DEBUG_STATE.ON):
+            if self.system.overlay_state.is_state(DEBUG_STATE.ON):
                 self.debug_overlay.handle_event(event)
 
-            self.sound.handle_music_event(event)
+            self.system.sound.handle_music_event(event)
 
-            command = self.input.handle_event(event)
+            command = self.system.input.handle_event(event)
             if command == "debug":
-                self.toggle_debug_mode()
+                self.system.overlay_state_toggle()
             
             elif command == "developer":
-                self.toggle_developer_mode()
+                self.system.control_state_toggle()
 
-            if event.type == self.input.keydown():
-                if self.input.get_key_name(event.key) == "f11":
-                    self.window.toggle_fullscreen()
-                if self.input.get_key_name(event.key) == "u":
+            if event.type == self.system.input.keydown():
+                if self.system.input.get_key_name(event.key) == "f11":
+                    self.system.window.toggle_fullscreen()
+                elif self.system.input.get_key_name(event.key) == "u":
                     print(read_constant_from_file('username'))
-                if self.state.is_state(APPSTATE.LOADING):
-                    if self.input.get_key_name(event.key) == "space" or self.input.get_key_name(event.key) == "return" or self.input.get_key_name(event.key) == "escape":
-                        self.state.set_state(APPSTATE.MAIN_MENU)
-                        self.sound.play_music()
-            if event.type == self.input.mouse_button_down() and event.button == 1:
-                if self.state.is_state(APPSTATE.LOADING):
-                    self.state.set_state(APPSTATE.MAIN_MENU)
-                    self.sound.play_music()
+                if self.system.app_state.is_state(APPSTATE.LOADING):
+                    if self.system.input.get_key_name(event.key) == "space" or self.system.input.get_key_name(event.key) == "return" or self.system.input.get_key_name(event.key) == "escape":
+                        self.system.app_state.set_state(APPSTATE.MAIN_MENU)
+            if event.type == self.system.input.mouse_button_down() and event.button == 1:
+                if self.system.app_state.is_state(APPSTATE.LOADING):
+                    self.system.app_state.set_state(APPSTATE.MAIN_MENU)
+                    self.system.sound.play_music("menu")
+                if self.system.app_state.is_state(APPSTATE.IN_GAME):
+                    self.system.sound.play_music("random")
+                elif self.system.app_state.is_state(APPSTATE.MAIN_MENU):
+                    self.game.reset_game()
+                    self.game.game_mode.set_state(GAME_MODE.NONE)
+                    self.menu.scale()
+                    
 
     def run(self):
-        while not self.state.is_state(APPSTATE.QUIT):
-            self.window.fill((0,0,0))
+        while not self.system.app_state.is_state(APPSTATE.QUIT):
+            self.system.window.fill((0,0,0))
             self.handle_events()
 
-            if self.state.is_state(APPSTATE.LOADING):
+            if self.system.app_state.is_state(APPSTATE.LOADING):
                 self.loading.update()
                 self.loading.draw()
             
-            elif self.state.is_state(APPSTATE.MAIN_MENU):
+            elif self.system.app_state.is_state(APPSTATE.MAIN_MENU):
                 self.menu.update()
                 self.menu.draw()
-            elif self.state.is_state(APPSTATE.IN_GAME):
+            elif self.system.app_state.is_state(APPSTATE.IN_GAME):
                 
                 self.game.run()
-            elif self.state.is_state(APPSTATE.QUIT):
-                self.window.quit()
+            elif self.system.app_state.is_state(APPSTATE.QUIT):
+                self.system.window.quit()
                 sys.exit()
-            if self.mode.is_state(DEBUG_STATE.ON):
+            if self.system.overlay_state.is_state(DEBUG_STATE.ON):
                 self.debug_overlay.update()
                 self.debug_overlay.draw()
-                self.input.draw_most_recent_keypress()
+                self.system.input.draw_most_recent_keypress()
             
-            if self.dev.is_state(DEVELOPER_MODE.ON):
+            if self.system.control_state.is_state(DEVELOPER_MODE.ON):
                 pass
 
-            self.window.timer()
-            self.window.update()
+            self.system.window.timer()
+            self.system.window.update()

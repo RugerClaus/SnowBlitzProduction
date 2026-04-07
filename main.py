@@ -1,6 +1,6 @@
 import argparse
 from core.guts.app import App
-from core.guts.window import Window
+from core.guts.system import System
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 def main():
@@ -10,11 +10,11 @@ def main():
 
     args = parser.parse_args()
 
-    window = Window()
-    app = App(window)
+    system = System()
+    app = App(system)
 
     if args.dev:
-        app.dev.set_state(DEVELOPER_MODE.ON)
+        system.control_state.set_state(DEVELOPER_MODE.ON)
     app.run()
 
 if __name__ == "__main__":

@@ -32,11 +32,9 @@ class LoadingManager:
     def update(self):
         if self.state.is_state(LOAD_SCREEN_STATE.NONE):
             self.parent_state.set_state(APPSTATE.MAIN_MENU)
-            self.sound.play_music()
         if not self.parent_state.is_state(APPSTATE.LOADING):
             self.state.set_state(LOAD_SCREEN_STATE.NONE)
             self.sound.system_sfx_state.set_state(SYSTEM_SFX_STATE.OFF)
-            self.sound.play_music()
             
         
         if self.state.is_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO):
