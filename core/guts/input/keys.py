@@ -18,6 +18,21 @@ class Keys:
     def h_key(self):
         return pygame.K_h
     
+    def seven_key(self):
+        return pygame.K_7
+    
+    def F3_key(self):
+        return pygame.K_F3
+    
+    def F4_key(self):
+        return pygame.K_F4
+    
+    def F5_key(self):
+        return pygame.K_F5
+    
+    def F6_key(self):
+        return pygame.K_F6
+
     def left_arrow_key(self):
         return pygame.K_LEFT
     

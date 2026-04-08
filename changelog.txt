@@ -4,4 +4,5 @@ Development version Beta 0.9.8 - 2026-04-08
 - Made LoFiSi the only song that plays at the main menu
 - Added readme in build scripts
 - Added instructions in build scripts
-- Added license file to build scripts - it was accessible via the website which you could get to via the game client but this is just to comply even more accurately with the license.
+- Added license file to build scripts - it was accessible via the website which you could get to via the game client, but this is just to comply even more accurately with the license.
+- Added feature for drawing color coded lines from the player to the entities in developer mode. This can be accessed with F3, F4, F5, F6

@@ -49,8 +49,20 @@ class Game:
             self.game_object.handle_event()
             if event.type == self.system.input.keydown():
                 if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-                    if self.system.input.get_key_name(event.key) == "7":
+                    if event.key == self.system.input.keys.seven_key():
                         self.game_object.player.current_level = 15
+
+                    elif event.key == self.system.input.keys.F3_key():
+                        self.game_object.toggle_debug_snowflake_lines()
+
+                    elif event.key == self.system.input.keys.F4_key():
+                        self.game_object.toggle_debug_rock_lines()
+                    
+                    elif event.key == self.system.input.keys.F5_key():
+                        self.game_object.toggle_debug_powerup_lines()
+                        
+                    elif event.key == self.system.input.keys.F6_key():
+                        self.game_object.toggle_debug_reducer_lines()
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
@@ -63,8 +75,8 @@ class Game:
         
         if event.type == self.system.input.video_resize_event():
             self.game_over_menu.create_buttons()
-            self.pause_menu = Pause(self.system.window, self.game_object, self.system.sound, self.system.input,  self.toggle_pause, self.quit_to_menu, self.quit, self.reset_tutorial)
-            self.win = Win(self.system.sound,self.system.window,self.system.input,self.reset_tutorial,self.quit_to_menu,self.quit)
+            self.pause_menu = Pause(self.system, self.toggle_pause, self.quit, self.reset_tutorial)
+            self.win = Win(self.system,self.reset_tutorial)
             self.resize(event.h)    
         
 

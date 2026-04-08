@@ -89,6 +89,12 @@ class Window:
         overlay.fill((*color, alpha))
         return overlay
     
+    def draw_line(self,point_a,point_b,color):
+        if isinstance(color,tuple):
+            pygame.draw.line(self.get_screen(),color,point_a,point_b)
+        else:
+            log_error("color must be a tuple")
+
     def draw_circle(self,surface,color,center,radius,object=None):
         if not isinstance(surface,Surface):
             log_error(f"surface must be a Surface",object)

@@ -122,6 +122,7 @@ class TutorialManager:
             self.entitymanager.spawn_snowflakes()
             self.entitymanager.spawn_rocks(self.player.current_level)
             self.entitymanager.spawn_speed_boosts()
+            self.entitymanager.spawn_powerups(self.player.current_level)
             self.entitymanager.update_entities()
             self.entitymanager.draw_entities()
             self.progress_bar.update()
@@ -157,7 +158,7 @@ class TutorialManager:
         elif self.state.is_state(TUTORIALSTATE.LEVEL_REDUCERS):
             self.final()
 
-            if self.player.current_level > 20:
+            if self.player.current_level >= 20:
                 self.state.set_state(TUTORIALSTATE.WIN)
 
         elif self.state.is_state(TUTORIALSTATE.RESET):
