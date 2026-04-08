@@ -69,24 +69,24 @@ The **shrink rate** determines how fast the player's size decreases over time. T
 #### Shrink Rate Table:
 Values calculated at 60 frames per second
 
-|      Diameter      | Shrink Rate/frame  |
-|--------------------|--------------------|
-| 350+               | 1.00               |
-| 325 - 349          | 0.90               |
-| 300 - 324          | 0.80               |
-| 275 - 299          | 0.70               |
-| 250 - 274          | 0.60               |
-| 225 - 249          | 0.50               |
-| 200 - 224          | 0.40               |
-| 175 - 199          | 0.30               |
-| 150 - 174          | 0.20               |
-| 125 - 149          | 0.10               |
-| 100 - 124          | 0.09               |
-| 75 - 99            | 0.08               |
-| 50 - 74            | 0.07               |
-| 40 - 49            | 0.05               |
-| 10 - 39            | 0.02               |
-| Less than 10       | 0.01               |
+|   Diameter   | Shrink Rate/frame  |
+|--------------|--------------------|
+| 350+         | 1.00               |
+| 325 - 349    | 0.90               |
+| 300 - 324    | 0.80               |
+| 275 - 299    | 0.70               |
+| 250 - 274    | 0.60               |
+| 225 - 249    | 0.50               |
+| 200 - 224    | 0.40               |
+| 175 - 199    | 0.30               |
+| 150 - 174    | 0.20               |
+| 125 - 149    | 0.10               |
+| 100 - 124    | 0.09               |
+| 75 - 99      | 0.08               |
+| 50 - 74      | 0.07               |
+| 40 - 49      | 0.05               |
+| 10 - 39      | 0.02               |
+| Less than 10 | 0.01               |
 
 The shrink rate speeds up as the player gets bigger.
 Power-ups like **ANTI_SHRINK** stop the player from shrinking.
