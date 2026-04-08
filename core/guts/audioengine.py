@@ -4,6 +4,8 @@ import os
 from mutagen import File
 from helper import *
 
+from core.state.ApplicationLayer.state import APPSTATE
+
 from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
 from core.state.ApplicationLayer.Audio.Interface.statemanager import InterfaceSFXStateManager
 from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
@@ -14,7 +16,8 @@ from core.state.ApplicationLayer.Audio.SFX.state import SYSTEM_SFX_STATE
 from core.state.ApplicationLayer.Audio.SFX.statemanager import SystemSFXStateManager
 
 class AudioEngine:
-    def __init__(self):
+    def __init__(self,app_state):
+        self.app_state = app_state
         default_volume = 0.3
         create_volume_files(str(default_volume))
         self.interface_sfx_state = InterfaceSFXStateManager()
@@ -27,6 +30,8 @@ class AudioEngine:
             self.music_state.set_state(MUSIC_STATE.ON)
             self.game_sfx_state.set_state(GAME_SFX_STATE.ON)
             self.system_sfx_state.set_state(SYSTEM_SFX_STATE.ON)
+        else:
+            self.music_state.set_state(MUSIC_STATE.NONE)
 
         self.music_tracks = {}
         self.sound_effects = {}
@@ -37,7 +42,6 @@ class AudioEngine:
         self.current_track = None
 
         self.load_audio_files()
-
     def initialize_audio(self):
         try:
             pygame.mixer.init()
@@ -157,60 +161,43 @@ class AudioEngine:
             sfx.stop()
         self.active_sfx.clear()
 
-    def play_music(self, mode="random"):
-        if mode == "random":
-            self.music_state.set_state(MUSIC_STATE.ON)
+    def play_music(self,mode=None):
+        if self.app_state.is_state(APPSTATE.IN_GAME):
             if not self.music_queue:
                 self.music_queue = list(self.music_tracks.keys())
                 random.shuffle(self.music_queue)
-
-            # Play the next track in the queue
             next_track = self.music_queue.pop()
             self.current_track = next_track
             pygame.mixer.music.load(self.music_tracks[next_track])
             pygame.mixer.music.set_volume(self.volume)
             pygame.mixer.music.play()
 
-        elif mode == "loop":
-            self.music_state.set_state(MUSIC_STATE.ON)
-            if self.current_track is None:
-                return
-            pygame.mixer.music.load(self.music_tracks[self.current_track])
-            pygame.mixer.music.set_volume(self.volume)
-            pygame.mixer.music.play(-1)
-
-        elif mode == "menu":
-            self.music_state.set_state(MUSIC_STATE.ON)
+        elif self.app_state.is_state(APPSTATE.MAIN_MENU):
+            print("playin menu music")
             pygame.mixer.music.load(self.menu_track)
             self.current_track = "LoFiSi - JumpyJuggernaut"
             pygame.mixer.music.set_volume(self.volume)
             pygame.mixer.music.play(-1)
 
-        elif mode == "stop":
-            self.music_state.set_state(MUSIC_STATE.OFF)
-            self.current_track = None
-            pygame.mixer.music.stop()
-
-        elif isinstance(mode, str):
-            if mode in self.music_tracks:
-                pygame.mixer.music.load(self.music_tracks[mode])
-                pygame.mixer.music.set_volume(self.volume)
-                pygame.mixer.music.play()
-
-        else:
-            raise ValueError("Invalid mode for play_music")
-
+        if mode is not None: 
+            if not isinstance(mode,str):
+                raise ValueError("Invalid mode for play_music")
+            if mode == "stop":
+                self.music_state.set_state(MUSIC_STATE.OFF)
+                self.current_track = None
+                pygame.mixer.music.stop()
+    
     def handle_music_event(self, event):
         if event.type == self.MUSIC_END_EVENT:
             if self.music_state.is_state(MUSIC_STATE.ON) and self.music_queue:
-                self.play_music("random")
+                self.play_music()
 
     def toggle_music(self):
         if self.music_state.is_state(MUSIC_STATE.ON):
             self.play_music("stop")
             self.music_state.is_state(MUSIC_STATE.OFF)
         else:
-            self.play_music("random")
+            self.play_music()
             self.music_state.set_state(MUSIC_STATE.ON)
 
     def volume_up(self):

@@ -3,6 +3,7 @@ from core.menus.basemenu import BaseMenu
 from core.menus.usercreator import UserCreator
 from core.ui.button import Button
 from helper import *
+from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.state.ApplicationLayer.state import APPSTATE
@@ -17,24 +18,24 @@ from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
 from core.menus.changelog import ChangeLog
 
 class Menu(BaseMenu):
-    def __init__(self,system, game, quit_callback):
+    def __init__(self,system, game):
         self.system = system
         self.game = game
-        super().__init__(self.system.window, self.system.sound)
-        self.quit_callback = quit_callback
+        super().__init__(system)
         self.state = MenuStateManager()
-        self.credits = Credits(self.system.window)
+        self.credits = Credits(system)
         self.agreed_to_leaderboard = check_leaderboard_opt()
         self.recently_updated = check_recently_updated()
-        self.user_creator = UserCreator(self.system.window,self.system.sound,self.state,self.system.input)
-        self.leaderboard = LeaderboardViewer(self.system.window,self.system.sound,self.state,self.system.input,self.back_to_root)
+        self.user_creator = UserCreator(system,self.state)
+        self.leaderboard = LeaderboardViewer(system,self.state,self.back_to_root)
         self.updater = Update()
-        self.change_log = ChangeLog(self.system.window)
+        self.change_log = ChangeLog(system)
 
         self.title_image_original = self.system.window.load_image(asset("title"))
         self.title_image = self.title_image_original
         self.title_rect = self.title_image.get_rect()
         
+
         if self.agreed_to_leaderboard:
             self.state.set_state(MENUSTATE.ROOT)
             self.create_buttons()
@@ -53,6 +54,7 @@ class Menu(BaseMenu):
 
         self.create_buttons()
         self.rescale_assets()
+        
 
     def rescale_assets(self):
         window_w, window_h = self.system.window.get_size()
@@ -65,12 +67,12 @@ class Menu(BaseMenu):
         self.user_creator.scale()
 
     def create_buttons(self):
+        
         window_w, window_h = self.system.window.get_size()
         btn_width, btn_height = window_w // 3.6, 70
         spacing = btn_height * 1.2
         start_y = window_h // 4 + window_h // 7
         center_x = window_w // 2
-
         
 
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
@@ -84,7 +86,7 @@ class Menu(BaseMenu):
                 Button(self.system.sound, self.system.window, "Settings", center_x, start_y + spacing * 3, btn_width, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.go_to_settings),
                 Button(self.system.sound, self.system.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
-                    (255, 255, 255), self.button_action_true_color, self.quit_callback),
+                    (255, 255, 255), self.button_action_true_color, self.system.quit),
                 Button(self.system.sound, self.system.window, "Credits", window_w - window_w // 8, window_h - 100, 200, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.credits_callback),
                 Button(self.system.sound, self.system.window, "Our Discord", window_w - window_w // 8 - 50, window_h - 200, 300, btn_height,
@@ -105,7 +107,7 @@ class Menu(BaseMenu):
                 Button(self.system.sound, self.system.window, "Settings", center_x, start_y + spacing * 3, btn_width, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.go_to_settings),
                 Button(self.system.sound, self.system.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height,
-                    (255, 255, 255), self.button_action_true_color, self.quit_callback),
+                    (255, 255, 255), self.button_action_true_color, self.system.quit),
                 Button(self.system.sound, self.system.window, "Update!", window_w - window_w // 8, window_h - 300, 220, btn_height,
                     (255, 255, 255), self.button_action_true_color, self.updater.start, True, (255, 165, 0)),
                 Button(self.system.sound, self.system.window, "Our Discord", window_w - window_w // 8 - 50, window_h - 200, 300, btn_height,
@@ -315,6 +317,9 @@ class Menu(BaseMenu):
         self.create_buttons()
 
     def draw(self):
+        if self.system.sound.current_track is None and self.system.sound.music_state.is_state(MUSIC_STATE.ON):
+            self.system.sound.play_music()
+        
         t = self.system.window.get_current_time() / 1000
         pulse = (math.sin(t) + 1) / 2
         fade_color = (

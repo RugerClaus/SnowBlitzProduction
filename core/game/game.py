@@ -4,6 +4,7 @@ from core.state.GameLayer.statemanager import GameStateManager
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.game.snowblitz import SnowBlitz
+from core.state.ApplicationLayer.state import APPSTATE
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.menus.pause import Pause
 from core.menus.gameover import GameOverMenu
@@ -14,10 +15,10 @@ class Game:
         self.state = GameStateManager()
         self.game_mode = GameModeManager()
         self.system = system
-        self.game_object = SnowBlitz(self.system.window, self.system.sound, self.state,self.system.input,self.game_mode)
-        self.game_over_menu = GameOverMenu(self.system.sound,self.system.window, self.system.input, self.reset_game, self.quit_to_menu, self.quit)
-        self.pause_menu = Pause(self.system.window, self.game_object, self.system.sound, self.system.input, self.toggle_pause, self.quit_to_menu, self.quit, self.reset_game)
-            
+        self.game_object = SnowBlitz(system,self.state,self.game_mode)
+        self.game_over_menu = GameOverMenu(system, self.reset_game)
+        self.pause_menu = Pause(system, self.game_object, self.toggle_pause, self.reset_game)
+        
     def check_win(self): #this is basically only for the tutorial mode, but needs to be here. no way around it honestly just due to the ease of callback access
         if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
             self.win.update()
@@ -33,7 +34,7 @@ class Game:
     def resize(self,event_h):
         self.game_object.resize(event_h)
 
-    def handle_event(self, event, input):
+    def handle_event(self, event):
 
         if event.type == self.system.input.keydown():
             if self.system.input.get_key_name(event.key) == "escape":
@@ -102,3 +103,4 @@ class Game:
 
     def set_game_mode(self, mode):
         self.game_mode.set_state(mode)
+        self.system.sound.play_music()

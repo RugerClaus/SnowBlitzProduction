@@ -3,41 +3,39 @@ from core.ui.font import FontEngine
 from helper import *
 
 class TextBox:
-    def __init__(self,window,sound,input):
-        self.window = window
-        self.sound = sound
-        self.input = input
+    def __init__(self,system):
+        self.system = system
         self.font = FontEngine(30).font
         self.scale()
         self.string = None
         self.box = [' ']
 
     def handle_event(self,event):
-        key = self.input.handle_event(event,True)
+        key = self.system.input.handle_event(event,True)
         if key is not None:
             self.add_key_to_box(key)
-            if self.input.get_key_name(key) == 'backspace' and len(self.box) > 0:
+            if self.system.input.get_key_name(key) == 'backspace' and len(self.box) > 0:
                 self.delete_key()
-        if event.type == self.input.video_resize_event():
-            self.bounding_box_rect = self.bounding_box.get_rect(center=(self.window.get_width()//2,self.window.get_height()//3))
+        if event.type == self.system.input.video_resize_event():
+            self.bounding_box_rect = self.bounding_box.get_rect(center=(self.system.window.get_width()//2,self.system.window.get_height()//3))
             self.text_box_rect.center = self.bounding_box_rect.center
 
     def scale(self):
-        ww = self.window.get_width()
-        wh = self.window.get_height()
-        self.bounding_box = self.window.make_surface(275,100)
+        ww = self.system.window.get_width()
+        wh = self.system.window.get_height()
+        self.bounding_box = self.system.window.make_surface(275,100)
         self.bounding_box_rect = self.bounding_box.get_rect(center=(ww//2,wh//3))
         self.bounding_box.fill((0,0,0))
-        self.text_box = self.window.make_surface(250,50)
+        self.text_box = self.system.window.make_surface(250,50)
         self.text_box_rect = self.text_box.get_rect(center=self.bounding_box_rect.center)
         self.text_box.fill((255,255,255))
 
     def add_key_to_box(self,key):
         if len(self.box) < 21:
-            current_key = self.input.get_key_name(key)
+            current_key = self.system.input.get_key_name(key)
             allowed_keys = "asdfghjklzxcvbnmqwertyuiopASDFGHJKLZXCVBNMQWERTYUIOP123456789"
             if current_key in allowed_keys:
-                self.box.append(self.input.get_key_name(key))
+                self.box.append(self.system.input.get_key_name(key))
             if current_key == 'space':
                 self.box.append(" ")
     
@@ -55,6 +53,6 @@ class TextBox:
         
         surf = self.font.render(text,False,(0,0,0))
         rect = surf.get_rect(center=self.text_box_rect.center)
-        self.window.blit(self.bounding_box,self.bounding_box_rect)
-        self.window.blit(self.text_box,self.text_box_rect)
-        self.window.blit(surf,rect)
+        self.system.window.blit(self.bounding_box,self.bounding_box_rect)
+        self.system.window.blit(self.text_box,self.text_box_rect)
+        self.system.window.blit(surf,rect)

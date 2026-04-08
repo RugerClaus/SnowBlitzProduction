@@ -14,13 +14,13 @@ from core.menus.menu import Menu
 from core.loading.loadingmanager import LoadingManager
 
 class App:
-    def __init__(self,sub_system_object):
+    def __init__(self,system):
 
-        self.system = sub_system_object
+        self.system = system
         self.game = Game(self.system)
-        self.menu = Menu(self.system,self.game,self.system.quit)
-        self.loading = LoadingManager(self.system.window,self.system.app_state,self.system.sound)
-        self.debug_overlay = DebugOverlay(self.game,self.system.app_state,self.system.window,self.system.sound,self.system.input,self.loading,self.system.control_state)
+        self.menu = Menu(self.system,self.game)
+        self.loading = LoadingManager(self.system)
+        self.debug_overlay = DebugOverlay(self.system,self.game,self.loading)
     
     def handle_events(self):
         for event in self.system.input.input_event():
@@ -40,12 +40,13 @@ class App:
                 self.system.app_state.set_state(APPSTATE.QUIT)
             
             if self.system.app_state.is_state(APPSTATE.MAIN_MENU):
+                
                 self.menu.handle_event(event)
                 self.system.sound.stop_sfx("splash1")
                 self.system.sound.stop_sfx("splash2")
 
             elif self.system.app_state.is_state(APPSTATE.IN_GAME):
-                self.game.handle_event(event,self.system.input)
+                self.game.handle_event(event)
             
             if self.system.overlay_state.is_state(DEBUG_STATE.ON):
                 self.debug_overlay.handle_event(event)
@@ -70,9 +71,6 @@ class App:
             if event.type == self.system.input.mouse_button_down() and event.button == 1:
                 if self.system.app_state.is_state(APPSTATE.LOADING):
                     self.system.app_state.set_state(APPSTATE.MAIN_MENU)
-                    self.system.sound.play_music("menu")
-                if self.system.app_state.is_state(APPSTATE.IN_GAME):
-                    self.system.sound.play_music("random")
                 elif self.system.app_state.is_state(APPSTATE.MAIN_MENU):
                     self.game.reset_game()
                     self.game.game_mode.set_state(GAME_MODE.NONE)

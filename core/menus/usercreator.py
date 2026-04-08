@@ -5,13 +5,11 @@ from core.ui.textbox import TextBox
 from helper import *
 
 class UserCreator:
-    def __init__(self,window,sound,state,input):
-        self.window = window
-        self.sound = sound
-        self.state = state
-        self.input = input
+    def __init__(self,system,menu_state):
+        self.system = system
+        self.state = menu_state
         self.user = User()
-        self.text_box = TextBox(self.window,self.sound,self.input)
+        self.text_box = TextBox(system)
     
     def handle_event(self,event):
         self.text_box.handle_event(event)

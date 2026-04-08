@@ -2,8 +2,8 @@ from core.ui.lefttext import LeftAlignedText
 from helper import log_error
 
 class ChangeLog(LeftAlignedText):
-    def __init__(self, board_surface):
-        super().__init__(board_surface)
+    def __init__(self, system):
+        super().__init__(system)
         self.changelog_text = []
         self.max_char_count = 90
         self.load_changelog_from_file("changelog.txt")

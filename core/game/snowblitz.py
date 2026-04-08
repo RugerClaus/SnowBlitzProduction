@@ -19,40 +19,41 @@ from core.state.GameLayer.GameMode.state import GAME_MODE
 # from core.game.entities.sun.sun import Sun
 
 class SnowBlitz:
-    def __init__(self,board_surface,sound,game_state,input,mode):
-        self.board_surface = board_surface
-        self.sound = sound
+    def __init__(self,system,game_state,mode):
+        self.system = system
         self.game_state = game_state
-        self.input = input
         self.mode = mode
-        self.entitymanager = EntityManager(self.board_surface)
-        self.player = Player(self.board_surface,self.entitymanager,sound,game_state)
-        self.start_time = self.board_surface.get_current_time()
-        self.progress_bar = PlayerUIManager(self.board_surface,self.player)
-        self.prompts = Prompts(self.board_surface,self.player,self.input)
+
+        self.endless = None
+        self.tutorial = None
+        self.blitz = None
+
+        self.entitymanager = EntityManager(system)
+        self.player = Player(system,self.entitymanager,game_state)
+        self.start_time = self.system.window.get_current_time()
+        self.progress_bar = PlayerUIManager(self.system.window,self.player)
+        self.prompts = Prompts(self.system.window,self.player,self.system.input)
         self.tutorial_state = TutorialStateManager()
-        self.tutorial_manager = TutorialManager(self.board_surface, self.prompts,self.input.game_controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
-        self.tutorial = Tutorial(self.board_surface,self.player,self.entitymanager,self.input.game_controls,self.progress_bar,self.tutorial_state,self.tutorial_manager,self.prompts)
 
         # this stuff will take a while to iron out
-        # self.day_cycle = DayCycle(self.board_surface)
-        # self.sun = Sun(self.board_surface,self.day_cycle)
+        # self.day_cycle = DayCycle(self.system.window)
+        # self.sun = Sun(self.system.window,self.day_cycle)
 
     def handle_event(self):
 
-        keys = self.input.get_pressed_keys()
+        keys = self.system.input.get_pressed_keys()
 
-        if not keys[self.input.game_controls.slow]:
-            if keys[self.input.game_controls.move_left]:
+        if not keys[self.system.input.game_controls.slow]:
+            if keys[self.system.input.game_controls.move_left]:
                 self.player.move('LEFT')
-            elif keys[self.input.game_controls.move_right]:
+            elif keys[self.system.input.game_controls.move_right]:
                 self.player.move('RIGHT')
         else:
-            if keys[self.input.game_controls.move_left]:
+            if keys[self.system.input.game_controls.move_left]:
                 self.player.move('SLOW_LEFT')
-            elif keys[self.input.game_controls.move_right]:
+            elif keys[self.system.input.game_controls.move_right]:
                 self.player.move('SLOW_RIGHT')
-        if not (keys[self.input.game_controls.move_left] or keys[self.input.game_controls.move_right]):
+        if not (keys[self.system.input.game_controls.move_left] or keys[self.system.input.game_controls.move_right]):
             self.player.move('NONE')
 
         #below is setup for spawning in entities and other game functions that need to be tested.
@@ -61,24 +62,18 @@ class SnowBlitz:
 
     def draw(self):
         if self.mode.is_state(GAME_MODE.ENDLESS):
-            self.init_endless()
+            if self.endless is None:
+                self.endless = Endless(self.progress_bar, self.player, self.entitymanager)
+            self.endless.run()
         elif self.mode.is_state(GAME_MODE.TUTORIAL):
-            self.init_tutorial()
+            if self.tutorial is None:
+                tutorial_manager = TutorialManager(self.system.window, self.prompts,self.system.input.game_controls,self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
+                self.tutorial = Tutorial(self.system.window,self.player,self.entitymanager,self.system.input.game_controls,self.progress_bar,self.tutorial_state,tutorial_manager,self.prompts)
+            self.tutorial.run()
         elif self.mode.is_state(GAME_MODE.BLITZ):
-            self.init_blitz()
-
-    def init_endless(self):
-        
-        endless = Endless(self.progress_bar, self.player, self.entitymanager)
-        endless.run()
-        
-    def init_tutorial(self):
-        self.board_surface.fill((0,0,0))
-        self.tutorial.run()
-
-    def init_blitz(self):
-        blitz = Blitz(self.progress_bar,self.player,self.entitymanager)
-        blitz.run()
+            if self.blitz is None:
+                self.blitz = Blitz(self.progress_bar, self.player, self.entitymanager)
+            self.blitz.run()
 
     def resize(self, event_h):
         self.player.scale(event_h)

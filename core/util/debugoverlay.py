@@ -3,15 +3,11 @@ from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class DebugOverlay:
-    def __init__(self,game,state,window,sound,input,loading,developer_mode):
-        self.sound = sound
-        self.input = input
+    def __init__(self,system,game,loading):
+        self.system = system
         self.game = game
-        self.state = state
-        self.window = window
         self.loading = loading
-        self.developer_mode = developer_mode
-        self.surface = window.draw_overlay((0, 0, 0), 128)
+        self.surface = system.window.draw_overlay((0, 0, 0), 128)
         self.rect = self.surface.get_rect()
         self.font_left = FontEngine("UI").font
         self.font_right = FontEngine("dbug_state").font
@@ -21,11 +17,11 @@ class DebugOverlay:
         pass
 
     def scale(self):
-        self.surface = self.window.draw_overlay((0, 0, 0), 128)
+        self.surface = self.system.window.draw_overlay((0, 0, 0), 128)
         self.rect = self.surface.get_rect()
 
     def handle_event(self,event):
-        if event.type == self.input.video_resize_event():
+        if event.type == self.system.input.video_resize_event():
             self.scale()
     
 
@@ -38,12 +34,12 @@ class DebugOverlay:
         left_y = 10
         line_spacing = 20
 
-        fps_text = f"FPS: {round(self.window.get_fps())}"
+        fps_text = f"FPS: {round(self.system.window.get_fps())}"
         fps_surf = self.font_left.render(fps_text, False, text_color)
         self.surface.blit(fps_surf, (left_x, left_y))
         left_y += fps_surf.get_height() * 1.2
 
-        stripped_title = self.sound.current_track.rsplit('.', 1)[0] if self.sound.current_track else None
+        stripped_title = self.system.sound.current_track.rsplit('.', 1)[0] if self.system.sound.current_track else None
         song_text = f"Song: {stripped_title or 'None'}"
         
         song_surf = self.font_left.render(song_text, False, text_color)
@@ -58,16 +54,16 @@ class DebugOverlay:
         right_x = surface_width - 10
         right_y = 10
 
-        appstate_text = f"APPSTATE: {self.state.get_state()}"
+        appstate_text = f"APPSTATE: {self.system.app_state.get_state()}"
         appstate_surf = self.font_right.render(appstate_text, False, text_color)
         self.surface.blit(appstate_surf, (right_x - appstate_surf.get_width(), right_y))
         right_y += appstate_surf.get_height() * 1.2
 
-        if self.developer_mode.is_state(DEVELOPER_MODE.ON):
+        if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             padding = 10
             devmode_warning_text = "WARNING: DEVELOPER MODE ENABLED"
             devmode_warning_surf = self.devmodefont.render(devmode_warning_text, False, text_color)
-            background = self.window.make_surface(
+            background = self.system.window.make_surface(
                 devmode_warning_surf.get_width() + padding,
                 devmode_warning_surf.get_height() + padding
             )
@@ -77,18 +73,18 @@ class DebugOverlay:
             )
             background.blit(devmode_warning_surf, text_rect)
             background_rect = background.get_rect(
-                bottomright=(self.window.get_width(), self.window.get_height())
+                bottomright=(self.system.window.get_width(), self.system.window.get_height())
             )
             self.surface.blit(background, background_rect)
             
 
-        if self.state.is_state(APPSTATE.LOADING):
+        if self.system.app_state.is_state(APPSTATE.LOADING):
             load_state_text = f"{self.loading.state.get_state()}"
             load_state_surf = self.font_right.render(load_state_text,False,text_color)
             self.surface.blit(load_state_surf,(right_x - load_state_surf.get_width(),right_y))
             right_y += load_state_surf.get_height() * 1.2
 
-        if self.state.is_state(APPSTATE.IN_GAME):
+        if self.system.app_state.is_state(APPSTATE.IN_GAME):
     
             game_state_text = f"{self.game.state.get_state()}"
             game_state_surf = self.font_right.render(game_state_text, False, text_color)
@@ -120,7 +116,7 @@ class DebugOverlay:
             self.surface.blit(player_speed_state_surf, (right_x - player_speed_state_surf.get_width(), right_y))
             right_y += player_speed_state_surf.get_height() * 1.2
 
-        self.window.blit(self.surface, self.rect)
+        self.system.window.blit(self.surface, self.rect)
 
 
     def update(self):

@@ -9,15 +9,15 @@ from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeSta
 from core.game.entities.player.playermechanics import PlayerMechanics as physics
 
 class Player(Entity):
-    def __init__(self, board_surface, entitymanager, sound, game_state):
+    def __init__(self, system, entitymanager, game_state):
+        self.system = system
         self.base_size = 10
-        self.x = board_surface.get_width() // 2
-        self.y = board_surface.get_height() - 100
+        self.x = system.window.get_width() // 2
+        self.y = system.window.get_height() - 100
         self.entitymanager = entitymanager
         self.game_state = game_state
-        self.sound = sound
         self.current_high_score = physics.get_current_high_score()
-        super().__init__(self.x, self.y, board_surface, EntityType.PLAYER, self.base_size)
+        super().__init__(self.x, self.y, system.window, EntityType.PLAYER, self.base_size)
         self.reset()
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
         self.rect.bottom = self.y
@@ -117,7 +117,7 @@ class Player(Entity):
             if player_mask.overlap(entity_mask, offset):
                 if entity.type == EntityType.SNOWFLAKE:
                     physics.collect_snowflake(self,entity)
-                    self.sound.play_sfx('snow')
+                    self.system.sound.play_sfx('snow')
                     self.score += entity.diam
                     entity.collected()
                 elif entity.type == EntityType.ROCK:

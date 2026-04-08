@@ -2,8 +2,8 @@ from core.ui.centertext import CenterText
 from config import config
 
 class Credits(CenterText):
-    def __init__(self,board_surface):
-        super().__init__(board_surface)
+    def __init__(self,system):
+        super().__init__(system)
         self.authors = config["AUTHORS"]
 
     def draw(self):

@@ -15,8 +15,8 @@ from core.game.entities.powerups.type  import PowerUpType
 from core.game.entities.reducers.type import LRType
 
 class EntityManager:
-    def __init__(self, board_surface):
-        self.board_surface = board_surface
+    def __init__(self, system):
+        self.system = system
         self.entities = {
             "rocks": [],
             "powerups": [],
@@ -44,7 +44,7 @@ class EntityManager:
         }
 
     def reset_spawn_timers(self):
-        current_time = self.board_surface.get_current_time()
+        current_time = self.system.window.get_current_time()
         self.last_flake_spawn_time = current_time
         self.last_rock_spawn_time = current_time
         self.last_powerup_spawn_time = current_time
@@ -54,26 +54,26 @@ class EntityManager:
     def add_entity(self, entity_type, sub_type=None):
         if sub_type is None:
             if entity_type == EntityType.ROCK:
-                self.entities["rocks"].append(Rock(self.board_surface))
+                self.entities["rocks"].append(Rock(self.system.window))
                 
             elif entity_type == EntityType.SNOWFLAKE:
-                self.entities["snowflakes"].append(SnowFlake(self.board_surface))
+                self.entities["snowflakes"].append(SnowFlake(self.system.window))
 
         else:
             if isinstance(sub_type,PowerUpType):
                 if sub_type == PowerUpType.ABSORB_ROCK:
-                    self.entities["powerups"].append(AbsorbRock(self.board_surface))
+                    self.entities["powerups"].append(AbsorbRock(self.system.window))
                 elif sub_type == PowerUpType.ANTI_SHRINK:
-                    self.entities["powerups"].append(AntiShrink(self.board_surface))
+                    self.entities["powerups"].append(AntiShrink(self.system.window))
                 elif sub_type == PowerUpType.SPEED_BOOST:
-                    self.entities["speedboosts"].append(SpeedBoost(self.board_surface))
+                    self.entities["speedboosts"].append(SpeedBoost(self.system.window))
             elif isinstance(sub_type,LRType):
                 if sub_type == LRType.TWENTY:
-                    self.entities["level_reducers"].append(Twenty(self.board_surface))
+                    self.entities["level_reducers"].append(Twenty(self.system.window))
                 elif sub_type == LRType.FIFTY:
-                    self.entities["level_reducers"].append(Fifty(self.board_surface))
+                    self.entities["level_reducers"].append(Fifty(self.system.window))
                 elif sub_type == LRType.ONE_HUNDRED:
-                    self.entities["level_reducers"].append(OneHundred(self.board_surface))
+                    self.entities["level_reducers"].append(OneHundred(self.system.window))
 
     def update_entities(self):
         for entity_list in self.entities.values():
@@ -112,14 +112,14 @@ class EntityManager:
                     reducer.speed = rock.speed + 1
 
     def spawn_snowflakes(self):
-        current_time = self.board_surface.get_current_time()
+        current_time = self.system.window.get_current_time()
         if current_time - self.last_flake_spawn_time > self.flake_interval:
             if len(self.entities["snowflakes"]) < 50:
                 self.add_entity(EntityType.SNOWFLAKE)
                 self.last_flake_spawn_time = current_time
         
     def spawn_speed_boosts(self,current_level=None):
-        current_time = self.board_surface.get_current_time()
+        current_time = self.system.window.get_current_time()
         if current_level and current_level == 2:
             if current_time - self.last_speed_boost_spawn_time > 1000:
                 if len(self.entities["speedboosts"]) < 1:
@@ -133,7 +133,7 @@ class EntityManager:
 
 
     def spawn_rocks(self,current_level):
-        current_time = self.board_surface.get_current_time()
+        current_time = self.system.window.get_current_time()
 
         if current_time - self.last_rock_spawn_time > self.rock_interval:
             if len(self.entities["rocks"]) < 5:
@@ -142,7 +142,7 @@ class EntityManager:
                     self.last_rock_spawn_time = current_time
     
     def spawn_powerups(self,current_level):
-        current_time = self.board_surface.get_current_time()
+        current_time = self.system.window.get_current_time()
 
         if current_time - self.last_powerup_spawn_time > self.powerup_interval:
             if len(self.entities["powerups"]) < 1:
@@ -154,7 +154,7 @@ class EntityManager:
                     self.last_powerup_spawn_time = current_time
 
     def spawn_reducers(self,current_level):
-        current_time = self.board_surface.get_current_time()
+        current_time = self.system.window.get_current_time()
 
         if current_time - self.last_reducer_spawn_time > self.reducer_interval:
             

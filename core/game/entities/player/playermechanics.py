@@ -248,11 +248,11 @@ class PlayerMechanics:
     def handle_sfx(player):
 
         if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
-            if 'powerup_active' not in player.sound.active_sfx: 
-                player.sound.play_sfx('powerup_active')
+            if 'powerup_active' not in player.system.sound.active_sfx: 
+                player.system.sound.play_sfx('powerup_active')
         else:
-            if 'powerup_active' in player.sound.active_sfx:
-                player.sound.stop_sfx('powerup_active')
+            if 'powerup_active' in player.system.sound.active_sfx:
+                player.system.sound.stop_sfx('powerup_active')
 
     @staticmethod
     def reset_states(player):

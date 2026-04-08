@@ -14,13 +14,14 @@ from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class System():
     def __init__(self):
-        self.window = Window()
-        self.sound = AudioEngine()
-        self.input = InputManager(self.window)
         self.app_state = StateManager()
         self.overlay_state = DebugStateManager()
         self.control_state = DevManager()
 
+        self.window = Window()
+        self.sound = AudioEngine(self.app_state)
+        self.input = InputManager(self.window)
+        
     def control_state_toggle(self):
         if not self.control_state.is_state(DEVELOPER_MODE.ON):
             self.control_state.set_state(DEVELOPER_MODE.ON)
@@ -35,7 +36,7 @@ class System():
 
     def go_to_menu(self):
         self.app_state.set_state(APPSTATE.MAIN_MENU)
+        self.sound.play_music()
         
-
     def quit(self):
         self.app_state.set_state(APPSTATE.QUIT)

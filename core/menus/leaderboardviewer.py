@@ -6,11 +6,10 @@ from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchStateManager
 from core.network.user import User
 class LeaderboardViewer():
-    def __init__(self,window,sound,state,input,root_callback):
-        self.window = window
-        self.sound = sound
+    def __init__(self,system,state,root_callback):
+        self.system = system
+        self.system.input
         self.state = state
-        self.input = input
         self.root_callback = root_callback
         self.leaderboard = Leaderboard()
         self.font = FontEngine(50).font
@@ -64,7 +63,7 @@ class LeaderboardViewer():
                 log_error("Error fetching leaderboard data.")
                 self.fetch_manager.set_state(FETCH_STATE.IDLE)
             elif self.fetch_manager.is_state(FETCH_STATE.FETCHING):
-                draw_loading(self.font, self.window, "Loading Leaderboard...")
+                draw_loading(self.font, self.system.window, "Loading Leaderboard...")
             elif self.fetch_manager.is_state(FETCH_STATE.CANCELLED):
                 self.cached_data = None
                 self.fetch_manager.set_state(FETCH_STATE.IDLE)
@@ -76,12 +75,12 @@ class LeaderboardViewer():
 
     def display_timeout(self):
         text = self.font.render("Leaderboard Timed Out. Please try again later.", True, (255, 0, 0))
-        rect = text.get_rect(center=(self.window.get_screen().get_width() // 2, self.window.get_screen().get_height() // 2))
-        self.window.blit(text, rect)
+        rect = text.get_rect(center=(self.system.window.get_screen().get_width() // 2, self.system.window.get_screen().get_height() // 2))
+        self.system.window.blit(text, rect)
 
     def display_leaderboard(self, data):
-        center_x = self.window.get_width() // 2
-        start_y = self.window.get_height() // 3
+        center_x = self.system.window.get_width() // 2
+        start_y = self.system.window.get_height() // 3
         row_height = 40
         column_gap = 400
 
@@ -90,7 +89,7 @@ class LeaderboardViewer():
 
         header_color = (255, 255, 0)
         text_color = (255, 255, 255)
-        t = self.window.get_current_time() / 100
+        t = self.system.window.get_current_time() / 100
         pulse = (math.sin(t) + 1) / 2
         fade_color = (
             int(20 + (200 - 10) * pulse),
@@ -106,8 +105,8 @@ class LeaderboardViewer():
         username_header = self.font.render("Username", True, header_color)
         score_header = self.font.render("Score", True, header_color)
 
-        self.window.blit(username_header, username_header.get_rect(left=username_x, top=header_y))
-        self.window.blit(score_header, score_header.get_rect(left=score_x, top=header_y))
+        self.system.window.blit(username_header, username_header.get_rect(left=username_x, top=header_y))
+        self.system.window.blit(score_header, score_header.get_rect(left=score_x, top=header_y))
 
         sorted_data = sorted(data, key=lambda x: x['score'], reverse=True)[:10]
 
@@ -125,9 +124,9 @@ class LeaderboardViewer():
             row_number_x = username_x
             username_x_offset = row_number_surf.get_width()
 
-            self.window.blit(row_number_surf, row_number_surf.get_rect(left=row_number_x, centery=y))
-            self.window.blit(username_surf, username_surf.get_rect(left=row_number_x + row_number_surf.get_width(), centery=y))
-            self.window.blit(score_surf, score_surf.get_rect(left=score_x, centery=y))
+            self.system.window.blit(row_number_surf, row_number_surf.get_rect(left=row_number_x, centery=y))
+            self.system.window.blit(username_surf, username_surf.get_rect(left=row_number_x + row_number_surf.get_width(), centery=y))
+            self.system.window.blit(score_surf, score_surf.get_rect(left=score_x, centery=y))
 
         
         log_event("Displaying leaderboard data.", f"{self.leaderboard}")
