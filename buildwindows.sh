@@ -33,6 +33,8 @@ function copy_assets() {
   cp -r "$SAVES_PATH" "$TARGET"
   cp -r "$ENVIRONMENT_PATH" "$TARGET"
   cp  "changelog.txt" "$TARGET"
+  cp  "README.md" "$TARGET"
+  cp  "instructions.md" "$TARGET"
 }
 
 function cleanup_internal() {

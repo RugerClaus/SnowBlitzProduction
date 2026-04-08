@@ -2,15 +2,11 @@ import sys
 from helper import *
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.Debug.state import DEBUG_STATE
-
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.util.debugoverlay import DebugOverlay
-
 from core.game.game import Game
 from core.menus.menu import Menu
-
 from core.loading.loadingmanager import LoadingManager
 
 class App:

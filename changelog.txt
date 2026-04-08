@@ -1,4 +1,7 @@
 Development version Beta 0.9.8 - 2026-04-08
 - Overhauled handling of core systems (rendering,audio,input)
 - Added a centralized list of active states that can be queryed by any state machine from anywhere that has one
-- Made LoFiSi the only song that plays at the main menu.
+- Made LoFiSi the only song that plays at the main menu
+- Added readme in build scripts
+- Added instructions in build scripts
+- Added license file to build scripts - it was accessible via the website which you could get to via the game client but this is just to comply even more accurately with the license.

@@ -157,7 +157,7 @@ class Update:
                 subprocess.Popen([updater_path], shell=True)
             else:
                 os.chmod(updater_path, 0o755)
-                subprocess.Popen([updater_path])
+                subprocess.Popen([updater_path], shell=True)
         except Exception as e:
             log_error(f"Failed to launch updater: {e}")
             return
