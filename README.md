@@ -1,3 +1,11 @@
+**NOTICE**
+
+I will be eventually replacing this entire codebase with an engine I'm working on with C++. I'm currently about half-way through implementing the barest features of a rendering engine using OpenGL. It can already handle 2D features, but i'll be working on some really cool 3D features for this game. It will basically replace this codebase for distribution of the game. I've decided to keep the entire thing under the GPLv3 as well, so you guys will get that when I have a version i'm happy with distributing (this will be quite a while).
+
+I will continue updating this system as it really is my prototype. I have overhauled much of the internal systems and made the renderer, audio system, and input system globally accessible via the System object (implementation in **core/guts/system.py**)
+
+**/NOTICE**
+
 **SNOW BLITZ PRODUCTION REPOSITORY**
 
 <h2>Welcome To Snow Blitz. Stay open, friends!</h2>
