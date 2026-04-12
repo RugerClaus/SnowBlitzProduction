@@ -18,11 +18,6 @@ class Game:
         self.game_object = SnowBlitz(system,self.state,self.game_mode)
         self.game_over_menu = GameOverMenu(system, self.reset_game)
         self.pause_menu = Pause(system, self.game_object, self.toggle_pause, self.reset_game)
-        
-    def check_win(self): #this is basically only for the tutorial mode, but needs to be here. no way around it honestly just due to the ease of callback access
-        if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
-            self.win.update()
-            self.win.draw()
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -50,7 +45,7 @@ class Game:
             if event.type == self.system.input.keydown():
                 if self.system.control_state.is_state(DEVELOPER_MODE.ON):
                     if event.key == self.system.input.keys.seven_key():
-                        self.game_object.player.current_level = 15
+                        self.game_object.player.current_level = 19
 
                     elif event.key == self.system.input.keys.F3_key():
                         self.game_object.toggle_debug_snowflake_lines()
@@ -70,7 +65,7 @@ class Game:
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.handle_event(event)
             
-        if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
+        if self.game_object.tutorial_state is not None and self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
             self.win.handle_event(event)
         
         if event.type == self.system.input.video_resize_event():
@@ -86,15 +81,22 @@ class Game:
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.draw()
-            
         elif self.state.is_state(GAMESTATE.GAME_OVER):
-            
             self.game_over_menu.draw()
+        elif self.state.is_state(GAMESTATE.WIN):
+            if self.win is not None:
+                self.win.update()
+                self.win.draw()
 
     def update(self):
         self.game_over_menu.update()
 
     def run(self):
+        if self.game_object.tutorial is not None:
+            self.win = Win(self.system,self.reset_game)
+            if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
+                self.state.set_state(GAMESTATE.WIN)
+            
         self.update()
         self.draw()
 
@@ -107,7 +109,6 @@ class Game:
         self.system.quit()
 
     def reset_game(self):
-        
         self.game_object.reset()
         self.state.set_state(GAMESTATE.PLAYING)
 

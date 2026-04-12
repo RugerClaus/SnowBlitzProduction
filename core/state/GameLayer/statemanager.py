@@ -5,9 +5,10 @@ from core.state.basestatemanager import BaseStateManager
 class GameStateManager(BaseStateManager):
     def __init__(self):
         allowed_transitions = {
-            GAMESTATE.PLAYING: [GAMESTATE.PAUSED, GAMESTATE.GAME_OVER],
+            GAMESTATE.PLAYING: [GAMESTATE.PAUSED, GAMESTATE.GAME_OVER,GAMESTATE.WIN],
             GAMESTATE.PAUSED: [GAMESTATE.PLAYING],
-            GAMESTATE.GAME_OVER: [GAMESTATE.PLAYING]
+            GAMESTATE.GAME_OVER: [GAMESTATE.PLAYING],
+            GAMESTATE.WIN: [GAMESTATE.PLAYING]
         }
         super().__init__(
             initial_state=GAMESTATE.PLAYING,

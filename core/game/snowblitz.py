@@ -33,7 +33,7 @@ class SnowBlitz:
         self.tutorial_manager = None
         self.prompts = None
         self.blitz = None
-        self.tutorial_state = TutorialStateManager()
+        self.tutorial_state = None
 
         self.draw_debug_snowflake_lines = False
         self.draw_debug_rock_lines = False
@@ -95,6 +95,8 @@ class SnowBlitz:
         self.init_player()
         if self.prompts is None:
             self.prompts = Prompts(self.system.window,self.player,self.system.input)
+        if self.tutorial_state is None:
+            self.tutorial_state = TutorialStateManager()
         if self.tutorial_manager is None: 
             self.tutorial_manager = TutorialManager(self.system.window, self.prompts,self.system.input.game_controls,
                                                 self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
@@ -136,6 +138,7 @@ class SnowBlitz:
         self.progress_bar = None
         self.endless = None
         self.tutorial = None
+        self.tutorial_state = None
         self.tutorial_manager = None
         self.promtps = None
         self.blitz = None

@@ -4,3 +4,4 @@ class GAMESTATE(Enum):
     PAUSED = auto()
     PLAYING = auto()
     GAME_OVER = auto()
+    WIN = auto()

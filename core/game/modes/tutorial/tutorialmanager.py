@@ -159,6 +159,7 @@ class TutorialManager:
             self.final()
 
             if self.player.current_level >= 20:
+                print("you win")
                 self.state.set_state(TUTORIALSTATE.WIN)
 
         elif self.state.is_state(TUTORIALSTATE.RESET):
