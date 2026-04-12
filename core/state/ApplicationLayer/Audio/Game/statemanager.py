@@ -15,5 +15,6 @@ class GameSFXStateManager(BaseStateManager):
                 initial_state=GAME_SFX_STATE.NONE,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="GAMESFXSTATE"
+                state_name="GAMESFXSTATE",
+                type="SYSTEM"
             )

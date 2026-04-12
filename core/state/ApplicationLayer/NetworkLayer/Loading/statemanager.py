@@ -18,5 +18,6 @@ class FetchStateManager(BaseStateManager):
                 initial_state=FETCH_STATE.IDLE,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="FETCHSTATE"
+                state_name="FETCHSTATE",
+                type="SYSTEM"
             )

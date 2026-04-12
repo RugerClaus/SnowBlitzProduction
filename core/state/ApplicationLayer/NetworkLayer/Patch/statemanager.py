@@ -14,5 +14,6 @@ class PatchStateManager(BaseStateManager):
                 initial_state=PATCH_STATE.CURRENT,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="PATCHSTATE"
+                state_name="PATCHSTATE",
+                type="SYSTEM"
             )

@@ -15,5 +15,6 @@ class MusicStateManager(BaseStateManager):
                 initial_state=MUSIC_STATE.NONE,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="MUSICSTATE"
+                state_name="MUSICSTATE",
+                type="SYSTEM"
             )

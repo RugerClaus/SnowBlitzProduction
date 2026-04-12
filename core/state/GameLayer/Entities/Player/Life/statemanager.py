@@ -16,5 +16,6 @@ class PlayerLifeStateManager(BaseStateManager):
             initial_state=initial_state,
             allowed_transitions=allowed_transitions,
             log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-            state_name="PLAYERLIFESTATE"
+            state_name="PLAYERLIFESTATE",
+            type="GAME"
         )

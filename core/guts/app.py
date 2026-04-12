@@ -71,11 +71,10 @@ class App:
                     self.game.reset_game()
                     self.game.game_mode.set_state(GAME_MODE.NONE)
                     self.menu.scale()
-                    
 
     def run(self):
         while not self.system.app_state.is_state(APPSTATE.QUIT):
-            self.system.window.fill((0,0,0))
+            self.system.window.fill(get_colors('black'))
             self.handle_events()
 
             if self.system.app_state.is_state(APPSTATE.LOADING):

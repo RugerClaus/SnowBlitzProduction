@@ -18,6 +18,9 @@ class Keys:
     def h_key(self):
         return pygame.K_h
     
+    def s_key(self):
+        return pygame.K_s
+
     def seven_key(self):
         return pygame.K_7
     

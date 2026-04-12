@@ -15,5 +15,6 @@ class GameOverMenuStateManager(BaseStateManager):
                 initial_state=GAME_OVER_MENU_STATE.BASE,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="GAMEOVERMENUSTATE"
+                state_name="GAMEOVERMENUSTATE",
+                type="GAME"
             )

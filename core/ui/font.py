@@ -5,7 +5,8 @@ class FontEngine:
     PRESETS = {
         "button": 60,
         "UI": 35,
-        "dbug_state": 25,
+        "debug_state": 20,
+        "debug_all_state": 15,
         "game_over": 50,
         "keypress": 50,
         "default": 25

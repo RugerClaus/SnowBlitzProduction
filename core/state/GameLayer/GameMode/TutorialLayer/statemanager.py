@@ -24,5 +24,6 @@ class TutorialStateManager(BaseStateManager):
             initial_state=TUTORIALSTATE.MOVEMENT_PROMPT,
             allowed_transitions=allowed_transitions,
             log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-            state_name="TUTORIALSTATE"
+            state_name="TUTORIALSTATE",
+            type="GAME"
         )

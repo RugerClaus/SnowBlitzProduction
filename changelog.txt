@@ -6,3 +6,4 @@ Development version Beta 0.9.8 - 2026-04-08
 - Added instructions in build scripts
 - Added license file to build scripts - it was accessible via the website which you could get to via the game client, but this is just to comply even more accurately with the license.
 - Added feature for drawing color coded lines from the player to the entities in developer mode. This can be accessed with F3, F4, F5, F6
+- Added focused observability of global active states. You can now toggle between viewing active state types in the debug overlay with F8+1,2,3,4.

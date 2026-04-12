@@ -31,9 +31,25 @@ Select Endless Mode if you know what you're doing.
 
 **FOR THE CURIOUS**
 
+**DEVELOPER MODE**
+<p>If in developer mode you can press F3, F4, F5, or F6 to toggle entity tracking. Each key enables a line between the player and every entity of a specific type:</p>
+
+<p>F3 draws red lines to all <span color=(255,0,0)>SNOWFLAKES</span></p>
+<p>F4 draws green lines to all <span color=(0,255,0)>ROCKS</span></p>
+<p>F5 draws white lines to all <span color=(255,255,255)>POWERUPS</span></p>
+<p>F6 draws blue lines to all <span color=(0,0,255)>LEVEL_REDUCERS</span></p>
+
+**DEBUG OVERLAY**
+<p>When the debug overlay is active, you can press:</p>
+<p>F8+1: Shows all global active SYSTEM states</p>
+<p>F8+2: Shows all global active APPLICATION states</p>
+<p>F8+3: Shows all global active GAME states</p>
+<p>F8+4: Shows all global active states</p>
+
 <p>Press F9 to display the debug overlay. This displays the current track, the framerate, and most importantly the state tree for all the active states being monitored in gameplay as well as the master APPSTATE and GAMESTATE</p>
 
 <p>Press F2 to enter developer mode. Eventually this will allow you to open a developer console and modify all the game's variables eventually accepting python code.</p>
+
 
 <p>The object of the game is to capture snowflakes and push the grow meter to the max to level up.</p>
 <p>You need to avoid the falling rocks as collision with a rock forces a game over.</p>

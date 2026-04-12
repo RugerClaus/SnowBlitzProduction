@@ -52,24 +52,22 @@ class InputManager:
         elif move_right is not None:
             self.game_controls.set_controls(self.game_controls.move_left, move_right)
 
-    def handle_event(self, event,needskeys=False):
+    def key_register(self,key):
         now = self.window.get_current_time()
-        if needskeys:
-            if event.type == pygame.KEYDOWN:
-                self.current_keys.add(event.key)
-                self.key_history[event.key] = now
-                self.last_key = event.key
-                self.last_key_time = now
+        self.current_keys.add(key)
+        self.key_history[key] = now
+        self.last_key = key
+        self.last_key_time = now
 
-                return event.key
+    def handle_event(self, event,needskeys=False):
         
-        else:
+        if needskeys: # returns the key that was pressed. Good for UI input
             if event.type == pygame.KEYDOWN:
-                self.current_keys.add(event.key)
-                self.key_history[event.key] = now
-                self.last_key = event.key
-                self.last_key_time = now
-
+                self.key_register(event.key)
+                return event.key
+        else: # returns a command based on the internal input stream service. for handling application wide functionality
+            if event.type == pygame.KEYDOWN:
+                self.key_register(event.key)
                 command = self.iostream.update(event)
                 return command
 

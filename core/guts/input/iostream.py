@@ -12,6 +12,10 @@ class IOSTREAM:
             "fuck": [pygame.K_f,pygame.K_u,pygame.K_c,pygame.K_k],
             "musicon": [pygame.K_m,pygame.K_u,pygame.K_s,pygame.K_i,pygame.K_c,pygame.K_o,pygame.K_n],
             "musicoff": [pygame.K_m,pygame.K_u,pygame.K_s,pygame.K_i,pygame.K_c,pygame.K_o,pygame.K_f,pygame.K_f],
+            "monitor_system_states": [pygame.K_F8,pygame.K_1],
+            "monitor_application_states": [pygame.K_F8,pygame.K_2],
+            "monitor_game_states": [pygame.K_F8,pygame.K_3],
+            "monitor_all_states": [pygame.K_F8,pygame.K_4]
         }
         self.buffer = []
         self.buffer_timer = 0

@@ -15,5 +15,6 @@ class StateManager(BaseStateManager):
                 initial_state=APPSTATE.LOADING,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="APPSTATE"
+                state_name="APPSTATE",
+                type="APPLICATION"
             )

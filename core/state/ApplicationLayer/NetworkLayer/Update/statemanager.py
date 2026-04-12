@@ -14,5 +14,6 @@ class UpdateStateManager(BaseStateManager):
                 initial_state=UPDATE_STATE.CURRENT,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="UPDATESTATE"
+                state_name="UPDATESTATE",
+                type="SYSTEM"
             )

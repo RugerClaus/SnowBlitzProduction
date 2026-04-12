@@ -12,8 +12,6 @@ from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.game.entities.type import EntityType
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-# from core.game.mechanics.daycycle.daycycle import DayCycle
-# from core.game.entities.sun.sun import Sun
 
 class SnowBlitz:
     def __init__(self,system,game_state,mode):
@@ -36,10 +34,6 @@ class SnowBlitz:
         self.draw_debug_rock_lines = False
         self.draw_debug_powerup_lines = False
         self.draw_debug_reducer_lines = False
-
-        # this stuff will take a while to iron out
-        # self.day_cycle = DayCycle(self.system.window)
-        # self.sun = Sun(self.system.window,self.day_cycle)
 
     def toggle_debug_snowflake_lines(self):
         self.draw_debug_snowflake_lines = not self.draw_debug_snowflake_lines
@@ -69,9 +63,6 @@ class SnowBlitz:
                 self.player.move('SLOW_RIGHT')
         if not (keys[self.system.input.game_controls.move_left] or keys[self.system.input.game_controls.move_right]):
             self.player.move('NONE')
-
-        #below is setup for spawning in entities and other game functions that need to be tested.
-        #i could be less messy about it since I do have a centralized system for input, but this will keep it nice and scoped
         
     def draw_vector_lines(self):
         if not self.mode.is_state(GAME_MODE.NONE):

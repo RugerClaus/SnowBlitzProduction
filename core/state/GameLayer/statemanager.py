@@ -13,5 +13,6 @@ class GameStateManager(BaseStateManager):
             initial_state=GAMESTATE.PLAYING,
             allowed_transitions=allowed_transitions,
             log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-            state_name="GAMESTATE"
+            state_name="GAMESTATE",
+            type="GAME"
         )

@@ -7,6 +7,7 @@ from core.guts.window import Window
 from core.state.ApplicationLayer.statemanager import StateManager
 from core.state.ApplicationLayer.Debug.statemanager import DebugStateManager
 from core.state.ApplicationLayer.devmanager import DevManager
+from core.state.ApplicationLayer.Debug.StateMonitor.statemanager import StateMonitorStateManager
 
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.Debug.state import DEBUG_STATE
@@ -17,6 +18,7 @@ class System():
         self.app_state = StateManager()
         self.overlay_state = DebugStateManager()
         self.control_state = DevManager()
+        self.state_monitor_state = StateMonitorStateManager()
 
         self.window = Window()
         self.sound = AudioEngine(self.app_state)

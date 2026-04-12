@@ -14,5 +14,6 @@ class DebugStateManager(BaseStateManager):
                 initial_state=DEBUG_STATE.OFF,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-                state_name="DEBUGSTATE"
+                state_name="DEBUGSTATE",
+                type="SYSTEM"
             )
