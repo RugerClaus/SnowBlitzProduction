@@ -173,7 +173,6 @@ class AudioEngine:
             pygame.mixer.music.play()
 
         elif self.app_state.is_state(APPSTATE.MAIN_MENU):
-            print("playin menu music")
             pygame.mixer.music.load(self.menu_track)
             self.current_track = "LoFiSi - JumpyJuggernaut"
             pygame.mixer.music.set_volume(self.volume)
