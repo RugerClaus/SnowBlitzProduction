@@ -12,12 +12,12 @@ from helper import write_constant_to_file,read_constant_from_file
 class PlayerMechanics:
 
     @staticmethod
-    def get_current_high_score():
-        high_score = read_constant_from_file('high_score')
-        if high_score:
-            return int(high_score)
+    def get_current_high_score(user):
+        network_score = user.get_high_score_from_api()
+        if network_score is not None:
+            return int(network_score)
         else:
-            write_constant_to_file('high_score',0)
+            write_constant_to_file("high_score",0)
             return 0
 
     @staticmethod

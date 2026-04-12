@@ -11,16 +11,15 @@ class PlayerUIManager:
         self.location = SizeBar.BOTTOM
         self.window = window
         self.player = player
-        self.bar_width = self.window.get_width()  # Start with the full window width
-        self.bar_height = 20  # Default height for top/bottom bars
-        self.surface = self.window.make_surface(self.bar_width, self.bar_height, True)  # Using your custom surface creation
+        self.bar_width = self.window.get_width()
+        self.bar_height = 20 
+        self.surface = self.window.make_surface(self.bar_width, self.bar_height, True)
         self.rect_position = (0, 0)
         self.font = FontEngine(30).font
         self.score_font = FontEngine(50).font
         self.last_reset_time = self.window.get_current_time()
         
     def scale(self):
-        # Recalculate the position and size of the progress bar based on window resizing
         if self.location == SizeBar.BOTTOM:
             self.bar_width = self.window.get_width()
             self.rect_position = (0, self.window.get_height() - self.bar_height)
@@ -46,7 +45,6 @@ class PlayerUIManager:
         seconds = (elapsed_ms // 1000) % 60
         minutes = (elapsed_ms // 60000)
 
-        # Prepare text
         time_text = f"Time: {minutes:02}:{seconds:02}"
         time_surface = self.font.render(time_text, True, (255, 255, 255))
 

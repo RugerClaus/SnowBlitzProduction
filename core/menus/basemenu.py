@@ -11,6 +11,7 @@ class BaseMenu:
         self.query_font = FontEngine(40).font
         self.type_font = FontEngine(25).font
         self.title = None
+        self.title_height = self.system.window.get_height() // 6
         self.query = None
         self.button_action_true_color = (128, 0, 200)
         self.button_action_false_color = (128,128,128)
@@ -34,6 +35,9 @@ class BaseMenu:
             self.title = None
         else:
             self.title = text
+    
+    def set_title_height(self,divisor):
+        self.title_height = self.system.window.get_height() // divisor
 
     def set_query(self,text):
         if text == None:
@@ -45,7 +49,7 @@ class BaseMenu:
         if self.title is not None:
             text_color = (255, 255, 255)
             surf = self.font.render(self.title, False, text_color)
-            rect = surf.get_rect(center=(self.system.window.get_width() // 2, self.system.window.get_height() // 6))
+            rect = surf.get_rect(center=(self.system.window.get_width() // 2, self.title_height))
             self.system.window.blit(surf, rect)
         if self.query is not None:
             text_color = (255, 255, 255)
@@ -58,6 +62,40 @@ class BaseMenu:
         surf = self.query_font.render("Update Available!", False, text_color)
         rect = surf.get_rect(center=(self.system.window.get_width() // 2, self.system.window.get_height() // 3.5))
         self.system.window.blit(surf, rect)
+
+    def draw_username_text(self,username):
+        text_color = (255, 255,255)
+        username_color = (50,205,50)
+        greeting_surf = self.query_font.render("Hello, ", False, text_color)
+        greeting_rect = greeting_surf.get_rect()
+        greeting_rect.left = 50
+        greeting_rect.centery = 50
+        username_surf = self.query_font.render(username,False,username_color)
+        username_rect = username_surf.get_rect()
+        username_rect.left = greeting_rect.right
+        username_rect.centery = greeting_rect.centery
+        bang_surf = self.query_font.render("!",False,text_color)
+        bang_rect = bang_surf.get_rect()
+        bang_rect.left = username_rect.right
+        bang_rect.centery = greeting_rect.centery
+        self.system.window.blit(username_surf, username_rect)
+        self.system.window.blit(greeting_surf, greeting_rect)
+        self.system.window.blit(bang_surf,bang_rect)
+
+    def draw_score_text(self,score):
+        text_color = (255, 255,255)
+        score_color = (50,205,50)
+        score_display_surf = self.query_font.render("High Score: ", False, text_color)
+        score_display_rect = score_display_surf.get_rect()
+        score_surf = self.query_font.render(score,False,score_color)
+        score_rect = score_surf.get_rect()
+        score_rect.right = self.system.window.get_width() - 50
+        score_rect.centery = 50
+        score_display_rect.right = score_rect.left
+        score_display_rect.centery = score_rect.centery
+        self.system.window.blit(score_surf, score_rect)
+        self.system.window.blit(score_display_surf, score_display_rect)
+
 
     def update(self):
         self.update_toggle_buttons()

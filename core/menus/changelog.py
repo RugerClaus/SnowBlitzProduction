@@ -3,7 +3,7 @@ from helper import log_error
 
 class ChangeLog(LeftAlignedText):
     def __init__(self, system):
-        super().__init__(system)
+        super().__init__(system,font_size=25)
         self.changelog_text = []
         self.max_char_count = 90
         self.load_changelog_from_file("changelog.txt")

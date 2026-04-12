@@ -1,5 +1,6 @@
-Development version Beta 0.9.8 - 2026-04-08
+Development version Beta 0.9.8 - 2026-04-12
 - Overhauled handling of core systems (rendering,audio,input)
+- Fixed tutorial mode's lack of ability to be completed.
 - Added a centralized list of active states that can be queryed by any state machine from anywhere that has one
 - Made LoFiSi the only song that plays at the main menu
 - Added readme in build scripts
@@ -7,3 +8,6 @@ Development version Beta 0.9.8 - 2026-04-08
 - Added license file to build scripts - it was accessible via the website which you could get to via the game client, but this is just to comply even more accurately with the license.
 - Added feature for drawing color coded lines from the player to the entities in developer mode. This can be accessed with F3, F4, F5, F6
 - Added focused observability of global active states. You can now toggle between viewing active state types in the debug overlay with F8+1,2,3,4.
+- You can now see your username and high score at the main menu.
+- Fixed all bugs around changing username/reloading client
+- Opting out of leaderboard sets username to "Player" and only handles local high score data

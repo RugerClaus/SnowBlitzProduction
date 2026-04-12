@@ -1,6 +1,5 @@
 from core.ui.font import FontEngine
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-
 from core.state.ApplicationLayer.Debug.StateMonitor.state import MONITOR_STATE
 
 class DebugOverlay:
@@ -43,7 +42,6 @@ class DebugOverlay:
         
         left_x = 10
         left_y = 10
-        line_spacing = 20
 
         fps_text = f"FPS: {round(self.system.window.get_fps())}"
         fps_surf = self.font_left.render(fps_text, False, text_color)

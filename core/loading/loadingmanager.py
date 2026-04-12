@@ -31,7 +31,7 @@ class LoadingManager:
         if self.state.is_state(LOAD_SCREEN_STATE.NONE):
             self.system.app_state.set_state(APPSTATE.MAIN_MENU)
         if not self.system.app_state.is_state(APPSTATE.LOADING):
-            self.state.set_state(LOAD_SCREEN_STATE.NONE)
+
             self.system.sound.system_sfx_state.set_state(SYSTEM_SFX_STATE.OFF)
         
         if self.state.is_state(LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO):
@@ -76,5 +76,3 @@ class LoadingManager:
             
             self.play_splash_2_fade_in()  
             self.entitymanager.draw_entities()  
-
-

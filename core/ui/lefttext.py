@@ -1,9 +1,12 @@
 from core.ui.font import FontEngine
 
 class LeftAlignedText:
-    def __init__(self, system):
+    def __init__(self, system,font_size=None):
         self.system = system
-        self.font = FontEngine(30).font
+        if not font_size:
+            self.font = FontEngine(30).font
+        else:
+            self.font = FontEngine(font_size).font
 
     def _draw_left_aligned_text(self, text):
         lines = text.split("\n")

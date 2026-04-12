@@ -99,6 +99,7 @@ class Game:
         self.draw()
 
     def quit_to_menu(self):
+        self.game_object.reset_systems()
         self.reset_game()
         self.system.go_to_menu()
 
@@ -106,6 +107,7 @@ class Game:
         self.system.quit()
 
     def reset_game(self):
+        
         self.game_object.reset()
         self.state.set_state(GAMESTATE.PLAYING)
 

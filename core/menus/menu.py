@@ -14,6 +14,9 @@ from core.menus.leaderboardviewer import LeaderboardViewer
 from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.network.update import Update
 from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
+from core.state.ApplicationLayer.Debug.StateMonitor.state import MONITOR_STATE
+
+from core.network.user import User
 
 from core.menus.changelog import ChangeLog
 
@@ -26,7 +29,7 @@ class Menu(BaseMenu):
         self.credits = Credits(system)
         self.agreed_to_leaderboard = check_leaderboard_opt()
         self.recently_updated = check_recently_updated()
-        self.user_creator = UserCreator(system,self.state)
+        self.user_creator = UserCreator(system)
         self.leaderboard = LeaderboardViewer(system,self.state,self.back_to_root)
         self.updater = Update()
         self.change_log = ChangeLog(system)
@@ -199,16 +202,19 @@ class Menu(BaseMenu):
 
     def endless(self):
         self.system.app_state.set_state(APPSTATE.IN_GAME)
-        self.game.game_object.reset()
-        self.game.set_game_mode(GAME_MODE.ENDLESS)
+        self.system.state_monitor_state.set_state(MONITOR_STATE.GAME) # Update monitor state for the state observer in the debug overlay
+        self.game.game_object.reset()                                 # This system just triggers it automatically. you can still change it to other modes 
+        self.game.set_game_mode(GAME_MODE.ENDLESS)                    # to monitor the non-game related systems
 
     def blitz(self):
         self.system.app_state.set_state(APPSTATE.IN_GAME)
+        self.system.state_monitor_state.set_state(MONITOR_STATE.GAME)
         self.game.game_object.reset()
         self.game.set_game_mode(GAME_MODE.BLITZ)
     
     def tutorial(self):
         self.system.app_state.set_state(APPSTATE.IN_GAME)
+        self.system.state_monitor_state.set_state(MONITOR_STATE.GAME)
         self.game.game_object.reset()
         self.game.set_game_mode(GAME_MODE.TUTORIAL)
 
@@ -275,6 +281,9 @@ class Menu(BaseMenu):
     def leaderboard_opt_out(self):
         write_constant_to_file('leaderboard_opt_in', 'NO')
         self.state.set_state(MENUSTATE.ROOT)
+        write_constant_to_file("username","Player")
+        write_constant_to_file("high_score",0)
+        
         self.create_buttons()
         self.query = None
         
@@ -293,6 +302,7 @@ class Menu(BaseMenu):
 
     def back_to_root(self):
         self.state.set_state(MENUSTATE.ROOT)
+        self.set_query("")
         self.create_buttons()
     
     def go_to_settings(self):
@@ -344,14 +354,21 @@ class Menu(BaseMenu):
 
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.set_title("")
+            self.draw_username_text(f"{read_constant_from_file('username')}")
+            network_score = User().get_high_score_from_api()
+            if network_score is not None:
+                self.draw_score_text(f"{network_score}")
+            else:
+                self.draw_score_text(f"{read_constant_from_file('high_score')}")
             self.system.window.blit(self.title_image, self.title_rect)
         
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.AVAILABLE):
             self.set_title("")
-            self.system.window.blit(self.title_image, self.title_rect)
             self.draw_update_text()
+            self.draw_username_text(f"{read_constant_from_file('username')}")
+            self.draw_score_text(f"{read_constant_from_file('high_score')}")
+            self.system.window.blit(self.title_image, self.title_rect)
 
-            
         if self.state.is_state(MENUSTATE.SETTINGS):
             self.set_title("SETTINGS")
         

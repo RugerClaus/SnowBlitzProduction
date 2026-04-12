@@ -1,12 +1,12 @@
-# oh god do I hate try catch blocks. I finally needed to use them here but still i hate them. I could use a state machine, but that seems overengineered for the 2 network files I forsee existing for a long time
-
 import requests, config
 
 from core.network.leaderboard import Leaderboard
+
 from helper import *
 class User:
     def __init__(self):
         self.scores = Leaderboard()
+        self.score = None
         self.setusernameURL = config.config.get("API").get("USER_AUTH")
         if not self.setusernameURL:
             log_error("Username Auth url not set in config")
@@ -24,7 +24,7 @@ class User:
     def get_high_score(self):
         high_score = read_constant_from_file('high_score')
         if high_score is not None:
-            return high_score
+            return int(high_score)
         else:
             return None
 
@@ -35,13 +35,12 @@ class User:
             try:
                 response = requests.post(self.setusernameURL, json=data)
                 if response.status_code == 200:
+                    write_constant_to_file("high_score",0)
+
                     log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
                     response_data = response.json()
                     if response_data.get("message") == "Username already exists":
-                        leaderboard = self.scores.fetch_leaderboard(True)
-                        for line in leaderboard:
-                            if line.get("username") == username:
-                                write_constant_to_file('high_score',line.get("score"))
+                        log_event("username already exists")
                 else:
                     log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
             except requests.exceptions.RequestException as e:
@@ -71,3 +70,22 @@ class User:
                 log_error(f"Network error while sending high score: {e} Status: {response.status_code}; Response: {response.text}")
         else:
             log_error(f"Highscore or Username is missing. Highscore: {high_score}, Username: {username}")
+
+    def get_high_score_from_api(self):
+        leaderboard = self.scores.fetch_leaderboard(True)
+        username = self.get_username()
+        high_score = self.get_high_score()
+        if not username:
+            log_error(f"Username is missing. Username: {username}")
+        elif username and not high_score:
+            log_event(f"High score is missing High Score: {high_score}")
+    
+        for line in leaderboard:
+            if line.get("username") == username:
+                if int(line.get("score")) > 0:
+                    if int(line.get("score")) > high_score:
+                        write_constant_to_file('high_score',line.get("score"))
+                        self.score = line.get("score")
+                    return int(line.get("score"))
+                else:
+                    return int(high_score)

@@ -49,10 +49,10 @@ class BaseStateManager:
             if self.state not in self.active_system_states:
                 self.active_system_states.append(self.state)
         if self.type == "APPLICATION":
-            if self.state not in self.active_system_states:
+            if self.state not in self.active_application_states:
                 self.active_application_states.append(self.state)
         if self.type == "GAME":
-            if self.state not in self.active_system_states:
+            if self.state not in self.active_game_states:
                 self.active_game_states.append(self.state)
         
         if self.state not in self.all_active_states:

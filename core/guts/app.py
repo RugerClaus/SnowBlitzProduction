@@ -4,6 +4,7 @@ from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.Debug.state import DEBUG_STATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.GameLayer.GameMode.state import GAME_MODE
+from core.state.ApplicationLayer.Loading.state import LOAD_SCREEN_STATE
 from core.util.debugoverlay import DebugOverlay
 from core.game.game import Game
 from core.menus.menu import Menu
@@ -67,8 +68,10 @@ class App:
             if event.type == self.system.input.mouse_button_down() and event.button == 1:
                 if self.system.app_state.is_state(APPSTATE.LOADING):
                     self.system.app_state.set_state(APPSTATE.MAIN_MENU)
+                    self.loading.state.set_state(LOAD_SCREEN_STATE.NONE)
                 elif self.system.app_state.is_state(APPSTATE.MAIN_MENU):
                     self.game.reset_game()
+                    self.loading.state.set_state(LOAD_SCREEN_STATE.NONE)
                     self.game.game_mode.set_state(GAME_MODE.NONE)
                     self.menu.scale()
 

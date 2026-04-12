@@ -1,13 +1,10 @@
-from core.state.ApplicationLayer.Menu.state import MENUSTATE
 from core.network.user import User
-
 from core.ui.textbox import TextBox
 from helper import *
 
 class UserCreator:
-    def __init__(self,system,menu_state):
+    def __init__(self,system):
         self.system = system
-        self.state = menu_state
         self.user = User()
         self.text_box = TextBox(system)
     
@@ -23,7 +20,6 @@ class UserCreator:
     def submit(self):
         username = self.text_box.get_return_string()
         if username is not None:
-            print('writing username file')
             write_constant_to_file('username',str(username))
             self.text_box.box.clear()
             self.user.send_username_to_api()
