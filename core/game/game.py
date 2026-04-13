@@ -18,6 +18,7 @@ class Game:
         self.game_object = SnowBlitz(system,self.state,self.game_mode)
         self.game_over_menu = GameOverMenu(system, self.reset_game)
         self.pause_menu = Pause(system, self.game_object, self.toggle_pause, self.reset_game)
+        self.win = Win(self.system,self.reset_tutorial)
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -46,6 +47,9 @@ class Game:
                 if self.system.control_state.is_state(DEVELOPER_MODE.ON):
                     if event.key == self.system.input.keys.seven_key():
                         self.game_object.player.current_level = 19
+                    
+                    elif event.key == self.system.input.keys.h_key():
+                        self.game_object.player.current_level = 15
 
                     elif event.key == self.system.input.keys.F3_key():
                         self.game_object.toggle_debug_snowflake_lines()
@@ -70,8 +74,8 @@ class Game:
         
         if event.type == self.system.input.video_resize_event():
             self.game_over_menu.create_buttons()
-            self.pause_menu = Pause(self.system, self.toggle_pause, self.quit, self.reset_tutorial)
-            self.win = Win(self.system,self.reset_tutorial)
+            self.pause_menu.create_buttons()
+            self.win.create_buttons()
             self.resize(event.h)    
         
 
@@ -84,19 +88,16 @@ class Game:
         elif self.state.is_state(GAMESTATE.GAME_OVER):
             self.game_over_menu.draw()
         elif self.state.is_state(GAMESTATE.WIN):
-            if self.win is not None:
-                self.win.update()
-                self.win.draw()
+            self.win.draw()
 
     def update(self):
+        self.win.update()
         self.game_over_menu.update()
+        if self.game_object.tutorial_state and self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
+            self.state.set_state(GAMESTATE.WIN)
 
     def run(self):
-        if self.game_object.tutorial is not None:
-            self.win = Win(self.system,self.reset_game)
-            if self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
-                self.state.set_state(GAMESTATE.WIN)
-            
+        
         self.update()
         self.draw()
 

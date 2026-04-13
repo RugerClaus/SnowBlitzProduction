@@ -1,4 +1,4 @@
-import math,webbrowser
+import webbrowser
 from core.menus.basemenu import BaseMenu
 from core.menus.usercreator import UserCreator
 from core.ui.button import Button
@@ -331,7 +331,7 @@ class Menu(BaseMenu):
             self.system.sound.play_music()
         
         t = self.system.window.get_current_time() / 1000
-        pulse = (math.sin(t) + 1) / 2
+        pulse = (self.system.math.sin(t) + 1) / 2
         fade_color = (
             int(20 + (35 - 20) * pulse),
             0,

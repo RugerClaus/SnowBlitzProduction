@@ -1,4 +1,3 @@
-import math
 from core.menus.basemenu import BaseMenu
 from core.ui.button import Button
 from core.state.ApplicationLayer.Menu.Pause.state import PAUSE_MENU_STATE
@@ -102,7 +101,7 @@ class Pause(BaseMenu):
 
     def draw(self):
         t = self.system.window.get_current_time() / 1000
-        pulse = (math.sin(t) + 1) / 2
+        pulse = (self.system.math.sin(t) + 1) / 2
         fade_color = (
             0,
             0,

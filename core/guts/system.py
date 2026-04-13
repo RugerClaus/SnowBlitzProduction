@@ -1,3 +1,4 @@
+import math
 # core systems
 from core.guts.input.inputmanager import InputManager
 from core.guts.audioengine import AudioEngine
@@ -15,6 +16,9 @@ from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class System():
     def __init__(self):
+
+        self.math = math
+
         self.app_state = StateManager()
         self.overlay_state = DebugStateManager()
         self.control_state = DevManager()

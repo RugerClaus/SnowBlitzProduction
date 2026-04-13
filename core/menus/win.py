@@ -18,9 +18,9 @@ class Win(BaseMenu):
         center_x = screen_w // 2
 
         self.buttons = [
-            Button(self.system.sound, self.system.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.restart_callback),
-            Button(self.system.sound, self.system.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.system.go_to_menu),
-            Button(self.system.sound, self.system.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), (128, 0, 200), self.system.quit),
+            Button(self.system.sound, self.system.window, "Restart", center_x, start_y, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.restart_callback),
+            Button(self.system.sound, self.system.window, "Main Menu", center_x, start_y + spacing, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.system.go_to_menu),
+            Button(self.system.sound, self.system.window, "Quit", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.system.quit),
         ]
 
     def on_resize(self):
@@ -34,16 +34,19 @@ class Win(BaseMenu):
         elif event.type == self.system.input.video_resize_event():
             self.on_resize()
 
-    def update(self):
-        self.on_resize()
-
     def draw(self):
-    
-        self.system.window.draw_overlay((0, 0, 0), 180)
+        t = self.system.window.get_current_time() / 1000
+        pulse = (self.system.math.sin(t) + 1) / 2
+        fade_color = (
+            int(20 + (35 - 20) * pulse),
+            0,
+            int(20 + (35 - 20) * pulse)
+        )
+        self.system.window.fill(fade_color)
 
-        text = self.font.render("You Win!", True, (80, 80, 248))
+        text = self.font.render(f"YOU WIN!", True, (50, 200, 50))
         rect = text.get_rect(center=(self.system.window.get_screen().get_width() // 2, self.system.window.get_screen().get_height() // 4))
-        self.system.window.get_screen().blit(text, rect)
+        self.system.window.blit(text, rect)
 
         mouse_pos = self.system.input.get_mouse_pos()
         for button in self.buttons:

@@ -1,4 +1,3 @@
-import math
 from core.ui.button import Button
 from core.menus.basemenu import BaseMenu
 
@@ -37,7 +36,7 @@ class GameOverMenu(BaseMenu):
 
     def draw(self):
         t = self.system.window.get_current_time() / 1000
-        pulse = (math.sin(t) + 1) / 2
+        pulse = (self.system.math.sin(t) + 1) / 2
         fade_color = (
             int(20 + (35 - 20) * pulse),
             0,
