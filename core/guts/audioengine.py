@@ -31,7 +31,11 @@ class AudioEngine:
             self.game_sfx_state.set_state(GAME_SFX_STATE.ON)
             self.system_sfx_state.set_state(SYSTEM_SFX_STATE.ON)
         else:
-            self.music_state.set_state(MUSIC_STATE.NONE)
+            self.interface_sfx_state.set_state(INTERFACE_SFX_STATE.OFF)
+            self.music_state.set_state(MUSIC_STATE.OFF)
+            self.game_sfx_state.set_state(GAME_SFX_STATE.OFF)
+            self.system_sfx_state.set_state(SYSTEM_SFX_STATE.OFF)
+            pygame.mixer.stop()
 
         self.music_tracks = {}
         self.sound_effects = {}
@@ -52,7 +56,7 @@ class AudioEngine:
             
             
         except pygame.error:
-            self.interface_sfx_state.set_state(INTERFACE_SFX_STATE.NONE)
+            self.interface_sfx_state.set_state(INTERFACE_SFX_STATE.OFF)
             log_error(f"No available audio device. Retrying... PyGame: {str(pygame.error)}")
             return False
 

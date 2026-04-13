@@ -1,8 +1,5 @@
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
-from core.game.entities.type import EntityType
-from core.game.entities.powerups.type import PowerUpType
-
 class TutorialManager:
     def __init__(self, board_surface, prompts, controls, entitymanager, player, progress_bar,state):
         self.board_surface = board_surface
@@ -43,7 +40,7 @@ class TutorialManager:
             self.progress_bar.update()
             self.progress_bar.draw()
             self.prompts.movement_prompt()
-            self.prompts.handle_movement_input(self.controls)
+            self.prompts.movement_trigger()
             if self.prompts.player_has_moved:
                 self.state.set_state(TUTORIALSTATE.BEGIN)
 

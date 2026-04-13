@@ -1,3 +1,4 @@
+from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.ui.font import FontEngine
 
 class Prompts:
@@ -49,9 +50,8 @@ class Prompts:
         if not self.player_has_continued:
             self._draw_centered_text("Tutorial Complete!\nPress SPACE to go to the main menu")
 
-    def handle_movement_input(self, controls):
-        keys = self.input.get_pressed_keys()
-        if keys[controls.move_left] or keys[controls.move_right]:
+    def movement_trigger(self):
+        if not self.player.move_state.is_state(PLAYER_INTENT_STATE.IDLE):
             self.player_has_moved = True
 
     def handle_continue_input(self):
