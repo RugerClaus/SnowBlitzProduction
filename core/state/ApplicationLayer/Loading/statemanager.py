@@ -1,14 +1,14 @@
 from core.state.ApplicationLayer.Loading.state import LOAD_SCREEN_STATE
 from core.state.basestatemanager import BaseStateManager
-from helper import log_state_transition
+from systemlogging import log_state_transition
 
 class LoadingStateManager(BaseStateManager):
     def __init__(self):
 
         allowed_transitions = {
-            LOAD_SCREEN_STATE.NONE: [LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_ONE,LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO],
-            LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_ONE: [LOAD_SCREEN_STATE.NONE,LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO],
-            LOAD_SCREEN_STATE.STUDIO_SPLASH_SCREEN_TWO: [LOAD_SCREEN_STATE.NONE]
+            LOAD_SCREEN_STATE.NONE: [LOAD_SCREEN_STATE.LOADING_SCREEN_ONE, LOAD_SCREEN_STATE.LOADING_SCREEN_TWO],
+            LOAD_SCREEN_STATE.LOADING_SCREEN_ONE: [LOAD_SCREEN_STATE.NONE, LOAD_SCREEN_STATE.LOADING_SCREEN_TWO],
+            LOAD_SCREEN_STATE.LOADING_SCREEN_TWO: [LOAD_SCREEN_STATE.NONE]
         }
 
         super().__init__(

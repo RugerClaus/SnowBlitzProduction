@@ -1,4 +1,5 @@
-import math,random
+import math,random,os
+from systemlogging import log_event
 # core systems
 from core.guts.input.inputmanager import InputManager
 from core.guts.audioengine import AudioEngine
@@ -29,15 +30,18 @@ class System():
         self.overlay_state = DebugStateManager()
         self.control_state = DevManager()
         self.state_monitor_state = StateMonitorStateManager()
-
-        self.window = Window()
-        self.sound = AudioEngine(self.app_state)
-        self.input = InputManager(self.window)
-
-        self.save_schema = schema
         
+        self.save_schema = schema
         self.save = Save(self.save_schema)
         self.load = Load()
+
+        self.window = Window()
+        self.sound = AudioEngine(self,self.app_state)
+        self.input = InputManager(self.window)
+
+        
+        
+       
 
         self.time = Time()
 
@@ -62,3 +66,20 @@ class System():
         
     def quit(self):
         self.app_state.set_state(APPSTATE.QUIT)
+
+    def create_volume_files(self,default_volume):
+        file_path = 'saves/constants'
+        if not os.path.exists(f'{file_path}'):
+            os.makedirs(f'{file_path}')
+        
+        if not os.path.exists(f"{file_path}/music_volume"):
+            self.save.write_constant('music_volume',f'{default_volume}')
+            log_event('Music volume file creation: music_volume file created')
+        else:
+            log_event('Music volume file creation: music_volume file exists')
+        
+        if not os.path.exists(f"{file_path}/sfx_volume"):
+            self.save.write_constant('sfx_volume',f'{default_volume}')
+            log_event('SFX volume file creation: sfx_volume file created')
+        else:
+            log_event('SFX volume file creation: sfx_volume file exists')

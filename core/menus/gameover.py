@@ -1,8 +1,6 @@
 from core.ui.button import Button
 from core.menus.basemenu import BaseMenu
 
-from helper import *
-
 class GameOverMenu(BaseMenu):
     def __init__(self, system,restart_callback):
         self.system = system

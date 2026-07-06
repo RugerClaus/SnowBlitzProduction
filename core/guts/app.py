@@ -7,7 +7,7 @@ from core.state.ApplicationLayer.Loading.state import LOAD_SCREEN_STATE
 from core.util.debugoverlay import DebugOverlay
 from core.application.game import Game
 from core.menus.menu import Menu
-from core.loading.loadingmanager import LoadingManager
+from core.loading.BootSplashManager import BootSplashLoader
 
 class App:
     def __init__(self,system):
@@ -15,7 +15,7 @@ class App:
         self.system = system
         self.game = Game(system)
         self.menu = Menu(system,self.game)
-        self.loading = LoadingManager(system)
+        self.loading = BootSplashLoader(system)
         self.debug_overlay = DebugOverlay(system,self.loading)
     
     def handle_events(self):

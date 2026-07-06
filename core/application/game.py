@@ -1,4 +1,3 @@
-from helper import log_event, log_error
 from core.state.GameLayer.state import GAMESTATE
 from core.state.GameLayer.statemanager import GameStateManager
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
@@ -106,8 +105,9 @@ class Game:
         self.win.update()
         self.send_debug_info_to_system()
         self.game_over_menu.update()
-        if self.game_object.tutorial_state and self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
-            self.state.set_state(GAMESTATE.WIN)
+        if self.game_object.tutorial_state is not None:
+            if self.game_object.tutorial_state and self.game_object.tutorial_state.is_state(TUTORIALSTATE.WIN):
+                self.state.set_state(GAMESTATE.WIN)
 
         if self.game_object.player:
             if self.system.control_state.is_state(DEVELOPER_MODE.ON):
@@ -119,7 +119,6 @@ class Game:
 
     def quit_to_menu(self):
         self.remove_debug_info_from_system()
-        self.game_object.reset_systems()
         self.reset_game()
         self.state.set_state(GAMESTATE.NONE)
         self.game_mode.set_state(GAME_MODE.NONE)
@@ -131,7 +130,6 @@ class Game:
 
     def reset_game(self):
         self.game_object.reset()
-        self.game_object.reset_systems()
         self.state.set_state(GAMESTATE.PLAYING)
 
     def set_game_mode(self, mode):

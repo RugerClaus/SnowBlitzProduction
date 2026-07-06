@@ -1,5 +1,6 @@
 import random
-from helper import asset,log_event
+from helper import asset
+from systemlogging import log_event
 from core.application.entities.entity import Entity
 from core.application.entities.type import EntityType
 from core.application.entities.powerups.type import PowerUpType

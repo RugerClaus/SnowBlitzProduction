@@ -1,4 +1,4 @@
-from helper import log_state_transition
+from systemlogging import log_state_transition
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.state.basestatemanager import BaseStateManager
 

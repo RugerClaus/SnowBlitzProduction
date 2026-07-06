@@ -1,4 +1,4 @@
-from helper import log_error
+from systemlogging import log_error
 
 class BaseStateManager:
 
@@ -50,12 +50,18 @@ class BaseStateManager:
         if self.type == "SYSTEM":
             if self.state not in self.active_system_states:
                 self.active_system_states.append(self.state)
+            else:
+                self.active_system_states.remove(self.state)
         if self.type == "APPLICATION":
             if self.state not in self.active_application_states:
                 self.active_application_states.append(self.state)
+            else:
+                self.active_application_states.remove(self.state)
         if self.type == "GAME":
             if self.state not in self.active_game_states:
                 self.active_game_states.append(self.state)
+            else:
+                self.active_game_states.remove(self.state)
         
         if self.state not in self.all_active_states:
             self.all_active_states.append(self.state)

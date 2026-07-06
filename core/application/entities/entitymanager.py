@@ -1,4 +1,3 @@
-import random
 from core.application.entities.snow.snowflake import SnowFlake
 from core.application.entities.rock.rock import Rock
 
@@ -163,10 +162,10 @@ class EntityManager:
                     self.add_entity(EntityType.REDUCER,LRType.TWENTY)
                     self.last_reducer_spawn_time = current_time
                 elif current_level >= 30 and current_level < 50:
-                    reducer_choice = random.choice([LRType.TWENTY,LRType.FIFTY])
+                    reducer_choice = self.system.random.choice([LRType.TWENTY,LRType.FIFTY])
                     self.add_entity(EntityType.REDUCER,reducer_choice)
                     self.last_reducer_spawn_time = current_time
                 elif current_level >= 50:
-                    reducer_choice = random.choice([LRType.TWENTY,LRType.FIFTY,LRType.ONE_HUNDRED])
+                    reducer_choice = self.system.random.choice([LRType.TWENTY,LRType.FIFTY,LRType.ONE_HUNDRED])
                     self.add_entity(EntityType.REDUCER,reducer_choice)
                     self.last_reducer_spawn_time = current_time

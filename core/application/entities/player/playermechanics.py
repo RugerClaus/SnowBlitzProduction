@@ -1,4 +1,3 @@
-import math
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
@@ -16,7 +15,7 @@ class PlayerMechanics:
         if network_score is not None:
             return int(network_score)
         else:
-            system.save.write_constant({"high_score",0})
+            system.save.write_constant("high_score",0)
             return 0
 
     @staticmethod
@@ -67,7 +66,7 @@ class PlayerMechanics:
 
             if player.score > stored:
                 system.save.write_constant('high_score', str(player.score))
-                User().send_high_score_to_api()
+                User(system).send_high_score_to_api()
         
     def check_high_score(player):
         stored = player.system.load.read_constant('high_score')

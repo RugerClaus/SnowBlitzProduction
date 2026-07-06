@@ -1,14 +1,13 @@
-import math
+
 from core.application.modes.endless import Endless
-from core.application.modes.blitz import Blitz
 from core.application.modes.tutorial.tutorial import Tutorial
 from core.application.entities.player.player import Player
 from core.application.entities.player.ui.uimanager import PlayerUIManager
 from core.application.entities.entitymanager import EntityManager
 from core.application.modes.tutorial.tutorialmanager import TutorialManager
+from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.application.modes.tutorial.prompts import Prompts
 from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
-from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.application.entities.type import EntityType
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
@@ -31,7 +30,6 @@ class SnowBlitz:
         self.player = None
         self.progress_bar = None
         self.endless = None
-        self.tutorial = None
         self.tutorial_manager = None
         self.prompts = None
         self.blitz = None
@@ -60,19 +58,21 @@ class SnowBlitz:
     def handle_event(self):
 
         keys = self.system.input.get_pressed_keys()
-
-        if not keys[self.system.input.game_controls.slow]:
-            if keys[self.system.input.game_controls.move_left]:
-                self.player.move('LEFT')
-            elif keys[self.system.input.game_controls.move_right]:
-                self.player.move('RIGHT')
+        if self.player is not None:
+            if not keys[self.system.input.game_controls.slow]:
+                if keys[self.system.input.game_controls.move_left]:
+                    self.player.move('LEFT')
+                elif keys[self.system.input.game_controls.move_right]:
+                    self.player.move('RIGHT')
+            else:
+                if keys[self.system.input.game_controls.move_left]:
+                    self.player.move('SLOW_LEFT')
+                elif keys[self.system.input.game_controls.move_right]:
+                    self.player.move('SLOW_RIGHT')
+            if not (keys[self.system.input.game_controls.move_left] or keys[self.system.input.game_controls.move_right]):
+                self.player.move('NONE')
         else:
-            if keys[self.system.input.game_controls.move_left]:
-                self.player.move('SLOW_LEFT')
-            elif keys[self.system.input.game_controls.move_right]:
-                self.player.move('SLOW_RIGHT')
-        if not (keys[self.system.input.game_controls.move_left] or keys[self.system.input.game_controls.move_right]):
-            self.player.move('NONE')
+            print("error can't process input")
         
     def draw_vector_lines(self):
         if not self.mode.is_state(GAME_MODE.NONE):
@@ -94,7 +94,7 @@ class SnowBlitz:
         if self.player is None:
             self.player = Player(self.system,self.entitymanager,self.game_state)
         if self.progress_bar is None:
-            self.progress_bar = PlayerUIManager(self.system.window,self.player)
+            self.progress_bar = PlayerUIManager(self.system,self.player)
 
     def init_tutorial(self):
         self.init_player()
@@ -150,17 +150,22 @@ class SnowBlitz:
         self.tutorial = None
         self.tutorial_state = None
         self.tutorial_manager = None
-        self.promtps = None
+        self.prompts = None
         self.blitz = None
         self.day_cycle.reset()
-        
 
     def reset(self):
         if self.player is not None:
             self.player.reset()
+
         if self.progress_bar is not None:
             self.progress_bar.reset_timer()
             self.progress_bar.draw()
+
         self.entitymanager.reset_entities()
         self.entitymanager.reset_spawn_timers()
+
         self.reset_systems()
+
+        if self.mode.is_state(GAME_MODE.TUTORIAL):
+            self.init_tutorial()

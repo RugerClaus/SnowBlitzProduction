@@ -1,4 +1,4 @@
-from helper import log_state_transition
+from systemlogging import log_state_transition
 from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.state.basestatemanager import BaseStateManager
 

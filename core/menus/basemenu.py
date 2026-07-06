@@ -11,7 +11,7 @@ class BaseMenu:
         self.query_font = FontEngine(40).font
         self.type_font = FontEngine(25).font
         self.title = None
-        self.title_height = self.system.window.get_height() // 6
+        self.title_height = self.system.window.get_height() // 10
         self.query = None
         self.button_action_true_color = (128, 0, 200)
         self.button_action_false_color = (128,128,128)

@@ -1,6 +1,6 @@
 import pygame
-
-from helper import get_colors,log_error,asset
+from systemlogging import log_error
+from helper import get_colors,asset
 from config import config
 from core.guts.time import Time
 
@@ -26,18 +26,6 @@ class Window:
 
     def set_mode(self,width=None,height=None,mode=None):
         self.screen = pygame.display.set_mode((width if width is not None else self.default_width,height if height is not None else self.default_height),pygame.RESIZABLE)
-
-        # if width is None and height is None:
-        #     self.screen = pygame.display.set_mode((self.default_width,self.default_height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
-        # elif width is not None and height is None:
-        #     self.screen = pygame.display.set_mode((width,self.height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
-        # elif width is None and height is not None:
-        #     self.screen = pygame.display.set_mode((self.width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
-        # else:
-        #     self.screen = pygame.display.set_mode((width,height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE)
-        # if mode == "OPENGL":
-        #     self.mode = mode
-        #     self.screen = pygame.display.set_mode((self.width,self.height),pygame.FULLSCREEN if self.fullscreen else pygame.RESIZABLE|pygame.OPENGL|pygame.SCALED)
         
         pygame.display.set_caption(f"{config['TITLE']} {config['VERSION']}")
         icon = self.load_image(asset("linux_icon"))

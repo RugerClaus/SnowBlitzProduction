@@ -1,11 +1,10 @@
 from core.network.user import User
 from core.ui.textbox import TextBox
-from helper import *
 
 class UserCreator:
     def __init__(self,system):
         self.system = system
-        self.user = User()
+        self.user = User(system)
         self.text_box = TextBox(system)
     
     def handle_event(self,event):
@@ -20,6 +19,6 @@ class UserCreator:
     def submit(self):
         username = self.text_box.get_return_string()
         if username is not None:
-            write_constant_to_file('username',str(username))
+            self.system.save.write_constant('username',str(username))
             self.text_box.box.clear()
             self.user.send_username_to_api()

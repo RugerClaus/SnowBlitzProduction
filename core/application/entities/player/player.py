@@ -18,9 +18,9 @@ class Player(Entity):
         self.y = system.window.get_height() - 100
         self.entitymanager = entitymanager
         self.game_state = game_state
-        self.user = User()
-        self.current_high_score = physics.get_current_high_score(self.user,system)
-        super().__init__(self.x, self.y, system.window, EntityType.PLAYER, self.base_size)
+        self.user = User(self.system)
+        self.current_high_score = physics.get_current_high_score(self.user, self.system)
+        super().__init__(self.x, self.y, self.system.window, EntityType.PLAYER, self.base_size)
         self.reset()
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
         self.rect.bottom = self.y
@@ -144,7 +144,7 @@ class Player(Entity):
         self.speed = 7
         self.color = (255, 255, 255)
         self.multiplier = 1
-        self.user = User()
+        self.user = User(self.system)
         self.score = 0
         self.current_level = 1
         self.level_up_size = physics.calculate_level_up_size(self.current_level)

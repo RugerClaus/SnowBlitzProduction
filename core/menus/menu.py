@@ -2,7 +2,7 @@ import webbrowser
 from core.menus.basemenu import BaseMenu
 from core.menus.usercreator import UserCreator
 from core.ui.button import Button
-from helper import *
+from helper import asset
 from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
@@ -28,8 +28,8 @@ class Menu(BaseMenu):
         super().__init__(system)
         self.state = MenuStateManager()
         self.credits = Credits(system)
-        self.agreed_to_leaderboard = check_leaderboard_opt()
-        self.recently_updated = check_recently_updated()
+        self.agreed_to_leaderboard = self.check_leaderboard_opt()
+        self.recently_updated = self.check_recently_updated()
         self.user_creator = UserCreator(system)
         self.leaderboard = LeaderboardViewer(system,self.state,self.back_to_root)
         self.updater = Update()
@@ -47,7 +47,7 @@ class Menu(BaseMenu):
             self.state.set_state(MENUSTATE.LEADERBOARDOPTIN)
             self.create_buttons()
         
-        recently_updated_file = read_envar_from_file('recentlyupdated')
+        recently_updated_file = self.system.load.read_envar('recentlyupdated')
         if self.state.is_state(MENUSTATE.ROOT):
             if self.recently_updated:
                 if recently_updated_file == "false":
@@ -59,6 +59,20 @@ class Menu(BaseMenu):
         self.create_buttons()
         self.rescale_assets()
         
+
+    def check_leaderboard_opt(self):
+        opt_in = self.system.load.read_constant('leaderboard_opt_in')
+        if opt_in is not None:
+            return True
+        else:
+            return False
+
+    def check_recently_updated(self):
+        updated = self.system.load.read_envar('recentlyupdated')
+        if updated is not None:
+            return True
+        else:
+            return False
 
     def rescale_assets(self):
         window_w, window_h = self.system.window.get_size()
@@ -224,9 +238,9 @@ class Menu(BaseMenu):
 
     def back_to_root_changelog(self):
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-            write_envar_to_file('recentlyupdated', 'true')
+            self.system.save.write_envar('recentlyupdated', 'true')
         else:
-            write_envar_to_file('recentlyupdated', 'false')
+            self.system.save.write_envar('recentlyupdated', 'false')
         self.state.set_state(MENUSTATE.ROOT)
         self.create_buttons()
 
@@ -264,29 +278,29 @@ class Menu(BaseMenu):
         self.back_to_root()
 
     def leaderboard_opt_in(self):
-        write_constant_to_file('leaderboard_opt_in','YES')
+        self.system.save.write_constant('leaderboard_opt_in','YES')
         self.query = None
         self.state.set_state(MENUSTATE.CREATEUSERNAME)
         self.create_buttons()
     
     def leaderboard_opt_in_dev(self):
-        if read_constant_from_file('username') == None:
-            write_constant_to_file('leaderboard_opt_in','YES')
+        if self.system.save.read_constant('username') == None:
+            self.system.save.write_constant('leaderboard_opt_in','YES')
             self.query = None
             self.state.set_state(MENUSTATE.CREATEUSERNAME)
             self.create_buttons()
         else:
-            write_constant_to_file('leaderboard_opt_in','YES')
+            self.system.save.write_constant('leaderboard_opt_in','YES')
             self.query = None
             self.state.set_state(MENUSTATE.ROOT)
             self.create_buttons()
 
     
     def leaderboard_opt_out(self):
-        write_constant_to_file('leaderboard_opt_in', 'NO')
+        self.system.save.write_constant('leaderboard_opt_in', 'NO')
         self.state.set_state(MENUSTATE.ROOT)
-        write_constant_to_file("username","Player")
-        write_constant_to_file("high_score",0)
+        self.system.save.write_constant("username","Player")
+        self.system.save.write_constant("high_score",0)
         
         self.create_buttons()
         self.query = None
@@ -358,19 +372,19 @@ class Menu(BaseMenu):
 
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.set_title("")
-            self.draw_username_text(f"{read_constant_from_file('username')}")
-            network_score = User().get_high_score_from_api()
+            self.draw_username_text(f"{self.system.load.read_constant('username')}")
+            network_score = User(self.system).get_high_score_from_api()
             if network_score is not None:
                 self.draw_score_text(f"{network_score}")
             else:
-                self.draw_score_text(f"{read_constant_from_file('high_score')}")
+                self.draw_score_text(f"{self.system.load.read_constant('high_score')}")
             self.system.window.blit(self.title_image, self.title_rect)
         
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.AVAILABLE):
             self.set_title("")
             self.draw_update_text()
-            self.draw_username_text(f"{read_constant_from_file('username')}")
-            self.draw_score_text(f"{read_constant_from_file('high_score')}")
+            self.draw_username_text(f"{self.system.load.read_constant('username')}")
+            self.draw_score_text(f"{self.system.load.read_constant('high_score')}")
             self.system.window.blit(self.title_image, self.title_rect)
 
         if self.state.is_state(MENUSTATE.SETTINGS):
