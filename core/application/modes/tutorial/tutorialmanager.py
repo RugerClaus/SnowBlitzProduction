@@ -10,6 +10,13 @@ class TutorialManager:
         self.progress_bar = progress_bar
 
         self.state = state
+    
+    def reset(self):
+        self.prompts.player_has_moved = False
+        self.prompts.player_has_continued = False
+        self.entitymanager.reset_entities()
+        self.player.reset()
+        self.state.set_state(TUTORIALSTATE.RESET)
 
     def wait(self):
         self.player.draw_wait()

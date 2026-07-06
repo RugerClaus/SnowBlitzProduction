@@ -6,12 +6,13 @@ class GameStateManager(BaseStateManager):
     def __init__(self):
         allowed_transitions = {
             GAMESTATE.PLAYING: [GAMESTATE.PAUSED, GAMESTATE.GAME_OVER,GAMESTATE.WIN],
-            GAMESTATE.PAUSED: [GAMESTATE.PLAYING],
-            GAMESTATE.GAME_OVER: [GAMESTATE.PLAYING],
-            GAMESTATE.WIN: [GAMESTATE.PLAYING]
+            GAMESTATE.PAUSED: [GAMESTATE.PLAYING,GAMESTATE.NONE],
+            GAMESTATE.GAME_OVER: [GAMESTATE.PLAYING,GAMESTATE.NONE],
+            GAMESTATE.WIN: [GAMESTATE.PLAYING,GAMESTATE.NONE],
+            GAMESTATE.NONE: [GAMESTATE.PLAYING]
         }
         super().__init__(
-            initial_state=GAMESTATE.PLAYING,
+            initial_state=GAMESTATE.NONE,
             allowed_transitions=allowed_transitions,
             log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
             state_name="GAMESTATE",

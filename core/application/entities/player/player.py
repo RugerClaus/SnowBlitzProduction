@@ -19,7 +19,7 @@ class Player(Entity):
         self.entitymanager = entitymanager
         self.game_state = game_state
         self.user = User()
-        self.current_high_score = physics.get_current_high_score(self.user)
+        self.current_high_score = physics.get_current_high_score(self.user,system)
         super().__init__(self.x, self.y, system.window, EntityType.PLAYER, self.base_size)
         self.reset()
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
@@ -78,7 +78,7 @@ class Player(Entity):
         physics.check_power_state(self)
         physics.handle_powerup_timer(self)
         physics.handle_sfx(self)
-        physics.check_death(self,self.game_state)
+        physics.check_death(self,self.game_state,self.system)
         physics.check_bounds(self)
 
     def move(self, direction):
@@ -151,7 +151,7 @@ class Player(Entity):
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
         self.power_state = PlayerPowerStateManager()
-        self.current_high_score = physics.get_current_high_score(self.user)
+        self.current_high_score = physics.get_current_high_score(self.user,self.system)
         physics.reset_states(self)
         
         self.last_powerup_start_time = None

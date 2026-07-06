@@ -3,7 +3,6 @@ from core.application.save_schema import schema
 class Load():
     def __init__(self):
         self.game_save_path = "saves/gamedata/world.sav"
-        self.save_keys = ["WORLDSEED","PLAYERWORLDX","PLAYERWORLDY"]
         self.load_dict = {}
 
     def read_environment_variable(self,envar_name): 

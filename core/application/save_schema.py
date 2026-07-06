@@ -13,5 +13,7 @@
 
 
 schema = {
-    
+    "USERNAME": ("username", str),
+    "HIGHSCORE": ("high_score", int),
+    "LEADERBOARDOPTIN": ("leaderboard_opt_in", bool),
 }

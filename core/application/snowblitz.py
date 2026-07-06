@@ -153,10 +153,9 @@ class SnowBlitz:
         self.promtps = None
         self.blitz = None
         self.day_cycle.reset()
+        
 
     def reset(self):
-        if self.tutorial is not None:
-            self.tutorial_state.set_state(TUTORIALSTATE.RESET)
         if self.player is not None:
             self.player.reset()
         if self.progress_bar is not None:

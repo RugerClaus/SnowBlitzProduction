@@ -7,17 +7,16 @@ from core.state.GameLayer.state import GAMESTATE
 from core.application.entities.powerups.type import PowerUpType
 
 from core.network.user import User
-from helper import write_constant_to_file,read_constant_from_file
 
 class PlayerMechanics:
 
     @staticmethod
-    def get_current_high_score(user):
+    def get_current_high_score(user,system):
         network_score = user.get_high_score_from_api()
         if network_score is not None:
             return int(network_score)
         else:
-            write_constant_to_file("high_score",0)
+            system.save.write_constant({"high_score",0})
             return 0
 
     @staticmethod
@@ -59,19 +58,19 @@ class PlayerMechanics:
             return True
         return False
 
-    def check_death(player, game_state):
+    def check_death(player, game_state, system):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
 
-            stored = read_constant_from_file('high_score')
+            stored = system.load.read_constant('high_score')
             stored = int(stored) if stored else 0
 
             if player.score > stored:
-                write_constant_to_file('high_score', str(player.score))
+                system.save.write_constant('high_score', str(player.score))
                 User().send_high_score_to_api()
         
     def check_high_score(player):
-        stored = read_constant_from_file('high_score')
+        stored = player.system.load.read_constant('high_score')
         stored = int(stored) if stored else 0
         if player.score >= int(stored):
                 player.current_high_score = player.score

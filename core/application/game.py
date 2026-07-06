@@ -4,7 +4,7 @@ from core.state.GameLayer.statemanager import GameStateManager
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.application.snowblitz import SnowBlitz
-from core.state.ApplicationLayer.state import APPSTATE
+from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.menus.pause import Pause
 from core.menus.gameover import GameOverMenu
@@ -17,8 +17,8 @@ class Game:
         self.system = system
         self.game_object = SnowBlitz(system,self.state,self.game_mode)
         self.game_over_menu = GameOverMenu(system, self.reset_game)
-        self.pause_menu = Pause(system, self.game_object, self.toggle_pause, self.reset_game)
-        self.win = Win(self.system,self.reset_tutorial)
+        self.pause_menu = Pause(system, self.game_object, self,self.toggle_pause, self.reset_game)
+        self.win = Win(self.system,self.reset_game)
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):
@@ -92,7 +92,7 @@ class Game:
         
 
     def draw(self):
-        if self.state.is_state(GAMESTATE.PAUSED):
+        if not self.state.is_state(GAMESTATE.NONE) and self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
@@ -121,17 +121,17 @@ class Game:
         self.remove_debug_info_from_system()
         self.game_object.reset_systems()
         self.reset_game()
+        self.state.set_state(GAMESTATE.NONE)
+        self.game_mode.set_state(GAME_MODE.NONE)
         self.system.go_to_menu()
+        
 
     def quit(self):
         self.system.quit()
 
     def reset_game(self):
         self.game_object.reset()
-        self.state.set_state(GAMESTATE.PLAYING)
-
-    def reset_tutorial(self):
-        log_event("resetting tutorial")
+        self.game_object.reset_systems()
         self.state.set_state(GAMESTATE.PLAYING)
 
     def set_game_mode(self, mode):
