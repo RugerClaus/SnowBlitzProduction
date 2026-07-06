@@ -201,19 +201,19 @@ class Menu(BaseMenu):
             ]
 
     def endless(self):
-        self.system.app_state.set_state(APPSTATE.IN_GAME)
+        self.system.app_state.set_state(APPSTATE.GAME)
         self.system.state_monitor_state.set_state(MONITOR_STATE.GAME) # Update monitor state for the state observer in the debug overlay
         self.game.reset_game()                                 # This system just triggers it automatically. you can still change it to other modes 
         self.game.set_game_mode(GAME_MODE.ENDLESS)                    # to monitor the non-game related systems
 
     def blitz(self):
-        self.system.app_state.set_state(APPSTATE.IN_GAME)
+        self.system.app_state.set_state(APPSTATE.GAME)
         self.system.state_monitor_state.set_state(MONITOR_STATE.GAME)
         self.game.game_object.reset()
         self.game.set_game_mode(GAME_MODE.BLITZ)
     
     def tutorial(self):
-        self.system.app_state.set_state(APPSTATE.IN_GAME)
+        self.system.app_state.set_state(APPSTATE.GAME)
         self.system.state_monitor_state.set_state(MONITOR_STATE.GAME)
         self.game.game_object.reset()
         self.game.set_game_mode(GAME_MODE.TUTORIAL)

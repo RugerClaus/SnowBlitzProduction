@@ -2,7 +2,7 @@ from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.Loading.state import LOAD_SCREEN_STATE
 from core.state.ApplicationLayer.Loading.statemanager import LoadingStateManager
 from core.state.ApplicationLayer.Audio.SFX.state import SYSTEM_SFX_STATE
-from core.game.entities.entitymanager import EntityManager
+from core.application.entities.entitymanager import EntityManager
 from helper import asset
 
 class LoadingManager:

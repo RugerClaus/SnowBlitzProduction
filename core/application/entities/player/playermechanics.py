@@ -1,0 +1,280 @@
+import math
+from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
+from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
+from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
+from core.state.GameLayer.Entities.Player.Speed.state import SPEED_STATE
+from core.state.GameLayer.state import GAMESTATE
+from core.application.entities.powerups.type import PowerUpType
+
+from core.network.user import User
+from helper import write_constant_to_file,read_constant_from_file
+
+class PlayerMechanics:
+
+    @staticmethod
+    def get_current_high_score(user):
+        network_score = user.get_high_score_from_api()
+        if network_score is not None:
+            return int(network_score)
+        else:
+            write_constant_to_file("high_score",0)
+            return 0
+
+    @staticmethod
+    def update_speed(speed_state):
+        if speed_state.is_state(SPEED_STATE.NORMAL):
+            return 7
+        elif speed_state.is_state(SPEED_STATE.SLOW):
+            return 4
+        elif speed_state.is_state(SPEED_STATE.FAST):
+            return 10
+
+
+    @staticmethod
+    def update_movement(move_state, speed, x):
+        acceleration = 1
+        if move_state.is_state(PLAYER_INTENT_STATE.MOVE_LEFT):
+            speed *= acceleration
+            x -= speed
+        elif move_state.is_state(PLAYER_INTENT_STATE.MOVE_RIGHT):
+            speed *= acceleration
+            x += speed
+        elif move_state.is_state(PLAYER_INTENT_STATE.IDLE):
+            acceleration = 0
+            x += 0
+        return x
+    
+    def check_bounds(player):
+        if player.x <= 5:
+            player.x = 5
+        elif player.x >= player.board_surface.get_width() - 5:
+            player.x = player.board_surface.get_width() - 5
+    
+    @staticmethod
+    def check_size_death(diam, life_state, move_state):
+        if diam < 2:
+
+            life_state.set_state(PLAYER_LIFE_STATE.DEAD)
+            move_state.set_state(PLAYER_INTENT_STATE.IDLE)
+            return True
+        return False
+
+    def check_death(player, game_state):
+        if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
+            game_state.set_state(GAMESTATE.GAME_OVER)
+
+            stored = read_constant_from_file('high_score')
+            stored = int(stored) if stored else 0
+
+            if player.score > stored:
+                write_constant_to_file('high_score', str(player.score))
+                User().send_high_score_to_api()
+        
+    def check_high_score(player):
+        stored = read_constant_from_file('high_score')
+        stored = int(stored) if stored else 0
+        if player.score >= int(stored):
+                player.current_high_score = player.score
+
+    def check_power_state(player):
+        if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
+            if player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
+                player.color = (0,0,255)
+            elif player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
+                player.color = (0,255,0)
+            elif player.power_state.is_state(PLAYER_POWER_STATE.SPEED_BOOST):
+                player.color = (150,150,150)
+                player.speed_state.set_state(SPEED_STATE.FAST)
+        else:
+            player.color = (255,255,255)
+        
+    @staticmethod
+    def calculate_shrink_rate(diam,player,brightness=None):
+
+
+        if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
+            return 0
+        else:
+            if diam >= 350:
+                shrink_rate = 1
+            elif diam >= 325:
+                shrink_rate = 0.9
+            elif diam >= 300:
+                shrink_rate = 0.8
+            elif diam >= 275:
+                shrink_rate = 0.7
+            elif diam >= 250:
+                shrink_rate = 0.6
+            elif diam >= 225:
+                shrink_rate = 0.5
+            elif diam >= 200:
+                shrink_rate = 0.4
+            elif diam >= 175:
+                shrink_rate = 0.3
+            elif diam >= 150:
+                shrink_rate = 0.2
+            elif diam >= 125:
+                shrink_rate = 0.1
+            elif diam >= 100:
+                shrink_rate = 0.09
+            elif diam >= 75:
+                shrink_rate = 0.08
+            elif diam >= 50:
+                shrink_rate = 0.07
+            elif diam >= 40:
+                shrink_rate = 0.05
+            elif diam >= 10:
+                shrink_rate = 0.02
+            else:
+                shrink_rate = 0.01
+        if brightness is not None:
+            if brightness > 90:
+                adjusted_shrink_rate = shrink_rate * 1.6
+            elif brightness > 80:
+                adjusted_shrink_rate = shrink_rate * 1.5
+            elif brightness > 70:
+                adjusted_shrink_rate = shrink_rate * 1.4
+            elif brightness > 60:
+                adjusted_shrink_rate = shrink_rate * 1.3
+            elif brightness > 50:
+                adjusted_shrink_rate = shrink_rate * 1.2
+            elif brightness > 40:
+                adjusted_shrink_rate = shrink_rate * 1.1
+            else:
+                adjusted_shrink_rate = shrink_rate
+        else:
+            adjusted_shrink_rate = shrink_rate
+
+        return adjusted_shrink_rate
+
+    @staticmethod
+    def check_level_up(player,entitymanager):
+        if player.diam >= player.level_up_size:
+            player.level_up_size = PlayerMechanics.calculate_level_up_size(player.current_level)
+            player.current_level += 1
+            player.diam = 10
+            player.base_size = player.diam / 2 
+            entitymanager.reset_entities()
+            player.power_state.set_state(PLAYER_POWER_STATE.NONE)
+            PlayerMechanics.update_multiplier(player)
+            return True
+        return False
+    
+    @staticmethod
+    def calculate_level_up_size(current_level):
+        return 10 + (current_level) * 5
+            
+    @staticmethod
+    def update_multiplier(player):
+        player.multiplier = 1 + (player.current_level // 10)
+
+    @staticmethod
+    def resize(player):
+        bottom = player.rect.bottom
+        player.surface = player.board_surface.make_surface(player.diam, player.diam, True)
+        player.rect = player.surface.get_rect()
+        player.rect.bottom = bottom
+        player.rect.centerx = int(player.x)
+
+    @staticmethod
+    def collect_snowflake(player,snowflake):
+        player.diam += snowflake.diam // 2
+
+    @staticmethod
+    def handle_rock(player,rock):
+        if not player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
+            player.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
+        else:
+            player.diam += rock.width / 4
+    
+    def calculate_powerup_duration(score):
+        if score >= 100000:
+            return 7500
+        elif score >= 50000:
+            return 6870
+        elif score >= 20000:
+            return 6500
+        elif score >= 10000:
+            return 6000
+        else:
+            return 5000
+
+    @staticmethod
+    def find_powerup_type(player,powerup):
+        if powerup.power_type == PowerUpType.ABSORB_ROCK:
+            player.power_state.set_state(PLAYER_POWER_STATE.ABSORB_ROCK)
+        elif powerup.power_type == PowerUpType.ANTI_SHRINK:
+            player.power_state.set_state(PLAYER_POWER_STATE.ANTI_SHRINK)
+        elif powerup.power_type == PowerUpType.SPEED_BOOST:
+            player.power_state.set_state(PLAYER_POWER_STATE.SPEED_BOOST)
+
+    @staticmethod
+    def handle_powerup(player, powerup):
+        PlayerMechanics.find_powerup_type(player, powerup)
+        player.color = powerup.color
+
+        if player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
+            
+            if player.last_powerup_start_time is None:
+                player.last_powerup_start_time = player.board_surface.get_current_time()
+
+        elif player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
+            if player.last_powerup_start_time is None: 
+                player.last_powerup_start_time = player.board_surface.get_current_time()
+                player.shrink_rate = 0
+        elif player.power_state.is_state(PLAYER_POWER_STATE.SPEED_BOOST):
+            if player.last_powerup_start_time is None:
+                player.last_powerup_start_time = player.board_surface.get_current_time()
+
+    @staticmethod
+    def handle_powerup_timer(player):
+        if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
+            if player.last_powerup_start_time:
+                current_time = player.board_surface.get_current_time()
+                if current_time - player.last_powerup_start_time > player.powerup_duration:
+                    player.color = (255, 255, 255)
+                    player.power_state.set_state(PLAYER_POWER_STATE.NONE)
+                    player.last_powerup_start_time = None
+                    player.shrink_rate = PlayerMechanics.calculate_shrink_rate(player.diam,player)
+    @staticmethod
+    def map_powerup_to_state(powerup_type):
+        if powerup_type == PowerUpType.ABSORB_ROCK:
+            return PLAYER_POWER_STATE.ABSORB_ROCK
+        elif powerup_type == PowerUpType.ANTI_SHRINK:
+            return PLAYER_POWER_STATE.ANTI_SHRINK
+        return None 
+    
+    @staticmethod
+    def apply_powerup(player, new_power_state, duration):
+        
+        mapped_state = PlayerMechanics.map_powerup_to_state(new_power_state)
+
+        if mapped_state:
+            player.power_state.set_state(mapped_state)
+
+        player.powerup_duration = duration
+        player.last_powerup_start_time = player.board_surface.get_current_time()
+
+                
+
+    @staticmethod
+    def handle_reducer(player,reducer):
+        number = reducer.get_reducer_number()
+        player.level_up_size -= number if number < player.level_up_size else player.level_up_size - 1
+
+
+    @staticmethod
+    def handle_sfx(player):
+
+        if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
+            if 'powerup_active' not in player.system.sound.active_sfx: 
+                player.system.sound.play_sfx('powerup_active')
+        else:
+            if 'powerup_active' in player.system.sound.active_sfx:
+                player.system.sound.stop_sfx('powerup_active')
+
+    @staticmethod
+    def reset_states(player):
+        player.life_state.set_state(PLAYER_LIFE_STATE.ALIVE)
+        player.move_state.set_state(PLAYER_INTENT_STATE.IDLE)
+        player.power_state.set_state(PLAYER_POWER_STATE.NONE)

@@ -7,8 +7,8 @@ class StateManager(BaseStateManager):
 
         allowed_transitions = {
             APPSTATE.LOADING: [APPSTATE.MAIN_MENU,APPSTATE.QUIT],
-            APPSTATE.MAIN_MENU: [APPSTATE.IN_GAME,APPSTATE.QUIT],
-            APPSTATE.IN_GAME: [APPSTATE.MAIN_MENU,APPSTATE.QUIT]
+            APPSTATE.MAIN_MENU: [APPSTATE.GAME,APPSTATE.QUIT],
+            APPSTATE.GAME: [APPSTATE.MAIN_MENU,APPSTATE.QUIT]
         }
         
         super().__init__(

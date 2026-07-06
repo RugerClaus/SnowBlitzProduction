@@ -166,7 +166,7 @@ class AudioEngine:
         self.active_sfx.clear()
 
     def play_music(self,mode=None):
-        if self.app_state.is_state(APPSTATE.IN_GAME):
+        if self.app_state.is_state(APPSTATE.GAME):
             if not self.music_queue:
                 self.music_queue = list(self.music_tracks.keys())
                 random.shuffle(self.music_queue)

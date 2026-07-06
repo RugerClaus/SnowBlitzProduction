@@ -9,8 +9,14 @@ class Keys:
     def space_key(self):
         return pygame.K_SPACE
     
+    def w_key(self):
+        return pygame.K_w
+
     def a_key(self):
         return pygame.K_a
+    
+    def s_key(self):
+        return pygame.K_s
     
     def d_key(self):
         return pygame.K_d
@@ -18,8 +24,11 @@ class Keys:
     def h_key(self):
         return pygame.K_h
     
-    def s_key(self):
-        return pygame.K_s
+    def e_key(self):
+        return pygame.K_e
+    
+    def q_key(self):
+        return pygame.K_q
 
     def seven_key(self):
         return pygame.K_7
@@ -36,6 +45,12 @@ class Keys:
     def F6_key(self):
         return pygame.K_F6
 
+    def up_arrow_key(self):
+        return pygame.K_UP
+
+    def down_arrow_key(self):
+        return pygame.K_DOWN
+
     def left_arrow_key(self):
         return pygame.K_LEFT
     
@@ -48,5 +63,14 @@ class Keys:
     def right_shift_key(self):
         return pygame.K_RSHIFT
     
+    def page_up_key(self):
+        return pygame.K_PAGEUP
+    
+    def page_down_key(self):
+        return pygame.K_PAGEDOWN
+    
     def return_key(self):
         return pygame.K_RETURN
+    
+    def backtick(self):
+        return pygame.K_BACKQUOTE

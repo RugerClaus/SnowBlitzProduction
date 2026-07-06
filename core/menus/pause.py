@@ -2,7 +2,7 @@ from core.menus.basemenu import BaseMenu
 from core.ui.button import Button
 from core.state.ApplicationLayer.Menu.Pause.state import PAUSE_MENU_STATE
 from core.state.ApplicationLayer.Menu.Pause.statemanager import PauseMenuStateManager
-from core.game.entities.player.ui.uimanager import SizeBar
+from core.application.entities.player.ui.uimanager import SizeBar
 from core.state.GameLayer.state import GAMESTATE
 
 class Pause(BaseMenu):

@@ -1,4 +1,4 @@
-Development version Beta 0.9.8 - 2026-04-12
+Development version Beta 0.9.8 - 2026-07-06
 - Overhauled handling of core systems (rendering,audio,input)
 - Fixed tutorial mode's lack of ability to be completed.
 - Added a centralized list of active states that can be queryed by any state machine from anywhere that has one
@@ -11,3 +11,6 @@ Development version Beta 0.9.8 - 2026-04-12
 - You can now see your username and high score at the main menu.
 - Fixed all bugs around changing username/reloading client
 - Opting out of leaderboard sets username to "Player" and only handles local high score data
+- Added a Day/Night cycle with brightness values
+- Player snowball now shrinks faster depending on brightness
+- Updated to latest version of Distant Realms Framework

@@ -1,11 +1,10 @@
 from core.ui.font import FontEngine
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.state.ApplicationLayer.Debug.StateMonitor.state import MONITOR_STATE
+from core.state.ApplicationLayer.DevTools.Debug.StateMonitor.state import MONITOR_STATE
 
 class DebugOverlay:
-    def __init__(self,system,game,loading):
+    def __init__(self,system,loading):
         self.system = system
-        self.game = game
         self.loading = loading
         self.surface = system.window.draw_overlay((0, 0, 0), 128)
         self.rect = self.surface.get_rect()
@@ -13,6 +12,7 @@ class DebugOverlay:
         self.font_right = FontEngine("debug_state").font
         self.font_right_all = FontEngine("debug_all_state").font
         self.devmodefont = FontEngine(20).font
+        self.opacity = 0
 
     def create_options(self):
         pass
@@ -34,10 +34,14 @@ class DebugOverlay:
             self.system.state_monitor_state.set_state(MONITOR_STATE.GAME)
         elif command == "monitor_all_states":
             self.system.state_monitor_state.set_state(MONITOR_STATE.ALL)
+        elif command == "raise_opacity":
+            self.opacity = min(255, self.opacity + 32)
+        elif command == "lower_opacity":
+            self.opacity = max(0, self.opacity - 32)
 
     def draw(self):
         text_color = (255, 255, 255)
-        self.surface.fill((0, 0, 0),0)
+        self.surface.fill((0, 0, 0,self.opacity))
         surface_width = self.surface.get_width()
         
         left_x = 10
@@ -54,6 +58,19 @@ class DebugOverlay:
         song_surf = self.font_left.render(song_text, False, text_color)
         self.surface.blit(song_surf, (left_x, left_y))
         left_y += song_surf.get_height() * 1.2
+
+        opacity_text = f"Overlay Opacity: {self.opacity}"
+        opacity_surf = self.font_left.render(opacity_text, False, text_color)
+        self.surface.blit(opacity_surf, (left_x, self.system.window.get_height() - opacity_surf.get_height() - 10))
+
+
+        for items in self.system.runtime_inspector.items():
+            key, value = items
+            if value is not None:
+                inspector_text = f"{key}: {value}"
+                inspector_surf = self.font_left.render(inspector_text, False, text_color)
+                self.surface.blit(inspector_surf, (left_x, left_y))
+                left_y += inspector_surf.get_height() * 1.2
 
         right_x = surface_width - 10
         right_y = 10
