@@ -33,7 +33,7 @@ class GameOverMenu(BaseMenu):
             self.create_buttons()
 
     def draw(self):
-        t = self.system.window.get_current_time() / 1000
+        t = self.system.time.get_current_time() / 1000
         pulse = (self.system.math.sin(t) + 1) / 2
         fade_color = (
             int(20 + (35 - 20) * pulse),

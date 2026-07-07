@@ -24,7 +24,7 @@ class SnowBlitz:
 
         self.entitymanager = EntityManager(system)
         
-        self.start_time = system.window.get_current_time()
+        self.start_time = system.time.get_current_time()
         self.player = None
         self.progress_bar = None
         self.endless = None

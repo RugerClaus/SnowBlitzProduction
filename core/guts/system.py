@@ -38,8 +38,8 @@ class System():
         self.load = Load()
 
         self.window = Window(self)
-        self.sound = AudioEngine(self,self.app_state)
-        self.input = InputManager(self.window)
+        self.sound = AudioEngine(self)
+        self.input = InputManager(self)
 
         
 

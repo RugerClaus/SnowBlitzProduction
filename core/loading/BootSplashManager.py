@@ -19,7 +19,7 @@ class BootSplashLoader:
         self.splash_one_sfx_played = False
         self.splash_two_sfx_played = False
         self.splash_two_start_time = None
-        self.start_time = self.system.window.get_current_time()
+        self.start_time = self.system.time.get_current_time()
         self.state.set_state(BOOT_SPLASH_STATE.BOOT_SPLASH_SCREEN_ONE)
 
     def rescale_assets(self):
@@ -63,7 +63,7 @@ class BootSplashLoader:
             self.state.set_state(BOOT_SPLASH_STATE.NONE)
 
     def draw(self):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
         if self.state.is_state(BOOT_SPLASH_STATE.BOOT_SPLASH_SCREEN_ONE):
             self.system.window.blit(self.splash_one, self.splash_one_rect)
 

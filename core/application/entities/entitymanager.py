@@ -43,7 +43,7 @@ class EntityManager:
         }
 
     def reset_spawn_timers(self):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
         self.last_flake_spawn_time = current_time
         self.last_rock_spawn_time = current_time
         self.last_powerup_spawn_time = current_time
@@ -111,14 +111,14 @@ class EntityManager:
                     reducer.speed = rock.speed + 1
 
     def spawn_snowflakes(self):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
         if current_time - self.last_flake_spawn_time > self.flake_interval:
             if len(self.entities["snowflakes"]) < 50:
                 self.add_entity(EntityType.SNOWFLAKE)
                 self.last_flake_spawn_time = current_time
         
     def spawn_speed_boosts(self,current_level=None):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
         if current_level and current_level == 2:
             if current_time - self.last_speed_boost_spawn_time > 1000:
                 if len(self.entities["speedboosts"]) < 1:
@@ -132,7 +132,7 @@ class EntityManager:
 
 
     def spawn_rocks(self,current_level):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
 
         if current_time - self.last_rock_spawn_time > self.rock_interval:
             if len(self.entities["rocks"]) < 5:
@@ -141,7 +141,7 @@ class EntityManager:
                     self.last_rock_spawn_time = current_time
     
     def spawn_powerups(self,current_level):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
 
         if current_time - self.last_powerup_spawn_time > self.powerup_interval:
             if len(self.entities["powerups"]) < 1:
@@ -153,7 +153,7 @@ class EntityManager:
                     self.last_powerup_spawn_time = current_time
 
     def spawn_reducers(self,current_level):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
 
         if current_time - self.last_reducer_spawn_time > self.reducer_interval:
             

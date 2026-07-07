@@ -17,9 +17,9 @@ from core.state.ApplicationLayer.Audio.SFX.state import SYSTEM_SFX_STATE
 from core.state.ApplicationLayer.Audio.SFX.statemanager import SystemSFXStateManager
 
 class AudioEngine:
-    def __init__(self,system,app_state):
+    def __init__(self,system):
         self.system = system
-        self.app_state = app_state
+        self.app_state = system.app_state
         self.default_volume = 0.3
         system.create_volume_files(self.default_volume)
         self.interface_sfx_state = InterfaceSFXStateManager()

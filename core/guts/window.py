@@ -14,7 +14,6 @@ class Window:
         self.height = None
         self.fps = 60
         self.time = system.time
-        self.get_current_time = self.time.get_current_time
         self.fullscreen = False
         self.set_mode(self.width,self.height)
         self.Rect = pygame.Rect

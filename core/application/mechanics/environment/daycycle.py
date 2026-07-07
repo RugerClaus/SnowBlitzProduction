@@ -1,16 +1,16 @@
 import math
 
 class DayCycle:
-    def __init__(self, board_surface, day_length=100, start_phase=0):
-        self.board_surface = board_surface
+    def __init__(self, system):
+        self.system = system
         self.day_length = 100000
-        self.start_phase = start_phase 
+        self.start_phase = 0
         self.current_time = 0
-        self.last_update_time = self.board_surface.get_current_time()
+        self.last_update_time = system.time.get_current_time()
         self.brightness = None
 
     def update(self):
-        current_time = self.board_surface.get_current_time()
+        current_time = self.system.time.get_current_time()
         delta_time = current_time - self.last_update_time
         self.last_update_time = current_time
 
@@ -34,7 +34,7 @@ class DayCycle:
         g = int(night[1] + (day[1] - night[1]) * self.brightness)
         b = int(night[2] + (day[2] - night[2]) * self.brightness)
 
-        self.board_surface.fill((r, g, b))
+        self.system.window.fill((r, g, b))
 
     def draw(self):
         self.get_day_night_color()
@@ -47,5 +47,5 @@ class DayCycle:
     
     def reset(self):
         self.current_time = 0
-        self.last_update_time = self.board_surface.get_current_time()
+        self.last_update_time = self.system.time.get_current_time()
         self.brightness = None

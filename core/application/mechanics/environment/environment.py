@@ -4,7 +4,7 @@ from core.application.entities.sun.sun import Sun
 class Environment:
     def __init__(self,system):
         self.system = system
-        self.day_cycle = DayCycle(system.window)
+        self.day_cycle = DayCycle(system)
         self.sun = Sun(system,self.day_cycle)
         self.temperature = Temperature(system,self.day_cycle)
 
