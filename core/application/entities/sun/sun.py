@@ -1,42 +1,25 @@
-import math
 from core.application.entities.entity import Entity
 from core.application.entities.type import EntityType
-from helper import asset
 
 class Sun(Entity):
-    def __init__(self, board_surface,day_cycle):
-        self.board_surface = board_surface
-        self.day_cycle = day_cycle
-        self.x = self.board_surface.get_width() - 100
-        self.y = 100
-        self.speed = 50
-        self.amplitude = 50
-        self.surface = self.board_surface.load_image(asset("title"))
-        super().__init__(
-            self.x,
-            self.y,
-            board_surface,
-            EntityType.SUN
-        )
-        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
-
-    def spawn(self):
-        self.x = self.board_surface.get_width() + 100
-        self.y = 100
-        self.speed = 50
-        self.amplitude = 50
-        self.surface = self.board_surface.load_image(asset("title"))
-
-        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
-        self.total_time = 0 
+    def __init__(self,system,daycycle):
+        self.system = system
+        self.daycycle = daycycle
+        self.type = EntityType.SUN
+        self.surface = self.system.window.make_surface(200,200,False)
+        self.rect = self.surface.get_rect(topright=(self.system.window.get_width() + 300 , 0))
+        self.surface.fill((255,255,0))
+        self.horizon = self.system.window.get_height() // 10 + self.rect.height
+        self.arc_height = 50
+        
 
     def update(self):
-        progress = self.day_cycle.get_time_progress()
-        self.x = self.board_surface.get_width() + progress * (self.board_surface.get_width() + 200)
+        math = self.system.math
+        sw = self.system.window.get_width()
+        self.rect.centerx = ((sw+150) - (sw+200) * self.daycycle.get_time_progress())
+        self.rect.centery = self.horizon - self.rect.height * math.sin(math.pi * self.daycycle.get_time_progress())
+        self.position = self.rect.center
 
-        self.y = 100 + self.amplitude * math.sin(math.pi * self.x / self.board_surface.get_width())
-
-        self.rect.topleft = (int(self.x), int(self.y))
 
     def draw(self):
-        self.board_surface.blit(self.surface, self.rect)
+        self.system.window.blit(self.surface,self.rect)

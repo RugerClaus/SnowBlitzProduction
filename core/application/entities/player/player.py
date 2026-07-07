@@ -11,13 +11,14 @@ from core.network.user import User
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class Player(Entity):
-    def __init__(self, system, entitymanager, game_state):
+    def __init__(self, system, entitymanager, game_state,environment):
         self.system = system
         self.base_size = 10
         self.x = system.window.get_width() // 2
         self.y = system.window.get_height() - 100
         self.entitymanager = entitymanager
         self.game_state = game_state
+        self.environment = environment
         self.user = User(self.system)
         self.current_high_score = physics.get_current_high_score(self.user, self.system)
         super().__init__(self.x, self.y, self.system.window, EntityType.PLAYER, self.base_size)
@@ -64,7 +65,7 @@ class Player(Entity):
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             self.shrink_rate = 0
         else:
-            self.shrink_rate = physics.calculate_shrink_rate(self.diam,self,self.brightness)
+            self.shrink_rate = physics.calculate_shrink_rate(self.diam,self,self.environment)
         self.diam -= self.shrink_rate
         self.base_size = self.diam / 2
         self.score += int(1.1 * self.multiplier)
@@ -157,7 +158,3 @@ class Player(Entity):
         self.last_powerup_start_time = None
         self.powerup_duration = 5000
         self.shrink_rate = None
-
-    def get_brightness(self,brightness):
-        if brightness is not None:
-            self.brightness = brightness

@@ -87,7 +87,7 @@ class PlayerMechanics:
             player.color = (255,255,255)
         
     @staticmethod
-    def calculate_shrink_rate(diam,player,brightness=None):
+    def calculate_shrink_rate(diam,player,environment=None):
 
 
         if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
@@ -125,24 +125,21 @@ class PlayerMechanics:
                 shrink_rate = 0.02
             else:
                 shrink_rate = 0.01
-        if brightness is not None:
-            if brightness > 90:
-                adjusted_shrink_rate = shrink_rate * 1.6
-            elif brightness > 80:
-                adjusted_shrink_rate = shrink_rate * 1.5
-            elif brightness > 70:
-                adjusted_shrink_rate = shrink_rate * 1.4
-            elif brightness > 60:
-                adjusted_shrink_rate = shrink_rate * 1.3
-            elif brightness > 50:
-                adjusted_shrink_rate = shrink_rate * 1.2
-            elif brightness > 40:
-                adjusted_shrink_rate = shrink_rate * 1.1
+            if environment is not None:
+                temperature = environment.temperature.get_temperature()
+
+                if temperature > 30:
+                    adjusted_shrink_rate = shrink_rate * 1.6
+                elif temperature > 20:
+                    adjusted_shrink_rate = shrink_rate * 1.5
+                elif temperature > 10:
+                    adjusted_shrink_rate = shrink_rate * 1.3
+                elif temperature > 0:
+                    adjusted_shrink_rate = shrink_rate * 1.1
+                else:
+                    adjusted_shrink_rate = shrink_rate
             else:
                 adjusted_shrink_rate = shrink_rate
-        else:
-            adjusted_shrink_rate = shrink_rate
-
         return adjusted_shrink_rate
 
     @staticmethod

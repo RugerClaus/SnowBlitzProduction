@@ -11,9 +11,7 @@ from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialSta
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.application.entities.type import EntityType
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.application.mechanics.environment.daycycle import DayCycle
-from core.application.entities.sun.sun import Sun
-
+from core.application.mechanics.environment.environment import Environment
 class SnowBlitz:
     def __init__(self,system,game_state,mode):
         self.system = system
@@ -26,7 +24,7 @@ class SnowBlitz:
 
         self.entitymanager = EntityManager(system)
         
-        self.start_time = self.system.window.get_current_time()
+        self.start_time = system.window.get_current_time()
         self.player = None
         self.progress_bar = None
         self.endless = None
@@ -40,8 +38,7 @@ class SnowBlitz:
         self.draw_debug_powerup_lines = False
         self.draw_debug_reducer_lines = False
 
-        self.day_cycle = DayCycle(self.system.window)
-        self.sun = Sun(self.system.window,self.day_cycle)
+        self.environment = Environment(system)
 
     def toggle_debug_snowflake_lines(self):
         self.draw_debug_snowflake_lines = not self.draw_debug_snowflake_lines
@@ -92,7 +89,7 @@ class SnowBlitz:
 
     def init_player(self):
         if self.player is None:
-            self.player = Player(self.system,self.entitymanager,self.game_state)
+            self.player = Player(self.system,self.entitymanager,self.game_state,self.environment)
         if self.progress_bar is None:
             self.progress_bar = PlayerUIManager(self.system,self.player)
 
@@ -115,18 +112,15 @@ class SnowBlitz:
             self.endless = Endless(self.progress_bar, self.player, self.entitymanager)
 
     def draw(self):
-        self.day_cycle.update()
-        self.day_cycle.draw()
-        
+        self.environment.update()
+        self.environment.draw()
         if self.mode.is_state(GAME_MODE.ENDLESS):
             
                 self.init_endless()
                 self.endless.run()
-                self.player.get_brightness(self.day_cycle.get_brightness())
         elif self.mode.is_state(GAME_MODE.TUTORIAL):
             self.init_tutorial()
             self.tutorial.run()
-            self.player.get_brightness(self.day_cycle.get_brightness())
         elif self.mode.is_state(GAME_MODE.BLITZ):
             if self.blitz is None:
                 pass
@@ -152,7 +146,7 @@ class SnowBlitz:
         self.tutorial_manager = None
         self.prompts = None
         self.blitz = None
-        self.day_cycle.reset()
+        self.environment.day_cycle.reset()
 
     def reset(self):
         if self.player is not None:

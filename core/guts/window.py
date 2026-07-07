@@ -5,15 +5,16 @@ from config import config
 from core.guts.time import Time
 
 class Window:
-    def __init__(self):
+    def __init__(self,system):
         pygame.init()
+        self.system = system
         self.default_width = 1200
         self.default_height = 800
         self.color = (255,0,0)
         self.width = None
         self.height = None
         self.fps = 60
-        self.time = Time()
+        self.time = system.time
         self.get_current_time = self.time.get_current_time
         self.fullscreen = False
         self.set_mode(self.width,self.height)

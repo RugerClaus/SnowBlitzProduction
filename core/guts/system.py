@@ -31,19 +31,17 @@ class System():
         self.control_state = DevManager()
         self.state_monitor_state = StateMonitorStateManager()
         
+        self.time = Time()
+
         self.save_schema = schema
         self.save = Save(self.save_schema)
         self.load = Load()
 
-        self.window = Window()
+        self.window = Window(self)
         self.sound = AudioEngine(self,self.app_state)
         self.input = InputManager(self.window)
 
         
-        
-       
-
-        self.time = Time()
 
         self.runtime_inspector = runtime_inspector # this is an observer
         self.save_telemetry = "" # this sends a message to the main menu if there is no save file found

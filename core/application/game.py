@@ -30,15 +30,17 @@ class Game:
         self.game_object.resize(event_h)
 
     def send_debug_info_to_system(self):
-        self.system.runtime_inspector["daytime"] = self.game_object.day_cycle.get_daytime()
-        self.system.runtime_inspector["brightness"] = self.game_object.day_cycle.get_brightness()
+        self.system.runtime_inspector["daytime"] = self.game_object.environment.day_cycle.get_daytime()
+        self.system.runtime_inspector["brightness"] = self.game_object.environment.day_cycle.get_brightness()
+        self.system.runtime_inspector["temperature"] = self.game_object.environment.temperature.get_temperature()
         if self.game_object.player:
             self.system.runtime_inspector["shrinkrate"] = self.game_object.player.shrink_rate
 
     def remove_debug_info_from_system(self):
         self.system.runtime_inspector["daytime"] = None
         self.system.runtime_inspector["brightness"] = None
-        self.system.runtime_inspector["shrinkrate"] = None
+        self.system.runtime_inspector["shrinkrate"] = None 
+        self.system.runtime_inspector["temperature"] = None
 
     def handle_event(self, event):
 
