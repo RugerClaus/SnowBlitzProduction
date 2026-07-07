@@ -7,6 +7,7 @@ from core.guts.window import Window
 from core.guts.time import Time
 from core.guts.save.save import Save
 from core.guts.save.load import Load
+from core.guts.network import Network
 from core.application.runtime_inspector import runtime_inspector
 from core.application.save_schema import schema
 
@@ -31,6 +32,8 @@ class System():
         self.control_state = DevManager()
         self.state_monitor_state = StateMonitorStateManager()
         
+        self.network = Network()
+
         self.time = Time()
 
         self.save_schema = schema

@@ -5,7 +5,7 @@ from core.state.ApplicationLayer.Audio.SFX.state import SYSTEM_SFX_STATE
 from core.application.entities.entitymanager import EntityManager
 from helper import asset
 
-class BootSplashLoader:
+class BootSplashManager:
     def __init__(self,system):
         self.system = system
         self.state = BootSplashStateManager()
@@ -39,7 +39,7 @@ class BootSplashLoader:
             self.entitymanager.spawn_snowflakes()
 
     def play_splash_2_fade_in(self):
-        current_time = self.system.window.get_current_time()
+        current_time = self.system.time.get_current_time()
         
         if self.splash_two_start_time is None:
             self.splash_two_start_time = current_time

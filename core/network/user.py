@@ -5,8 +5,7 @@ from core.network.leaderboard import Leaderboard
 from systemlogging import log_error, log_event
 class User:
     def __init__(self,system):
-        self.save = system.save
-        self.load = system.load
+        self.system = system
         self.scores = Leaderboard()
         self.score = None
         self.setusernameURL = config.config.get("API").get("USER_AUTH")
@@ -17,77 +16,93 @@ class User:
             log_error("Update Score url not set in config")
 
     def get_username(self):
-        username = self.load.read_constant('username')
+        username = self.system.load.read_constant('username')
         if username is not None:
             return username
         else:
-            return None
+            self.system.save.write_constant("username","Player")
+            username = self.system.load.read_constant("username")
+            return username
 
     def get_high_score(self):
-        high_score = self.load.read_constant('high_score')
+        high_score = self.system.load.read_constant('high_score')
         if high_score is not None:
             return int(high_score)
         else:
-            return None
+            self.system.save.write_constant("high_score",0)
+            high_score = self.system.load.read_constant("high_score")
+            return high_score
 
     def send_username_to_api(self):
         username = self.get_username()
-        if username:
-            data = {"username": str(username),"key":config.config.get("API_KEY")}
-            try:
-                response = requests.post(self.setusernameURL, json=data)
-                if response.status_code == 200:
-                    self.save.write_constant("high_score",0)
+        if self.system.network.check_network_status():
+            if username:
+                data = {"username": str(username),"key":config.config.get("API_KEY")}
+                try:
+                    response = requests.post(self.setusernameURL, json=data)
+                    if response.status_code == 200:
+                        self.system.save.write_constant("high_score",0)
 
-                    log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
-                    response_data = response.json()
-                    if response_data.get("message") == "Username already exists":
-                        log_event("username already exists")
-                else:
-                    log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
-            except requests.exceptions.RequestException as e:
-                log_error(f"Network error while sending username: {e} Status: {response.status_code}; Response: {response.text}")
-        else:
-            log_error("Username is blank or invalid.")
+                        log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
+                        response_data = response.json()
+                        if response_data.get("message") == "Username already exists":
+                            log_event("username already exists")
+                    else:
+                        log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
+                except requests.exceptions.RequestException as e:
+                    log_error(f"Network error while sending username: {e} Status: {response.status_code}; Response: {response.text}")
+            else:
+                log_error("Username is blank or invalid.")
     
-    def send_high_score_to_api(self):
-        high_score = self.get_high_score()
-        username = self.get_username()
-        key = config.config.get("API_KEY")
-
-        if high_score and username:
-            data = {
-                "username": str(username),
-                "score": int(high_score),
-                "key": str(key)
-            }
-            try:
-                print("sending score to db")
-                response = requests.post(self.setuserhighscoreURL, json=data)
-                if response.status_code == 200:
-                    log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
-                else:
-                    log_error(f"Failed to send highscore for {username}. Status: {response.status_code}; Response: {response.text}")
-            except requests.exceptions.RequestException as e:
-                log_error(f"Network error while sending high score: {e} Status: {response.status_code}; Response: {response.text}")
         else:
-            log_error(f"Highscore or Username is missing. Highscore: {high_score}, Username: {username}")
+            self.system.save.write_constant("username",username)
+
+    def send_high_score_to_api(self):
+        if self.system.network.check_network_status():
+            high_score = self.get_high_score()
+            username = self.get_username()
+            key = config.config.get("API_KEY")
+
+            if high_score and username:
+                data = {
+                    "username": str(username),
+                    "score": int(high_score),
+                    "key": str(key)
+                }
+                try:
+                    print("sending score to db")
+                    response = requests.post(self.setuserhighscoreURL, json=data)
+                    if response.status_code == 200:
+                        log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
+                    else:
+                        log_error(f"Failed to send highscore for {username}. Status: {response.status_code}; Response: {response.text}")
+                except requests.exceptions.RequestException as e:
+                    log_error(f"Network error while sending high score: {e} Status: {response.status_code}; Response: {response.text}")
+            else:
+                log_error(f"Highscore or Username is missing. Highscore: {high_score}, Username: {username}")
+
+        else:
+            log_error("No network connectivity")
 
     def get_high_score_from_api(self):
-        leaderboard = self.scores.fetch_leaderboard(True)
-        username = self.get_username()
-        high_score = self.get_high_score()
-        if not username:
-            log_error(f"Username is missing. Username: {username}")
-        elif username and not high_score:
-            log_event(f"High score is missing High Score: {high_score}")
-    
-        for line in leaderboard:
-            if line.get("username") == username:
-                if int(line.get("score")) > 0:
-                    if int(line.get("score")) > high_score:
-                        self.save.write_constant('high_score',line.get("score"))
-                        self.score = line.get("score")
-                    return int(line.get("score"))
-                else:
-                    return int(high_score)
+        if self.system.network.check_network_status():
+            leaderboard = self.scores.fetch_leaderboard(True)
+            username = self.get_username()
+            high_score = self.get_high_score()
+            if not username:
+                log_error(f"Username is missing. Username: {username}")
+            elif username and not high_score:
+                log_event(f"High score is missing High Score: {high_score}")
+        
+            for line in leaderboard:
+                if line.get("username") == username:
+                    if int(line.get("score")) > 0:
+                        if int(line.get("score")) > high_score:
+                            self.system.save.write_constant('high_score',line.get("score"))
+                            self.score = line.get("score")
+                        return int(line.get("score"))
+                    else:
+                        return int(high_score)
+        else:
+            high_score = self.get_high_score()
+            return high_score

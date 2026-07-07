@@ -14,7 +14,6 @@ class InputManager:
         self.key_history = {}
         self.surface = self.system.window.make_surface(self.system.window.get_width(), self.system.window.get_height(), True)
         self.font = FontEngine("keypress").font
-        self.system.window = self.system.window
         self.last_key = None
         self.last_key_time = 0
         self.key_display_timeout = 1000
@@ -86,7 +85,7 @@ class InputManager:
 
     def draw_most_recent_keypress(self):
         self.surface.fill((0, 0, 0, 0))  
-        now = self.system.window.get_current_time()
+        now = self.system.time.get_current_time()
 
         self.key_history = {k: t for k, t in self.key_history.items() if now - t < self.key_display_timeout}
 

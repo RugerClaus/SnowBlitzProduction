@@ -211,21 +211,21 @@ class PlayerMechanics:
         if player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
             
             if player.last_powerup_start_time is None:
-                player.last_powerup_start_time = player.board_surface.get_current_time()
+                player.last_powerup_start_time = player.system.time.get_current_time()
 
         elif player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
             if player.last_powerup_start_time is None: 
-                player.last_powerup_start_time = player.board_surface.get_current_time()
+                player.last_powerup_start_time = player.system.time.get_current_time()
                 player.shrink_rate = 0
         elif player.power_state.is_state(PLAYER_POWER_STATE.SPEED_BOOST):
             if player.last_powerup_start_time is None:
-                player.last_powerup_start_time = player.board_surface.get_current_time()
+                player.last_powerup_start_time = player.system.time.get_current_time()
 
     @staticmethod
     def handle_powerup_timer(player):
         if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
             if player.last_powerup_start_time:
-                current_time = player.board_surface.get_current_time()
+                current_time = player.system.time.get_current_time()
                 if current_time - player.last_powerup_start_time > player.powerup_duration:
                     player.color = (255, 255, 255)
                     player.power_state.set_state(PLAYER_POWER_STATE.NONE)
@@ -248,7 +248,7 @@ class PlayerMechanics:
             player.power_state.set_state(mapped_state)
 
         player.powerup_duration = duration
-        player.last_powerup_start_time = player.board_surface.get_current_time()
+        player.last_powerup_start_time = player.system.time.get_current_time()
 
                 
 
