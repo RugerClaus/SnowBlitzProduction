@@ -91,7 +91,7 @@ class LeaderboardViewer():
 
         header_color = (255, 255, 0)
         text_color = (255, 255, 255)
-        t = self.system.window.get_current_time() / 100
+        t = self.system.time.get_current_time() / 100
         pulse = (self.system.math.sin(t) + 1) / 2
         fade_color = (
             int(20 + (200 - 10) * pulse),

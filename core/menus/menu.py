@@ -58,6 +58,8 @@ class Menu(BaseMenu):
 
         self.create_buttons()
         self.rescale_assets()
+
+        self.network_score = User(self.system).get_high_score_from_api()
         
 
     def check_leaderboard_opt(self):
@@ -373,9 +375,8 @@ class Menu(BaseMenu):
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.set_title("")
             self.draw_username_text(f"{self.system.load.read_constant('username')}")
-            network_score = User(self.system).get_high_score_from_api()
-            if network_score is not None:
-                self.draw_score_text(f"{network_score}")
+            if self.network_score is not None:
+                self.draw_score_text(f"{self.network_score}")
             else:
                 self.draw_score_text(f"{self.system.load.read_constant('high_score')}")
             self.system.window.blit(self.title_image, self.title_rect)

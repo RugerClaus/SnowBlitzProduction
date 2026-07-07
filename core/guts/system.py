@@ -10,6 +10,7 @@ from core.guts.save.load import Load
 from core.guts.network import Network
 from core.application.runtime_inspector import runtime_inspector
 from core.application.save_schema import schema
+from core.guts.telemetry import system_monitor
 
 # state systems
 from core.state.ApplicationLayer.statemanager import StateManager
@@ -31,12 +32,13 @@ class System():
         self.overlay_state = DebugStateManager()
         self.control_state = DevManager()
         self.state_monitor_state = StateMonitorStateManager()
-        
+
         self.network = Network()
 
         self.time = Time()
 
         self.save_schema = schema
+        
         self.save = Save(self.save_schema)
         self.load = Load()
 
@@ -44,10 +46,15 @@ class System():
         self.sound = AudioEngine(self)
         self.input = InputManager(self)
 
-        
+        self.system_monitor = system_monitor
 
         self.runtime_inspector = runtime_inspector # this is an observer
         self.save_telemetry = "" # this sends a message to the main menu if there is no save file found
+
+        if self.network.check_network_status():
+            self.system_monitor["network"] = "Connected"
+        else:
+            self.system_monitor["network"] = "Not Connected"
 
     def control_state_toggle(self):
         if not self.control_state.is_state(DEVELOPER_MODE.ON):

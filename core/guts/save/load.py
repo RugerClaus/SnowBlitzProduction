@@ -8,7 +8,6 @@ class Load():
         self.load_dict = {}
 
     def read_envar(self,envar_name): 
-        log_event(f"Reading contents in environment/{envar_name}")
         file_path = os.path.join('environment', envar_name)
         
         try:
@@ -23,7 +22,6 @@ class Load():
             return None
     
     def read_constant(self,constant): 
-        log_event(f"Reading contents in saves/constants/{constant}")
         file_path = os.path.join('saves/constants', constant)
     
         try:
