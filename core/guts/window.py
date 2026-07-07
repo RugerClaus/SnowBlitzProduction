@@ -2,7 +2,6 @@ import pygame
 from systemlogging import log_error
 from helper import get_colors,asset
 from config import config
-from core.guts.time import Time
 
 class Window:
     def __init__(self,system):
