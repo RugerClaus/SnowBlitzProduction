@@ -46,6 +46,6 @@ def audio_path(type):
         return None
 
 from core.guts.save.save import Save
-save = Save()
+save = Save({})
 def write_envar_to_file(filename,value):
     save.write_constant(filename,value)
