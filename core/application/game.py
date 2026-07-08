@@ -3,7 +3,6 @@ from core.state.GameLayer.statemanager import GameStateManager
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.GameLayer.GameMode.statemanager import GameModeManager
 from core.application.snowblitz import SnowBlitz
-from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.menus.pause import Pause
 from core.menus.gameover import GameOverMenu
@@ -12,6 +11,7 @@ from core.menus.win import Win
 class Game:
     def __init__(self, system):
         self.state = GameStateManager()
+        self.state.set_state(GAMESTATE.PLAYING)
         self.game_mode = GameModeManager()
         self.system = system
         self.game_object = SnowBlitz(system,self.state,self.game_mode)
@@ -30,17 +30,10 @@ class Game:
         self.game_object.resize(event_h)
 
     def send_debug_info_to_system(self):
-        self.system.runtime_inspector["daytime"] = self.game_object.environment.day_cycle.get_daytime()
-        self.system.runtime_inspector["brightness"] = self.game_object.environment.day_cycle.get_brightness()
-        self.system.runtime_inspector["temperature"] = self.game_object.environment.temperature.get_temperature()
-        if self.game_object.player:
-            self.system.runtime_inspector["shrinkrate"] = self.game_object.player.shrink_rate
+        self.game_object.register_debug_telemetry()
 
     def remove_debug_info_from_system(self):
-        self.system.runtime_inspector["daytime"] = None
-        self.system.runtime_inspector["brightness"] = None
-        self.system.runtime_inspector["shrinkrate"] = None 
-        self.system.runtime_inspector["temperature"] = None
+        self.system.runtime_inspector.clear()
 
     def handle_event(self, event):
 
@@ -93,7 +86,7 @@ class Game:
         
 
     def draw(self):
-        if not self.state.is_state(GAMESTATE.NONE) and self.state.is_state(GAMESTATE.PAUSED):
+        if self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.update()
             self.pause_menu.draw()
         elif self.state.is_state(GAMESTATE.PLAYING):
@@ -115,18 +108,13 @@ class Game:
             if self.system.control_state.is_state(DEVELOPER_MODE.ON):
                 self.game_object.player.shrink_rate = 0
 
-    def run(self):
-        self.update()
-        self.draw()
-
     def quit_to_menu(self):
         self.remove_debug_info_from_system()
-        self.reset_game()
-        self.state.set_state(GAMESTATE.NONE)
-        self.game_mode.set_state(GAME_MODE.NONE)
-        self.system.go_to_menu()
+        self.game_object.clean_up_states()
+        self.game_object.reset()
+        self.system.clean_up_states([self.game_mode.state,self.state.state,self.pause_menu.state.state])
         
-
+        
     def quit(self):
         self.system.quit()
 

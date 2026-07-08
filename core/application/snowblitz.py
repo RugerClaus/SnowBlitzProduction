@@ -137,7 +137,27 @@ class SnowBlitz:
             self.progress_bar.update()
             self.progress_bar.draw()
 
+    def clean_up_states(self):
+        self.system.clean_up_states([self.player.speed_state.state,self.player.move_state.state,self.player.power_state.state,self.player.life_state.state])
+        if self.tutorial_state is not None:
+            self.system.clean_up_states([self.tutorial_state.state])
+
+    def register_debug_telemetry(self):
+        self.system.runtime_inspector["daytime"] = self.environment.day_cycle.get_daytime()
+        self.system.runtime_inspector["brightness"] = self.environment.day_cycle.get_brightness()
+        self.system.runtime_inspector["temperature"] = self.environment.temperature.get_temperature()
+        if self.player:
+            self.system.runtime_inspector["shrinkrate"] = self.player.shrink_rate
+
     def reset_systems(self):
+        del self.player
+        del self.progress_bar
+        del self.endless
+        del self.tutorial
+        del self.tutorial_state
+        del self.tutorial_manager
+        del self.prompts
+        del self.blitz
         self.player = None
         self.progress_bar = None
         self.endless = None
@@ -147,7 +167,7 @@ class SnowBlitz:
         self.prompts = None
         self.blitz = None
         self.environment.day_cycle.reset()
-
+        
     def reset(self):
         if self.player is not None:
             self.player.reset()
@@ -160,6 +180,3 @@ class SnowBlitz:
         self.entitymanager.reset_spawn_timers()
 
         self.reset_systems()
-
-        if self.mode.is_state(GAME_MODE.TUTORIAL):
-            self.init_tutorial()

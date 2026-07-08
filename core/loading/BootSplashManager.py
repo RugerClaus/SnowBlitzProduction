@@ -30,6 +30,7 @@ class BootSplashManager:
     def update(self):
         if self.state.is_state(BOOT_SPLASH_STATE.NONE):
             self.system.app_state.set_state(APPSTATE.MAIN_MENU)
+            self.system.clean_up_states([self.state.state])
         if not self.system.app_state.is_state(APPSTATE.LOADING):
 
             self.system.sound.system_sfx_state.set_state(SYSTEM_SFX_STATE.OFF)
@@ -46,8 +47,6 @@ class BootSplashManager:
             if not self.splash_two_sfx_played:
                 self.system.sound.play_sfx("splash2")
                 self.splash_two_sfx_played = True
-        
-        # time to make you think because many parts of this codebase are not only insecure, but too neat
                 
         el = current_time - self.splash_two_start_time
         du = 9300

@@ -22,9 +22,8 @@ from core.network.user import User
 from core.menus.changelog import ChangeLog
 
 class Menu(BaseMenu):
-    def __init__(self,system, game):
+    def __init__(self,system):
         self.system = system
-        self.game = game
         super().__init__(system)
         self.state = MenuStateManager()
         self.credits = Credits(system)
@@ -218,25 +217,13 @@ class Menu(BaseMenu):
             ]
 
     def endless(self):
-        self.system.app_state.set_state(APPSTATE.GAME)
-        self.system.state_monitor_state.set_state(MONITOR_STATE.GAME) # Update monitor state for the state observer in the debug overlay
-        self.game.game_object.reset()                                # This system just triggers it automatically. you can still change it to other modes 
-        self.game.state.set_state(GAMESTATE.PLAYING)                            # but this is the default mode for the game.
-        self.game.set_game_mode(GAME_MODE.ENDLESS)                    # to monitor the non-game related systems
+        self.system.initialize_application(GAME_MODE.ENDLESS)
 
     def blitz(self):
-        self.system.app_state.set_state(APPSTATE.GAME)
-        self.system.state_monitor_state.set_state(MONITOR_STATE.GAME)
-        self.game.game_object.reset()
-        self.game.state.set_state(GAMESTATE.PLAYING)
-        self.game.set_game_mode(GAME_MODE.BLITZ)
+        pass
     
     def tutorial(self):
-        self.system.app_state.set_state(APPSTATE.GAME)
-        self.system.state_monitor_state.set_state(MONITOR_STATE.GAME)
-        self.game.game_object.reset()
-        self.game.state.set_state(GAMESTATE.PLAYING)
-        self.game.set_game_mode(GAME_MODE.TUTORIAL)
+        self.system.initialize_application(GAME_MODE.TUTORIAL)
 
     def back_to_root_changelog(self):
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):

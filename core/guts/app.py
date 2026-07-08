@@ -3,9 +3,8 @@ from helper import *
 from core.state.ApplicationLayer.state import APPSTATE
 from core.state.ApplicationLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.state.ApplicationLayer.Loading.state import LOAD_SCREEN_STATE
+from core.state.ApplicationLayer.BootSplash.state import BOOT_SPLASH_STATE
 from core.util.debugoverlay import DebugOverlay
-from core.application.game import Game
 from core.menus.menu import Menu
 from core.loading.BootSplashManager import BootSplashManager
 
@@ -13,11 +12,10 @@ class App:
     def __init__(self,system):
 
         self.system = system
-        self.game = Game(system)
-        self.menu = Menu(system,self.game)
+        self.menu = Menu(system)
         self.loading = BootSplashManager(system)
-        self.debug_overlay = DebugOverlay(system,self.loading)
-    
+        self.debug_overlay = DebugOverlay(system)
+
     def handle_events(self):
         for event in self.system.input.input_event():
             if event.type == self.system.input.video_resize_event():
@@ -32,13 +30,12 @@ class App:
                 self.system.app_state.set_state(APPSTATE.QUIT)
             
             if self.system.app_state.is_state(APPSTATE.MAIN_MENU):
-                
                 self.menu.handle_event(event)
                 self.system.sound.stop_sfx("splash1")
                 self.system.sound.stop_sfx("splash2")
 
             elif self.system.app_state.is_state(APPSTATE.GAME):
-                self.game.handle_event(event)
+                self.system.application.handle_event(event)
             
             if self.system.overlay_state.is_state(DEBUG_OVERLAY_STATE.ON):
                 self.debug_overlay.handle_event(event)
@@ -54,7 +51,10 @@ class App:
 
             if event.type == self.system.input.keydown():
                 if self.system.input.get_key_name(event.key) == "f11":
-                    self.system.window.toggle_fullscreen()
+                    if self.system.application is not None:
+                        print("Application Running")
+                    else:
+                        print("Application is not initialized")
                 elif self.system.input.get_key_name(event.key) == "u":
                     print(str(self.system.window.get_info()))
                 if self.system.app_state.is_state(APPSTATE.LOADING):
@@ -62,10 +62,10 @@ class App:
                         self.system.app_state.set_state(APPSTATE.MAIN_MENU)
             if event.type == self.system.input.mouse_button_down() and event.button == 1:
                 if self.system.app_state.is_state(APPSTATE.LOADING):
+                    self.loading.state.set_state(BOOT_SPLASH_STATE.NONE)
+                    self.system.clean_up_states([self.loading.state.state])
                     self.system.app_state.set_state(APPSTATE.MAIN_MENU)
-                    self.loading.state.set_state(LOAD_SCREEN_STATE.NONE)
                 elif self.system.app_state.is_state(APPSTATE.MAIN_MENU):
-                    self.loading.state.set_state(LOAD_SCREEN_STATE.NONE)
                     self.menu.scale()
 
     def run(self):
@@ -81,8 +81,12 @@ class App:
                 self.menu.update()
                 self.menu.draw()
             elif self.system.app_state.is_state(APPSTATE.GAME):
-                self.game.update()
-                self.game.draw()
+                if self.system.application is not None:
+
+                    self.system.application.update()
+                    self.system.application.draw()
+                else:
+                    pass
             elif self.system.app_state.is_state(APPSTATE.QUIT):
                 self.system.window.quit()
                 sys.exit()
@@ -91,7 +95,7 @@ class App:
                 self.debug_overlay.draw()
             
             if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-                pass
+                pass 
 
             self.system.window.time.timer()
             self.system.window.update()

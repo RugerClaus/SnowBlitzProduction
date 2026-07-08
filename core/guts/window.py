@@ -7,8 +7,8 @@ class Window:
     def __init__(self,system):
         pygame.init()
         self.system = system
-        self.default_width = 1200
-        self.default_height = 800
+        self.default_width = 1600
+        self.default_height = 900
         self.color = (255,0,0)
         self.width = None
         self.height = None

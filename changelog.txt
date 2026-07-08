@@ -1,7 +1,7 @@
-Development version Beta 0.9.8 - 2026-07-07
+Development version Beta 0.9.8 - 2026-07-08
 - Overhauled handling of core systems (rendering,audio,input)
 - Fixed tutorial mode's lack of ability to be completed.
-- Added a centralized list of active states that can be queryed by any state machine from anywhere that has one
+- Added a centralized list of active states that can be queried by any state machine from anywhere that has one
 - Made LoFiSi the only song that plays at the main menu
 - Added readme in build scripts
 - Added instructions in build scripts
