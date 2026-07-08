@@ -64,7 +64,7 @@ function build_main() {
     --add-data "$ASSETS_PATH_WIN;assets" \
     --add-data "$LOGS_PATH_WIN;logs" \
     --add-data "$SAVES_PATH_WIN;saves" \
-    --add-data "$ENVIRONMENT_PATH_WIN/environment:environment" \
+    --add-data "$ENVIRONMENT_PATH_WIN;environment" \
     --distpath "$TMP_DIST" \
     --workpath "$WORK_ROOT/windows" \
     --specpath "$SPEC_ROOT/windows"
