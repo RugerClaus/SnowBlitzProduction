@@ -68,7 +68,7 @@ class DebugOverlay:
                 sysmonitor_text = f"{key}: {value}"
                 sysmonitor_surf = self.font_left.render(sysmonitor_text, False, text_color)
                 self.surface.blit(sysmonitor_surf, (left_x, left_y))
-                left_y += sysmonitor_surf.get_height() * 1.2
+                left_y += sysmonitor_surf.get_height() * 1.01
 
 
         for items in self.system.runtime_inspector.items():
@@ -77,7 +77,7 @@ class DebugOverlay:
                 inspector_text = f"{key}: {value}"
                 inspector_surf = self.font_left.render(inspector_text, False, text_color)
                 self.surface.blit(inspector_surf, (left_x, left_y))
-                left_y += inspector_surf.get_height() * 1.2
+                left_y += inspector_surf.get_height() * 1.01
 
         right_x = surface_width - 10
         right_y = 10

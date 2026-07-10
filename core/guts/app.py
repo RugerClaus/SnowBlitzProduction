@@ -100,5 +100,5 @@ class App:
             if self.loading.state.is_state(BOOT_SPLASH_STATE.NONE):
                 self.system.clean_up_states([self.loading.state.state])
             
-            self.system.window.time.timer()
+            self.system.time.timer()
             self.system.window.update()

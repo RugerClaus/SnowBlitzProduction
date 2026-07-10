@@ -273,7 +273,7 @@ class Menu(BaseMenu):
         self.create_buttons()
     
     def leaderboard_opt_in_dev(self):
-        if self.system.save.read_constant('username') == None:
+        if self.system.load.read_constant('username') == None:
             self.system.save.write_constant('leaderboard_opt_in','YES')
             self.query = None
             self.state.set_state(MENUSTATE.CREATEUSERNAME)

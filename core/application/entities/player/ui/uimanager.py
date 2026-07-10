@@ -16,7 +16,7 @@ class PlayerUIManager:
         self.rect_position = (0, 0)
         self.font = FontEngine(30).font
         self.score_font = FontEngine(50).font
-        self.last_reset_time = self.system.window.time.get_current_time()
+        self.last_reset_time = self.system.time.get_current_time()
         
     def scale(self):
         if self.location == SizeBar.BOTTOM:
@@ -36,10 +36,10 @@ class PlayerUIManager:
             self.location = SizeBar.BOTTOM
 
     def reset_timer(self):
-        self.last_reset_time = self.system.window.time.get_current_time()
+        self.last_reset_time = self.system.time.get_current_time()
 
     def draw_player_info(self):
-        now = self.system.window.time.get_current_time()
+        now = self.system.time.get_current_time()
         elapsed_ms = now - self.last_reset_time
         seconds = (elapsed_ms // 1000) % 60
         minutes = (elapsed_ms // 60000)

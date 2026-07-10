@@ -102,7 +102,7 @@ class System():
         else:
             log_event('SFX volume file creation: sfx_volume file exists')
 
-    def initialize_application(self,game_mode):
+    def initialize_application(self,game_mode=None):
         from core.application.game import Game
         self.app_state.set_state(APPSTATE.GAME)
         self.state_monitor_state.set_state(MONITOR_STATE.GAME)

@@ -9,8 +9,4 @@
 #     "chunk": None,
 # }
 
-runtime_inspector = {
-    "daytime": None,
-    "brightness": None,
-    "temperature": None,
-}
+runtime_inspector = {}

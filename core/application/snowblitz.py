@@ -5,13 +5,12 @@ from core.application.entities.player.player import Player
 from core.application.entities.player.ui.uimanager import PlayerUIManager
 from core.application.entities.entitymanager import EntityManager
 from core.application.modes.tutorial.tutorialmanager import TutorialManager
-from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.application.modes.tutorial.prompts import Prompts
 from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
 from core.state.GameLayer.GameMode.state import GAME_MODE
-from core.application.entities.type import EntityType
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.application.mechanics.environment.environment import Environment
+from core.application.debug.sbdebugutils import SBDebugUtils
 class SnowBlitz:
     def __init__(self,system,game_state,mode):
         self.system = system
@@ -23,6 +22,7 @@ class SnowBlitz:
         self.blitz = None
 
         self.entitymanager = EntityManager(system)
+        self.debug = SBDebugUtils(system,self)
         
         self.start_time = system.time.get_current_time()
         self.player = None
@@ -33,24 +33,9 @@ class SnowBlitz:
         self.blitz = None
         self.tutorial_state = None
 
-        self.draw_debug_snowflake_lines = False
-        self.draw_debug_rock_lines = False
-        self.draw_debug_powerup_lines = False
-        self.draw_debug_reducer_lines = False
-
         self.environment = Environment(system)
 
-    def toggle_debug_snowflake_lines(self):
-        self.draw_debug_snowflake_lines = not self.draw_debug_snowflake_lines
-
-    def toggle_debug_rock_lines(self):
-        self.draw_debug_rock_lines = not self.draw_debug_rock_lines
-
-    def toggle_debug_powerup_lines(self):
-        self.draw_debug_powerup_lines = not self.draw_debug_powerup_lines
-
-    def toggle_debug_reducer_lines(self):
-        self.draw_debug_reducer_lines = not self.draw_debug_reducer_lines
+        self.endless_state = GAME_MODE.ENDLESS
 
     def handle_event(self):
 
@@ -69,23 +54,7 @@ class SnowBlitz:
             if not (keys[self.system.input.game_controls.move_left] or keys[self.system.input.game_controls.move_right]):
                 self.player.move('NONE')
         else:
-            print("error can't process input")
-        
-    def draw_vector_lines(self):
-        if not self.mode.is_state(GAME_MODE.NONE):
-            for entity in self.entitymanager.get_active_entities():
-                if self.draw_debug_snowflake_lines:
-                    if entity.type == EntityType.SNOWFLAKE:
-                        self.system.window.draw_line(self.system.window.get_screen(),entity.rect.center,self.player.rect.center,(255,0,0))
-                if self.draw_debug_rock_lines:    
-                    if entity.type == EntityType.ROCK:
-                        self.system.window.draw_line(self.system.window.get_screen(),entity.rect.center,self.player.rect.center,(0,255,0))
-                if self.draw_debug_powerup_lines:    
-                    if entity.type == EntityType.POWERUP:
-                        self.system.window.draw_line(self.system.window.get_screen(),entity.rect.center,self.player.rect.center,(255,255,255))
-                if self.draw_debug_reducer_lines:
-                    if entity.type == EntityType.REDUCER:
-                        self.system.window.draw_line(self.system.window.get_screen(),entity.rect.center,self.player.rect.center,(0,0,255))
+            pass
 
     def init_player(self):
         if self.player is None:
@@ -127,7 +96,7 @@ class SnowBlitz:
             self.blitz.run()
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-            self.draw_vector_lines()
+            self.debug.draw()
 
     def resize(self, event_h):
         if self.player is not None:
@@ -148,6 +117,16 @@ class SnowBlitz:
         self.system.runtime_inspector["temperature"] = self.environment.temperature.get_temperature()
         if self.player:
             self.system.runtime_inspector["shrinkrate"] = self.player.shrink_rate
+            
+            snl = self.debug.draw_debug_snowflake_lines
+            rkl = self.debug.draw_debug_rock_lines
+            pul = self.debug.draw_debug_powerup_lines
+            rel = self.debug.draw_debug_reducer_lines
+            
+            self.system.runtime_inspector["snowflk_tracers"] =  snl if snl is not False else None
+            self.system.runtime_inspector["rock_tracers"] =  rkl if rkl is not False else None
+            self.system.runtime_inspector["powerup_tracers"] =  pul if pul is not False else None
+            self.system.runtime_inspector["reducer_tracers"] =  rel if rel is not False else None
 
     def reset_systems(self):
         del self.player

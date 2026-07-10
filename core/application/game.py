@@ -57,16 +57,16 @@ class Game:
                         self.game_object.player.current_level = 15
 
                     elif event.key == self.system.input.keys.F3_key():
-                        self.game_object.toggle_debug_snowflake_lines()
+                        self.game_object.debug.toggle_debug_snowflake_lines()
 
                     elif event.key == self.system.input.keys.F4_key():
-                        self.game_object.toggle_debug_rock_lines()
+                        self.game_object.debug.toggle_debug_rock_lines()
                     
                     elif event.key == self.system.input.keys.F5_key():
-                        self.game_object.toggle_debug_powerup_lines()
+                        self.game_object.debug.toggle_debug_powerup_lines()
                         
                     elif event.key == self.system.input.keys.F6_key():
-                        self.game_object.toggle_debug_reducer_lines()
+                        self.game_object.debug.toggle_debug_reducer_lines()
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
@@ -122,6 +122,10 @@ class Game:
         self.game_object.reset()
         self.state.set_state(GAMESTATE.PLAYING)
 
-    def set_game_mode(self, mode):
-        self.game_mode.set_state(mode)
+    def set_game_mode(self, mode=None):
+        if mode is not None:
+            self.game_mode.set_state(mode)
+        else:
+            self.state.set_state(GAMESTATE.PLAYING)
+            self.game_mode.set_state(self.game_object.endless_state)
         self.system.sound.play_music()

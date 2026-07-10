@@ -13,7 +13,6 @@ class Window:
         self.width = None
         self.height = None
         self.fps = 60
-        self.time = system.time
         self.fullscreen = False
         self.set_mode(self.width,self.height)
         self.Rect = pygame.Rect
@@ -141,7 +140,7 @@ class Window:
         pygame.display.flip()
 
     def get_fps(self): #temporary while i refactor to prevent breakage
-        return self.time.get_fps()
+        return self.system.time.get_fps()
     
     def get_info(self):
         return f"""{pygame.display.Info()}\n,PYGAMEDRIVER: \n{pygame.display.get_driver()}

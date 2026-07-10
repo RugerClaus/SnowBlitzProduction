@@ -5,6 +5,8 @@ from core.state.GameLayer.Entities.Player.Speed.state import SPEED_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.application.entities.powerups.type import PowerUpType
 
+from core.state.ApplicationLayer.dev import DEVELOPER_MODE
+
 from core.network.user import User
 
 class PlayerMechanics:
@@ -65,9 +67,13 @@ class PlayerMechanics:
             stored = int(stored) if stored else 0
 
             if player.score > stored:
-                system.save.write_constant('high_score', str(player.score))
-                User(system).send_high_score_to_api()
-        
+                if not system.control_state.is_state(DEVELOPER_MODE.ON):
+
+                    system.save.write_constant('high_score', str(player.score))
+                    User(system).send_high_score_to_api()
+                else:
+                    pass
+
     def check_high_score(player):
         stored = player.system.load.read_constant('high_score')
         stored = int(stored) if stored else 0

@@ -35,27 +35,40 @@ class User:
 
     def send_username_to_api(self):
         username = self.get_username()
-        if self.system.network.check_network_status():
-            if username:
-                data = {"username": str(username),"key":config.config.get("API_KEY")}
-                try:
-                    response = requests.post(self.setusernameURL, json=data)
-                    if response.status_code == 200:
-                        self.system.save.write_constant("high_score",0)
 
-                        log_event(f"Username added to global database. Status: {str(response.status_code)}; Response: {response.json()}")
-                        response_data = response.json()
-                        if response_data.get("message") == "Username already exists":
-                            log_event("username already exists")
+        if not self.system.network.check_network_status():
+            return
+
+        data = {
+            "username": str(username),
+            "key": config.config.get("API_KEY")
+        }
+        try:
+            response = requests.post(self.setusernameURL, json=data)
+            if response.status_code == 200:
+                response_data = response.json()
+                if response_data.get("message") == "Username already exists":
+                    server_score = self.get_high_score_from_api()
+                    local_score = self.get_high_score()
+                    if server_score > local_score:
+                        self.system.save.write_constant(
+                            "high_score",
+                            server_score
+                        )
                     else:
-                        log_error(f"Failed to create username in global database. Status: {str(response.status_code)}; Response: {response.text}")
-                except requests.exceptions.RequestException as e:
-                    log_error(f"Network error while sending username: {e} Status: {response.status_code}; Response: {response.text}")
+                        self.send_high_score_to_api()
+
+                    log_event("Existing username synced")
+
+                else:
+                    # New username: upload local score
+                    self.send_high_score_to_api()
+                    log_event("New username created")
+
             else:
-                log_error("Username is blank or invalid.")
-    
-        else:
-            self.system.save.write_constant("username",username)
+                log_error(f"Username creation failed: {response.status_code}: {response.text}")
+        except requests.exceptions.RequestException as e:
+            log_error(f"Network error while sending username: {e}")
 
     def send_high_score_to_api(self):
         if self.system.network.check_network_status():
@@ -70,7 +83,6 @@ class User:
                     "key": str(key)
                 }
                 try:
-                    print("sending score to db")
                     response = requests.post(self.setuserhighscoreURL, json=data)
                     if response.status_code == 200:
                         log_event(f"Highscore added for {username}. Status: {response.status_code}; Response: {response.json()}")
