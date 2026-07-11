@@ -17,7 +17,8 @@ class Game:
         self.game_object = SnowBlitz(system,self.state,self.game_mode)
         self.game_over_menu = GameOverMenu(system, self.reset_game)
         self.pause_menu = Pause(system, self.game_object, self,self.toggle_pause, self.reset_game)
-        self.win = Win(self.system,self.reset_game)
+        self.win = Win(system,self.reset_game)
+        
 
     def toggle_pause(self):
         if not self.state.is_state(GAMESTATE.PAUSED):

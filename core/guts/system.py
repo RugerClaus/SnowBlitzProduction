@@ -48,6 +48,9 @@ class System():
         self.user = User(self)
         self.auth = Authentication(self)
 
+        if self.user.username:
+            self.auth.auto_login()
+
         self.window = Window(self)
         self.sound = AudioEngine(self)
         self.input = InputManager(self)
@@ -63,6 +66,10 @@ class System():
             self.system_monitor["network"] = "Not Connected"
 
         self.application = None
+
+        if self.control_state.is_state(DEVELOPER_MODE.ON):
+            self.sound.volume = 0.0
+            self.sound.sfx_volume = 0.1
 
     def control_state_toggle(self):
         if not self.control_state.is_state(DEVELOPER_MODE.ON):

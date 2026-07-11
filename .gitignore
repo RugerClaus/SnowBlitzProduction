@@ -7,6 +7,8 @@ __pycache__
 saves/constants/high_score
 saves/constants/music_volume
 saves/constants/sfx_volume
+saves/constants/clientAppPassword
+saves/constants/clientID
 /executable
 logs/*/*.log
 logs/*.log

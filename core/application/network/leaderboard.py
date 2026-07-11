@@ -1,6 +1,8 @@
 from .endpoints import LEADERBOARD, UPDATE_SCORE
+from core.guts.network.system_endpoints import API_KEY
 from systemlogging import log_error, log_event
 
+from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class Leaderboard:
     def __init__(self, system):
@@ -33,9 +35,18 @@ class Leaderboard:
 
         return ("success", response["data"])
 
-    def submit(self, score):
+    def submit(self, score,session_token):
+
         if score is None:
             log_error("Unable to submit empty score")
+            return False
+        
+        if self.system.control_state.is_state(DEVELOPER_MODE.OFF):
+            self.system.save.write_constant("high_score",score)
+            print("saving score to disk")
+        
+        if session_token is None:
+            log_error("Unable to update score without valid session token")
             return False
 
         if not self.submit_url:
@@ -45,16 +56,17 @@ class Leaderboard:
             )
             return False
 
-        username = self.system.user.username
+        app_password = self.system.load.read_constant("clientAppPassword")
 
-        if not username:
-            log_error(
-                "Unable to submit score without username"
-            )
+        if not app_password:
+            log_error("Missing application password, reauthenticate your client")
             return False
+        
 
         data = {
-            "username": username,
+            "key": API_KEY,
+            "clientAppPassword": app_password,
+            "sessionToken": session_token,
             "score": int(score)
         }
 
@@ -71,7 +83,7 @@ class Leaderboard:
             return False
 
         log_event(
-            f"Submitted leaderboard score for {username}: {score}"
+            f"Submitted leaderboard score for {self.system.user.username}: {score}"
         )
-
         return True
+    

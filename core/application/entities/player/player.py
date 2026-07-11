@@ -11,7 +11,7 @@ from core.guts.user import User
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class Player(Entity):
-    def __init__(self, system, entitymanager, game_state,environment):
+    def __init__(self, system, entitymanager, game_state,environment,session):
         self.system = system
         self.base_size = 10
         self.x = system.window.get_width() // 2
@@ -19,6 +19,7 @@ class Player(Entity):
         self.entitymanager = entitymanager
         self.game_state = game_state
         self.environment = environment
+        self.session = session
         self.user = self.system.user
         self.current_high_score = physics.get_current_high_score(self.user)
         super().__init__(self.x, self.y, self.system.window, EntityType.PLAYER, self.base_size)
@@ -79,7 +80,7 @@ class Player(Entity):
         physics.check_power_state(self)
         physics.handle_powerup_timer(self)
         physics.handle_sfx(self)
-        physics.check_death(self,self.game_state,self.system)
+        physics.check_death(self,self.game_state,self.session)
         physics.check_bounds(self)
 
     def move(self, direction):

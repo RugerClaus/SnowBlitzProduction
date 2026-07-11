@@ -70,8 +70,10 @@ class UserCreator:
             self.password_box.box.clear()
             self.confirm_password_box.box.clear()
 
-            # Update the actual system user here if needed
-            self.system.user.username = username
+            self.system.save.write_constant(
+                "username",
+                username
+            )
 
             return True
 

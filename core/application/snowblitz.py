@@ -11,6 +11,7 @@ from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.application.mechanics.environment.environment import Environment
 from core.application.debug.sbdebugutils import SBDebugUtils
+from core.application.network.sessions import Session
 class SnowBlitz:
     def __init__(self,system,game_state,mode):
         self.system = system
@@ -36,6 +37,8 @@ class SnowBlitz:
         self.environment = Environment(system)
 
         self.endless_state = GAME_MODE.ENDLESS
+        self.session = Session(system)
+        self.session.start_online_session()
 
     def handle_event(self):
 
@@ -58,7 +61,7 @@ class SnowBlitz:
 
     def init_player(self):
         if self.player is None:
-            self.player = Player(self.system,self.entitymanager,self.game_state,self.environment)
+            self.player = Player(self.system,self.entitymanager,self.game_state,self.environment,self.session)
         if self.progress_bar is None:
             self.progress_bar = PlayerUIManager(self.system,self.player)
 
@@ -97,6 +100,7 @@ class SnowBlitz:
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             self.debug.draw()
+            
 
     def resize(self, event_h):
         if self.player is not None:

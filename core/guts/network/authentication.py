@@ -1,4 +1,5 @@
 from core.application.network.endpoints import LOGIN,REGISTER
+from core.guts.network.system_endpoints import API_KEY,VERSION
 
 
 class Authentication:
@@ -9,6 +10,9 @@ class Authentication:
 
         print("REGISTER ENDPOINT:", REGISTER)
         print("LOGIN ENDPOINT:", LOGIN)
+        print("API_KEY:", API_KEY)
+        print("VERSION:", VERSION)
+
 
     def register(self, username, password):
 
@@ -16,19 +20,24 @@ class Authentication:
             REGISTER,
             {
                 "username": username,
-                "password": password
+                "password": password,
+                "key": API_KEY,
+                "client_version": VERSION
             }
         )
 
-        if not response["success"]:
+        print("REGISTER RESPONSE:", response)
+
+        if not response.get("success"):
             return response
 
-        data = response["data"]
+        data = response.get("data", {})
 
-        if data.get("message") == "Username already exists":
+        if "clientAppPassword" not in data:
             return {
                 "success": False,
-                "message": "Username already exists."
+                "message": "Invalid server response",
+                "data": response
             }
 
         self.system.save.write_constant(
@@ -37,8 +46,13 @@ class Authentication:
         )
 
         self.system.save.write_constant(
-            "clientAPIKey",
-            data["clientAPIKey"]
+            "clientAppPassword",
+            data["clientAppPassword"]
+        )
+
+        self.system.save.write_constant(
+            "clientID",
+            data["clientID"]
         )
 
         return {
@@ -47,11 +61,16 @@ class Authentication:
 
     def login(self, username, password):
 
+        client_id = self.system.load.read_envar("clientId")
+
         response = self.network.post(
             LOGIN,
             {
                 "username": username,
-                "password": password
+                "password": password,
+                "key": API_KEY,
+                "clientID": client_id,
+                "client_version": VERSION
             }
         )
 
@@ -60,12 +79,20 @@ class Authentication:
 
         data = response["data"]
 
-        if data.get("message") == "Incorrect username or password":
+        self.system.save.write_constant(
+            "username",
+            username
+        )
 
-            return {
-                "success": False,
-                "message": data["message"]
-            }
+        self.system.save.write_constant(
+            "clientAppPassword",
+            data["clientAppPassword"]
+        )
+
+        self.system.save.write_envar(
+            "clientId",
+            data["clientID"]
+        )
 
         self.system.state_monitor["ClientConnected"] = True
 
@@ -74,20 +101,30 @@ class Authentication:
             "data": data
         }
 
+
     def auto_login(self):
 
         username = self.system.load.read_constant("username")
-        key = self.system.load.read_constant("clientAPIKey")
+        client_app_password = self.system.load.read_constant("clientAppPassword")
+        client_id = self.system.load.read_envar("clientId")
 
-        if not username or not key:
+        if not username or not client_app_password or not client_id:
             return {
                 "success": False
             }
 
-        return self.network.post(
+        response = self.network.post(
             LOGIN,
             {
                 "username": username,
-                "clientAPIKey": key
+                "clientID": client_id,
+                "clientAppPassword": client_app_password,
+                "key": API_KEY,
+                "client_version": VERSION
             }
         )
+
+        if response["success"]:
+            self.system.state_monitor["ClientConnected"] = True
+
+        return response
