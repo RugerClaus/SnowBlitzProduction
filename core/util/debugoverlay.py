@@ -8,6 +8,7 @@ class DebugOverlay:
         self.surface = system.window.draw_overlay((0, 0, 0), 128)
         self.rect = self.surface.get_rect()
         self.font_left = FontEngine("UI").font
+        self.sys_monitor_font = FontEngine(25).font
         self.font_right = FontEngine("debug_state").font
         self.font_right_all = FontEngine("debug_all_state").font
         self.devmodefont = FontEngine(20).font
@@ -66,7 +67,7 @@ class DebugOverlay:
             key, value = items
             if value is not None:
                 sysmonitor_text = f"{key}: {value}"
-                sysmonitor_surf = self.font_left.render(sysmonitor_text, False, text_color)
+                sysmonitor_surf = self.sys_monitor_font.render(sysmonitor_text, False, text_color)
                 self.surface.blit(sysmonitor_surf, (left_x, left_y))
                 left_y += sysmonitor_surf.get_height() * 1.01
 

@@ -3,7 +3,7 @@ from core.ui.font import FontEngine
 from core.state.ApplicationLayer.Audio.Interface.state import INTERFACE_SFX_STATE
 
 class Button:
-    def __init__(self, sound, window, text, x, y, width, height, text_unhovered_color, text_hovered_color, action=None,active=True,background_color=None):
+    def __init__(self, sound, window, text, x, y, width, height, text_unhovered_color, text_hovered_color, action=None,active=True,background_color=None,font="button"):
         self.sound = sound
         self.window = window
         self.text = text
@@ -11,7 +11,7 @@ class Button:
         self.y = y
         self.width = width
         self.height = height
-        self.font = FontEngine("button").font
+        self.font = FontEngine(font).font
         self.action = action
         self.active = active
         self.text_unhovered_color = text_unhovered_color

@@ -1,5 +1,6 @@
-import math,random,os,enum
+import math,random,os
 from systemlogging import log_event
+from config import config
 # core systems
 from core.guts.input.inputmanager import InputManager
 from core.guts.audioengine import AudioEngine
@@ -39,7 +40,8 @@ class System():
         self.time = Time()
 
         self.save_schema = schema
-        
+        self.system_monitor = system_monitor
+
         self.save = Save(self.save_schema)
         self.load = Load()
 
@@ -55,8 +57,7 @@ class System():
         self.sound = AudioEngine(self)
         self.input = InputManager(self)
 
-        self.system_monitor = system_monitor
-
+        
         self.runtime_inspector = runtime_inspector # this is an observer
         self.save_telemetry = "" # this sends a message to the main menu if there is no save file found
 
@@ -64,6 +65,8 @@ class System():
             self.system_monitor["network"] = "Connected"
         else:
             self.system_monitor["network"] = "Not Connected"
+    
+        self.system_monitor["OS"] = config.get("OSV")
 
         self.application = None
 

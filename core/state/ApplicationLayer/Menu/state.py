@@ -10,3 +10,4 @@ class MENUSTATE(Enum):
     LEADERBOARDVIEWER = auto()
     DEVELOPERSETTINGS = auto()
     CHANGELOG = auto()
+    LOGIN = auto()

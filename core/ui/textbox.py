@@ -6,6 +6,7 @@ class TextBox:
         self.font = FontEngine(30).font
         self.x_ratio = x_ratio
         self.y_ratio = y_ratio
+        self.background_color = (0,0,0)
         self.scale()
         self.string = None
         self.box = []
@@ -58,7 +59,7 @@ class TextBox:
             center=(x, y)
         )
 
-        self.bounding_box.fill((0,0,0))
+        self.bounding_box.fill((self.background_color))
 
         self.text_box = self.system.window.make_surface(250,50)
         self.text_box_rect = self.text_box.get_rect(
@@ -96,7 +97,7 @@ class TextBox:
 
         surf = self.font.render(text, False, (0,0,0))
         rect = surf.get_rect(center=self.text_box_rect.center)
-
+        self.bounding_box.fill((self.background_color))
         self.system.window.blit(self.bounding_box,self.bounding_box_rect)
         self.system.window.blit(self.text_box,self.text_box_rect)
         self.system.window.blit(surf,rect)

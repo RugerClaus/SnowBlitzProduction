@@ -1,6 +1,7 @@
 import webbrowser
 from core.menus.basemenu import BaseMenu
 from core.menus.usercreator import UserCreator
+from core.menus.loginpage import LoginPage
 from core.ui.button import Button
 from helper import asset
 from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
@@ -25,6 +26,7 @@ class Menu(BaseMenu):
         self.agreed_to_leaderboard = self.check_leaderboard_opt()
         self.recently_updated = self.check_recently_updated()
         self.user_creator = UserCreator(system)
+        self.login_page = LoginPage(system)
         self.leaderboard = LeaderboardViewer(system,self.state,self.back_to_root)
         self.updater = Update()
         self.change_log = ChangeLog(system)
@@ -177,20 +179,20 @@ class Menu(BaseMenu):
                     (255, 255, 255), self.button_action_true_color, self.go_to_settings)
             ]
         elif self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
-            if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-                self.buttons = [
-                    Button(self.system.sound, self.system.window, f"Yes", center_x - btn_width, self.system.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_in_dev),
-                    Button(self.system.sound, self.system.window, f"No", center_x + btn_width, self.system.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_out),
-                ]
-            else:
-                self.buttons = [
-                    Button(self.system.sound, self.system.window, f"Yes", center_x - btn_width, self.system.window.get_height() // 2 + spacing * 0.4, 90, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_in),
-                    Button(self.system.sound, self.system.window, f"No", center_x + btn_width, self.system.window.get_height() // 2 + spacing * 0.4, 80, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_out),
-                ]
+            
+            self.buttons = [
+                Button(self.system.sound, self.system.window, f"Yes", center_x, self.system.window.get_height() // 2 + spacing * 0, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_in),
+                Button(self.system.sound, self.system.window, f"No", center_x, self.system.window.get_height() // 2 + spacing * 1, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.leaderboard_opt_out),
+            ]
         elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.buttons = [
-                Button(self.system.sound, self.system.window, f"Submit", center_x, self.system.window.get_height() // 2 + spacing * 1.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.submit_username),
-                Button(self.system.sound, self.system.window, f"Back", center_x, self.system.window.get_height() // 2 + spacing * 2.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.back_to_root),
+                Button(self.system.sound, self.system.window, f"Submit", center_x, self.system.window.get_height() // 2 + spacing * 2, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.create_account),
+                Button(self.system.sound, self.system.window, f"I already have an account", center_x, self.system.window.get_height() // 2 + spacing * 4, btn_width, btn_height, (255, 0, 255), self.button_action_true_color, self.go_to_login,font=40)
+            ]
+            
+        elif self.state.is_state(MENUSTATE.LOGIN):
+            self.buttons = [
+                Button(self.system.sound, self.system.window, f"Log In", center_x, self.system.window.get_height() // 2 + spacing * 2, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.login),
             ]
     
         elif self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
@@ -244,13 +246,28 @@ class Menu(BaseMenu):
         self.state.set_state(MENUSTATE.CREATEUSERNAME)
         self.create_buttons()
 
-    def submit_username(self):
+    def go_to_login(self):
+        self.state.set_state(MENUSTATE.LOGIN)
+        self.create_buttons()
+
+    def login(self):
+        success = self.login_page.submit()
+        print(success)
+
+        if not success:
+            self.set_query(self.login_page.error)
+            return
+        self.set_query("")
+        self.state.set_state(MENUSTATE.ROOT)
+        self.create_buttons()
+
+    def create_account(self):
         success = self.user_creator.submit()
 
         if not success:
             self.set_query(self.user_creator.error)
             return
-
+        self.set_query("")
         self.state.set_state(MENUSTATE.ROOT)
         self.create_buttons()
 
@@ -316,10 +333,11 @@ class Menu(BaseMenu):
         elif event.type == self.system.input.video_resize_event():
             self.scale()
         self.user_creator.handle_event(event)
+        self.login_page.handle_event(event)
         if self.state.is_state(MENUSTATE.CREATEUSERNAME):
             keys = self.system.input.get_pressed_keys()
             if keys[self.system.input.keys.return_key()]:
-                self.submit_username()
+                self.create_account()
 
     def scale(self):
         self.rescale_assets()
@@ -348,8 +366,13 @@ class Menu(BaseMenu):
 
         if self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.set_title(None)
-            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter a username:")
+            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter a username and create a password:")
             self.user_creator.draw()
+
+        if self.state.is_state(MENUSTATE.LOGIN):
+            self.set_title(None)
+            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter your username and password:")
+            self.login_page.draw()
 
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.set_title("")

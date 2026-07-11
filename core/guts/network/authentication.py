@@ -61,7 +61,7 @@ class Authentication:
 
     def login(self, username, password):
 
-        client_id = self.system.load.read_envar("clientId")
+        client_id = self.system.load.read_constant("clientID")
 
         response = self.network.post(
             LOGIN,
@@ -83,18 +83,22 @@ class Authentication:
             "username",
             username
         )
+        self.system.save.write_constant(
+            "high_score",
+            data["score"]
+        )
 
         self.system.save.write_constant(
             "clientAppPassword",
             data["clientAppPassword"]
         )
 
-        self.system.save.write_envar(
-            "clientId",
+        self.system.save.write_constant(
+            "clientID",
             data["clientID"]
         )
 
-        self.system.state_monitor["ClientConnected"] = True
+        self.system.system_monitor["ClientConnected"] = True
 
         return {
             "success": True,
@@ -106,7 +110,7 @@ class Authentication:
 
         username = self.system.load.read_constant("username")
         client_app_password = self.system.load.read_constant("clientAppPassword")
-        client_id = self.system.load.read_envar("clientId")
+        client_id = self.system.load.read_constant("clientID")
 
         if not username or not client_app_password or not client_id:
             return {
@@ -125,6 +129,6 @@ class Authentication:
         )
 
         if response["success"]:
-            self.system.state_monitor["ClientConnected"] = True
+            self.system.system_monitor["ClientConnected"] = True
 
         return response
