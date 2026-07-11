@@ -1,10 +1,10 @@
 import threading
 from systemlogging import log_event, log_error
 from core.ui.font import FontEngine
-from core.network.leaderboard import Leaderboard
+from core.application.network.leaderboard import Leaderboard
 from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchStateManager
-from core.network.user import User
+from core.guts.user import User
 from core.loading.LoadingScreenManager import LoadingScreenManager
 class LeaderboardViewer():
     def __init__(self,system,state,root_callback):
@@ -13,7 +13,7 @@ class LeaderboardViewer():
         self.state = state
         self.root_callback = root_callback
         self.loading = LoadingScreenManager(system)
-        self.leaderboard = Leaderboard()
+        self.leaderboard = Leaderboard(system)
         self.font = FontEngine(50).font
         
         self.fetch_manager = FetchStateManager()
@@ -21,8 +21,6 @@ class LeaderboardViewer():
         self.fetch_thread = None
 
         self.lock = threading.Lock()
-
-        self.user = User(system)
 
     def start_fetch(self):
         if not self.fetch_manager.is_state(FETCH_STATE.IDLE):
@@ -118,10 +116,10 @@ class LeaderboardViewer():
             row_number_text = f"{str(row+1)}. "
             username_text = entry['username']
 
-            row_number_surf = self.font.render(row_number_text, True, text_color if username_text != self.user.get_username() else player_text_color)
+            row_number_surf = self.font.render(row_number_text, True, text_color if username_text != self.system.user.username else player_text_color)
             
-            username_surf = self.font.render(username_text, True, text_color if username_text != self.user.get_username() else player_text_color)
-            score_surf = self.font.render(str(entry["score"]), True, text_color if username_text != self.user.get_username() else player_text_color)
+            username_surf = self.font.render(username_text, True, text_color if username_text != self.system.user.username else player_text_color)
+            score_surf = self.font.render(str(entry["score"]), True, text_color if username_text != self.system.user.username else player_text_color)
 
             row_number_x = username_x
             username_x_offset = row_number_surf.get_width()

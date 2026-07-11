@@ -1,4 +1,5 @@
-Development version Beta 0.9.9 - 2026-07-08
+Development version Beta 0.9.9 - 2026-07-11
 - Added Snow Blitz debug utilities class
 - Added support for multiple text boxes and passwords
 - Added UI manager that will eventually house the entire UI system allowing for editor level construction of menus
+- Added full support for authenticated user accounts, and properly built a network stack as part of the runtime

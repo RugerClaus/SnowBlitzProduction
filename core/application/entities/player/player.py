@@ -7,7 +7,7 @@ from core.state.GameLayer.Entities.Player.Movement.statemanager import PlayerMov
 from core.state.GameLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
 from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
 from core.application.entities.player.playermechanics import PlayerMechanics as physics
-from core.network.user import User
+from core.guts.user import User
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class Player(Entity):
@@ -19,8 +19,8 @@ class Player(Entity):
         self.entitymanager = entitymanager
         self.game_state = game_state
         self.environment = environment
-        self.user = User(self.system)
-        self.current_high_score = physics.get_current_high_score(self.user, self.system)
+        self.user = self.system.user
+        self.current_high_score = physics.get_current_high_score(self.user)
         super().__init__(self.x, self.y, self.system.window, EntityType.PLAYER, self.base_size)
         self.reset()
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
@@ -145,14 +145,14 @@ class Player(Entity):
         self.speed = 7
         self.color = (255, 255, 255)
         self.multiplier = 1
-        self.user = User(self.system)
+        self.user = self.system.user
         self.score = 0
         self.current_level = 1
         self.level_up_size = physics.calculate_level_up_size(self.current_level)
         self.life_state = PlayerLifeStateManager()
         self.move_state = PlayerMoveStateManager()
         self.power_state = PlayerPowerStateManager()
-        self.current_high_score = physics.get_current_high_score(self.user,self.system)
+        self.current_high_score = physics.get_current_high_score(self.user)
         physics.reset_states(self)
         
         self.last_powerup_start_time = None

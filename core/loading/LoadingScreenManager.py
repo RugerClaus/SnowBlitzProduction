@@ -10,7 +10,7 @@ class LoadingScreenManager:
 
     def draw(self,text_string):
         import math
-        t = self.system.window.time.get_current_time() / 500
+        t = self.system.time.get_current_time() / 500
         pulse = (math.sin(t) + 1) / 2  # 0 → 1
 
         dark = 40

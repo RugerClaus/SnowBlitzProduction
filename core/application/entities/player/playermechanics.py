@@ -5,20 +5,18 @@ from core.state.GameLayer.Entities.Player.Speed.state import SPEED_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.application.entities.powerups.type import PowerUpType
 
+from core.application.network.leaderboard import Leaderboard
+
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
-from core.network.user import User
+from core.guts.user import User
 
 class PlayerMechanics:
 
     @staticmethod
-    def get_current_high_score(user,system):
-        network_score = user.get_high_score_from_api()
-        if network_score is not None:
-            return int(network_score)
-        else:
-            system.save.write_constant("high_score",0)
-            return 0
+    @staticmethod
+    def get_current_high_score(user):
+        return user.high_score
 
     @staticmethod
     def update_speed(speed_state):
@@ -65,12 +63,13 @@ class PlayerMechanics:
 
             stored = system.load.read_constant('high_score')
             stored = int(stored) if stored else 0
+            leaderboard = Leaderboard(system)
 
             if player.score > stored:
                 if not system.control_state.is_state(DEVELOPER_MODE.ON):
 
                     system.save.write_constant('high_score', str(player.score))
-                    User(system).send_high_score_to_api()
+                    leaderboard.submit(player.score)
                 else:
                     pass
 

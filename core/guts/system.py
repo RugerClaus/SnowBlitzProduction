@@ -7,7 +7,9 @@ from core.guts.window import Window
 from core.guts.time import Time
 from core.guts.save.save import Save
 from core.guts.save.load import Load
-from core.guts.network import Network
+from core.guts.network.network import Network
+from core.guts.network.authentication import Authentication
+from core.guts.user import User
 from core.application.runtime_inspector import runtime_inspector
 from core.application.save_schema import schema
 from core.guts.telemetry import system_monitor
@@ -34,14 +36,17 @@ class System():
         self.control_state = DevManager()
         self.state_monitor_state = StateMonitorStateManager()
 
-        self.network = Network()
-
         self.time = Time()
 
         self.save_schema = schema
         
         self.save = Save(self.save_schema)
         self.load = Load()
+
+        self.network = Network()
+
+        self.user = User(self)
+        self.auth = Authentication(self)
 
         self.window = Window(self)
         self.sound = AudioEngine(self)

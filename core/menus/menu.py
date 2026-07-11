@@ -6,18 +6,13 @@ from helper import asset
 from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.ApplicationLayer.Menu.state import MENUSTATE
-from core.state.ApplicationLayer.state import APPSTATE
 from core.state.GameLayer.GameMode.state import GAME_MODE
-from core.state.GameLayer.state import GAMESTATE
 from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
 from core.menus.leaderboardviewer import LeaderboardViewer
 from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
-from core.network.update import Update
+from core.guts.network.update import Update
 from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
-from core.state.ApplicationLayer.Debug.StateMonitor.state import MONITOR_STATE
-
-from core.network.user import User
 
 from core.menus.changelog import ChangeLog
 
@@ -57,10 +52,7 @@ class Menu(BaseMenu):
 
         self.create_buttons()
         self.rescale_assets()
-
-        self.network_score = User(self.system).get_high_score_from_api()
         
-
     def check_leaderboard_opt(self):
         opt_in = self.system.load.read_constant('leaderboard_opt_in')
         if opt_in is not None:
@@ -197,8 +189,8 @@ class Menu(BaseMenu):
                 ]
         elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.buttons = [
-                Button(self.system.sound, self.system.window, f"Submit", center_x, self.system.window.get_height() // 2 + spacing * 0.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.submit_username),
-                Button(self.system.sound, self.system.window, f"Back", center_x, self.system.window.get_height() // 2 + spacing * 1.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.back_to_root),
+                Button(self.system.sound, self.system.window, f"Submit", center_x, self.system.window.get_height() // 2 + spacing * 1.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.submit_username),
+                Button(self.system.sound, self.system.window, f"Back", center_x, self.system.window.get_height() // 2 + spacing * 2.4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.back_to_root),
             ]
     
         elif self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
@@ -253,14 +245,14 @@ class Menu(BaseMenu):
         self.create_buttons()
 
     def submit_username(self):
-        username = self.user_creator.text_box.get_return_string()
-        if len(username) > 5:
-            self.user_creator.submit()
-            self.set_query(None)
-            self.state.set_state(MENUSTATE.ROOT)
-            self.create_buttons()
-        else:
-            self.set_query("Username must be at least 6 characters")
+        success = self.user_creator.submit()
+
+        if not success:
+            self.set_query(self.user_creator.error)
+            return
+
+        self.state.set_state(MENUSTATE.ROOT)
+        self.create_buttons()
 
     def leaderboard_back_to_root(self):
         self.leaderboard.fetch_manager.set_state(FETCH_STATE.CANCELLED)
@@ -356,14 +348,14 @@ class Menu(BaseMenu):
 
         if self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.set_title(None)
-            self.set_query("Please enter a username: ")
+            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter a username:")
             self.user_creator.draw()
 
         if self.state.is_state(MENUSTATE.ROOT) and self.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.set_title("")
-            self.draw_username_text(f"{self.system.load.read_constant('username')}")
-            if self.network_score is not None:
-                self.draw_score_text(f"{self.network_score}")
+            self.draw_username_text(f"{self.system.user.username}")
+            if self.system.user.high_score is not None:
+                self.draw_score_text(f"{self.system.user.high_score}")
             else:
                 self.draw_score_text(f"{self.system.load.read_constant('high_score')}")
             self.system.window.blit(self.title_image, self.title_rect)

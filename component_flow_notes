@@ -1,14 +1,4 @@
-okay next step is redoing the entire user system. Going to need to tie the client system into the network system. Going to move all api calls to a generic
-system in core.network. 
-
-Going to set a register method here on the client User class, and of course modify the one that already exists on the server side for authentication.
-
-Going to integrate oauth at some point because I don't want user's email addresses. 
-
-Going to institute some sort of policy on the API/website/leaderboard that stale scores are deleted after 5 years of inactivity, and provide an option for the user to submit their email address (stored in a hashed state) so that we can store a permanent record of their score and provide a front end interface
-to enter their email and if it matches an email in the system it will send their player data.
-
-This is really just a huge quality of life feature for both users, and myself.
+all the stuff above was completed. networking is now a runtime service rather than an application worry.
 
 For the user system proper, I want to have local "accounts", stored usernames, but have the user system make online connectivity optional at any time.
 The reason for this is because Bookworm is cool and those old games like PvZ had all those kinds of features. I see no reason why Snow Blitz should not have this feature. this is very application specific, rather than framework specific but the api connections will be set even more modularly for use by other DR apps.
