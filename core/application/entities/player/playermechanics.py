@@ -71,9 +71,6 @@ class PlayerMechanics:
                         "high_score",
                         str(player.score)
                     )
-                    print("saving new high score")
-
-            print("submitting score with session object")
             game_session.submit_score(player.score)
 
             
