@@ -44,10 +44,6 @@ class Leaderboard:
         if self.system.control_state.is_state(DEVELOPER_MODE.OFF):
             self.system.save.write_constant("high_score",score)
             print("saving score to disk")
-        
-        if session_token is None:
-            log_error("Unable to update score without valid session token")
-            return False
 
         if not self.submit_url:
             log_event(
