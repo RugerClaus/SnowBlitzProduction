@@ -57,9 +57,21 @@ class PlayerMechanics:
             return True
         return False
 
-    def check_death(player, game_state,game_session):
+    def check_death(player, game_state, game_session, system):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
+
+            if system.control_state.is_state(DEVELOPER_MODE.OFF):
+
+                stored = system.load.read_constant("high_score")
+                stored = int(stored) if stored else 0
+
+                if player.score > stored:
+                    system.save.write_constant(
+                        "high_score",
+                        str(player.score)
+                    )
+                    print("saving new high score")
 
             print("submitting score with session object")
             game_session.submit_score(player.score)

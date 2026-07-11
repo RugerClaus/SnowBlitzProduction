@@ -80,7 +80,7 @@ class Player(Entity):
         physics.check_power_state(self)
         physics.handle_powerup_timer(self)
         physics.handle_sfx(self)
-        physics.check_death(self,self.game_state,self.session)
+        physics.check_death(self,self.game_state,self.session,self.system)
         physics.check_bounds(self)
 
     def move(self, direction):
