@@ -4,12 +4,7 @@ from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
 from core.state.GameLayer.Entities.Player.Speed.state import SPEED_STATE
 from core.state.GameLayer.state import GAMESTATE
 from core.application.entities.powerups.type import PowerUpType
-
-from core.application.network.leaderboard import Leaderboard
-
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-
-from core.guts.user import User
 
 class PlayerMechanics:
 

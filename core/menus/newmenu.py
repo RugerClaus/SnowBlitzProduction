@@ -203,6 +203,8 @@ class Menu(BaseMenu):
         new_title_height = int(self.title_image_original.get_height() * scale_factor)
         self.title_image = self.system.window.transform_scale(self.title_image_original, new_title_width, new_title_height)
         self.title_rect = self.title_image.get_rect(center=(window_w // 2, int(window_h * 0.2)))
+        self.user_creator.scale()
+        self.login_page.scale()
 
 
     def handle_event(self,event):
@@ -305,7 +307,8 @@ class Menu(BaseMenu):
                     40,
                     "Update!",
                     (0.85,0.65),
-                    self.system.updater.start
+                    self.system.updater.start,
+                    styles="special_button"
                 )
             )
 

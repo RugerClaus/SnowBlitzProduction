@@ -27,8 +27,15 @@ class Style:
 class Button:
     def __init__(self,system,font,text,position,action=None,active=True,styles=None):
         self.system = system
+        if font < 50:
+            font = 50
         self.font = FontEngine(font).font
         self.text = str(text)
+        hover_background = (60,60,60)
+        idle_background = (40,40,40)
+
+        if styles == "special_button":
+            idle_background = (255, 165, 0)
 
         self.action = action
         self.active = active
@@ -47,43 +54,46 @@ class Button:
 
         self.x_ratio, self.y_ratio = position
 
-        self.styles = styles or {
-            BUTTON_STATE.IDLE: Style(
-                background=(40,40,40),
-                border=(255,255,255),
-                border_width=2,
-                border_radius=8
-            ),
+        if isinstance(styles, dict):
+            self.styles = styles
+        else:
+            self.styles = {
+                BUTTON_STATE.IDLE: Style(
+                    background=idle_background,
+                    border=(255,255,255),
+                    border_width=2,
+                    border_radius=8
+                ),
 
-            BUTTON_STATE.HOVER: Style(
-                background=(60,60,60),
-                border=(255,0,255),
-                border_width=3,
-                border_radius=8
-            ),
+                BUTTON_STATE.HOVER: Style(
+                    background=hover_background,
+                    border=(200,20,20),
+                    border_width=3,
+                    border_radius=8
+                ),
 
-            BUTTON_STATE.PRESS: Style(
-                background=(20,20,20),
-                border=(255,255,255),
-                border_width=2,
-                border_radius=8
-            ),
+                BUTTON_STATE.PRESS: Style(
+                    background=(20,20,20),
+                    border=(255,255,255),
+                    border_width=2,
+                    border_radius=8
+                ),
 
-            BUTTON_STATE.DISABLE: Style(
-                background=(20,20,20),
-                border=(100,100,100),
-                border_width=2,
-                border_radius=8,
-                text_color=(100,100,100)
-            ),
+                BUTTON_STATE.DISABLE: Style(
+                    background=(20,20,20),
+                    border=(100,100,100),
+                    border_width=2,
+                    border_radius=8,
+                    text_color=(100,100,100)
+                ),
 
-            BUTTON_STATE.FOCUSED: Style(
-                background=(40,40,40),
-                border=(0,255,255),
-                border_width=3,
-                border_radius=8
-            )
-        }
+                BUTTON_STATE.FOCUSED: Style(
+                    background=(40,40,40),
+                    border=(0,255,255),
+                    border_width=3,
+                    border_radius=8
+                )
+            }
 
         self.surface = None
         self.rect = None
@@ -163,13 +173,6 @@ class Button:
 
 
     def is_clicked(self, mouse_pos, mouse_click):
-        print(
-            id(self),
-            self.text,
-            self.action,
-            self.rect,
-            mouse_pos
-        )
         if self.active and self.rect.collidepoint(mouse_pos) and mouse_click:
             if self.action:
                 if self.system.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON):

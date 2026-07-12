@@ -7,7 +7,6 @@ from core.state.GameLayer.Entities.Player.Movement.statemanager import PlayerMov
 from core.state.GameLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
 from core.state.GameLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
 from core.application.entities.player.playermechanics import PlayerMechanics as physics
-from core.guts.user import User
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 
 class Player(Entity):
