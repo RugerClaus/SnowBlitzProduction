@@ -8,6 +8,7 @@ from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.GameLayer.GameMode.state import GAME_MODE
 from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
+from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
 from core.menus.usercreator import UserCreator
 from core.menus.changelog import ChangeLog
 from core.menus.leaderboardviewer import LeaderboardViewer
@@ -36,6 +37,22 @@ class Menu(BaseMenu):
         self.title_image_original = self.system.window.load_image(asset("title"))
         self.title_image = self.title_image_original
         self.title_rect = self.title_image.get_rect()
+
+        if self.agreed_to_leaderboard:
+            self.state.set_state(MENUSTATE.ROOT)
+            self.create_buttons()
+        else:
+            self.state.set_state(MENUSTATE.LEADERBOARDOPTIN)
+            self.create_buttons()
+        
+        recently_updated_file = self.system.load.read_envar('recentlyupdated')
+        if self.state.is_state(MENUSTATE.ROOT):
+            if self.recently_updated:
+                if recently_updated_file == "false":
+                    self.state.set_state(MENUSTATE.ROOT)
+                if recently_updated_file == "true":
+                    self.state.set_state(MENUSTATE.CHANGELOG)
+                    self.create_buttons()
         
         self.create_buttons()
         self.scale()
@@ -85,6 +102,22 @@ class Menu(BaseMenu):
                     self.leaderboard_opt_out
                 )
             ])
+        elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
+            self.create_username_buttons()
+        
+        elif self.state.is_state(MENUSTATE.LOGIN):
+            self.create_login_buttons()
+
+        elif self.state.is_state(MENUSTATE.DEVELOPERSETTINGS):
+            self.buttons.extend([
+                Button(
+                    self.system,
+                    40,
+                    "Change Account",
+                    (0.5,0.55),
+                    self.change_account
+                )
+            ])
 
     def update(self):
         mouse_pos = self.system.input.get_mouse_pos()
@@ -92,10 +125,36 @@ class Menu(BaseMenu):
             button.update(mouse_pos)
 
     def draw(self):
+        if self.system.sound.current_track is None and self.system.sound.music_state.is_state(MUSIC_STATE.ON):
+            self.system.sound.play_music()
+        
+        t = self.system.time.get_current_time() / 1000
+        pulse = (self.system.math.sin(t) + 1) / 2
+        fade_color = (
+            int(20 + (35 - 20) * pulse),
+            0,
+            int(20 + (35 - 20) * pulse)
+        )
+        self.system.window.fill(fade_color)
+
+        if self.state.is_state(MENUSTATE.LEADERBOARDOPTIN):
+            self.set_title(None)
+            self.set_query("DO YOU AGREE TO HAVE YOUR SCORES POSTED ON A GLOBAL LEADERBOARD?")
+
         for button in self.buttons:
             button.draw()
 
-        if self.state.is_state(MENUSTATE.ROOT):
+        if self.state.is_state(MENUSTATE.CREATEUSERNAME):
+            self.set_title(None)
+            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter a username and create a password:")
+            self.user_creator.draw()
+
+        if self.state.is_state(MENUSTATE.LOGIN):
+            self.set_title(None)
+            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter your username and password:")
+            self.login_page.draw()
+
+        if self.state.is_state(MENUSTATE.ROOT) and self.system.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.set_title("")
             self.draw_username_text(f"{self.system.user.username}")
             if self.system.user.high_score is not None:
@@ -103,16 +162,36 @@ class Menu(BaseMenu):
             else:
                 self.draw_score_text(f"{self.system.load.read_constant('high_score')}")
             self.system.window.blit(self.title_image, self.title_rect)
+        
+        if self.state.is_state(MENUSTATE.ROOT) and self.system.updater.state.is_state(UPDATE_STATE.AVAILABLE):
+            self.set_title("")
+            self.draw_update_text()
+            self.draw_username_text(f"{self.system.load.read_constant('username')}")
+            self.draw_score_text(f"{self.system.load.read_constant('high_score')}")
+            self.system.window.blit(self.title_image, self.title_rect)
 
-        if self.state.is_state(MENUSTATE.LOGIN):
-            self.login_page.draw()
+        if self.state.is_state(MENUSTATE.SETTINGS):
+            self.set_title("SETTINGS")
+        
+        if self.state.is_state(MENUSTATE.DEVELOPERSETTINGS):
+            self.set_title('DEVELOPER SETTINGS')
 
-        if self.state.is_state(MENUSTATE.CREATEUSERNAME):
-            self.user_creator.draw()
+        if self.state.is_state(MENUSTATE.CREDITS):
+            self.set_title("CREDITS:")
+            self.credits.draw()
+
+        if self.state.is_state(MENUSTATE.CHANGELOG):
+            self.set_title("CHANGELOG:")
+            self.change_log.draw()
+
+        if self.state.is_state(MENUSTATE.AUDIO):
+            self.set_title("AUDIO SETTINGS")
         
         if self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
             self.leaderboard.fetch_and_display()
             self.set_title("Top 10 Leaderboard")
+
+        self.draw_title()
 
     def scale(self):
         for button in self.buttons:
@@ -138,8 +217,9 @@ class Menu(BaseMenu):
                     if button.is_clicked(mouse_pos,True):
                         break
         if self.state.is_state(MENUSTATE.LOGIN):
-            self.user_creator.handle_event(event)
             self.login_page.handle_event(event)
+        if self.state.is_state(MENUSTATE.CREATEUSERNAME):
+            self.user_creator.handle_event(event)
 
     def create_root_buttons(self):
 
@@ -408,7 +488,7 @@ class Menu(BaseMenu):
         self.state.set_state(MENUSTATE.LEADERBOARDOPTIN)
         self.create_buttons()
 
-    def reset_username(self):
+    def change_account(self):
         self.state.set_state(MENUSTATE.CREATEUSERNAME)
         self.create_buttons()
 
