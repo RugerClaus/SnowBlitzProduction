@@ -7,11 +7,9 @@ from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchS
 from core.guts.user import User
 from core.loading.LoadingScreenManager import LoadingScreenManager
 class LeaderboardViewer():
-    def __init__(self,system,state,root_callback):
+    def __init__(self,system):
         self.system = system
         self.system.input
-        self.state = state
-        self.root_callback = root_callback
         self.loading = LoadingScreenManager(system)
         self.leaderboard = Leaderboard(system)
         self.font = FontEngine(50).font

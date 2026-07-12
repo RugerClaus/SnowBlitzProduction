@@ -12,7 +12,7 @@ from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
 from core.menus.leaderboardviewer import LeaderboardViewer
 from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
-from core.guts.network.update import Update
+
 from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
 
 from core.menus.changelog import ChangeLog
@@ -28,7 +28,6 @@ class Menu(BaseMenu):
         self.user_creator = UserCreator(system)
         self.login_page = LoginPage(system)
         self.leaderboard = LeaderboardViewer(system,self.state,self.back_to_root)
-        self.updater = Update()
         self.change_log = ChangeLog(system)
 
         self.title_image_original = self.system.window.load_image(asset("title"))
@@ -78,6 +77,7 @@ class Menu(BaseMenu):
         self.title_rect = self.title_image.get_rect(center=(window_w // 2, int(window_h * 0.2)))
         self.credits.rescale()
         self.user_creator.scale()
+        self.login_page.scale()
 
     def create_buttons(self):
         

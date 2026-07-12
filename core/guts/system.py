@@ -8,6 +8,7 @@ from core.guts.window import Window
 from core.guts.time import Time
 from core.guts.save.save import Save
 from core.guts.save.load import Load
+from core.guts.network.update import Update
 from core.guts.network.network import Network
 from core.guts.network.authentication import Authentication
 from core.guts.user import User
@@ -45,6 +46,7 @@ class System():
         self.save = Save(self.save_schema)
         self.load = Load()
 
+        self.updater = Update()
         self.network = Network()
 
         self.user = User(self)

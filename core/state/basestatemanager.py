@@ -35,7 +35,7 @@ class BaseStateManager:
 
     def set_state(self, new_state):
         if new_state == self.state:
-            return
+            return False
 
         if new_state not in self.allowed_transitions.get(self.state, []):
             log_error(f"{new_state} not in allowed transitions for {self.state}")
@@ -56,7 +56,7 @@ class BaseStateManager:
             if self.state not in self.active_application_states:
                 self.active_application_states.append(self.state)
             else:
-                self.active_application_states.remove(self.z)
+                self.active_application_states.remove(self.state)
         if self.type == "GAME":
             if self.state not in self.active_game_states:
                 self.active_game_states.append(self.state)
@@ -77,6 +77,7 @@ class BaseStateManager:
                 self.active_game_states.remove(self.previous_state)
             if self.previous_state in self.all_active_states:
                 self.all_active_states.remove(self.previous_state)
+        return True
 
     def revert_to_previous(self):
         if self.previous_state is not None:

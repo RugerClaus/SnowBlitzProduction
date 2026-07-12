@@ -5,7 +5,7 @@ from core.state.ApplicationLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
 from core.state.ApplicationLayer.dev import DEVELOPER_MODE
 from core.state.ApplicationLayer.BootSplash.state import BOOT_SPLASH_STATE
 from core.util.debugoverlay import DebugOverlay
-from core.menus.menu import Menu
+from core.menus.newmenu import Menu
 from core.loading.BootSplashManager import BootSplashManager
 
 class App:
