@@ -62,7 +62,6 @@ class Player(Entity):
 
     def update(self):
         physics.check_collisions(self.entitymanager.get_active_entities(),self)
-        print(self.life_state.is_state(self.life_state.is_state(PLAYER_LIFE_STATE.DEAD)))
         physics.check_high_score(self)
         self.powerup_duration = physics.calculate_powerup_duration(self.score)
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
