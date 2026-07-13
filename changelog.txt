@@ -5,3 +5,7 @@ Development version Beta 0.9.9 - 2026-07-11
 - Added full support for authenticated user accounts, and properly built a network stack as part of the runtime
 - Ported new framework features back into the Distant Realms repo and then made more runtime level changes back into this repo
 - APPSTATE is now RUNTIME_STATE and now only serves as a lifecycle state definition rather than an app state definition.
+- Updated UI system to allow for scrollables. Leaderboard now shows entire leaderboard.
+- Improved player size by tying it to a normalized size and calculating based on that
+- Smoother growing
+- Day cycle is twice as long and fully includes a night cycle as well

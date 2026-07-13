@@ -43,15 +43,6 @@ class PlayerMechanics:
             player.x = player.board_surface.get_width() - 5
     
     @staticmethod
-    def check_size_death(diam, life_state, move_state):
-        if diam < 2:
-
-            life_state.set_state(PLAYER_LIFE_STATE.DEAD)
-            move_state.set_state(PLAYER_INTENT_STATE.IDLE)
-            return True
-        return False
-    
-    @staticmethod
     def check_death(player, game_state, game_session, system):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
@@ -111,76 +102,144 @@ class PlayerMechanics:
                 elif entity.type == EntityType.REDUCER:
                     PlayerMechanics.handle_reducer(player,entity)
                     entity.collected()
-                
-                print(entity.type)
-        
-    @staticmethod
-    def calculate_shrink_rate(diam,player,environment=None):
-
-
-        if player.power_state.is_state(PLAYER_POWER_STATE.ANTI_SHRINK):
-            return 0
-        else:
-            if diam >= 350:
-                shrink_rate = 1
-            elif diam >= 325:
-                shrink_rate = 0.9
-            elif diam >= 300:
-                shrink_rate = 0.8
-            elif diam >= 275:
-                shrink_rate = 0.7
-            elif diam >= 250:
-                shrink_rate = 0.6
-            elif diam >= 225:
-                shrink_rate = 0.5
-            elif diam >= 200:
-                shrink_rate = 0.4
-            elif diam >= 175:
-                shrink_rate = 0.3
-            elif diam >= 150:
-                shrink_rate = 0.2
-            elif diam >= 125:
-                shrink_rate = 0.1
-            elif diam >= 100:
-                shrink_rate = 0.09
-            elif diam >= 75:
-                shrink_rate = 0.08
-            elif diam >= 50:
-                shrink_rate = 0.07
-            elif diam >= 40:
-                shrink_rate = 0.05
-            elif diam >= 10:
-                shrink_rate = 0.02
-            else:
-                shrink_rate = 0.01
-            if environment is not None:
-                temperature = environment.temperature.get_temperature()
-
-                if temperature > 30:
-                    adjusted_shrink_rate = shrink_rate * 1.6
-                elif temperature > 20:
-                    adjusted_shrink_rate = shrink_rate * 1.5
-                elif temperature > 10:
-                    adjusted_shrink_rate = shrink_rate * 1.3
-                elif temperature > 0:
-                    adjusted_shrink_rate = shrink_rate * 1.1
-                else:
-                    adjusted_shrink_rate = shrink_rate
-            else:
-                adjusted_shrink_rate = shrink_rate
-        return adjusted_shrink_rate
 
     @staticmethod
-    def check_level_up(player,entitymanager):
-        if player.diam >= player.level_up_size:
-            player.level_up_size = PlayerMechanics.calculate_level_up_size(player.current_level)
-            player.current_level += 1
-            player.diam = 10
-            player.base_size = player.diam / 2 
-            entitymanager.reset_entities()
-            player.power_state.set_state(PLAYER_POWER_STATE.NONE)
-            PlayerMechanics.update_multiplier(player)
+    def check_size_death(diam, life_state, move_state):
+        if diam <= 0:
+            life_state.set_state(
+                PLAYER_LIFE_STATE.DEAD
+            )
+
+            move_state.set_state(
+                PLAYER_INTENT_STATE.IDLE
+            )
+
             return True
+
+        return False
+
+
+    @staticmethod
+    def calculate_shrink_rate(diam, player, environment=None):
+
+        if player.power_state.is_state(
+            PLAYER_POWER_STATE.ANTI_SHRINK
+        ):
+            return 0
+        
+        if diam >= 350:
+            rate = 1.0
+
+        elif diam >= 300:
+            rate = 0.8
+
+        elif diam >= 250:
+            rate = 0.6
+
+        elif diam >= 200:
+            rate = 0.4
+
+        elif diam >= 150:
+            rate = 0.2
+
+        elif diam >= 100:
+            rate = 0.09
+
+        elif diam >= 50:
+            rate = 0.05
+
+        elif diam >= 10:
+            rate = 0.02
+
+        else:
+            rate = 0.01
+
+
+        if environment:
+
+            temperature = (
+                environment.temperature.get_temperature()
+            )
+
+            if temperature > 30:
+                rate *= 1.6
+
+            elif temperature > 20:
+                rate *= 1.5
+
+            elif temperature > 10:
+                rate *= 1.3
+
+            elif temperature > 0:
+                rate *= 1.1
+
+
+        return rate
+
+
+    @staticmethod
+    def collect_snowflake(player, snowflake):
+        player.diam += snowflake.diam / 2
+        print("PLAYER SIZE:", player.diam)
+
+
+    @staticmethod
+    def handle_rock(player, rock):
+
+        if player.power_state.is_state(
+            PLAYER_POWER_STATE.ABSORB_ROCK
+        ):
+
+            # Convert rock size into snowball growth.
+            player.diam += rock.width / 4
+
+        else:
+
+            player.life_state.set_state(
+                PLAYER_LIFE_STATE.DEAD
+            )
+
+
+    @staticmethod
+    def check_level_up(player, entitymanager):
+
+        if player.diam >= player.level_up_size:
+
+            player.current_level += 1
+
+            player.level_up_size = (
+                PlayerMechanics.calculate_level_up_size(
+                    player.current_level
+                )
+            )
+
+            # reset snowball size after leveling
+            player.diam = (
+                player.system.window.get_height()
+                *
+                player.diam_ratio
+            )
+
+            player.diam = max(
+                player.diam,
+                6
+            )
+
+            # keep visual size transition smooth
+            player.render_diam = player.diam
+
+            entitymanager.reset_entities()
+
+            player.power_state.set_state(
+                PLAYER_POWER_STATE.NONE
+            )
+
+            PlayerMechanics.update_multiplier(
+                player
+            )
+
+            return True
+
         return False
     
     @staticmethod
@@ -190,17 +249,6 @@ class PlayerMechanics:
     @staticmethod
     def update_multiplier(player):
         player.multiplier = 1 + (player.current_level // 10)
-
-    @staticmethod
-    def collect_snowflake(player,snowflake):
-        player.diam += snowflake.diam // 2
-
-    @staticmethod
-    def handle_rock(player,rock):
-        if not player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
-            player.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
-        else:
-            player.diam += rock.width / 4
 
     @staticmethod
     def calculate_powerup_duration(score):

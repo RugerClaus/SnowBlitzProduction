@@ -232,6 +232,10 @@ class Menu(BaseMenu):
             self.login_page.handle_event(event)
         if self.state.is_state(MENUSTATE.CREATEUSERNAME):
             self.user_creator.handle_event(event)
+        if self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
+            self.leaderboard.handle_event(event)
+        if self.state.is_state(MENUSTATE.CHANGELOG):
+            self.change_log.handle_event(event)
 
     def create_root_buttons(self):
 

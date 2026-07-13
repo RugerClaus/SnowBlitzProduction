@@ -43,6 +43,9 @@ class InputManager:
 
     def quit_event(self):
         return pygame.QUIT
+    
+    def mouse_scroll_event(self):
+        return pygame.MOUSEWHEEL
 
     def key_register(self,key):
         now = self.system.time.get_current_time()

@@ -1,137 +1,358 @@
 import threading
+
 from systemlogging import log_event, log_error
-from core.ui.font import FontEngine
+
 from core.application.network.leaderboard import Leaderboard
+from core.loading.LoadingScreenManager import LoadingScreenManager
 from core.state.RuntimeLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.state.RuntimeLayer.NetworkLayer.Loading.statemanager import FetchStateManager
-from core.guts.user import User
-from core.loading.LoadingScreenManager import LoadingScreenManager
-class LeaderboardViewer():
-    def __init__(self,system):
+from core.ui.font import FontEngine
+from core.ui.scrollabletext import ScrollableText
+
+
+class LeaderboardViewer:
+
+    USERNAME_X = 0.20
+    SCORE_X = 0.65
+    HEADER_Y = 0.30
+    BODY_Y = 0.40
+
+
+    def __init__(self, system):
+
         self.system = system
-        self.system.input
+
         self.loading = LoadingScreenManager(system)
         self.leaderboard = Leaderboard(system)
+
         self.font = FontEngine(50).font
-        
+
         self.fetch_manager = FetchStateManager()
+
         self.cached_data = None
         self.fetch_thread = None
 
         self.lock = threading.Lock()
 
+        self.last_display_data = None
+
+
+        self.leaderboard_text = ScrollableText(
+            system,
+            font_size=50,
+            anchor=(
+                self.USERNAME_X,
+                self.BODY_Y
+            ),
+            width=0.65,
+            height=0.50,
+            align="left",
+            line_spacing=0.015
+        )
+
+
+        self.timeout_text = ScrollableText(
+            system,
+            font_size=50,
+            anchor=(0.5,0.5),
+            width=0.8,
+            height=0.2,
+            align="center"
+        )
+
+
     def start_fetch(self):
+
         if not self.fetch_manager.is_state(FETCH_STATE.IDLE):
             return
 
-        self.fetch_thread = threading.Thread(target=self.fetch_task, daemon=True) # had to get creative for this of course
-        self.fetch_thread.start()                                                  # users no likey frozen screens
+        self.fetch_thread = threading.Thread(
+            target=self.fetch_task,
+            daemon=True
+        )
+
+        self.fetch_thread.start()
+
 
     def fetch_task(self):
-        self.fetch_manager.set_state(FETCH_STATE.FETCHING)
-        
+
+        self.fetch_manager.set_state(
+            FETCH_STATE.FETCHING
+        )
+
         try:
-            status, data = self.leaderboard.fetch_leaderboard()
+
+            status, data = (
+                self.leaderboard.fetch_leaderboard()
+            )
+
         except Exception as e:
-            log_event("Fetch exception", str(e))
+
+            log_event(
+                "Leaderboard fetch exception",
+                str(e)
+            )
+
             with self.lock:
+
                 self.cached_data = None
-                self.fetch_manager.set_state(FETCH_STATE.ERROR)
+
+                self.fetch_manager.set_state(
+                    FETCH_STATE.ERROR
+                )
+
             return
+
 
         with self.lock:
-            self.cached_data = data if status == "success" else None
 
             if status == "success":
-                self.fetch_manager.set_state(FETCH_STATE.SUCCESS)
+
+                self.cached_data = data
+
+                self.fetch_manager.set_state(
+                    FETCH_STATE.SUCCESS
+                )
+
             elif status == "timeout":
-                self.fetch_manager.set_state(FETCH_STATE.TIMEOUT)
+
+                self.cached_data = None
+
+                self.fetch_manager.set_state(
+                    FETCH_STATE.TIMEOUT
+                )
+
             else:
-                self.fetch_manager.set_state(FETCH_STATE.ERROR)
+
+                self.cached_data = None
+
+                self.fetch_manager.set_state(
+                    FETCH_STATE.ERROR
+                )
+
 
     def fetch_and_display(self):
+
         if self.cached_data is None:
+
             if self.fetch_manager.is_state(FETCH_STATE.IDLE):
+
                 self.start_fetch()
-            elif self.fetch_manager.is_state(FETCH_STATE.TIMEOUT):
-                self.cached_data = None
-                self.display_timeout()
-            elif self.fetch_manager.is_state(FETCH_STATE.ERROR):
-                self.cached_data = None
-                log_error("Error fetching leaderboard data.")
-                self.fetch_manager.set_state(FETCH_STATE.IDLE)
+
+
             elif self.fetch_manager.is_state(FETCH_STATE.FETCHING):
-                self.loading.draw("Fetching leaderboard data...")
-            elif self.fetch_manager.is_state(FETCH_STATE.CANCELLED):
-                self.cached_data = None
-                self.fetch_manager.set_state(FETCH_STATE.IDLE)
+
+                self.loading.draw(
+                    "Fetching leaderboard data..."
+                )
+
+
+            elif self.fetch_manager.is_state(FETCH_STATE.TIMEOUT):
+
+                self.display_timeout()
+
+
+            elif self.fetch_manager.is_state(FETCH_STATE.ERROR):
+
+                log_error(
+                    "Error fetching leaderboard data."
+                )
+
+                self.fetch_manager.set_state(
+                    FETCH_STATE.IDLE
+                )
+
             return
 
-        self.display_leaderboard(self.cached_data)
-        self.fetch_manager.set_state(FETCH_STATE.IDLE)
+
+        self.display_leaderboard(
+            self.cached_data
+        )
 
 
     def display_timeout(self):
-        text = self.font.render("Leaderboard Timed Out. Please try again later.", True, (255, 0, 0))
-        rect = text.get_rect(center=(self.system.window.get_screen().get_width() // 2, self.system.window.get_screen().get_height() // 2))
-        self.system.window.blit(text, rect)
+
+        self.timeout_text.set_text(
+            [
+                [
+                    (
+                        "Leaderboard Timed Out. Please try again later.",
+                        0.5,
+                        (255,0,0)
+                    )
+                ]
+            ]
+        )
+
+        self.timeout_text.draw()
+
+
+    def draw_header(self):
+
+        username = self.font.render(
+            "USERNAME",
+            True,
+            (255,255,0)
+        )
+
+        score = self.font.render(
+            "SCORE",
+            True,
+            (255,255,0)
+        )
+
+
+        ux, uy = self.leaderboard_text.normalized_to_pixel(
+            self.USERNAME_X,
+            self.HEADER_Y
+        )
+
+        sx, sy = self.leaderboard_text.normalized_to_pixel(
+            self.SCORE_X,
+            self.HEADER_Y
+        )
+
+
+        self.system.window.blit(
+            username,
+            username.get_rect(
+                left=ux,
+                centery=uy
+            )
+        )
+
+
+        self.system.window.blit(
+            score,
+            score.get_rect(
+                left=sx,
+                centery=sy
+            )
+        )
+
 
     def display_leaderboard(self, data):
-        center_x = self.system.window.get_width() // 2
-        start_y = self.system.window.get_height() // 3
-        row_height = 40
-        column_gap = 400
 
-        username_x = center_x - column_gap
-        score_x = center_x + column_gap // 2
+        if data != self.last_display_data:
 
-        header_color = (255, 255, 0)
-        text_color = (255, 255, 255)
-        t = self.system.time.get_current_time() / 100
-        pulse = (self.system.math.sin(t) + 1) / 2
-        fade_color = (
-            int(20 + (200 - 10) * pulse),
-            255,
-            int(20 + (200 - 10) * pulse),
+            self.last_display_data = data
+
+            sorted_data = sorted(
+                data,
+                key=lambda entry: entry["score"],
+                reverse=True
+            )
+
+
+            lines = []
+
+
+            for index, entry in enumerate(sorted_data):
+
+                username = entry["username"]
+                score = entry["score"]
+
+
+                t = (
+                    self.system.time.get_current_time()
+                    / 100
+                )
+
+                pulse = (
+                    self.system.math.sin(t) + 1
+                ) / 2
+
+
+                player_color = (
+                    int(20 + 180 * pulse),
+                    255,
+                    int(20 + 180 * pulse)
+                )
+
+
+                if username == self.system.user.username:
+
+                    color = lambda: (
+                        int(
+                            20 + 180 * (
+                                (
+                                    self.system.math.sin(
+                                        self.system.time.get_current_time() / 100
+                                    ) + 1
+                                ) / 2
+                            )
+                        ),
+                        255,
+                        int(
+                            20 + 180 * (
+                                (
+                                    self.system.math.sin(
+                                        self.system.time.get_current_time() / 100
+                                    ) + 1
+                                ) / 2
+                            )
+                        )
+                    )
+
+                else:
+
+                    color = (255, 255, 255)
+
+
+                lines.append(
+                    [
+                        (
+                            f"{index + 1}. {username}",
+                            self.USERNAME_X,
+                            color
+                        ),
+                        (
+                            str(score),
+                            self.SCORE_X,
+                            color
+                        )
+                    ]
+                )
+
+
+            self.leaderboard_text.set_text(
+                lines
+            )
+
+
+        self.draw_header()
+
+        self.leaderboard_text.draw()
+
+
+    def scroll(self, amount):
+
+        self.leaderboard_text.scroll(
+            amount
         )
-        player_text_color = fade_color
-        
-        
-
-        header_y = start_y - (row_height/2+15)
-
-        username_header = self.font.render("Username", True, header_color)
-        score_header = self.font.render("Score", True, header_color)
-
-        self.system.window.blit(username_header, username_header.get_rect(left=username_x, top=header_y))
-        self.system.window.blit(score_header, score_header.get_rect(left=score_x, top=header_y))
-
-        sorted_data = sorted(data, key=lambda x: x['score'], reverse=True)[:10]
-
-        for row, entry in enumerate(sorted_data):
-            y = start_y + (row + 1) * row_height
-
-            row_number_text = f"{str(row+1)}. "
-            username_text = entry['username']
-
-            row_number_surf = self.font.render(row_number_text, True, text_color if username_text != self.system.user.username else player_text_color)
-            
-            username_surf = self.font.render(username_text, True, text_color if username_text != self.system.user.username else player_text_color)
-            score_surf = self.font.render(str(entry["score"]), True, text_color if username_text != self.system.user.username else player_text_color)
-
-            row_number_x = username_x
-            username_x_offset = row_number_surf.get_width()
-
-            self.system.window.blit(row_number_surf, row_number_surf.get_rect(left=row_number_x, centery=y))
-            self.system.window.blit(username_surf, username_surf.get_rect(left=row_number_x + row_number_surf.get_width(), centery=y))
-            self.system.window.blit(score_surf, score_surf.get_rect(left=score_x, centery=y))
-
-        
-        log_event("Displaying leaderboard data.", f"{self.leaderboard}")
-
 
 
     def refresh(self):
+
         self.cached_data = None
-        self.fetch_status = None
+
+        self.last_display_data = None
+
+        self.leaderboard_text.set_text(
+            []
+        )
+
+        self.fetch_manager.set_state(
+            FETCH_STATE.IDLE
+        )
+
         self.start_fetch()
+
+
+    def handle_event(self, event):
+
+        if event.type == self.system.input.mouse_scroll_event():
+
+            self.scroll(
+                -event.y
+            )
