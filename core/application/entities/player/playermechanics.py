@@ -25,19 +25,16 @@ class PlayerMechanics:
 
 
     @staticmethod
-    def update_movement(move_state, speed, x):
+    def update_movement(move_state, speed):
         acceleration = 1
+
         if move_state.is_state(PLAYER_INTENT_STATE.MOVE_LEFT):
-            speed *= acceleration
-            x -= speed
+            return -(speed * acceleration)
+
         elif move_state.is_state(PLAYER_INTENT_STATE.MOVE_RIGHT):
-            speed *= acceleration
-            x += speed
-        elif move_state.is_state(PLAYER_INTENT_STATE.IDLE):
-            acceleration = 0
-            x += 0
-        return x
-    
+            return speed * acceleration
+
+        return 0
     @staticmethod
     def check_bounds(player):
         if player.x <= 5:
@@ -195,14 +192,6 @@ class PlayerMechanics:
         player.multiplier = 1 + (player.current_level // 10)
 
     @staticmethod
-    def resize(player):
-        bottom = player.rect.bottom
-        player.surface = player.board_surface.make_surface(player.diam, player.diam, True)
-        player.rect = player.surface.get_rect()
-        player.rect.bottom = bottom
-        player.rect.centerx = int(player.x)
-
-    @staticmethod
     def collect_snowflake(player,snowflake):
         player.diam += snowflake.diam // 2
 
@@ -212,7 +201,7 @@ class PlayerMechanics:
             player.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
         else:
             player.diam += rock.width / 4
-            
+
     @staticmethod
     def calculate_powerup_duration(score):
         if score >= 100000:

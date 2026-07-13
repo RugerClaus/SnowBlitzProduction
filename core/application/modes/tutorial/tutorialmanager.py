@@ -19,7 +19,7 @@ class TutorialManager:
         self.state.set_state(TUTORIALSTATE.RESET)
 
     def wait(self):
-        self.player.draw_wait()
+        self.player.draw()
         self.progress_bar.update()
         self.progress_bar.draw()
         self.entitymanager.draw_entities()
@@ -41,9 +41,9 @@ class TutorialManager:
         
 
     def update(self):
-
+        
         if self.state.is_state(TUTORIALSTATE.MOVEMENT_PROMPT):
-            self.player.draw_wait()
+            self.player.draw()
             self.progress_bar.update()
             self.progress_bar.draw()
             self.prompts.movement_prompt()
