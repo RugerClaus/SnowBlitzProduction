@@ -4,16 +4,16 @@ from core.menus.usercreator import UserCreator
 from core.menus.loginpage import LoginPage
 from core.ui.button import Button
 from helper import asset
-from core.state.ApplicationLayer.Audio.Music.state import MUSIC_STATE
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.state.ApplicationLayer.Menu.state import MENUSTATE
-from core.state.GameLayer.GameMode.state import GAME_MODE
-from core.state.ApplicationLayer.Menu.statemanager import MenuStateManager
+from core.state.RuntimeLayer.Audio.Music.state import MUSIC_STATE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
+from core.state.RuntimeLayer.Menu.state import MENUSTATE
+from core.state.ApplicationLayer.GameMode.state import GAME_MODE
+from core.state.RuntimeLayer.Menu.statemanager import MenuStateManager
 from core.menus.credits import Credits
 from core.menus.leaderboardviewer import LeaderboardViewer
-from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
+from core.state.RuntimeLayer.NetworkLayer.Loading.state import FETCH_STATE
 
-from core.state.ApplicationLayer.NetworkLayer.Update.state import UPDATE_STATE
+from core.state.RuntimeLayer.NetworkLayer.Update.state import UPDATE_STATE
 
 from core.menus.changelog import ChangeLog
 

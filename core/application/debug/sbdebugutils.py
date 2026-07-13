@@ -1,4 +1,4 @@
-from core.state.GameLayer.GameMode.state import GAME_MODE
+from core.state.ApplicationLayer.GameMode.state import GAME_MODE
 from core.application.entities.type import EntityType
 
 class SBDebugUtils:

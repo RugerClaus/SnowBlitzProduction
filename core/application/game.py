@@ -1,9 +1,9 @@
-from core.state.GameLayer.state import GAMESTATE
-from core.state.GameLayer.statemanager import GameStateManager
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.state.GameLayer.GameMode.statemanager import GameModeManager
+from core.state.ApplicationLayer.state import GAMESTATE
+from core.state.ApplicationLayer.statemanager import GameStateManager
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
+from core.state.ApplicationLayer.GameMode.statemanager import GameModeManager
 from core.application.snowblitz import SnowBlitz
-from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
+from core.state.ApplicationLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 from core.menus.pause import Pause
 from core.menus.gameover import GameOverMenu
 from core.menus.win import Win
@@ -34,7 +34,7 @@ class Game:
         self.game_object.register_debug_telemetry()
 
     def remove_debug_info_from_system(self):
-        self.system.runtime_inspector.clear()
+        self.system.app_inspector.clear()
 
     def handle_event(self, event):
 

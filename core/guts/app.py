@@ -1,9 +1,9 @@
 import sys
 from helper import *
-from core.state.ApplicationLayer.state import APPSTATE
-from core.state.ApplicationLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.state.ApplicationLayer.BootSplash.state import BOOT_SPLASH_STATE
+from core.state.RuntimeLayer.state import RUNTIME_STATE
+from core.state.RuntimeLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
+from core.state.RuntimeLayer.BootSplash.state import BOOT_SPLASH_STATE
 from core.util.debugoverlay import DebugOverlay
 from core.menus.newmenu import Menu
 from core.loading.BootSplashManager import BootSplashManager
@@ -21,20 +21,20 @@ class App:
             if event.type == self.system.input.video_resize_event():
                 self.system.window.set_mode(event.w,event.h)
                 self.debug_overlay.scale()
-                if self.system.app_state.is_state(APPSTATE.LOADING):
+                if self.system.runtime_state.is_state(RUNTIME_STATE.LOADING):
                     self.loading.rescale_assets()
                 self.menu.scale()
                 self.system.input.rescale(event.w,event.h)
 
             if event.type == self.system.input.quit_event():
-                self.system.app_state.set_state(APPSTATE.QUIT)
+                self.system.runtime_state.set_state(RUNTIME_STATE.QUIT)
             
-            if self.system.app_state.is_state(APPSTATE.MAIN_MENU):
+            if self.system.runtime_state.is_state(RUNTIME_STATE.MAIN_MENU):
                 self.menu.handle_event(event)
                 self.system.sound.stop_sfx("splash1")
                 self.system.sound.stop_sfx("splash2")
 
-            elif self.system.app_state.is_state(APPSTATE.GAME):
+            elif self.system.runtime_state.is_state(RUNTIME_STATE.APPLICATION):
                 self.system.application.handle_event(event)
             
             if self.system.overlay_state.is_state(DEBUG_OVERLAY_STATE.ON):
@@ -57,37 +57,37 @@ class App:
                         print("Application is not initialized")
                 elif self.system.input.get_key_name(event.key) == "u":
                     print(str(self.system.window.get_info()))
-                if self.system.app_state.is_state(APPSTATE.LOADING):
+                if self.system.runtime_state.is_state(RUNTIME_STATE.LOADING):
                     if self.system.input.get_key_name(event.key) == "space" or self.system.input.get_key_name(event.key) == "return" or self.system.input.get_key_name(event.key) == "escape":
-                        self.system.app_state.set_state(APPSTATE.MAIN_MENU)
+                        self.system.runtime_state.set_state(RUNTIME_STATE.MAIN_MENU)
             if event.type == self.system.input.mouse_button_down() and event.button == 1:
-                if self.system.app_state.is_state(APPSTATE.LOADING):
+                if self.system.runtime_state.is_state(RUNTIME_STATE.LOADING):
                     self.loading.state.set_state(BOOT_SPLASH_STATE.NONE)
                     self.system.clean_up_states([self.loading.state.state])
-                    self.system.app_state.set_state(APPSTATE.MAIN_MENU)
-                elif self.system.app_state.is_state(APPSTATE.MAIN_MENU):
+                    self.system.runtime_state.set_state(RUNTIME_STATE.MAIN_MENU)
+                elif self.system.runtime_state.is_state(RUNTIME_STATE.MAIN_MENU):
                     self.menu.scale()
 
     def run(self):
-        while not self.system.app_state.is_state(APPSTATE.QUIT):
+        while not self.system.runtime_state.is_state(RUNTIME_STATE.QUIT):
             self.system.window.fill(get_colors('black'))
             self.handle_events()
 
-            if self.system.app_state.is_state(APPSTATE.LOADING):
+            if self.system.runtime_state.is_state(RUNTIME_STATE.LOADING):
                 self.loading.update()
                 self.loading.draw()
             
-            elif self.system.app_state.is_state(APPSTATE.MAIN_MENU):
+            elif self.system.runtime_state.is_state(RUNTIME_STATE.MAIN_MENU):
                 self.menu.update()
                 self.menu.draw()
-            elif self.system.app_state.is_state(APPSTATE.GAME):
+            elif self.system.runtime_state.is_state(RUNTIME_STATE.APPLICATION):
                 if self.system.application is not None:
 
                     self.system.application.update()
                     self.system.application.draw()
                 else:
                     pass
-            elif self.system.app_state.is_state(APPSTATE.QUIT):
+            elif self.system.runtime_state.is_state(RUNTIME_STATE.QUIT):
                 self.system.window.quit()
                 sys.exit()
             if self.system.overlay_state.is_state(DEBUG_OVERLAY_STATE.ON):

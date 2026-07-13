@@ -1,10 +1,10 @@
-from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
-from core.state.GameLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
-from core.state.GameLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
-from core.state.GameLayer.Entities.Player.Speed.state import SPEED_STATE
-from core.state.GameLayer.state import GAMESTATE
+from core.state.ApplicationLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
+from core.state.ApplicationLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
+from core.state.ApplicationLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
+from core.state.ApplicationLayer.Entities.Player.Speed.state import SPEED_STATE
+from core.state.ApplicationLayer.state import GAMESTATE
 from core.application.entities.powerups.type import PowerUpType
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 
 class PlayerMechanics:
 

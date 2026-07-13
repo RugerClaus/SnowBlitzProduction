@@ -1,3 +1,4 @@
+
 import math,random,os
 from systemlogging import log_event
 from config import config
@@ -12,20 +13,20 @@ from core.guts.network.update import Update
 from core.guts.network.network import Network
 from core.guts.network.authentication import Authentication
 from core.guts.user import User
-from core.application.runtime_inspector import runtime_inspector
+from core.application.app_inspector import app_inspector
 from core.application.save_schema import schema
 from core.guts.telemetry import system_monitor
 
 # state systems
-from core.state.ApplicationLayer.statemanager import StateManager
-from core.state.ApplicationLayer.DevTools.Debug.statemanager import DebugStateManager
-from core.state.ApplicationLayer.devmanager import DevManager
-from core.state.ApplicationLayer.DevTools.Debug.StateMonitor.statemanager import StateMonitorStateManager
+from core.state.RuntimeLayer.statemanager import RuntimeStateManager
+from core.state.RuntimeLayer.DevTools.Debug.statemanager import DebugStateManager
+from core.state.RuntimeLayer.DevTools.DeveloperMode.statemanager import DeveloperModeStateManager
+from core.state.RuntimeLayer.DevTools.StateMonitor.statemanager import StateMonitorStateManager
 
-from core.state.ApplicationLayer.state import APPSTATE
-from core.state.ApplicationLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
-from core.state.ApplicationLayer.DevTools.Debug.StateMonitor.state import MONITOR_STATE
+from core.state.RuntimeLayer.state import RUNTIME_STATE
+from core.state.RuntimeLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
+from core.state.RuntimeLayer.DevTools.StateMonitor.state import MONITOR_STATE
 
 class System():
     def __init__(self):
@@ -33,9 +34,9 @@ class System():
         self.math = math
         self.random = random
 
-        self.app_state = StateManager()
+        self.runtime_state = RuntimeStateManager()
         self.overlay_state = DebugStateManager()
-        self.control_state = DevManager()
+        self.control_state = DeveloperModeStateManager()
         self.state_monitor_state = StateMonitorStateManager()
 
         self.time = Time()
@@ -60,7 +61,7 @@ class System():
         self.input = InputManager(self)
 
         
-        self.runtime_inspector = runtime_inspector # this is an observer
+        self.app_inspector = app_inspector # this is an observer
         self.save_telemetry = "" # this sends a message to the main menu if there is no save file found
 
         if self.network.check_network_status():
@@ -89,7 +90,7 @@ class System():
             self.overlay_state.set_state(DEBUG_OVERLAY_STATE.OFF)
 
     def go_to_menu(self):
-        self.app_state.set_state(APPSTATE.MAIN_MENU)
+        self.runtime_state.set_state(RUNTIME_STATE.MAIN_MENU)
         if self.application is not None:
             self.application.quit_to_menu()
             self.application = None
@@ -100,7 +101,7 @@ class System():
             self.application.reset_game()
         
     def quit(self):
-        self.app_state.set_state(APPSTATE.QUIT)
+        self.runtime_state.set_state(RUNTIME_STATE.QUIT)
 
     def create_volume_files(self,default_volume):
         file_path = 'saves/constants'
@@ -121,18 +122,18 @@ class System():
 
     def initialize_application(self,game_mode=None):
         from core.application.game import Game
-        self.app_state.set_state(APPSTATE.GAME)
-        self.state_monitor_state.set_state(MONITOR_STATE.GAME)
+        self.runtime_state.set_state(RUNTIME_STATE.APPLICATION)
+        self.state_monitor_state.set_state(MONITOR_STATE.APPLICATION)
         self.application = Game(self)
         self.application.set_game_mode(game_mode)
         
 
     def clean_up_states(self, states):
         collections = (
-            self.app_state.active_application_states,
-            self.app_state.active_system_states,
-            self.app_state.active_game_states,
-            self.app_state.all_active_states,
+            self.runtime_state.active_application_states,
+            self.runtime_state.active_system_states,
+            self.runtime_state.active_runtime_states,
+            self.runtime_state.all_active_states,
         )
 
         for state in states:

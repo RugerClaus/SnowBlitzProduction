@@ -1,7 +1,7 @@
 import argparse
 from core.guts.app import App
 from core.guts.system import System
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 
 def main():
     parser = argparse.ArgumentParser(description="Game Startup")

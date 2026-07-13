@@ -1,4 +1,4 @@
-from core.state.GameLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
+from core.state.ApplicationLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
 
 class TutorialManager:
     def __init__(self, board_surface, prompts, controls, entitymanager, player, progress_bar,state):

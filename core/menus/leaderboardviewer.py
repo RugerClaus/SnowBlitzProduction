@@ -2,8 +2,8 @@ import threading
 from systemlogging import log_event, log_error
 from core.ui.font import FontEngine
 from core.application.network.leaderboard import Leaderboard
-from core.state.ApplicationLayer.NetworkLayer.Loading.state import FETCH_STATE
-from core.state.ApplicationLayer.NetworkLayer.Loading.statemanager import FetchStateManager
+from core.state.RuntimeLayer.NetworkLayer.Loading.state import FETCH_STATE
+from core.state.RuntimeLayer.NetworkLayer.Loading.statemanager import FetchStateManager
 from core.guts.user import User
 from core.loading.LoadingScreenManager import LoadingScreenManager
 class LeaderboardViewer():

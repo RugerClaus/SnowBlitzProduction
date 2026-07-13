@@ -1,9 +1,9 @@
 from .endpoints import CREATE_SESSION
 from core.guts.network.system_endpoints import API_KEY
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.application.network.leaderboard import Leaderboard
-from core.state.GameLayer.Session.state import ONLINE_SESSION_STATE
-from core.state.GameLayer.Session.statemanager import OnlineSessionStateManager
+from core.state.ApplicationLayer.Session.state import ONLINE_SESSION_STATE
+from core.state.ApplicationLayer.Session.statemanager import OnlineSessionStateManager
 class Session:
     def __init__(self,system):
         self.system = system
@@ -28,19 +28,19 @@ class Session:
 
             if not response["success"]:
                 print(response)
-                self.system.runtime_inspector["OnlineSession"] = False
+                self.system.app_inspector["OnlineSession"] = False
                 return False
             
             self.state.set_state(ONLINE_SESSION_STATE.ACTIVE)
             self.sessionToken = response["data"]["sessionToken"]
-            self.system.runtime_inspector["OnlineSession"] = True
+            self.system.app_inspector["OnlineSession"] = True
             
 
             return True
         else:
             if not self.state.is_state(ONLINE_SESSION_STATE.INACTIVE):
                 self.state.set_state(ONLINE_SESSION_STATE.INACTIVE)
-            self.system.runtime_inspector["OnlineSession"] = False
+            self.system.app_inspector["OnlineSession"] = False
             return False
         
     def submit_score(self, score):
@@ -59,7 +59,7 @@ class Session:
 
     def end_online_session(self):
         self.state.set_state(ONLINE_SESSION_STATE.INACTIVE)
-        self.system.runtime_inspector["OnlineSession"] = False
+        self.system.app_inspector["OnlineSession"] = False
         self.sessionToken = None
 
     

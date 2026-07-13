@@ -1,4 +1,4 @@
-from core.state.GameLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
+from core.state.ApplicationLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.ui.font import FontEngine
 
 class Prompts:

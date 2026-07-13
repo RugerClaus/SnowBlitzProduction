@@ -6,12 +6,13 @@ from core.application.entities.player.ui.uimanager import PlayerUIManager
 from core.application.entities.entitymanager import EntityManager
 from core.application.modes.tutorial.tutorialmanager import TutorialManager
 from core.application.modes.tutorial.prompts import Prompts
-from core.state.GameLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
-from core.state.GameLayer.GameMode.state import GAME_MODE
-from core.state.ApplicationLayer.dev import DEVELOPER_MODE
+from core.state.ApplicationLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
+from core.state.ApplicationLayer.GameMode.state import GAME_MODE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.application.mechanics.environment.environment import Environment
 from core.application.debug.sbdebugutils import SBDebugUtils
 from core.application.network.sessions import Session
+from core.state.ApplicationLayer.Session.state import ONLINE_SESSION_STATE
 class SnowBlitz:
     def __init__(self,system,game_state,mode):
         self.system = system
@@ -100,6 +101,8 @@ class SnowBlitz:
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             self.debug.draw()
+            if self.session.state.is_state(ONLINE_SESSION_STATE.ACTIVE):
+                self.session.end_online_session()
             
 
     def resize(self, event_h):
@@ -116,21 +119,21 @@ class SnowBlitz:
             self.system.clean_up_states([self.tutorial_state.state])
 
     def register_debug_telemetry(self):
-        self.system.runtime_inspector["daytime"] = self.environment.day_cycle.get_daytime()
-        self.system.runtime_inspector["brightness"] = self.environment.day_cycle.get_brightness()
-        self.system.runtime_inspector["temperature"] = self.environment.temperature.get_temperature()
+        self.system.app_inspector["daytime"] = self.environment.day_cycle.get_daytime()
+        self.system.app_inspector["brightness"] = self.environment.day_cycle.get_brightness()
+        self.system.app_inspector["temperature"] = self.environment.temperature.get_temperature()
         if self.player:
-            self.system.runtime_inspector["shrinkrate"] = self.player.shrink_rate
+            self.system.app_inspector["shrinkrate"] = self.player.shrink_rate
             
             snl = self.debug.draw_debug_snowflake_lines
             rkl = self.debug.draw_debug_rock_lines
             pul = self.debug.draw_debug_powerup_lines
             rel = self.debug.draw_debug_reducer_lines
             
-            self.system.runtime_inspector["snowflk_tracers"] =  snl if snl is not False else None
-            self.system.runtime_inspector["rock_tracers"] =  rkl if rkl is not False else None
-            self.system.runtime_inspector["powerup_tracers"] =  pul if pul is not False else None
-            self.system.runtime_inspector["reducer_tracers"] =  rel if rel is not False else None
+            self.system.app_inspector["snowflk_tracers"] =  snl if snl is not False else None
+            self.system.app_inspector["rock_tracers"] =  rkl if rkl is not False else None
+            self.system.app_inspector["powerup_tracers"] =  pul if pul is not False else None
+            self.system.app_inspector["reducer_tracers"] =  rel if rel is not False else None
 
     def reset_systems(self):
         del self.player
