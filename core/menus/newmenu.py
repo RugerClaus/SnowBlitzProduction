@@ -130,9 +130,7 @@ class Menu(BaseMenu):
             ])
 
     def update(self):
-        mouse_pos = self.system.input.get_mouse_pos()
-        for button in self.buttons:
-            button.update(mouse_pos)
+        pass
 
     def draw(self):
         if self.system.sound.current_track is None and self.system.sound.music_state.is_state(MUSIC_STATE.ON):
@@ -151,7 +149,9 @@ class Menu(BaseMenu):
             self.set_title(None)
             self.set_query("DO YOU AGREE TO HAVE YOUR SCORES POSTED ON A GLOBAL LEADERBOARD?")
 
+        mouse_pos = self.system.input.get_mouse_pos()
         for button in self.buttons:
+            button.update(mouse_pos)
             button.draw()
 
         if self.state.is_state(MENUSTATE.CREATEUSERNAME):

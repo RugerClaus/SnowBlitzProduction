@@ -1,4 +1,4 @@
-Development version Beta 0.9.9 - 2026-07-11
+Development version Beta 0.9.9 - 2026-07-xx
 - Added Snow Blitz debug utilities class
 - Added support for multiple text boxes and passwords
 - Added UI manager that will eventually house the entire UI system allowing for editor level construction of menus
@@ -9,3 +9,9 @@ Development version Beta 0.9.9 - 2026-07-11
 - Improved player size by tying it to a normalized size and calculating based on that
 - Smoother growing
 - Day cycle is twice as long and fully includes a night cycle as well
+- Added seasons
+- Added days
+- Added years
+- Added the start of a weather system
+- Added extensible environment system
+- Updated to Distant Realms version 0.3.0-alpha

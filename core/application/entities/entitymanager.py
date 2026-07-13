@@ -53,26 +53,26 @@ class EntityManager:
     def add_entity(self, entity_type, sub_type=None):
         if sub_type is None:
             if entity_type == EntityType.ROCK:
-                self.entities["rocks"].append(Rock(self.system.window))
+                self.entities["rocks"].append(Rock(self.system))
                 
             elif entity_type == EntityType.SNOWFLAKE:
-                self.entities["snowflakes"].append(SnowFlake(self.system.window))
+                self.entities["snowflakes"].append(SnowFlake(self.system))
 
         else:
             if isinstance(sub_type,PowerUpType):
                 if sub_type == PowerUpType.ABSORB_ROCK:
-                    self.entities["powerups"].append(AbsorbRock(self.system.window))
+                    self.entities["powerups"].append(AbsorbRock(self.system))
                 elif sub_type == PowerUpType.ANTI_SHRINK:
-                    self.entities["powerups"].append(AntiShrink(self.system.window))
+                    self.entities["powerups"].append(AntiShrink(self.system))
                 elif sub_type == PowerUpType.SPEED_BOOST:
-                    self.entities["speedboosts"].append(SpeedBoost(self.system.window))
+                    self.entities["speedboosts"].append(SpeedBoost(self.system))
             elif isinstance(sub_type,LRType):
                 if sub_type == LRType.TWENTY:
-                    self.entities["level_reducers"].append(Twenty(self.system.window))
+                    self.entities["level_reducers"].append(Twenty(self.system))
                 elif sub_type == LRType.FIFTY:
-                    self.entities["level_reducers"].append(Fifty(self.system.window))
+                    self.entities["level_reducers"].append(Fifty(self.system))
                 elif sub_type == LRType.ONE_HUNDRED:
-                    self.entities["level_reducers"].append(OneHundred(self.system.window))
+                    self.entities["level_reducers"].append(OneHundred(self.system))
 
     def update_entities(self):
         for entity_list in self.entities.values():
@@ -99,15 +99,27 @@ class EntityManager:
         for rock in rocks:
             for snowflake in snowflakes:
                 if rock.rect.colliderect(snowflake.rect):
-                    snowflake.rect.top += rock.rect.bottom + 5
+                    snowflake.y = rock.rect.bottom + 5
+                    snowflake.rect.topleft = (
+                        snowflake.x,
+                        snowflake.y
+                    )
                     snowflake.speed = rock.speed + 1
             for powerup in powerups:
                 if rock.rect.colliderect(powerup.rect):
-                    powerup.rect.top += rock.rect.bottom + 5
+                    powerup.y = rock.rect.bottom + 5
+                    powerup.rect.topleft = (
+                        powerup.x,
+                        powerup.y
+                    )
                     powerup.speed = rock.speed + 1
             for reducer in reducers:
                 if rock.rect.colliderect(reducer.rect):
-                    reducer.rect.top += rock.rect.bottom + 5
+                    reducer.y = rock.rect.bottom + 5
+                    reducer.rect.topleft = (
+                        reducer.x,
+                        reducer.y
+                    )
                     reducer.speed = rock.speed + 1
 
     def spawn_snowflakes(self):

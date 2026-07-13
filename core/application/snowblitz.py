@@ -36,7 +36,6 @@ class SnowBlitz:
         self.tutorial_state = None
 
         self.environment = Environment(system)
-
         self.endless_state = GAME_MODE.ENDLESS
         self.session = Session(system)
         self.session.start_online_session()
@@ -73,7 +72,7 @@ class SnowBlitz:
         if self.tutorial_state is None:
             self.tutorial_state = TutorialStateManager()
         if self.tutorial_manager is None: 
-            self.tutorial_manager = TutorialManager(self.system.window, self.prompts,self.system.input.game_controls,
+            self.tutorial_manager = TutorialManager(self.system, self.prompts,self.system.input.game_controls,
                                                 self.entitymanager,self.player,self.progress_bar,self.tutorial_state)
         if self.tutorial is None:
             self.tutorial = Tutorial(self.system.window,self.player,self.entitymanager,self.system.input.game_controls,
@@ -84,20 +83,33 @@ class SnowBlitz:
         if self.endless is None:
             self.endless = Endless(self.progress_bar, self.player, self.entitymanager)
 
-    def draw(self):
+    def update(self):
         self.environment.update()
-        self.environment.draw()
+        if self.progress_bar:
+                self.progress_bar.draw()
         if self.mode.is_state(GAME_MODE.ENDLESS):
-            
-                self.init_endless()
-                self.endless.run()
+            self.init_endless()
+            self.endless.update()
         elif self.mode.is_state(GAME_MODE.TUTORIAL):
             self.init_tutorial()
-            self.tutorial.run()
+            self.tutorial.update()
         elif self.mode.is_state(GAME_MODE.BLITZ):
             if self.blitz is None:
                 pass
-            self.blitz.run()
+            self.blitz.update()
+
+    def draw(self):
+        self.environment.draw()
+        if self.mode.is_state(GAME_MODE.ENDLESS):
+            
+            self.endless.draw()
+        elif self.mode.is_state(GAME_MODE.TUTORIAL):
+            
+            self.tutorial.draw()
+        elif self.mode.is_state(GAME_MODE.BLITZ):
+            if self.blitz is None:
+                pass
+            self.blitz.draw()
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             self.debug.draw()
@@ -107,7 +119,7 @@ class SnowBlitz:
 
     def resize(self, event_h):
         if self.player is not None:
-            self.player.scale(event_h)
+            self.player.scale()
             self.player.center()
         if self.progress_bar is not None:
             self.progress_bar.update()
@@ -127,7 +139,10 @@ class SnowBlitz:
     def register_debug_telemetry(self):
         self.system.app_inspector["daytime"] = self.environment.day_cycle.get_daytime()
         self.system.app_inspector["brightness"] = self.environment.day_cycle.get_brightness()
-        self.system.app_inspector["temperature"] = self.environment.temperature.get_temperature()
+        self.system.app_inspector["temperature"] = f"{self.environment.temperature.get_fahrenheit()} F,{self.environment.temperature.get_celsius()} C"
+        self.system.app_inspector["Day"] = self.environment.day_cycle.day
+        self.system.app_inspector["Season"] = self.environment.season.state.state_name
+        self.system.app_inspector["Year"] = self.environment.day_cycle.year
         if self.player:
             self.system.app_inspector["shrinkrate"] = self.player.shrink_rate
             
@@ -140,6 +155,7 @@ class SnowBlitz:
             self.system.app_inspector["rock_tracers"] =  rkl if rkl is not False else None
             self.system.app_inspector["powerup_tracers"] =  pul if pul is not False else None
             self.system.app_inspector["reducer_tracers"] =  rel if rel is not False else None
+            
 
     def reset_systems(self):
         del self.player

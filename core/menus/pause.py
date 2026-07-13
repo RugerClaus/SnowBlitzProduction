@@ -108,7 +108,7 @@ class Pause(BaseMenu):
             0,
             int(20 + (35 - 20) * pulse)
         )
-        self.system.window.fill(fade_color)
+        # self.system.window.fill(fade_color)
 
         mouse_pos = self.system.input.get_mouse_pos()
         for button in self.buttons:

@@ -88,6 +88,8 @@ class PlayerMechanics:
             entity_mask = player.system.window.mask(entity.surface)
             offset = (entity.rect.x - player.rect.x, entity.rect.y - player.rect.y)
             if player_mask.overlap(entity_mask, offset):
+                if player.system.control_state.is_state(DEVELOPER_MODE.ON):
+                    return
                 if entity.type == EntityType.SNOWFLAKE:
                     PlayerMechanics.collect_snowflake(player,entity)
                     player.system.sound.play_sfx('snow')
@@ -157,21 +159,26 @@ class PlayerMechanics:
 
         if environment:
 
-            temperature = (
-                environment.temperature.get_temperature()
-            )
+            temperature = environment.temperature.get_temperature()
 
-            if temperature > 30:
-                rate *= 1.6
+            # base melting curve
+            if temperature <= 20:
+                rate *= 0.2
 
-            elif temperature > 20:
-                rate *= 1.5
+            elif temperature <= 32:
+                rate *= 0.5
 
-            elif temperature > 10:
-                rate *= 1.3
+            elif temperature <= 50:
+                rate *= 1.0
 
-            elif temperature > 0:
-                rate *= 1.1
+            elif temperature <= 70:
+                rate *= 1.4
+
+            elif temperature <= 85:
+                rate *= 1.8
+
+            else:
+                rate *= 2.5
 
 
         return rate
@@ -192,7 +199,6 @@ class PlayerMechanics:
 
             # Convert rock size into snowball growth.
             player.diam += rock.width / 4
-
         else:
 
             player.life_state.set_state(

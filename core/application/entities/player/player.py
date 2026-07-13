@@ -115,9 +115,8 @@ class Player(Entity):
 
 
 
-    def scale(self, event_h):
+    def scale(self):
 
-        # size is normalized now, so only rebuild
         self.rebuild_surface()
 
 
@@ -178,12 +177,11 @@ class Player(Entity):
 
         self.rebuild_surface()
 
-
-
-        self.score += int(
-            1.1 * self.multiplier
-        )
-
+        if self.system.control_state.is_state(DEVELOPER_MODE.OFF):
+            self.score += int(
+                1.1 * self.multiplier
+            )
+        physics.update_multiplier(self)
 
         self.speed = physics.update_speed(
             self.speed_state

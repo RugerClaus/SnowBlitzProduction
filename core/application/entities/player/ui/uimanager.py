@@ -64,7 +64,7 @@ class PlayerUIManager:
             high_score_surface = self.score_font.render(high_score_text, True, (255,74,128))
             high_score_surface_rect = high_score_surface.get_rect(right = self.system.window.get_width() - 5, top = top_y)
 
-            score_text = f"Score: {self.player.score}"
+            score_text = f"Score: {self.player.score} X {self.player.multiplier}"
             score_surface = self.score_font.render(score_text, True, (255,255,0))
             score_surface_rect = score_surface.get_rect(right = high_score_surface_rect.left - 10, top = top_y)
 
@@ -86,7 +86,7 @@ class PlayerUIManager:
             high_score_surface = self.score_font.render(high_score_text, True, (255,74,128))
             high_score_surface_rect = high_score_surface.get_rect(right = self.system.window.get_width() - 5, top = self.system.window.get_height() - self.bar_height - 45)
 
-            score_text = f"Score: {self.player.score}"
+            score_text = f"Score: {self.player.score} X{self.player.multiplier}"
             score_surface = self.score_font.render(score_text, True, (255,255,0))
             score_surface_rect = score_surface.get_rect(right = high_score_surface_rect.left - 10, top = self.system.window.get_height() - self.bar_height - 45)
 

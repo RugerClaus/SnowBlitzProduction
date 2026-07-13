@@ -7,18 +7,21 @@ class DayCycle:
 
         self.system = system
 
-        self.day_length = 30000
-        self.night_length = 30000
+        self.day_length = 50000
+        self.night_length = 50000
 
         self.start_phase = 0
-
-        self.current_time = 0
+        self.start_time = 95000
+        self.current_time = self.start_time
 
         self.last_update_time = (
             system.time.get_current_time()
         )
 
         self.brightness = 0
+
+        self.day = 0
+        self.year = 0
 
 
     def update(self):
@@ -48,6 +51,10 @@ class DayCycle:
         if self.current_time >= cycle_length:
 
             self.current_time -= cycle_length
+            self.day += 1
+            if self.day >= 100:
+                self.day = 0
+                self.year += 1
 
 
 
@@ -81,8 +88,6 @@ class DayCycle:
             235
         )
 
-
-        # day phase
         if self.current_time <= self.day_length:
 
             day_progress = (
@@ -90,9 +95,6 @@ class DayCycle:
                 /
                 self.day_length
             )
-
-
-            # smooth sunrise -> noon -> sunset
             self.brightness = (
                 math.sin(
                     day_progress
@@ -180,7 +182,7 @@ class DayCycle:
 
     def reset(self):
 
-        self.current_time = 0
+        self.current_time = self.start_time
 
         self.last_update_time = (
             self.system.time.get_current_time()

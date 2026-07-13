@@ -9,6 +9,8 @@ class Tutorial:
         self.tutorial_state = state
         self.tutorial_manager = tutorial_manager
 
-    def run(self):
+    def update(self):
         self.tutorial_manager.update()
-        
+
+    def draw(self):
+        self.tutorial_manager.draw()

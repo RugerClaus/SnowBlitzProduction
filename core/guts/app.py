@@ -82,11 +82,8 @@ class App:
                 self.menu.draw()
             elif self.system.runtime_state.is_state(RUNTIME_STATE.APPLICATION):
                 if self.system.application is not None:
-
                     self.system.application.update()
                     self.system.application.draw()
-                else:
-                    pass
             elif self.system.runtime_state.is_state(RUNTIME_STATE.QUIT):
                 self.system.window.quit()
                 sys.exit()

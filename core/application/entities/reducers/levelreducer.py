@@ -1,52 +1,148 @@
 import random
+
 from core.application.entities.entity import Entity
 from core.application.entities.type import EntityType
 from core.application.entities.reducers.type import LRType
 from core.ui.font import FontEngine
 
+
 class LevelReducer(Entity):
-    def __init__(self,board_surface, reducer_type: LRType):
-        self.board_surface = board_surface
+
+    def __init__(self, system, reducer_type: LRType):
+
+        self.system = system
         self.reducer_type = reducer_type
-        self.color = (128,100,190)
+
+        self.color = (128, 100, 190)
         self.diam = 50
+
         self.font = FontEngine(30).font
+
         self.spawn()
-        super().__init__(self.x, self.y, board_surface, EntityType.REDUCER, self.diam)
-        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
+
+        super().__init__(
+            self.x,
+            self.y,
+            system.window,
+            EntityType.REDUCER,
+            self.diam
+        )
+
+        self.rect = self.surface.get_rect(
+            topleft=(self.x, self.y)
+        )
+
 
     def get_reducer_number(self):
         pass
 
+
     def spawn(self):
-        self.x = random.randint(35, self.board_surface.get_width()-35)
-        self.y = random.randint(-200, 0)
-        self.diam = self.diam
+
+        self.x = random.randint(
+            35,
+            self.system.window.get_width() - 35
+        )
+
+        self.y = random.randint(
+            -200,
+            0
+        )
+
         self.speed = 0
-        self.surface = self.board_surface.make_surface(self.diam,self.diam)
+
+        self.surface = self.system.window.make_surface(
+            self.diam,
+            self.diam,
+            True
+        )
+
+        self.render()
+
+
+        if hasattr(self, "rect"):
+
+            self.rect = self.surface.get_rect(
+                topleft=(self.x, self.y)
+            )
+
+
+    def render(self):
+
+        self.surface.fill(
+            (0, 0, 0, 0)
+        )
+
+        self.surface.fill(
+            self.color
+        )
+
+        self.system.window.draw_circle(
+            self.surface,
+            (255, 255, 255),
+            (
+                self.diam / 2,
+                self.diam / 2
+            ),
+            self.diam / 3,
+            self.reducer_type
+        )
+
+        self.draw_reducer_number(
+            self.surface
+        )
+
 
     def update(self):
+
         acceleration = 0.05
-        self.speed += acceleration
+        max_speed = 10
+
+        if self.speed < max_speed:
+            self.speed += acceleration
+
         self.y += self.speed
-        if self.speed >= 10:
-            acceleration = 0
-        self.rect.topleft = (self.x, self.y)
-        if self.y > self.board_surface.get_height() + 100:
+
+        self.rect.topleft = (
+            self.x,
+            self.y
+        )
+
+
+        if self.y > self.system.window.get_height() + 100:
             self.spawn()
 
-    def collected(self):
-        self.spawn()            
 
-    def draw_reducer_number(self,base_surface):
+    def collected(self):
+
+        self.spawn()
+
+
+    def draw_reducer_number(self, base_surface):
+
         text = f"{self.get_reducer_number()}"
-        surface = self.font.render(text,True,(248,0,90))
+
+        surface = self.font.render(
+            text,
+            True,
+            (248, 0, 90)
+        )
+
         rect = surface.get_rect()
-        rect.center = base_surface.get_rect().center
-        base_surface.blit(surface,rect)
+
+        rect.center = (
+            base_surface.get_rect().center
+        )
+
+        base_surface.blit(
+            surface,
+            rect
+        )
+
 
     def draw(self):
-        self.surface.fill(self.color)
-        self.board_surface.draw_circle(self.surface, (255,255,255), (self.diam // 2, self.diam // 2), float(self.diam // 3),self.type)
-        self.draw_reducer_number(self.surface)
-        self.board_surface.blit(self.surface, self.rect)
+
+        self.system.window.blit(
+            self.surface,
+            self.rect
+        )

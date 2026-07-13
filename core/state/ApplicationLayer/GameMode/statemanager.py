@@ -5,20 +5,10 @@ from core.state.basestatemanager import BaseStateManager
 class GameModeManager(BaseStateManager):
     def __init__(self, initial_state=GAME_MODE.NONE):
         allowed_transitions = {
-            GAME_MODE.NONE: [
-                GAME_MODE.ENDLESS,
-                GAME_MODE.BLITZ,
-                GAME_MODE.TUTORIAL
-            ],
-            GAME_MODE.ENDLESS: [
-                GAME_MODE.NONE
-            ],
-            GAME_MODE.BLITZ: [
-                GAME_MODE.NONE
-            ],
-            GAME_MODE.TUTORIAL: [
-                GAME_MODE.NONE
-            ]
+            GAME_MODE.NONE: [GAME_MODE.ENDLESS,GAME_MODE.BLITZ,GAME_MODE.TUTORIAL],
+            GAME_MODE.ENDLESS: [GAME_MODE.NONE],
+            GAME_MODE.BLITZ: [GAME_MODE.NONE],
+            GAME_MODE.TUTORIAL: [GAME_MODE.NONE]
         }
         super().__init__(
             initial_state=initial_state,

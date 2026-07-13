@@ -6,11 +6,12 @@ class Sun(Entity):
         self.system = system
         self.daycycle = daycycle
         self.type = EntityType.SUN
-        self.surface = self.system.window.make_surface(200,200,False)
+        self.surface = self.system.window.make_surface(200,200,True)
         self.rect = self.surface.get_rect(topright=(self.system.window.get_width() + 300 , 0))
-        self.surface.fill((255,255,0))
+        self.color = (255,255,0)
         self.horizon = self.system.window.get_height() // 10 + self.rect.height
-        self.arc_height = self.system.window.get_height() * 0.05
+        self.arc_height = self.system.window.get_height() * 0.001
+        self.size = float(self.rect.width // 2)
         
     def update(self):
 
@@ -64,4 +65,17 @@ class Sun(Entity):
 
 
     def draw(self):
-        self.system.window.blit(self.surface,self.rect)
+        self.surface.fill(
+            (0, 0, 0, 0)
+        )
+        self.system.window.draw_circle(
+            self.surface,
+            self.color,
+            (
+                self.size,
+                self.size
+            ),
+            self.size,
+            self.type
+        )
+        self.system.window.blit(self.surface,self.rect.topleft)

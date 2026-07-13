@@ -1,18 +1,48 @@
 class Temperature:
-    def __init__(self, system,daycycle):
+
+    def __init__(self, system, daycycle, season):
         self.math = system.math
         self.daycycle = daycycle
-        self.temperature = 0
+        self.temperature = -10
+        self.season = season
+        self.set_temperature_range()
 
     def update(self):
-        progress = self.daycycle.get_time_progress()
 
-        min_temp = -10
-        max_temp = 30
-
-        heat = (self.math.sin(progress * 2 * self.math.pi - self.math.pi/2) + 1) / 2
-
-        self.temperature = min_temp + (max_temp - min_temp) * heat
+        if self.daycycle.is_day():
+            sun_progress = self.daycycle.get_sun_progress()
+            heat = self.math.sin(
+                sun_progress * self.math.pi
+            )
+            target = (
+                self.min_temp
+                +
+                (self.max_temp - self.min_temp)
+                *
+                heat
+            )
+        else:
+            target = self.min_temp
+        self.temperature += (target - self.temperature) * 0.01
 
     def get_temperature(self):
-        return self.temperature
+        return int(self.temperature)
+    
+
+        # Display/debug only
+    def get_celsius(self):
+
+        return int(self.temperature)
+
+
+    def get_fahrenheit(self):
+
+        return int(
+            (self.temperature * 9 / 5) + 32
+        )
+
+
+    def set_temperature_range(self):
+
+        self.min_temp = self.season.min
+        self.max_temp = self.season.max
