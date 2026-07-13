@@ -46,7 +46,6 @@ class Session:
     def submit_score(self, score):
         
         if not self.state.is_state(ONLINE_SESSION_STATE.ACTIVE):
-            print(self.state.state)
             return False
         print("submitting score to server")
 

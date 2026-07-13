@@ -25,5 +25,5 @@ class GameModeManager(BaseStateManager):
             allowed_transitions=allowed_transitions,
             log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
             state_name="GAMEMODE",
-            type="GAME"
+            type="APPLICATION"
         )

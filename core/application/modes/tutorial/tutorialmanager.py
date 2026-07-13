@@ -38,7 +38,7 @@ class TutorialManager:
         self.progress_bar.update()
         self.progress_bar.draw()
 
-        self.player.check_collisions(self.entitymanager.get_active_entities())
+        
 
     def update(self):
 
@@ -81,7 +81,7 @@ class TutorialManager:
             self.progress_bar.update()
             self.progress_bar.draw()
             self.entitymanager.check_collisions()
-            self.player.check_collisions(self.entitymanager.get_active_entities())
+            
 
             for boost in self.entitymanager.entities["speedboosts"]:
                 if boost.y >= self.board_surface.get_height() // 4:
@@ -106,7 +106,7 @@ class TutorialManager:
             self.progress_bar.update()
             self.progress_bar.draw()
             self.entitymanager.check_collisions()
-            self.player.check_collisions(self.entitymanager.get_active_entities())
+            
 
             for rock in self.entitymanager.entities["rocks"]:
                 if rock.y >= self.board_surface.get_height() // 4:
@@ -131,7 +131,7 @@ class TutorialManager:
             self.entitymanager.draw_entities()
             self.progress_bar.update()
             self.progress_bar.draw()
-            self.player.check_collisions(self.entitymanager.get_active_entities())
+            
 
             for powerup in self.entitymanager.entities["powerups"]:
                 if powerup.y >= self.board_surface.get_height() // 4:

@@ -1,6 +1,7 @@
 from core.application.entities.type import EntityType
 from core.application.entities.entity import Entity
 from core.state.ApplicationLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
+from core.state.ApplicationLayer.Entities.Player.Life.state import PLAYER_LIFE_STATE
 from core.state.ApplicationLayer.Entities.Player.Speed.state import SPEED_STATE
 from core.state.ApplicationLayer.Entities.Player.Speed.statemanager import SpeedStateManager
 from core.state.ApplicationLayer.Entities.Player.Movement.statemanager import PlayerMoveStateManager
@@ -25,7 +26,7 @@ class Player(Entity):
         self.reset()
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
         self.rect.bottom = self.y
-        self.rect.centerx = self.board_surface.get_width() // 2 
+        self.rect.centerx = self.system.window.get_width() // 2 
         self.x = self.rect.centerx
         self.brightness = None
 
@@ -44,22 +45,24 @@ class Player(Entity):
         scale_factor = event_h / self.original_height
         self.base_size = 10 * scale_factor
         self.diam = self.diam * scale_factor
-        self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
+        self.surface = self.system.window.make_surface(self.diam, self.diam, True)
 
-        self.board_surface.draw_circle(self.surface, (255, 255, 255), (self.base_size, self.base_size), float(self.base_size),self.type)
+        self.system.window.draw_circle(self.surface, (255, 255, 255), (self.base_size, self.base_size), float(self.base_size),self.type)
 
         self.y = event_h - self.base_size
-        if self.y + self.base_size * 2 > self.board_surface.get_height():
-            self.y = self.board_surface.get_height() - self.base_size * 2
+        if self.y + self.base_size * 2 > self.system.window.get_height():
+            self.y = self.system.window.get_height() - self.base_size * 2
 
         self.rect = self.surface.get_rect()
-        self.rect.bottom = self.board_surface.get_height() - 100
-        self.rect.centerx = self.board_surface.get_width() // 2 
+        self.rect.bottom = self.system.window.get_height() - 100
+        self.rect.centerx = self.system.window.get_width() // 2 
 
     def center(self):
-        self.x = self.board_surface.get_width() // 2
+        self.x = self.system.window.get_width() // 2
 
     def update(self):
+        physics.check_collisions(self.entitymanager.get_active_entities(),self)
+        print(self.life_state.is_state(self.life_state.is_state(PLAYER_LIFE_STATE.DEAD)))
         physics.check_high_score(self)
         self.powerup_duration = physics.calculate_powerup_duration(self.score)
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
@@ -103,45 +106,23 @@ class Player(Entity):
     def draw(self):
         self.surface.fill((0, 0, 0, 0))
 
-        self.board_surface.draw_circle(self.surface, self.color,
+        self.system.window.draw_circle(self.surface, self.color,
                            (self.base_size, self.base_size), self.base_size,self.type)
 
-        self.rect.bottom = self.board_surface.get_height() - 100
+        self.rect.bottom = self.system.window.get_height() - 100
         self.rect.centerx = int(self.x)
-        self.board_surface.blit(self.surface, self.rect.topleft)
+        self.system.window.blit(self.surface, self.rect.topleft)
     
     def draw_wait(self):
         self.surface.fill(self.color)
-        self.rect.bottom = self.board_surface.get_height() - 100
+        self.rect.bottom = self.system.window.get_height() - 100
         self.rect.centerx = int(self.x)
-        self.board_surface.blit(self.surface,self.rect.topleft)
-
-    def check_collisions(self,entities):
-        player_mask = self.board_surface.mask(self.surface)
-
-        for entity in entities:
-            entity_mask = self.board_surface.mask(entity.surface)
-            offset = (entity.rect.x - self.rect.x, entity.rect.y - self.rect.y)
-            if player_mask.overlap(entity_mask, offset):
-                if entity.type == EntityType.SNOWFLAKE:
-                    physics.collect_snowflake(self,entity)
-                    self.system.sound.play_sfx('snow')
-                    self.score += entity.diam
-                    entity.collected()
-                elif entity.type == EntityType.ROCK:
-                        physics.handle_rock(self,entity)
-                elif entity.type == EntityType.POWERUP:
-                    physics.handle_powerup(self,entity)
-                    physics.apply_powerup(self,entity.power_type,self.powerup_duration)
-                    entity.collected()
-                elif entity.type == EntityType.REDUCER:
-                    physics.handle_reducer(self,entity)
-                    entity.collected()
+        self.system.window.blit(self.surface,self.rect.topleft)
 
     def reset(self):
-        self.original_height = self.board_surface.get_height()
+        self.original_height = self.system.window.get_height()
         self.diam = 10
-        self.surface = self.board_surface.make_surface(self.diam, self.diam, True)
+        self.surface = self.system.window.make_surface(self.diam, self.diam, True)
         self.speed = 7
         self.color = (255, 255, 255)
         self.multiplier = 1

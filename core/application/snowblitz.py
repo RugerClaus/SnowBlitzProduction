@@ -114,7 +114,13 @@ class SnowBlitz:
             self.progress_bar.draw()
 
     def clean_up_states(self):
-        self.system.clean_up_states([self.player.speed_state.state,self.player.move_state.state,self.player.power_state.state,self.player.life_state.state])
+        self.system.clean_up_states([
+            self.player.speed_state.state,
+            self.player.move_state.state,
+            self.player.power_state.state,
+            self.player.life_state.state,
+            self.session.state.state
+            ])
         if self.tutorial_state is not None:
             self.system.clean_up_states([self.tutorial_state.state])
 

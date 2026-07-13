@@ -5,6 +5,7 @@ from core.state.ApplicationLayer.Entities.Player.Speed.state import SPEED_STATE
 from core.state.ApplicationLayer.state import GAMESTATE
 from core.application.entities.powerups.type import PowerUpType
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
+from core.application.entities.type import EntityType
 
 class PlayerMechanics:
 
@@ -37,6 +38,7 @@ class PlayerMechanics:
             x += 0
         return x
     
+    @staticmethod
     def check_bounds(player):
         if player.x <= 5:
             player.x = 5
@@ -51,7 +53,8 @@ class PlayerMechanics:
             move_state.set_state(PLAYER_INTENT_STATE.IDLE)
             return True
         return False
-
+    
+    @staticmethod
     def check_death(player, game_state, game_session, system):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
@@ -69,13 +72,14 @@ class PlayerMechanics:
             game_session.submit_score(player.score)
 
             
-
+    @staticmethod
     def check_high_score(player):
         stored = player.system.load.read_constant('high_score')
         stored = int(stored) if stored else 0
         if player.score >= int(stored):
                 player.current_high_score = player.score
-
+  
+    @staticmethod
     def check_power_state(player):
         if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
             if player.power_state.is_state(PLAYER_POWER_STATE.ABSORB_ROCK):
@@ -87,6 +91,31 @@ class PlayerMechanics:
                 player.speed_state.set_state(SPEED_STATE.FAST)
         else:
             player.color = (255,255,255)
+
+    @staticmethod
+    def check_collisions(entities,player):
+        player_mask = player.system.window.mask(player.surface)
+
+        for entity in entities:
+            entity_mask = player.system.window.mask(entity.surface)
+            offset = (entity.rect.x - player.rect.x, entity.rect.y - player.rect.y)
+            if player_mask.overlap(entity_mask, offset):
+                if entity.type == EntityType.SNOWFLAKE:
+                    PlayerMechanics.collect_snowflake(player,entity)
+                    player.system.sound.play_sfx('snow')
+                    player.score += entity.diam
+                    entity.collected()
+                elif entity.type == EntityType.ROCK:
+                        PlayerMechanics.handle_rock(player,entity)
+                elif entity.type == EntityType.POWERUP:
+                    PlayerMechanics.handle_powerup(player,entity)
+                    PlayerMechanics.apply_powerup(player,entity.power_type,player.powerup_duration)
+                    entity.collected()
+                elif entity.type == EntityType.REDUCER:
+                    PlayerMechanics.handle_reducer(player,entity)
+                    entity.collected()
+                
+                print(entity.type)
         
     @staticmethod
     def calculate_shrink_rate(diam,player,environment=None):
@@ -183,7 +212,8 @@ class PlayerMechanics:
             player.life_state.set_state(PLAYER_LIFE_STATE.DEAD)
         else:
             player.diam += rock.width / 4
-    
+            
+    @staticmethod
     def calculate_powerup_duration(score):
         if score >= 100000:
             return 7500
