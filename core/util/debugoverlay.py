@@ -9,8 +9,8 @@ class DebugOverlay:
         self.rect = self.surface.get_rect()
 
         self.font_left = FontEngine("UI").font
-        self.font_right = FontEngine("debug_state").font
-        self.font_right_all = FontEngine("debug_all_state").font
+        self.font_right = FontEngine(25).font
+        self.font_right_all = FontEngine(20).font
         self.devmodefont = FontEngine(20).font
 
         self.opacity = 0
@@ -66,6 +66,7 @@ class DebugOverlay:
         bottom_margin = 0.01
 
         line_spacing = 0.012
+        telemetry_spacing = 0.001
 
         left_x, left_y = self.normalized_to_pixel(
             left_margin,
@@ -148,7 +149,7 @@ class DebugOverlay:
                 (left_x, left_y)
             )
 
-            left_y += int(line_height + height * line_spacing)
+            left_y += int(line_height + height * telemetry_spacing)
 
         for key, value in self.system.app_inspector.items():
 
@@ -168,7 +169,7 @@ class DebugOverlay:
                 (left_x, left_y)
             )
 
-            left_y += int(line_height + height * line_spacing)
+            left_y += int(line_height + height * telemetry_spacing)
 
         right_x, right_y = self.normalized_to_pixel(
             1.0 - right_margin,
@@ -211,7 +212,7 @@ class DebugOverlay:
 
             right_y += int(
                 surf.get_height() +
-                height * line_spacing
+                height * telemetry_spacing
             )
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):

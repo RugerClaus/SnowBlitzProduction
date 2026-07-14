@@ -17,18 +17,17 @@ class BaseMenu:
         self.button_action_false_color = (128,128,128)
 
     def update_toggle_buttons(self):
-        if self.buttons:
-            for button in self.buttons:
-                if button.text.startswith("Music:") and self.system.sound is not None:
-                    button.set_new_text(f"Music: {'On' if self.system.sound.music_state.is_state(MUSIC_STATE.ON) else 'Off'}")
-                elif button.text.startswith("UI SFX:") and self.system.sound is not None:
-                    button.set_new_text(f"UI SFX: {'On' if self.system.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON) else 'Off'}")
-                elif button.text.startswith("Music Vol:") and self.system.sound is not None:
-                    button.set_new_text(f"Music Vol: {int(self.system.sound.volume*10)}")
-                elif button.text.startswith("SFX Vol:") and self.system.sound is not None:
-                    button.set_new_text(f"SFX Vol: {int(self.system.sound.sfx_volume*10)}")
-                elif button.text.startswith("Game SFX:") and self.system.sound is not None:
-                    button.set_new_text(f"Game SFX: {'On' if self.system.sound.game_sfx_state.is_state(APP_SFX_STATE.ON) else 'Off'}")
+        for button in self.buttons:
+            if button.text.startswith("Music:") and self.system.sound is not None:
+                button.set_text(f"Music: {'On' if self.system.sound.music_state.is_state(MUSIC_STATE.ON) else 'Off'}")
+            elif button.text.startswith("UI SFX:") and self.system.sound is not None:
+                button.set_text(f"UI SFX: {'On' if self.system.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON) else 'Off'}")
+            elif button.text.startswith("Music Vol:") and self.system.sound is not None:
+                button.set_text(f"Music Vol: {int(self.system.sound.volume*10)}")
+            elif button.text.startswith("SFX Vol:") and self.system.sound is not None:
+                button.set_text(f"SFX Vol: {int(self.system.sound.sfx_volume*10)}")
+            elif button.text.startswith("Game SFX:") and self.system.sound is not None:
+                button.set_text(f"Game SFX: {'On' if self.system.sound.game_sfx_state.is_state(APP_SFX_STATE.ON) else 'Off'}")
 
     def set_title(self,text):
         if text == None:

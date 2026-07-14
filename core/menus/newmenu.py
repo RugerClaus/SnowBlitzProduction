@@ -1,5 +1,5 @@
 import webbrowser
-from helper import asset
+from helper import asset,sine
 from core.menus.basemenu import BaseMenu
 from core.ui.newbutton import Button
 from core.state.RuntimeLayer.Menu.statemanager import MenuStateManager
@@ -9,6 +9,7 @@ from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.state.ApplicationLayer.GameMode.state import GAME_MODE
 from core.state.RuntimeLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.state.RuntimeLayer.Audio.Music.state import MUSIC_STATE
+from core.state.RuntimeLayer.NetworkLayer.Login.state import LOGIN_STATE
 from core.menus.usercreator import UserCreator
 from core.menus.changelog import ChangeLog
 from core.menus.leaderboardviewer import LeaderboardViewer
@@ -112,7 +113,7 @@ class Menu(BaseMenu):
                     self.leaderboard_opt_out
                 )
             ])
-        elif self.state.is_state(MENUSTATE.CREATEUSERNAME):
+        elif self.state.is_state(MENUSTATE.CREATEACCOUNT):
             self.create_username_buttons()
         
         elif self.state.is_state(MENUSTATE.LOGIN):
@@ -123,21 +124,20 @@ class Menu(BaseMenu):
                 Button(
                     self.system,
                     40,
-                    "Change Account",
-                    (0.5,0.55),
-                    self.change_account
+                    "Back",
+                    (0.5,0.65),
+                    self.go_to_settings
                 )
             ])
 
     def update(self):
-        pass
+        self.update_toggle_buttons()
 
     def draw(self):
         if self.system.sound.current_track is None and self.system.sound.music_state.is_state(MUSIC_STATE.ON):
             self.system.sound.play_music()
         
-        t = self.system.time.get_current_time() / 1000
-        pulse = (self.system.math.sin(t) + 1) / 2
+        pulse = sine(self.system.time.get_current_time())
         fade_color = (
             int(20 + (35 - 20) * pulse),
             0,
@@ -154,7 +154,7 @@ class Menu(BaseMenu):
             button.update(mouse_pos)
             button.draw()
 
-        if self.state.is_state(MENUSTATE.CREATEUSERNAME):
+        if self.state.is_state(MENUSTATE.CREATEACCOUNT):
             self.set_title(None)
             self.set_query(self.user_creator.error if self.user_creator.error else "Please enter a username and create a password:")
             self.user_creator.draw()
@@ -230,7 +230,7 @@ class Menu(BaseMenu):
                         break
         if self.state.is_state(MENUSTATE.LOGIN):
             self.login_page.handle_event(event)
-        if self.state.is_state(MENUSTATE.CREATEUSERNAME):
+        if self.state.is_state(MENUSTATE.CREATEACCOUNT):
             self.user_creator.handle_event(event)
         if self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
             self.leaderboard.handle_event(event)
@@ -242,23 +242,26 @@ class Menu(BaseMenu):
         buttons = [
 
             ("Endless Mode",
-            (0.5,0.42),
+            (0.5,0.35),
             self.system.initialize_application),
 
             ("Blitz Mode",
-            (0.5,0.52),
+            (0.5,0.45),
             None),
 
             ("Tutorial",
-            (0.5,0.62),
+            (0.5,0.55),
             lambda: self.system.initialize_application(GAME_MODE.TUTORIAL)),
 
             ("Settings",
-            (0.5,0.72),
+            (0.5,0.65),
             self.go_to_settings),
+            ("Changelog",
+             (0.5,0.75),
+             self.go_to_changelog),
 
             ("Quit",
-            (0.5,0.82),
+            (0.5,0.85),
             self.system.quit),
         ]
 
@@ -333,8 +336,47 @@ class Menu(BaseMenu):
                 self.system,
                 40,
                 "Audio",
-                (0.5,0.45),
+                (0.5,0.35),
                 self.audio_settings
+            ),
+        )
+        if self.system.login_state.is_state(LOGIN_STATE.LOGGED_IN):
+            self.buttons.append(
+                Button(
+                    self.system,
+                    40,
+                    "Change Account",
+                    (0.5,0.45),
+                    self.change_account
+                ),
+            )
+        if self.system.login_state.is_state(LOGIN_STATE.LOGGED_OUT):
+            self.buttons.append(
+                Button(
+                    self.system,
+                    40,
+                    "Log In",
+                    (0.5,0.45),
+                    self.go_to_login
+                )
+            )
+            self.buttons.append(
+                Button(
+                    self.system,
+                    40,
+                    "Create Account",
+                    (0.5,0.55),
+                    self.change_account
+                ),
+            )
+
+        self.buttons.append(
+            Button(
+                self.system,
+                40,
+                "Back",
+                (0.95,0.90),
+                self.back_to_root
             )
         )
 
@@ -346,21 +388,10 @@ class Menu(BaseMenu):
                     self.system,
                     40,
                     "Developer Settings",
-                    (0.5,0.55),
+                    (0.15,0.90),
                     self.developer_settings
                 )
             )
-
-
-        self.buttons.append(
-            Button(
-                self.system,
-                40,
-                "Back",
-                (0.5,0.65),
-                self.back_to_root
-            )
-        )
 
     def create_audio_buttons(self):
 
@@ -417,7 +448,7 @@ class Menu(BaseMenu):
             Button(
                 self.system,
                 40,
-                "Music",
+                "Music:",
                 (0.5,0.6),
                 self.system.sound.toggle_music
             ),
@@ -425,7 +456,7 @@ class Menu(BaseMenu):
             Button(
                 self.system,
                 40,
-                "UI SFX",
+                "UI SFX:",
                 (0.5,0.7),
                 self.toggle_ui_sfx
             ),
@@ -433,7 +464,7 @@ class Menu(BaseMenu):
             Button(
                 self.system,
                 40,
-                "Game SFX",
+                "Game SFX:",
                 (0.5,0.8),
                 self.toggle_game_sfx
             ),
@@ -447,6 +478,10 @@ class Menu(BaseMenu):
             )
 
         ])
+    
+    def go_to_changelog(self):
+        self.state.set_state(MENUSTATE.CHANGELOG)
+        self.create_buttons()
 
     def back_to_root_changelog(self):
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
@@ -477,7 +512,14 @@ class Menu(BaseMenu):
                 "I already have an account",
                 (0.5,0.75),
                 self.go_to_login
-            )
+            ),
+            Button(
+                self.system,
+                40,
+                "Back",
+                (0.5,0.85),
+                self.go_to_settings
+            ),
 
         ])
 
@@ -488,8 +530,17 @@ class Menu(BaseMenu):
                 self.system,
                 40,
                 "Log In",
-                (0.5,0.65),
+                (0.5,0.55),
                 self.login
+            )
+        )
+        self.buttons.append(
+            Button(
+                self.system,
+                40,
+                "Back",
+                (0.5,0.65),
+                self.go_to_settings
             )
         )
 
@@ -506,10 +557,12 @@ class Menu(BaseMenu):
         self.create_buttons()
 
     def change_account(self):
-        self.state.set_state(MENUSTATE.CREATEUSERNAME)
+        self.state.set_state(MENUSTATE.CREATEACCOUNT)
         self.create_buttons()
 
     def go_to_login(self):
+        self.system.save.write_constant('leaderboard_opt_in','YES')
+        self.query = None
         self.state.set_state(MENUSTATE.LOGIN)
         self.create_buttons()
 
@@ -544,14 +597,14 @@ class Menu(BaseMenu):
     def leaderboard_opt_in(self):
         self.system.save.write_constant('leaderboard_opt_in','YES')
         self.query = None
-        self.state.set_state(MENUSTATE.CREATEUSERNAME)
+        self.state.set_state(MENUSTATE.CREATEACCOUNT)
         self.create_buttons()
     
     def leaderboard_opt_in_dev(self):
         if self.system.load.read_constant('username') == None:
             self.system.save.write_constant('leaderboard_opt_in','YES')
             self.query = None
-            self.state.set_state(MENUSTATE.CREATEUSERNAME)
+            self.state.set_state(MENUSTATE.CREATEACCOUNT)
             self.create_buttons()
         else:
             self.system.save.write_constant('leaderboard_opt_in','YES')

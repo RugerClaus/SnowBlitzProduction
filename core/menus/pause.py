@@ -1,69 +1,95 @@
 from core.menus.basemenu import BaseMenu
 from core.ui.button import Button
+from core.ui.newbutton import Button as newb
 from core.state.RuntimeLayer.Menu.Pause.state import PAUSE_MENU_STATE
 from core.state.RuntimeLayer.Menu.Pause.statemanager import PauseMenuStateManager
 from core.application.entities.player.ui.uimanager import SizeBar
 from core.state.ApplicationLayer.state import GAMESTATE
 
 class Pause(BaseMenu):
-    def __init__(self, system, game,game_interface, resume_callback, reset_game_callback):
+    def __init__(self, system, game, resume_callback, reset_game_callback):
         self.system = system
         self.game = game
-        self.game_interface = game_interface
         super().__init__(system)
         self.resume_callback = resume_callback
         self.reset_game_callback = reset_game_callback
         self.state = PauseMenuStateManager()
+        
+        self.menu_config = {
+            "Root": [
+                ("Resume", self.resume_callback, 0.30),
+                ("Main Menu", self.system.go_to_menu, 0.40),
+                ("Reset Game", self.reset_game_callback, 0.50),
+                ("Settings", self.go_to_settings, 0.60),
+                ("Quit", self.system.quit, 0.70),
+            ],
+
+            "Settings": [
+                ("Audio", self.audio_settings, 0.45),
+                ("Progress Bar", None, 0.55),
+                ("Back", self.back_to_root, 0.65),
+            ],
+
+            "Audio": [
+                ("-", self.system.sound.volume_down, 0.35, 0.40),
+                (f"Music Vol: {int(self.system.sound.volume * 10)}", None, 0.50, 0.40),
+                ("+", self.system.sound.volume_up, 0.65, 0.40),
+
+                ("-", self.system.sound.sfx_volume_down, 0.35, 0.50),
+                (f"SFX Vol: {int(self.system.sound.sfx_volume * 10)}", None, 0.50, 0.50),
+                ("+", self.system.sound.sfx_volume_up, 0.65, 0.50),
+
+                ("Music:", self.system.sound.toggle_music, 0.50, 0.60),
+                ("UI SFX:", self.toggle_ui_sfx, 0.50, 0.70),
+                ("Game SFX:", self.toggle_game_sfx, 0.50, 0.80),
+                ("Back", self.go_to_settings, 0.50, 0.90),
+            ]
+        }
         self.create_buttons()
 
     def create_buttons(self):
         self.buttons = []
-        screen_w, screen_h = self.system.window.get_screen().get_size()
-        btn_width, btn_height = screen_w // 4.5, 70
-        spacing = btn_height * 1.2
-        start_y = screen_h // 4 + screen_h // 7
-        center_x = screen_w // 2
 
         if self.state.is_state(PAUSE_MENU_STATE.ROOT):
-            self.buttons = [
-                Button(self.system.sound, self.system.window, "Resume", center_x, start_y, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.resume_callback),
-                Button(self.system.sound, self.system.window, "Main Menu", center_x, start_y + spacing * 1, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.system.go_to_menu),
-                Button(self.system.sound, self.system.window, "Reset Game", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.reset_game_callback),
-                Button(self.system.sound, self.system.window, "Settings", center_x, start_y + spacing * 3, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.go_to_settings),
-                Button(self.system.sound, self.system.window, "Quit", center_x, start_y + spacing * 4, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.system.quit),
-            ]
+            for text, callback, y in self.menu_config["Root"]:
+                self.buttons.append(
+                    newb(
+                        self.system,
+                        40,
+                        text,
+                        (0.5, y),
+                        callback
+                    )
+                )
+
         elif self.state.is_state(PAUSE_MENU_STATE.SETTINGS):
-            self.buttons = [
-                Button(self.system.sound, self.system.window, f"Audio", center_x, start_y, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.audio_settings),
-                Button(self.system.sound, self.system.window, f"Progress Bar: ", center_x, start_y + spacing * 1, btn_width * 1.9, btn_height, (255, 255, 255), self.button_action_true_color, self.game.progress_bar.toggle_location),
-                Button(self.system.sound, self.system.window, "Back", center_x, start_y + spacing * 2, btn_width, btn_height, (255, 255, 255), self.button_action_true_color, self.back_to_root),
-            ]
+            for text, callback, y in self.menu_config["Settings"]:
+                self.buttons.append(
+                    newb(
+                        self.system,
+                        40,
+                        text,
+                        (0.5, y),
+                        callback
+                    )
+                )
 
         elif self.state.is_state(PAUSE_MENU_STATE.AUDIO):
-            self.buttons = [
-                Button(self.system.sound, self.system.window, f"-", center_x - 200, self.system.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.system.sound.volume_down),
-                Button(self.system.sound, self.system.window, f"Music Vol: {int(self.system.sound.volume*10)}", center_x, self.system.window.get_height() // 2 - spacing, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
-                Button(self.system.sound, self.system.window, f"+", center_x + 200, self.system.window.get_height() // 2 - spacing, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.system.sound.volume_up),
-                
-                Button(self.system.sound, self.system.window, f"-", center_x - 200, self.system.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.system.sound.sfx_volume_down),
-                Button(self.system.sound, self.system.window, f"SFX Vol: {int(self.system.sound.sfx_volume*10)}", center_x, self.system.window.get_height() // 2 + spacing * 0.01, 0, btn_height, (255, 255, 255), (255,255,255), None,False),
-                Button(self.system.sound, self.system.window, f"+", center_x + 200, self.system.window.get_height() // 2 + spacing * 0.01, 50, btn_height, (255, 255, 255), self.button_action_true_color, self.system.sound.sfx_volume_up),
-                
-                Button(self.system.sound, self.system.window, f"Music:", center_x, self.system.window.get_height() // 2 + spacing * 1, 240, btn_height,
-                    (255, 255, 255), self.button_action_true_color, self.system.sound.toggle_music),
-                Button(self.system.sound, self.system.window, f"UI SFX:", center_x, self.system.window.get_height() // 2 + spacing * 2, 240, btn_height,
-                    (255, 255, 255), self.button_action_true_color, self.toggle_ui_sfx),
-                Button(self.system.sound, self.system.window, f"Game SFX:", center_x, self.system.window.get_height() // 2 + spacing * 3, 340, btn_height,
-                    (255, 255, 255), self.button_action_true_color, self.toggle_game_sfx),
-                Button(self.system.sound, self.system.window, "Back", center_x, self.system.window.get_height() // 2 + spacing * 4, 150, btn_height,
-                    (255, 255, 255), (255, 0, 80), self.go_to_settings)
-            ]
+            for text, callback, x, y in self.menu_config["Audio"]:
+                self.buttons.append(
+                    newb(
+                        self.system,
+                        35 if text in ("+", "-") else 40,
+                        text,
+                        (x, y),
+                        callback
+                    )
+                )
 
     def update_toggle_game_buttons(self):
         for button in self.buttons:
             if button.text.startswith("Progress Bar:"):
                 button.set_new_text(f"Progress Bar: {'Top' if self.game.progress_bar.location == SizeBar.TOP else 'Bottom'}")
-                
 
     def update(self):
         self.update_toggle_buttons()
@@ -101,18 +127,11 @@ class Pause(BaseMenu):
             self.on_resize()
 
     def draw(self):
-        t = self.system.time.get_current_time() / 1000
-        pulse = (self.system.math.sin(t) + 1) / 2
-        fade_color = (
-            0,
-            0,
-            int(20 + (35 - 20) * pulse)
-        )
-        # self.system.window.fill(fade_color)
 
         mouse_pos = self.system.input.get_mouse_pos()
         for button in self.buttons:
-            button.draw(mouse_pos)
+            button.update(mouse_pos)
+            button.draw()
 
         self.set_title("PAUSED")
 

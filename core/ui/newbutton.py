@@ -168,6 +168,7 @@ class Button:
 
 
     def set_text(self, text):
+        print(f"Changing '{self.text}' -> '{text}'")
         self.text = str(text)
         self.scale()
 

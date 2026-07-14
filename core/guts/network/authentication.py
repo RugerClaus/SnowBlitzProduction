@@ -1,6 +1,6 @@
 from core.application.network.endpoints import LOGIN,REGISTER
 from core.guts.network.system_endpoints import API_KEY,VERSION
-
+from core.state.RuntimeLayer.NetworkLayer.Login.state import LOGIN_STATE
 
 class Authentication:
 
@@ -44,6 +44,7 @@ class Authentication:
             "username",
             username
         )
+        self.system.save.write_constant("high_score", 0)
 
         self.system.save.write_constant(
             "clientAppPassword",
@@ -54,7 +55,7 @@ class Authentication:
             "clientID",
             data["clientID"]
         )
-
+        self.system.login_state.set_state(LOGIN_STATE.LOGGED_IN)
         return {
             "success": True
         }
@@ -99,7 +100,7 @@ class Authentication:
         )
 
         self.system.system_monitor["ClientConnected"] = True
-
+        self.system.login_state.set_state(LOGIN_STATE.LOGGED_IN)
         return {
             "success": True,
             "data": data
@@ -129,6 +130,7 @@ class Authentication:
         )
 
         if response["success"]:
+            self.system.login_state.set_state(LOGIN_STATE.LOGGED_IN)
             self.system.system_monitor["ClientConnected"] = True
 
         return response

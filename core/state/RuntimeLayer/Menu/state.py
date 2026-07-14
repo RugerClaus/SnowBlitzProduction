@@ -6,7 +6,7 @@ class MENUSTATE(Enum):
     CREDITS = auto()
     AUDIO = auto()
     LEADERBOARDOPTIN = auto()
-    CREATEUSERNAME = auto()
+    CREATEACCOUNT = auto()
     LEADERBOARDVIEWER = auto()
     DEVELOPERSETTINGS = auto()
     CHANGELOG = auto()

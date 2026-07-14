@@ -1,4 +1,5 @@
 from systemlogging import log_error
+import math
 
 def asset(asset):
     if asset == "title":
@@ -49,3 +50,8 @@ from core.guts.save.save import Save
 save = Save({})
 def write_envar_to_file(filename,value):
     save.write_constant(filename,value)
+
+def sine(current_time):
+    t = current_time / 1000
+    pulse = (math.sin(t) + 1) / 2
+    return pulse

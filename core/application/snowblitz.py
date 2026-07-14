@@ -141,7 +141,7 @@ class SnowBlitz:
         self.system.app_inspector["brightness"] = self.environment.day_cycle.get_brightness()
         self.system.app_inspector["temperature"] = f"{self.environment.temperature.get_fahrenheit()} F,{self.environment.temperature.get_celsius()} C"
         self.system.app_inspector["Day"] = self.environment.day_cycle.day
-        self.system.app_inspector["Season"] = self.environment.season.state.state_name
+        self.system.app_inspector["Season"] = self.environment.season.state.state
         self.system.app_inspector["Year"] = self.environment.day_cycle.year
         if self.player:
             self.system.app_inspector["shrinkrate"] = self.player.shrink_rate

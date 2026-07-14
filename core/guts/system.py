@@ -18,6 +18,7 @@ from core.application.save_schema import schema
 from core.guts.telemetry import system_monitor
 
 # state systems
+from core.state.RuntimeLayer.NetworkLayer.Login.statemanager import LoginStateManager
 from core.state.RuntimeLayer.statemanager import RuntimeStateManager
 from core.state.RuntimeLayer.DevTools.Debug.statemanager import DebugStateManager
 from core.state.RuntimeLayer.DevTools.DeveloperMode.statemanager import DeveloperModeStateManager
@@ -27,6 +28,7 @@ from core.state.RuntimeLayer.state import RUNTIME_STATE
 from core.state.RuntimeLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.state.RuntimeLayer.DevTools.StateMonitor.state import MONITOR_STATE
+
 
 class System():
     def __init__(self):
@@ -38,6 +40,7 @@ class System():
         self.overlay_state = DebugStateManager()
         self.control_state = DeveloperModeStateManager()
         self.state_monitor_state = StateMonitorStateManager()
+        self.login_state = LoginStateManager()
 
         self.time = Time()
 
