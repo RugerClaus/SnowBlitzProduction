@@ -77,3 +77,9 @@ class Keys:
     
     def backspace_key(self):
         return pygame.K_BACKSPACE
+    
+    def tab_key(self):
+        return pygame.K_TAB
+    
+    def enter_key(self):
+        return pygame.K_RETURN

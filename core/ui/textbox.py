@@ -1,11 +1,12 @@
+from core.ui.type import WIDGET
+from core.ui.element import UIElement
 from core.ui.font import FontEngine
 
-class TextBox:
-    def __init__(self,system,x_ratio,y_ratio,is_active=False):
+class TextBox(UIElement):
+    def __init__(self,system,position,is_active=False):
+        super().__init__(focusable=True,position=position)
         self.system = system
         self.font = FontEngine(30).font
-        self.x_ratio = x_ratio
-        self.y_ratio = y_ratio
         self.background_color = (0,0,0)
         self.scale()
         self.string = None
@@ -18,7 +19,7 @@ class TextBox:
         self.cursor_visible = True
 
         self.is_active = is_active
-        self.type = "input"
+        self.type = WIDGET.TEXTBOX
 
     def handle_event(self, event):
         if self.is_active:
@@ -48,11 +49,7 @@ class TextBox:
             return self.cursor if self.cursor_visible else ""
 
     def scale(self):
-        ww = self.system.window.get_width()
-        wh = self.system.window.get_height()
-
-        x = int(ww * self.x_ratio)
-        y = int(wh * self.y_ratio)
+        x,y = self.get_screen_position()
 
         self.bounding_box = self.system.window.make_surface(275, 100)
         self.bounding_box_rect = self.bounding_box.get_rect(

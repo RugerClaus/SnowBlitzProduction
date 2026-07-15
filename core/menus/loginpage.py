@@ -1,64 +1,103 @@
-from core.guts.user import User
+from core.ui.form import Form
 from core.ui.textbox import TextBox
-from core.ui.UIManager import UIManager
 from core.ui.label import Label
+from core.ui.query import Query
+from core.guts.user import User
+from core.util.colors import red
 
-class LoginPage:
+
+class LoginPage(Form):
     def __init__(self, system):
-        self.system = system
+        super().__init__(system)
+
         self.user = User(system)
 
-        self.username_label = Label(system, "Username:", 0.37, 0.3)
-        self.username_box = TextBox(system, 0.5, 0.3)
+        self.query = Query(
+            system,
+            "Please enter your username or password"
+        )
 
-        self.password_label = Label(system, "Password:", 0.37, 0.4)
-        self.password_box = TextBox(system, 0.5, 0.4)
+        self.add_child(self.query)
+
+        self.username_label = Label(
+            system,
+            "Username:",
+            (0.37, 0.3)
+        )
+
+        self.username_box = TextBox(
+            system,
+            (0.5, 0.3)
+        )
+
+        self.password_label = Label(
+            system,
+            "Password:",
+            (0.37, 0.4)
+        )
+
+        self.password_box = TextBox(
+            system,
+            (0.5, 0.4)
+        )
+
         self.password_box.is_password = True
 
-        self.ui = UIManager(system)
 
-        self.ui.add(self.username_label)
-        self.ui.add(self.username_box)
-        self.ui.add(self.password_label)
-        self.ui.add(self.password_box)
+        self.add_field(
+            "username",
+            self.username_box
+        )
+
+        self.add_field(
+            "password",
+            self.password_box
+        )
+
+
+        self.add_child(self.username_label)
+        self.add_child(self.password_label)
+
+
+        self.set_error_element(self.query)
 
         self.ui.set_active(self.username_box)
 
-        self.error = None
-
-    def handle_event(self, event):
-        self.ui.handle_event(event)
-
-    def scale(self):
-        self.ui.scale()
-
-    def draw(self):
-        self.ui.draw()
 
     def submit(self):
-        username = self.username_box.get_return_string()
-        password = self.password_box.get_return_string()
 
-        self.error = None
+        username = self.get_field("username").get_return_string()
+        password = self.get_field("password").get_return_string()
 
-        ehe = (244,20,20)
+        self.clear_error()
+
 
         if not username:
-            self.error = "Username is required"
+            self.set_error(
+                "Username is required",
+                red
+            )
             return False
 
+
         if not password:
-            self.error = "Password is required"
+            self.set_error(
+                "Password is required",
+                red
+            )
             return False
+
 
         result = self.system.auth.login(
             username,
             password
         )
 
+
         if result["success"]:
-            self.username_box.box.clear()
-            self.password_box.box.clear()
+
+            self.get_field("username").box.clear()
+            self.get_field("password").box.clear()
 
             self.system.save.write_constant(
                 "username",
@@ -67,5 +106,10 @@ class LoginPage:
 
             return True
 
-        self.error = result["message"]
+
+        self.set_error(
+            result["message"],
+            red
+        )
+
         return False

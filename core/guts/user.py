@@ -31,3 +31,10 @@ class User:
             )
 
         return int(score)
+    
+    @high_score.setter
+    def high_score(self, value):
+        self.system.save.write_constant(
+            "high_score",
+            int(value)
+        )

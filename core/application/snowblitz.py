@@ -38,7 +38,7 @@ class SnowBlitz:
         self.environment = Environment(system)
         self.endless_state = GAME_MODE.ENDLESS
         self.session = Session(system)
-        self.session.start_online_session()
+        
 
     def handle_event(self):
 
@@ -81,6 +81,7 @@ class SnowBlitz:
     def init_endless(self):
         self.init_player()
         if self.endless is None:
+            self.session.start_online_session()
             self.endless = Endless(self.progress_bar, self.player, self.entitymanager)
 
     def update(self):
@@ -158,6 +159,8 @@ class SnowBlitz:
             
 
     def reset_systems(self):
+        if self.mode.is_state(GAME_MODE.TUTORIAL):
+            self.system.user.high_score = 0
         del self.player
         del self.progress_bar
         del self.endless

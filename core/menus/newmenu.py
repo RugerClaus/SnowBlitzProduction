@@ -156,12 +156,10 @@ class Menu(BaseMenu):
 
         if self.state.is_state(MENUSTATE.CREATEACCOUNT):
             self.set_title(None)
-            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter a username and create a password:")
             self.user_creator.draw()
 
         if self.state.is_state(MENUSTATE.LOGIN):
             self.set_title(None)
-            self.set_query(self.user_creator.error if self.user_creator.error else "Please enter your username and password:")
             self.login_page.draw()
 
         if self.state.is_state(MENUSTATE.ROOT) and self.system.updater.state.is_state(UPDATE_STATE.CURRENT):
@@ -230,8 +228,14 @@ class Menu(BaseMenu):
                         break
         if self.state.is_state(MENUSTATE.LOGIN):
             self.login_page.handle_event(event)
+            if event.type == self.system.input.keydown():
+                if event.key == self.system.input.keys.enter_key():
+                    self.login()
         if self.state.is_state(MENUSTATE.CREATEACCOUNT):
             self.user_creator.handle_event(event)
+            if event.type == self.system.input.keydown():
+                if event.key == self.system.input.keys.enter_key():
+                    self.create_account()
         if self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
             self.leaderboard.handle_event(event)
         if self.state.is_state(MENUSTATE.CHANGELOG):
@@ -627,7 +631,6 @@ class Menu(BaseMenu):
         print(success)
 
         if not success:
-            self.set_query(self.login_page.error)
             return
         self.set_query("")
         self.state.set_state(MENUSTATE.ROOT)
@@ -653,4 +656,5 @@ class Menu(BaseMenu):
     
     def go_to_settings(self):
         self.state.set_state(MENUSTATE.SETTINGS)
+        self.query = None
         self.create_buttons()

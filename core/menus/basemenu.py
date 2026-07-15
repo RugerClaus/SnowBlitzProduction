@@ -51,7 +51,7 @@ class BaseMenu:
             rect = surf.get_rect(center=(self.system.window.get_width() // 2, self.title_height))
             self.system.window.blit(surf, rect)
         if self.query is not None:
-            text_color = (255, 255, 255)
+            text_color = (0, 255, 255)
             surf = self.query_font.render(self.query, False, text_color)
             rect = surf.get_rect(center=(self.system.window.get_width() // 2, self.system.window.get_height() // 4))
             self.system.window.blit(surf, rect)

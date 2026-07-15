@@ -1,3 +1,4 @@
+from core.ui.type import WIDGET
 from core.ui.font import FontEngine
 
 from core.state.RuntimeLayer.Audio.Interface.state import INTERFACE_SFX_STATE
@@ -16,6 +17,7 @@ class Button:
         self.active = active
         self.text_unhovered_color = text_unhovered_color
         self.text_hovered_color = text_hovered_color
+        self.type = WIDGET.BUTTON
         
         if background_color is None:
             self.color = (0, 0, 0)

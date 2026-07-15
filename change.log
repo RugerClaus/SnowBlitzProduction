@@ -100,3 +100,24 @@ Development version Beta 0.9.8 - 2026-07-08
 - Added Sun (rising/setting with time and increasing temperature)
 - Player snowball now shrinks faster depending on temperature
 - Updated to latest version of Distant Realms Framework
+
+Development version Beta 0.9.9 - 2026-07-xx
+--------------------------------------------
+- Added Snow Blitz debug utilities class
+- Added support for multiple text boxes and passwords
+- Added UI manager that will eventually house the entire UI system allowing for editor level construction of menus
+- Added full support for authenticated user accounts, and properly built a network stack as part of the runtime
+- Ported new framework features back into the Distant Realms repo and then made more runtime level changes back into this repo
+- APPSTATE is now RUNTIME_STATE and now only serves as a lifecycle state definition rather than an app state definition.
+- Updated UI system to allow for scrollables. Leaderboard now shows entire leaderboard.
+- Improved player size by tying it to a normalized size and calculating based on that
+- Smoother growing
+- Day cycle is twice as long and fully includes a night cycle as well
+- Added seasons
+- Added days
+- Added years
+- Added the start of a weather system
+- Added extensible environment system
+- Updated to Distant Realms version 0.3.0-alpha
+- Abstracted UI even more allowing for widgets, composables (forms/maybe menus in the future), and a simple UI manager for composables
+-- Old immediate mode menus still exist
