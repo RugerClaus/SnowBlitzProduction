@@ -11,7 +11,8 @@ class Credits(CenterText):
         soundtrack = f"Soundtrack by {self.authors[0]}"
         design = f"Designed on the Distant Realms Python \n framework by {self.authors[0]}"
         logo = f"Logo by {self.authors[1]}"
-        self._draw_centered_text(f"{title}\n{soundtrack}\n{design}\n{logo}\n")
+        font = f"Font: \nOpen Sans PX - Google\n- Copyright 2010-2011, Google Corporation\n- Apache 2.0"
+        self._draw_centered_text(f"{title}\n{soundtrack}\n{design}\n{logo}\n{font}\n")
 
     def rescale(self):
         self.draw()

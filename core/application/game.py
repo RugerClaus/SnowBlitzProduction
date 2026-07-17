@@ -27,11 +27,14 @@ class Game:
             self.state.set_state(GAMESTATE.PAUSED)
 
         else:
+            self.game_object.environment.day_cycle.resume()
             self.state.set_state(GAMESTATE.PLAYING)
-
+            
     def handle_event(self, event):
+        if event.type == self.system.input.window_focus_lost():
+            self.state.set_state(GAMESTATE.PAUSED)
         if event.type == self.system.input.keydown():
-            if self.system.input.get_key_name(event.key) == "escape":
+            if event.key == self.system.input.keys.escape_key():
                 if self.state.is_state(GAMESTATE.PAUSED):
                     self.pause_menu.back_to_root()
 
@@ -43,23 +46,7 @@ class Game:
 
             if event.type == self.system.input.keydown():
                 if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-                    if event.key == self.system.input.keys.seven_key():
-                        self.game_object.player.current_level = 19
-
-                    elif event.key == self.system.input.keys.h_key():
-                        self.game_object.player.current_level = 15
-
-                    elif event.key == self.system.input.keys.F3_key():
-                        self.game_object.debug.toggle_debug_snowflake_lines()
-
-                    elif event.key == self.system.input.keys.F4_key():
-                        self.game_object.debug.toggle_debug_rock_lines()
-
-                    elif event.key == self.system.input.keys.F5_key():
-                        self.game_object.debug.toggle_debug_powerup_lines()
-
-                    elif event.key == self.system.input.keys.F6_key():
-                        self.game_object.debug.toggle_debug_reducer_lines()
+                    self.game_object.debug.handle_event(event)
 
         elif self.state.is_state(GAMESTATE.PAUSED):
             self.pause_menu.handle_event(event)
@@ -81,7 +68,6 @@ class Game:
     def draw(self):
         if self.state.is_state(GAMESTATE.PAUSED):
             self.game_object.draw()
-            self.pause_menu.update()
             self.pause_menu.draw()
 
         elif self.state.is_state(GAMESTATE.PLAYING):
@@ -106,6 +92,9 @@ class Game:
 
         if self.state.is_state(GAMESTATE.PLAYING):
             self.game_object.update()
+
+        if self.state.is_state(GAMESTATE.PAUSED):
+            self.pause_menu.update()
 
     def resize(self,event):
         self.game_object.resize(event)

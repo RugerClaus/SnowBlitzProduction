@@ -16,8 +16,6 @@ class Window:
         self.fullscreen = False
         self.set_mode(self.width,self.height)
         self.Rect = pygame.Rect
-        
-        
 
     def mask(self,surface):
         return pygame.mask.from_surface(surface)
@@ -104,7 +102,7 @@ class Window:
             log_error("color must be a tuple",object)
 
         elif not isinstance(rect,pygame.Rect):
-            log_error("rect must be a pygame.Rect") # this will change once I create my own solution for rects
+            log_error("rect must be a pygame.Rect")
             
         if border_radius:
             pygame.draw.rect(surface, color, rect, width, border_radius)

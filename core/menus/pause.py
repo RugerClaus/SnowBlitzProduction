@@ -26,7 +26,7 @@ class Pause(BaseMenu):
 
             "Settings": [
                 ("Audio", self.audio_settings, 0.45),
-                ("Progress Bar", None, 0.55),
+                ("Progress Bar:", self.game.toggle_hud, 0.55),
                 ("Back", self.back_to_root, 0.65),
             ],
 
@@ -89,7 +89,7 @@ class Pause(BaseMenu):
     def update_toggle_game_buttons(self):
         for button in self.buttons:
             if button.text.startswith("Progress Bar:"):
-                button.set_new_text(f"Progress Bar: {'Top' if self.game.progress_bar.location == SizeBar.TOP else 'Bottom'}")
+                button.set_text(f"Progress Bar: {'Top' if self.game.hud.location == SizeBar.TOP else 'Bottom'}")
 
     def update(self):
         self.update_toggle_buttons()

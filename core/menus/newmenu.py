@@ -156,6 +156,7 @@ class Menu(BaseMenu):
 
         if self.state.is_state(MENUSTATE.CREATEACCOUNT):
             self.set_title(None)
+            self.user_creator.update()
             self.user_creator.draw()
 
         if self.state.is_state(MENUSTATE.LOGIN):
@@ -197,7 +198,7 @@ class Menu(BaseMenu):
         
         if self.state.is_state(MENUSTATE.LEADERBOARDVIEWER):
             self.leaderboard.fetch_and_display()
-            self.set_title("Top 10 Leaderboard")
+            self.set_title("Global Leaderboard")
 
         self.draw_title()
 
@@ -350,7 +351,7 @@ class Menu(BaseMenu):
                     self.system,
                     40,
                     "Change Account",
-                    (0.5,0.45),
+                    (0.5,0.65),
                     self.change_account
                 ),
             )
@@ -360,7 +361,7 @@ class Menu(BaseMenu):
                     self.system,
                     40,
                     "Log In",
-                    (0.5,0.45),
+                    (0.5,0.65),
                     self.go_to_login
                 )
             )
@@ -369,7 +370,7 @@ class Menu(BaseMenu):
                     self.system,
                     40,
                     "Create Account",
-                    (0.5,0.55),
+                    (0.5,0.65),
                     self.change_account
                 ),
             )
@@ -383,7 +384,6 @@ class Menu(BaseMenu):
                 self.back_to_root
             )
         )
-
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
 
@@ -494,6 +494,10 @@ class Menu(BaseMenu):
             self.system.save.write_envar('recentlyupdated', 'false')
         self.state.set_state(MENUSTATE.ROOT)
         self.create_buttons()
+    
+    def go_to_settings_form(self,form):
+        form.clear()
+        self.go_to_settings()
 
     def open_website(self):
         webbrowser.open("https://snowblitz.net", new=2)
@@ -522,7 +526,7 @@ class Menu(BaseMenu):
                 40,
                 "Back",
                 (0.5,0.85),
-                self.go_to_settings
+                lambda: self.go_to_settings_form(self.user_creator)
             ),
 
         ])
@@ -544,7 +548,7 @@ class Menu(BaseMenu):
                 40,
                 "Back",
                 (0.5,0.65),
-                self.go_to_settings
+                lambda: self.go_to_settings_form(self.login_page)
             )
         )
 
@@ -574,9 +578,7 @@ class Menu(BaseMenu):
         success = self.user_creator.submit()
 
         if not success:
-            self.set_query(self.user_creator.error)
             return
-        self.set_query("")
         self.state.set_state(MENUSTATE.ROOT)
         self.create_buttons()
 

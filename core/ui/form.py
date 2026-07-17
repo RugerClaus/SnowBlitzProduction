@@ -16,6 +16,7 @@ class Form(UIElement):
 
         self.type = COMPOSABLE.FORM
 
+        self.loaded = False
 
     def add_child(self, element):
         self.children.append(element)
@@ -26,10 +27,8 @@ class Form(UIElement):
         self.fields[name] = element
         self.add_child(element)
 
-
     def get_field(self, name):
         return self.fields[name]
-
 
     def set_error_element(self, element):
         self.error_element = element
@@ -40,7 +39,6 @@ class Form(UIElement):
         if self.error_element:
             self.error_element.set_text(message, color)
 
-
     def clear_error(self):
         if self.error_element:
             self.error_element.set_text("")
@@ -49,6 +47,9 @@ class Form(UIElement):
     def handle_event(self, event):
         self.ui.handle_event(event)
 
+    def on_load(self):
+        pass
+
     def draw(self):
         self.ui.draw()
 
@@ -56,6 +57,8 @@ class Form(UIElement):
     def scale(self):
         self.ui.scale()
 
+    def update(self):
+        pass
 
     def submit(self):
         pass

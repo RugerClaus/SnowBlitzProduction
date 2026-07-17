@@ -1,137 +1,112 @@
 from enum import Enum, auto
 from core.ui.font import FontEngine
 
+
 class SizeBar(Enum):
     BOTTOM = auto()
     TOP = auto()
 
+
 class PlayerUIManager:
     def __init__(self, system, player):
-        self.location = SizeBar.BOTTOM
         self.system = system
         self.player = player
-        self.bar_width = self.system.window.get_width()
-        self.bar_height = 20 
-        self.surface = self.system.window.make_surface(self.bar_width, self.bar_height, True)
-        self.rect_position = (0, 0)
+
+        self.location = SizeBar.BOTTOM
+        self.normalized_y = 1.0
+
+        self.bar_width = 0
+        self.bar_height = 20
+        self.surface = None
+        self.rect_position = (0,0)
+
         self.font = FontEngine(30).font
         self.score_font = FontEngine(50).font
+
         self.last_reset_time = self.system.time.get_current_time()
-        
-    def scale(self):
-        if self.location == SizeBar.BOTTOM:
-            self.bar_width = self.system.window.get_width()
-            self.rect_position = (0, self.system.window.get_height() - self.bar_height)
-        elif self.location == SizeBar.TOP:
-            self.bar_width = self.system.window.get_width()
-            self.rect_position = (0, 0)
 
-        self.surface = self.system.window.make_surface(self.bar_width, self.bar_height, True)
-        
+        self.scale()
+        self.update()
 
-    def toggle_location(self):
+    def toggle(self):
         if self.location == SizeBar.BOTTOM:
             self.location = SizeBar.TOP
         else:
             self.location = SizeBar.BOTTOM
 
-    def reset_timer(self):
-        self.last_reset_time = self.system.time.get_current_time()
+        self.update()
+
+    def scale(self):
+        self.bar_width = self.system.window.get_width()
+        self.surface = self.system.window.make_surface(self.bar_width,self.bar_height,True)
+
+    def update(self):
+        self.bar_width = self.system.window.get_width()
+
+        if self.location == SizeBar.BOTTOM:
+            self.normalized_y = 1.0
+        else:
+            self.normalized_y = 0.0
+
+        y = int((self.system.window.get_height() - self.bar_height) * self.normalized_y)
+        self.rect_position = (0,y)
 
     def draw_player_info(self):
         now = self.system.time.get_current_time()
         elapsed_ms = now - self.last_reset_time
+
         seconds = (elapsed_ms // 1000) % 60
-        minutes = (elapsed_ms // 60000)
+        minutes = elapsed_ms // 60000
 
-        time_text = f"Time: {minutes:02}:{seconds:02}"
-        time_surface = self.font.render(time_text, True, (255, 255, 255))
-
-        size_text = f"Size: {round(self.player.diam)}"
-        size_surface = self.font.render(size_text, True, (255, 255, 255))
-
-        
-
-        size_to_level_up_text = f"Size to level up: {self.player.level_up_size}"
-        size_to_level_up_surface = self.font.render(size_to_level_up_text, True, (255,255,255))
-
-        line_spacing = 20
+        time_surface = self.font.render(f"Time: {minutes:02}:{seconds:02}",True,(255,255,255))
+        size_surface = self.font.render(f"Size: {round(self.player.diam)}",True,(255,255,255))
+        level_size_surface = self.font.render(f"Size to level up: {self.player.level_up_size}",True,(255,255,255))
 
         if self.location == SizeBar.TOP:
-            top_y = self.bar_height
+            y = self.rect_position[1] + self.bar_height + 10
+            scoreboxy = y
+        else:
+            y = self.rect_position[1] - 70
+            scoreboxy = y + 30
 
-            high_score_text = f"High Score: {self.player.current_high_score}"
-            high_score_surface = self.score_font.render(high_score_text, True, (255,74,128))
-            high_score_surface_rect = high_score_surface.get_rect(right = self.system.window.get_width() - 5, top = top_y)
+        high_score_surface = self.score_font.render(f"High Score: {self.player.current_high_score}",True,(255,74,128))
+        score_surface = self.score_font.render(f"Score: {self.player.score} x{self.player.multiplier}",True,(255,255,0))
+        level_surface = self.score_font.render(f"Level: {self.player.current_level}",True,(255,255,255))
 
-            score_text = f"Score: {self.player.score} X {self.player.multiplier}"
-            score_surface = self.score_font.render(score_text, True, (255,255,0))
-            score_surface_rect = score_surface.get_rect(right = high_score_surface_rect.left - 10, top = top_y)
+        high_rect = high_score_surface.get_rect(right=self.system.window.get_width()-5,top=scoreboxy)
+        score_rect = score_surface.get_rect(right=high_rect.left-10,top=scoreboxy)
+        level_rect = level_surface.get_rect(right=score_rect.left-10,top=scoreboxy)
 
-            level_text = f"Level: {self.player.current_level}"
-            level_surface = self.score_font.render(level_text, True, (255,255,255))
-            level_surface_rect = level_surface.get_rect(right = score_surface_rect.left - 10, top = top_y)
+        self.system.window.blit(time_surface,(10,y))
+        self.system.window.blit(size_surface,(10,y+20))
+        self.system.window.blit(level_size_surface,(10,y+40))
 
-            self.system.window.blit(time_surface, (10, top_y))
-            self.system.window.blit(size_surface, (10, top_y + line_spacing))
-            self.system.window.blit(high_score_surface, high_score_surface_rect)
-            self.system.window.blit(score_surface, score_surface_rect)
-            self.system.window.blit(level_surface, level_surface_rect)
-            self.system.window.blit(size_to_level_up_surface, (time_surface.get_rect().right + 30, top_y))
-
-        elif self.location == SizeBar.BOTTOM:
-            bottom_y = self.system.window.get_height() - self.bar_height - 90
-
-            high_score_text = f"High Score: {self.player.current_high_score}"
-            high_score_surface = self.score_font.render(high_score_text, True, (255,74,128))
-            high_score_surface_rect = high_score_surface.get_rect(right = self.system.window.get_width() - 5, top = self.system.window.get_height() - self.bar_height - 45)
-
-            score_text = f"Score: {self.player.score} X{self.player.multiplier}"
-            score_surface = self.score_font.render(score_text, True, (255,255,0))
-            score_surface_rect = score_surface.get_rect(right = high_score_surface_rect.left - 10, top = self.system.window.get_height() - self.bar_height - 45)
-
-            level_text = f"Level: {self.player.current_level}"
-            level_surface = self.score_font.render(level_text, True, (255,255,255))
-            level_surface_rect = level_surface.get_rect(right = score_surface_rect.left - 10, top = self.system.window.get_height() - self.bar_height - 45)
-
-            self.system.window.blit(time_surface, (10, bottom_y + line_spacing))
-            self.system.window.blit(size_surface, (10, bottom_y + line_spacing * 2))
-            self.system.window.blit(size_to_level_up_surface, (10, bottom_y + line_spacing * 3))
-            self.system.window.blit(high_score_surface, high_score_surface_rect)
-            self.system.window.blit(score_surface, score_surface_rect)
-            self.system.window.blit(level_surface, level_surface_rect)
+        self.system.window.blit(high_score_surface,high_rect)
+        self.system.window.blit(score_surface,score_rect)
+        self.system.window.blit(level_surface,level_rect)
 
     def draw(self):
+        self.surface.fill((0,0,0))
 
-        self.surface.fill((0, 0, 0))
+        progress = min(self.player.diam / self.player.level_up_size,1.0)
+        fill_width = max(int(self.bar_width * progress),1)
 
-        if self.location in [SizeBar.TOP, SizeBar.BOTTOM]:
-            size_avg = self.player.diam
-            progress = min(size_avg / self.player.level_up_size, 1.0)
-            fill_width = int(self.bar_width * progress)
-            fill_width = max(fill_width, 1)
+        outline = self.system.window.Rect(0,0,self.bar_width,self.bar_height)
 
-            outline_rect = self.system.window.Rect(0, 0, self.bar_width, self.bar_height)
+        fill_color = (
+            int(255 * (1-progress)),
+            int(255 * progress),
+            0
+        )
 
-            fill_color = (
-                max(0, min(255, int(255 * (1 - progress)))),
-                max(0, min(255, int(255 * progress))),
-                0
-            )
-            fill_rect = self.system.window.Rect(
-                outline_rect.left + 2,       
-                outline_rect.top + 2,        
-                fill_width - 4,
-                self.bar_height - 4
-            )
+        fill_rect = self.system.window.Rect(2,2,fill_width-4,self.bar_height-4)
 
-            self.system.window.draw_rect(self.surface, fill_color, fill_rect)
-            self.system.window.draw_rect(self.surface, (255, 255, 255), outline_rect, 2)
-            
-        
+        self.system.window.draw_rect(self.surface,fill_color,fill_rect)
+        self.system.window.draw_rect(self.system.window,self.surface,(255,255,255),outline,2)
 
-        self.system.window.blit(self.surface, self.rect_position)
+        self.system.window.blit(self.surface,self.rect_position)
+
         self.draw_player_info()
 
-    def update(self):
-        self.scale()
+    def reset_timer(self):
+        self.last_reset_time = self.system.time.get_current_time()

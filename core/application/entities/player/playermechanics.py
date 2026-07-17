@@ -10,7 +10,6 @@ from core.application.entities.type import EntityType
 class PlayerMechanics:
 
     @staticmethod
-    @staticmethod
     def get_current_high_score(user):
         return user.high_score
 
@@ -187,7 +186,6 @@ class PlayerMechanics:
     @staticmethod
     def collect_snowflake(player, snowflake):
         player.diam += snowflake.diam / 2
-        print("PLAYER SIZE:", player.diam)
 
 
     @staticmethod
@@ -324,18 +322,14 @@ class PlayerMechanics:
 
         player.powerup_duration = duration
         player.last_powerup_start_time = player.system.time.get_current_time()
-
                 
-
     @staticmethod
     def handle_reducer(player,reducer):
         number = reducer.get_reducer_number()
         player.level_up_size -= number if number < player.level_up_size else player.level_up_size - 1
 
-
     @staticmethod
     def handle_sfx(player):
-
         if not player.power_state.is_state(PLAYER_POWER_STATE.NONE):
             if 'powerup_active' not in player.system.sound.active_sfx: 
                 player.system.sound.play_sfx('powerup_active')

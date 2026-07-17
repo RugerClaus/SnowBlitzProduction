@@ -1,3 +1,4 @@
+import time
 import pygame
 class Time:
     def __init__(self):
@@ -17,3 +18,6 @@ class Time:
     def delta_time(self):
         ms = self.timer()
         return ms / 1000.0
+    
+    def sleep(self,ms):
+        time.sleep(ms)

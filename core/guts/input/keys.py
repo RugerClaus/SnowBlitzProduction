@@ -44,6 +44,24 @@ class Keys:
     
     def F6_key(self):
         return pygame.K_F6
+    
+    def F7_key(self):
+        return pygame.K_F7
+    
+    def F8_key(self):
+        return pygame.K_F8
+    
+    def F9_key(self):
+        return pygame.K_F9
+    
+    def F10_key(self):
+        return pygame.K_F10
+    
+    def F11_key(self):
+        return pygame.K_F11
+    
+    def F12_key(self):
+        return pygame.K_F12
 
     def up_arrow_key(self):
         return pygame.K_UP
@@ -83,3 +101,6 @@ class Keys:
     
     def enter_key(self):
         return pygame.K_RETURN
+    
+    def escape_key(self):
+        return pygame.K_ESCAPE

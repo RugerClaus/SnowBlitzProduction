@@ -74,6 +74,8 @@ class System():
     
         self.system_monitor["OS"] = config.get("OSV")
 
+        self.system_monitor["Client Version"] = config.get("VERSION")
+
         self.application = None
 
         if self.control_state.is_state(DEVELOPER_MODE.ON):

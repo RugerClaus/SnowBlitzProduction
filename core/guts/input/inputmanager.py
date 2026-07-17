@@ -46,6 +46,10 @@ class InputManager:
     
     def mouse_scroll_event(self):
         return pygame.MOUSEWHEEL
+    
+    def reset_mouse_input(self):
+        pygame.event.clear(pygame.MOUSEBUTTONDOWN)
+        pygame.event.clear(pygame.MOUSEBUTTONUP)
 
     def key_register(self,key):
         now = self.system.time.get_current_time()
@@ -114,3 +118,9 @@ class InputManager:
 
     def clear_released(self):
         self.released_keys.clear()
+
+    def window_focus_gained(self):
+        return pygame.WINDOWFOCUSGAINED
+    
+    def window_focus_lost(self):
+        return pygame.WINDOWFOCUSLOST

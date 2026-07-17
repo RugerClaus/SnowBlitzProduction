@@ -23,6 +23,8 @@ class DayCycle:
         self.day = 0
         self.year = 0
 
+        self.color = (20, 30, 80)
+
 
     def update(self):
 
@@ -47,34 +49,20 @@ class DayCycle:
             self.night_length
         )
 
-
         if self.current_time >= cycle_length:
 
             self.current_time -= cycle_length
             self.day += 1
+
             if self.day >= 100:
                 self.day = 0
                 self.year += 1
 
 
-
-    def get_time_progress(self):
-
-        cycle_length = (
-            self.day_length
-            +
-            self.night_length
-        )
-
-        return (
-            self.current_time
-            /
-            cycle_length
-        )
+        self._update_environment()
 
 
-
-    def get_day_night_color(self):
+    def _update_environment(self):
 
         night = (
             20,
@@ -95,14 +83,10 @@ class DayCycle:
                 /
                 self.day_length
             )
-            self.brightness = (
-                math.sin(
-                    day_progress
-                    *
-                    math.pi
-                )
-            )
 
+            self.brightness = math.sin(
+                day_progress * math.pi
+            )
 
             r = int(
                 night[0]
@@ -128,30 +112,32 @@ class DayCycle:
                 self.brightness
             )
 
+            self.color = (r, g, b)
 
-        # night phase
         else:
 
             self.brightness = 0
-
-            r, g, b = night
-
-
-
-        self.system.window.fill(
-            (
-                r,
-                g,
-                b
-            )
-        )
-
+            self.color = night
 
 
     def draw(self):
 
-        self.get_day_night_color()
+        self.system.window.fill(self.color)
 
+
+    def get_time_progress(self):
+
+        cycle_length = (
+            self.day_length
+            +
+            self.night_length
+        )
+
+        return (
+            self.current_time
+            /
+            cycle_length
+        )
 
 
     def get_brightness(self):
@@ -161,13 +147,11 @@ class DayCycle:
         )
 
 
-
     def get_daytime(self):
 
         return int(
             self.current_time / 1000
         )
-
 
 
     def is_day(self):
@@ -179,7 +163,6 @@ class DayCycle:
         )
 
 
-
     def reset(self):
 
         self.current_time = self.start_time
@@ -189,6 +172,8 @@ class DayCycle:
         )
 
         self.brightness = 0
+        self.color = (20, 30, 80)
+
 
     def get_sun_progress(self):
 
@@ -200,3 +185,5 @@ class DayCycle:
             /
             self.day_length
         )
+    def resume(self):
+        self.last_update_time = self.system.time.get_current_time()

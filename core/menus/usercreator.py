@@ -24,7 +24,7 @@ class UserCreator(Form):
 
         self.password_box.is_password = True
 
-        self.confirm_password_label = Label(system,"Confirm Password:",(0.37,0.5))
+        self.confirm_password_label = Label(system,"Confirm Password:",(0.34,0.5))
         self.confirm_password_box = TextBox(system,(0.5,0.5))
 
         self.confirm_password_box.is_password = True
@@ -39,10 +39,19 @@ class UserCreator(Form):
         self.add_child(self.password_label)
         self.add_child(self.confirm_password_label)
 
-
         self.set_error_element(self.query)
 
+    def on_load(self):
         self.ui.set_active(self.username_box)
+        return super().on_load()
+    
+    def update(self):
+        pass
+
+    def clear(self):
+        self.get_field("username").box.clear()
+        self.get_field("password").box.clear()
+        self.get_field("confirm_password").box.clear()
 
     def submit(self):
 
@@ -57,6 +66,7 @@ class UserCreator(Form):
                 "Username is required",
                 red
             )
+            self.username_box.error_back()
             return False
 
         if len(username) < 5:
@@ -64,6 +74,7 @@ class UserCreator(Form):
                 "Username must be more than 5 characters",
                 red
             )
+            self.username_box.error_back()
             return False
 
         if len(password) < 8:
@@ -71,6 +82,7 @@ class UserCreator(Form):
                 "Password must be at least 8 characters",
                 red
             )
+            self.password_box.error_back()
             return False
 
         if password != confirm:
@@ -78,6 +90,7 @@ class UserCreator(Form):
                 "Passwords do not match",
                 red
             )
+            self.confirm_password_box.error_back()
             return False
 
 
@@ -96,7 +109,7 @@ class UserCreator(Form):
                 "username",
                 username
             )
-
+            self.loaded = False
             return True
 
 
