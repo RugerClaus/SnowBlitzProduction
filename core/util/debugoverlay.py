@@ -264,6 +264,5 @@ class DebugOverlay:
             self.rect
         )
 
-
     def update(self):
         pass
