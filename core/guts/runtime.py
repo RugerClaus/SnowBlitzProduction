@@ -8,7 +8,7 @@ from core.util.debugoverlay import DebugOverlay
 from core.menus.newmenu import Menu
 from core.loading.BootSplashManager import BootSplashManager
 
-class App:
+class Runtime:
     def __init__(self,system):
 
         self.system = system

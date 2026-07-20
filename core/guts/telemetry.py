@@ -3,5 +3,6 @@ system_monitor ={
     "ClientConnected": None,
     "clientAppPassword": None,
     "OS": None,
-    "Client Version" : None
+    "Client Version" : None,
+    "Audio": None
 }

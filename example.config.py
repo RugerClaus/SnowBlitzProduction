@@ -9,6 +9,7 @@ config = {
     "UPDATER_WINDOWS": "updater.exe",
     "UPDATER_LINUX": "updater",
     "UPDATER_VERSION": "0.0.2",
+    "NSTATURL": "https://xmission.com",
     "API": {
         "LEADERBOARD": "",
         "USER_AUTH": "",

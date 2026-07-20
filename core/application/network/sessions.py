@@ -105,7 +105,6 @@ class Session:
         
         if not self.state.is_state(ONLINE_SESSION_STATE.ACTIVE):
             return False
-        print("submitting score to server")
 
         leaderboard = Leaderboard(self.system)
 

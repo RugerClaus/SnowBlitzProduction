@@ -8,12 +8,6 @@ class Authentication:
         self.system = system
         self.network = system.network
 
-        print("REGISTER ENDPOINT:", REGISTER)
-        print("LOGIN ENDPOINT:", LOGIN)
-        print("API_KEY:", API_KEY)
-        print("VERSION:", VERSION)
-
-
     def register(self, username, password):
 
         response = self.network.post(
@@ -25,8 +19,6 @@ class Authentication:
                 "client_version": VERSION
             }
         )
-
-        print("REGISTER RESPONSE:", response)
 
         if not response.get("success"):
             return response
