@@ -72,13 +72,6 @@ class Session:
                         "type": "VERSION_OUTDATED",
                         "minimumVersion": response.get("minimumVersion")
                     }
-
-                else:
-                    self.system.app_inspector["OnlineSessionError"] = {
-                        "type": "SERVER_ERROR",
-                        "message": message
-                    }
-
                 self.state.set_state(ONLINE_SESSION_STATE.INACTIVE)
                 return
 
@@ -86,9 +79,7 @@ class Session:
             data = response.get("data")
 
             if not data or "sessionToken" not in data:
-                self.system.app_inspector["OnlineSessionError"] = {
-                    "type": "INVALID_SESSION_RESPONSE"
-                }
+
                 self.state.set_state(ONLINE_SESSION_STATE.INACTIVE)
                 return
 

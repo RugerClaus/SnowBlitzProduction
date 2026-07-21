@@ -119,9 +119,14 @@ class Authentication:
                 "key": API_KEY,
                 "client_version": VERSION
             }
-        )
+        )           
 
         if response["success"]:
+            data = response["data"]
+            self.system.save.write_constant(
+                "high_score",
+                data["score"]
+            ) 
             self.system.login_state.set_state(LOGIN_STATE.LOGGED_IN)
             self.system.system_monitor["ClientConnected"] = True
 
