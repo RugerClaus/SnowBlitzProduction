@@ -17,6 +17,14 @@ class User:
             )
 
         return username
+    
+    @username.setter
+    def username(self,value):
+        username = value
+        self.system.save.write_constant(
+            "username",
+            username
+        )
 
     @property
     def high_score(self):

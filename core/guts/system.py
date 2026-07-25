@@ -32,7 +32,6 @@ from core.state.RuntimeLayer.DevTools.StateMonitor.state import MONITOR_STATE
 
 class System():
     def __init__(self):
-
         self.math = math
         self.random = random
 

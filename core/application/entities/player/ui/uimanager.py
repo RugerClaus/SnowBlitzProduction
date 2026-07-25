@@ -101,8 +101,8 @@ class PlayerUIManager:
 
         fill_rect = self.system.window.Rect(2,2,fill_width-4,self.bar_height-4)
 
-        self.system.window.draw_rect(self.surface,fill_color,fill_rect)
-        self.system.window.draw_rect(self.system.window,self.surface,(255,255,255),outline,2)
+        self.system.window.draw_rect(self.surface,fill_color,fill_rect,object="UI manager")
+        self.system.window.draw_rect(self.surface,(255,255,255),outline,2,object="UI manager")
 
         self.system.window.blit(self.surface,self.rect_position)
 

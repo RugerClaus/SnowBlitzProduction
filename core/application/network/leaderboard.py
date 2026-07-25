@@ -1,6 +1,6 @@
 from .endpoints import LEADERBOARD, UPDATE_SCORE
 from core.guts.network.system_endpoints import API_KEY
-from systemlogging import log_error, log_event
+from systemlogging import log_error, log_event, log_warning
 
 
 class Leaderboard:
@@ -39,8 +39,12 @@ class Leaderboard:
         if score is None:
             log_error("Unable to submit empty score")
             return False
-        
-        
+
+        opt_in = self.system.load.read_constant("leaderboard_opt_in")
+
+        if opt_in == "NO":
+            log_warning("Leaderboard Opt In set to NO!")
+            return False
         
         if session_token is None:
             log_error("Unable to update score without valid session token")

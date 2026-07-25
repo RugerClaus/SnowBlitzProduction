@@ -173,7 +173,6 @@ class LeaderboardViewer:
     def display_timeout(self):
 
         self.timeout_text.set_text(
-            [
                 [
                     (
                         "Leaderboard Timed Out. Please try again later.",
@@ -181,7 +180,6 @@ class LeaderboardViewer:
                         (255,0,0)
                     )
                 ]
-            ]
         )
 
         self.timeout_text.draw()
@@ -237,122 +235,52 @@ class LeaderboardViewer:
 
             self.last_display_data = data
 
-            sorted_data = sorted(
-                data,
-                key=lambda entry: entry["score"],
-                reverse=True
-            )
-
+            sorted_data = sorted(data, key=lambda entry: entry["score"], reverse=True)
 
             lines = []
-
 
             for index, entry in enumerate(sorted_data):
 
                 username = entry["username"]
                 score = entry["score"]
 
-
-                t = (
-                    self.system.time.get_current_time()
-                    / 100
-                )
-
-                pulse = (
-                    self.system.math.sin(t) + 1
-                ) / 2
-
-
-                player_color = (
-                    int(20 + 180 * pulse),
-                    255,
-                    int(20 + 180 * pulse)
-                )
-
+                t = self.system.time.get_current_time() / 100
+                pulse = (self.system.math.sin(t) + 1) / 2
 
                 if username == self.system.user.username:
 
                     color = lambda: (
-                        int(
-                            20 + 180 * (
-                                (
-                                    self.system.math.sin(
-                                        self.system.time.get_current_time() / 100
-                                    ) + 1
-                                ) / 2
-                            )
-                        ),
+                        int(20 + 180 * ((self.system.math.sin(self.system.time.get_current_time() / 100) + 1) / 2)),
                         255,
-                        int(
-                            20 + 180 * (
-                                (
-                                    self.system.math.sin(
-                                        self.system.time.get_current_time() / 100
-                                    ) + 1
-                                ) / 2
-                            )
-                        )
+                        int(20 + 180 * ((self.system.math.sin(self.system.time.get_current_time() / 100) + 1) / 2))
                     )
 
                 else:
 
                     color = (255, 255, 255)
 
+                lines.append([
+                    (f"{index + 1}. {username}", self.USERNAME_X, color),
+                    (str(score), self.SCORE_X, color)
+                ])
 
-                lines.append(
-                    [
-                        (
-                            f"{index + 1}. {username}",
-                            self.USERNAME_X,
-                            color
-                        ),
-                        (
-                            str(score),
-                            self.SCORE_X,
-                            color
-                        )
-                    ]
-                )
-
-
-            self.leaderboard_text.set_text(
-                lines
-            )
-
+            self.leaderboard_text.set_text(lines)
 
         self.draw_header()
-
         self.leaderboard_text.draw()
 
 
     def scroll(self, amount):
-
-        self.leaderboard_text.scroll(
-            amount
-        )
-
+        self.leaderboard_text.scroll(amount)
 
     def refresh(self):
-
         self.cached_data = None
-
         self.last_display_data = None
-
-        self.leaderboard_text.set_text(
-            []
-        )
-
-        self.fetch_manager.set_state(
-            FETCH_STATE.IDLE
-        )
-
+        self.leaderboard_text.set_text([])
+        self.fetch_manager.set_state(FETCH_STATE.IDLE)
         self.start_fetch()
 
 
     def handle_event(self, event):
-
         if event.type == self.system.input.mouse_scroll_event():
-
-            self.scroll(
-                -event.y
-            )
+            self.scroll(-event.y)

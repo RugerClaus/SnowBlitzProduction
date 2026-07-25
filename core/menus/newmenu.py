@@ -346,34 +346,42 @@ class Menu(BaseMenu):
             ),
         )
         if self.system.login_state.is_state(LOGIN_STATE.LOGGED_IN):
-            self.buttons.append(
-                Button(
+            self.buttons.extend(
+                [Button(
                     self.system,
                     40,
                     "Change Account",
                     (0.5,0.65),
                     self.change_account
                 ),
+                Button(
+                    self.system,
+                    40,
+                    "Log Out",
+                    (0.5,0.75),
+                    self.log_out
+                )]
             )
         if self.system.login_state.is_state(LOGIN_STATE.LOGGED_OUT):
-            self.buttons.append(
-                Button(
-                    self.system,
-                    40,
-                    "Log In",
-                    (0.5,0.65),
-                    self.go_to_login
-                )
+            self.buttons.extend(
+                [
+                    Button(
+                        self.system,
+                        40,
+                        "Log In",
+                        (0.5,0.65),
+                        self.go_to_login
+                    ),
+                    Button(
+                        self.system,
+                        40,
+                        "Create Account",
+                        (0.5,0.75),
+                        self.change_account
+                    )
+                ]
             )
-            self.buttons.append(
-                Button(
-                    self.system,
-                    40,
-                    "Create Account",
-                    (0.5,0.65),
-                    self.change_account
-                ),
-            )
+                
 
         self.buttons.append(
             Button(
@@ -595,6 +603,10 @@ class Menu(BaseMenu):
             return True
         else:
             return False
+
+    def log_out(self):
+        self.system.auth.log_out()
+        self.back_to_root()
 
     def leaderboard_back_to_root(self):
         self.leaderboard.fetch_manager.set_state(FETCH_STATE.CANCELLED)

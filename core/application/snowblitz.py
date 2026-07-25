@@ -38,7 +38,7 @@ class SnowBlitz:
         self.environment = Environment(system)
         self.endless_state = GAME_MODE.ENDLESS
         self.session = Session(system)
-        self.session_started = False
+        self.session_started = False 
         
     def toggle_hud(self):
         if self.hud is not None:

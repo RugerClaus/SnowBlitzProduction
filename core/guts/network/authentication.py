@@ -22,7 +22,7 @@ class Authentication:
 
         if not response.get("success"):
             return response
-
+        self.system.save.write_constant("leaderboard_opt_in", "YES")
         data = response.get("data", {})
 
         if "clientAppPassword" not in data:
@@ -55,6 +55,7 @@ class Authentication:
     def login(self, username, password):
 
         client_id = self.system.load.read_constant("clientID")
+        
 
         response = self.network.post(
             LOGIN,
@@ -80,6 +81,7 @@ class Authentication:
             "high_score",
             data["score"]
         )
+        self.system.save.write_constant("leaderboard_opt_in", "YES")
 
         self.system.save.write_constant(
             "clientAppPassword",
@@ -131,3 +133,11 @@ class Authentication:
             self.system.system_monitor["ClientConnected"] = True
 
         return response
+
+    def log_out(self):
+        self.system.save.write_constant("leaderboard_opt_in", "NO")
+        self.system.save.clear("clientID")
+        self.system.save.clear("clientAppPassword")
+        self.system.user.username = "Player"
+        self.system.save.write_constant("high_score",0)
+        self.system.login_state.set_state(LOGIN_STATE.LOGGED_OUT)
