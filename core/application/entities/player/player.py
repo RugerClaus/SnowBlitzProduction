@@ -57,8 +57,6 @@ class Player(Entity):
 
         self.update_position_from_ratio()
 
-
-
     def update_position_from_ratio(self):
         self.x = self.system.window.get_width()*self.x_ratio
 
@@ -67,8 +65,6 @@ class Player(Entity):
         self.rect.centerx = int(self.x)
         self.rect.bottom = int(self.y)
 
-
-
     def scale(self):
         self.rebuild_surface()
 
@@ -76,8 +72,6 @@ class Player(Entity):
         self.x_ratio = 0.5
 
         self.update_position_from_ratio()
-
-
 
     def update(self):
         physics.check_collisions(self.entitymanager.get_active_entities(),self)

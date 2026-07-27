@@ -45,6 +45,7 @@ class PlayerMechanics:
     def check_death(player, game_state, game_session, system):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
+            system.sound.stop_all_sfx()
 
             if system.control_state.is_state(DEVELOPER_MODE.OFF):
 
@@ -245,8 +246,9 @@ class PlayerMechanics:
     
     @staticmethod
     def calculate_level_up_size(current_level):
+        if current_level < 2:
+            return 15 + (current_level) * 5
         return 10 + (current_level) * 5
-            
     @staticmethod
     def update_multiplier(player):
         player.multiplier = 1 + (player.current_level // 10)
