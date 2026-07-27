@@ -217,7 +217,6 @@ class PlayerMechanics:
                 )
             )
 
-            # reset snowball size after leveling
             player.diam = (
                 player.system.window.get_height()
                 *
@@ -228,8 +227,6 @@ class PlayerMechanics:
                 player.diam,
                 6
             )
-
-            # keep visual size transition smooth
             player.render_diam = player.diam
 
             entitymanager.reset_entities()

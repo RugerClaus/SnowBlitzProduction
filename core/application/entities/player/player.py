@@ -57,6 +57,8 @@ class Player(Entity):
 
         self.update_position_from_ratio()
 
+
+
     def update_position_from_ratio(self):
         self.x = self.system.window.get_width()*self.x_ratio
 
@@ -69,8 +71,6 @@ class Player(Entity):
 
     def scale(self):
         self.rebuild_surface()
-
-
 
     def center(self):
         self.x_ratio = 0.5

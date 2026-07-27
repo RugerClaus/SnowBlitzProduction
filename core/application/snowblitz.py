@@ -108,6 +108,8 @@ class SnowBlitz:
 
         self.session.update()
         self.environment.update()
+        if self.hud:
+            self.hud.update()
 
         if self.mode.is_state(GAME_MODE.ENDLESS):
             self.init_endless()
@@ -142,9 +144,10 @@ class SnowBlitz:
         if self.player is not None:
             self.player.scale()
             self.player.center()
+            print(self.player.diam)
         if self.hud is not None:
-            self.hud.update()
-            self.hud.draw()
+            self.hud.scale()
+            
 
     def clean_up_states(self):
         self.system.clean_up_states([

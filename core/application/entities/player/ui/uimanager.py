@@ -39,6 +39,7 @@ class PlayerUIManager:
     def scale(self):
         self.bar_width = self.system.window.get_width()
         self.surface = self.system.window.make_surface(self.bar_width,self.bar_height,True)
+        self.update()
 
     def update(self):
         self.bar_width = self.system.window.get_width()
