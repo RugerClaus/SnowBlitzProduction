@@ -101,7 +101,7 @@ Development version Beta 0.9.8 - 2026-07-08
 - Player snowball now shrinks faster depending on temperature
 - Updated to latest version of Distant Realms Framework
 
-Development version Beta 0.9.9 - UNRELEASED
+Development version Beta 0.9.9 - 2026-07-27
 --------------------------------------------
 - Added Snow Blitz debug utilities class
 - Added support for multiple text boxes and passwords
@@ -120,4 +120,5 @@ Development version Beta 0.9.9 - UNRELEASED
 - Added extensible environment system
 - Updated to Distant Realms version 0.3.0-alpha
 - Abstracted UI even more allowing for widgets, composables (forms/maybe menus in the future), and a simple UI manager for composables
+- Fixed client crashing upon initialization when no audio device is found
 -- Old immediate mode menus still exist
