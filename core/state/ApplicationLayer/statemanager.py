@@ -1,20 +1,17 @@
 from systemlogging import log_state_transition
-from core.state.ApplicationLayer.state import GAMESTATE
+from core.state.ApplicationLayer.state import APP_STATE
 from core.state.basestatemanager import BaseStateManager
 
-class GameStateManager(BaseStateManager):
+class AppStateManager(BaseStateManager):
     def __init__(self):
         allowed_transitions = {
-            GAMESTATE.PLAYING: [GAMESTATE.PAUSED,GAMESTATE.NONE,GAMESTATE.GAME_OVER,GAMESTATE.WIN],
-            GAMESTATE.PAUSED: [GAMESTATE.PLAYING],
-            GAMESTATE.NONE: [GAMESTATE.PLAYING],
-            GAMESTATE.GAME_OVER: [GAMESTATE.PLAYING,GAMESTATE.NONE],
-            GAMESTATE.WIN: [GAMESTATE.PLAYING,GAMESTATE.NONE]
+            APP_STATE.RUNNING: [APP_STATE.FROZEN,],
+            APP_STATE.FROZEN: [APP_STATE.RUNNING],
         }
         super().__init__(
-            initial_state=GAMESTATE.NONE,
+            initial_state=APP_STATE.RUNNING,
             allowed_transitions=allowed_transitions,
             log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
-            state_name="GAMESTATE",
+            state_name="APP_STATE",
             type="APPLICATION"
         )

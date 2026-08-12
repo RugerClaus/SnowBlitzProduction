@@ -6,6 +6,12 @@ class WIDGET(Enum):
     LABEL = auto()
     BUTTON = auto()
     FORM = auto()
+    IMAGE = auto()
+    SCROLLABLETEXT = auto()
+    CENTERTEXT = auto()
+    HEADER = auto()
+    SELECT = auto()
 
 class COMPOSABLE(Enum):
     FORM = auto()
+    MENU = auto()

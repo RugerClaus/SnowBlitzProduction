@@ -2,3 +2,5 @@ Development version Beta 1.0.0 - 2026-08-2X
 - Fixed game starting on level 2 if the window is full size
 - Fixed all player sound effects playing after player death
 - Fixed resize bug with player UI cutting off the progress bar when the window is enlarged
+- Upgraded to Distant Realms Framework version 0.6.0-alpha
+- Created all new menus using the platform Distant Realms Editor version 0.1.0-alpha for the using

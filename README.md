@@ -1,60 +1,6 @@
-**NOTICE**
+# Welcome to the Snow Blitz production reopository.
 
-I will be eventually replacing this entire codebase with an engine I'm working on with C++. I'm currently about half-way through implementing the barest features of a rendering engine using OpenGL. It can already handle 2D features, but i'll be working on some really cool 3D features for this game. It will basically replace this codebase for distribution of the game. I've decided to keep the entire thing under the GPLv3 as well, so you guys will get that when I have a version i'm happy with distributing (this will be quite a while).
-
-I will continue updating this system as it really is my prototype. I have overhauled much of the internal systems and made the renderer, audio system, and input system globally accessible via the System object (implementation in **core/guts/system.py**)
-
-**/NOTICE**
-
-**SNOW BLITZ PRODUCTION REPOSITORY**
-
-<h2>Welcome To Snow Blitz. Stay open, friends!</h2>
-
-<p>Any issues, you can email me (rugerclaus) at dev@snowblitz.net</p>
-
-<p>This README markdown file will be used to document the framework, the game, and all the APIs allowing everything to connect.</p>
-
-**THE "PRODUCTION" REPOSITORY** 
-
-<p>This branch, the main branch will be for cutting edge features. Features need to be at least feature complete upon commit unless i'm personally feeling lazy.</p>
-
-<p>The most recent stable update released (source code), will be available on <a href="https://snowblitz.net/downloads/source/SnowBlitz_Beta_Source_Latest.zip">DOWNLOAD LINK FROM SNOWBLITZ.NET</a></p>
-
-<p>Previous versions will be archived on **snowblitz.net/downloads/archive/source**, and will be organized by version, latest first. I hate going into some software archive and finding it difficult to locate downloads. Every single list item MUST BE a download link for that version. The same applies to <b>snowblitz.net/downloads/archive/builds/[linux|windows|macos]</b>, and players will have an easy time regardless of their skill level. This is the MOST IMPORTANT part of the project.</p>
-
-
-**DEPENDENCIES**
-
-<p>This project has a few dependencies. The only third party assets are the fonts in assets/font:</p>
-<p>This project uses the OpenSansPX font, a modified version of Open Sans, under the Apache License 2.0. Please see the LICENSE.txt in the assets/font directory for more details.</p>
-
-<p>The reason we're lacking a requirements.txt file, is that there are only 4 dependencies!<p>
-
-<h3>From the root directory run this series of commands to get set up</h3>
-
-```bash
-python3 -m venv virtualenv
-source virtualenv/bin/activate
-pip install pygame-ce pyinstaller mutagen requests
-python3 setup.py
-python3 main.py --dev
-```
-**NOTE:** passing the flag --dev enables developer mode by default on startup
-**NOTE:** `setup.py` is absolutely **ESSENTIAL** to run the program.
-
-**FEATURE ADDITIONS**
-
-<p>For feature additions, before coming up with your own you should take a look at the requested_additions file in the root directory of this repository and see if you can piece in any of those requested features. Then submit a pull request to have your code merged into the main branch. This is mostly notation for me though</p>
-
-**BUGS**
-
-<p>For fixing bugs, please start in the bug_tracker file of this directory. For now it's a bit unorganized until I can set up a database and bug tracking section of the website. Then I'll make an easy UI to manage that stuff, but at the current scale of the project, we also have a lot of cushioning, so it shouldn't be super prudent to do so immediately.</p>
-
-**COMMITS**
-
-<p>We only use the latest versions of all dependencies to keep things consistent</p>
-
-<p>Keep your commit messages as clear and concise as possible. We have no established versioning for commits, and we're going to rely on commit messages for minor updates to the main branch. Just the way it is. If you want to change it, build the infrastructure.</p>
+## This document is under construction
 
 
 **GAME PROGRESSION SYSTEMS**
@@ -90,3 +36,46 @@ Values calculated at 60 frames per second
 
 The shrink rate speeds up as the player gets bigger.
 Power-ups like **ANTI_SHRINK** stop the player from shrinking.
+
+
+# Welcome to the Distant Realms Framework for Developing Applications with Python
+
+## Introduction
+- Distant Realms is a Python application framework and tooling ecosystem for building games and interactive applications. Containing support for rendering, audio, input, simple networking as well as a ready built WYSIWYG ui editor that outputs to a format the engine can read directly. Below you will learn how to make games and other applications using Distant Realms
+
+- Distant Realms is designed around convenience without lock-in.
+
+- The framework provides high-level systems for common application needs, but those systems are built on straightforward underlying APIs. You can use as much or as little of the framework as your application requires.
+
+NOTE: ALL EXAMPLE SECTIONS START WITH A NUMBER LIKE THIS: [01] +. When I refer to an example, I will refer to its number.
+
+## Dependencies
+
+This project has a few dependencies. The only third-party assets are the fonts in `assets/font`.
+
+It uses the OpenSansPX font, a modified version of Open Sans, under the Apache License 2.0. See `LICENSE.txt` in the `assets/font` directory for details.
+
+There is no requirements.txt because there are only four dependencies.
+
+## Setup
+
+From the root directory, run:
+
+```bash setup.sh```
+
+Once this has run, you should be all set to run the program using:
+
+To start the program in normal most with developer mode off:
+
+```python3 main.py```
+
+To start the program with developer mode on:
+
+```python3 main.py --dev```
+
+To skip the splash screen and start the program with developer mode on:
+
+```python3 main.py --devg```
+
+For windows use:
+ ```python main.py --flags```

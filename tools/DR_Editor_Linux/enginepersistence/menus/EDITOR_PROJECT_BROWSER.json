@@ -1,0 +1,165 @@
+{
+    "type": "menu",
+    "name": "EDITOR_PROJECT_BROWSER",
+    "elements": [
+        {
+            "type": "header",
+            "id": "main_menu_header1",
+            "text": "DISTANT",
+            "position": [
+                0.8633333333333333,
+                0.07851851851851852
+            ],
+            "font_size": 100,
+            "color": [
+                220,
+                0,
+                224
+            ]
+        },
+        {
+            "type": "header",
+            "id": "main_menu_header2",
+            "text": "REALMS",
+            "position": [
+                0.8583333333333333,
+                0.11555555555555555
+            ],
+            "font_size": 100,
+            "color": [
+                106,
+                177,
+                255
+            ]
+        },
+        {
+            "type": "header",
+            "id": "main_menu_header3",
+            "text": "EDITOR",
+            "position": [
+                0.8566666666666667,
+                0.16444444444444445
+            ],
+            "font_size": 100,
+            "color": [
+                220,
+                0,
+                224
+            ]
+        },
+        {
+            "id": "back_menu",
+            "type": "button",
+            "font": "default",
+            "text": "Back",
+            "position": [
+                0.89,
+                0.877
+            ],
+            "font_size": 30,
+            "action": "main_menu",
+            "styles": {
+                "idle": {
+                    "background": [
+                        200,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "hover": {
+                    "background": [
+                        140,
+                        60,
+                        60
+                    ],
+                    "border": [
+                        200,
+                        20,
+                        20
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "press": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "disable": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "padding": 5
+                },
+                "focused": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        0,
+                        255,
+                        255
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                }
+            }
+        }
+    ]
+}

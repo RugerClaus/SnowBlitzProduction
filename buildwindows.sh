@@ -5,6 +5,7 @@ APP_NAME="snowblitz"
 MAIN="main.py"
 UPDATER_MAIN="updater.py"
 UPDATER_NAME="updater"
+VERSION=1.0.0-beta
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST_ROOT="$ROOT/executable"
@@ -12,7 +13,6 @@ WORK_ROOT="$ROOT/build"
 SPEC_ROOT="$ROOT/specs"
 
 ASSETS_PATH="$ROOT/assets"
-LOGS_PATH="$ROOT/logs"
 SAVES_PATH="$ROOT/saves"
 ENVIRONMENT_PATH="$ROOT/environment"
 
@@ -22,19 +22,22 @@ convert_to_windows_path() {
 }
 
 ASSETS_PATH_WIN=$(convert_to_windows_path "$ASSETS_PATH")
-LOGS_PATH_WIN=$(convert_to_windows_path "$LOGS_PATH")
 SAVES_PATH_WIN=$(convert_to_windows_path "$SAVES_PATH")
 ENVIRONMENT_PATH_WIN=$(convert_to_windows_path "$ENVIRONMENT_PATH")
+ENGINE_PERSISTENCE_PATH_WIN=$(convert_to_windows_path "$ROOT/enginepersistence")
 
 function copy_assets() {
   TARGET="$1"
   cp -r "$ASSETS_PATH" "$TARGET"
-  cp -r "$LOGS_PATH" "$TARGET"
+  mkdir "$TARGET/logs"
   cp -r "$SAVES_PATH" "$TARGET"
   cp -r "$ENVIRONMENT_PATH" "$TARGET"
-  cp  "changelog.txt" "$TARGET"
-  cp  "README.md" "$TARGET"
-  cp  "instructions.md" "$TARGET"
+  cp -r "$ROOT/enginepersistence" "$TARGET"
+
+  cp "$ROOT/changelog.txt" "$TARGET"
+  cp "$ROOT/README.md" "$TARGET"
+  cp "$ROOT/LICENSE" "$TARGET"
+  cp "$ROOT/instructions.md" "$TARGET"
 }
 
 function cleanup_internal() {
@@ -43,7 +46,6 @@ function cleanup_internal() {
   if [ -d "$INTERNAL_DIR" ]; then
     echo "Cleaning up _internal directory..."
     rm -rf "$INTERNAL_DIR/assets"
-    rm -rf "$INTERNAL_DIR/logs"
     rm -rf "$INTERNAL_DIR/saves"
     rm -rf "$INTERNAL_DIR/environment"
   fi
@@ -52,8 +54,8 @@ function cleanup_internal() {
 function build_main() {
   echo "Building Windows game executable..."
 
-  TMP_DIST="$DIST_ROOT/windows_tmp"
-  FINAL_DIST="$DIST_ROOT/windows"
+  TMP_DIST="$DIST_ROOT/SnowBlitz_$VERSION_tmp"
+  FINAL_DIST="$DIST_ROOT/SnowBlitz_$VERSION"
 
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
@@ -62,12 +64,11 @@ function build_main() {
     --clean \
     --name "$APP_NAME" \
     --add-data "$ASSETS_PATH_WIN;assets" \
-    --add-data "$LOGS_PATH_WIN;logs" \
     --add-data "$SAVES_PATH_WIN;saves" \
     --add-data "$ENVIRONMENT_PATH_WIN;environment" \
     --distpath "$TMP_DIST" \
-    --workpath "$WORK_ROOT/windows" \
-    --specpath "$SPEC_ROOT/windows"
+    --workpath "$WORK_ROOT/SnowBlitz_$VERSION" \
+    --specpath "$SPEC_ROOT/SnowBlitz_$VERSION"
 
   rm -rf "$FINAL_DIST"
   mkdir -p "$FINAL_DIST"
@@ -82,7 +83,7 @@ function build_updater() {
   echo "Building Windows updater executable..."
 
   TMP_DIST="$DIST_ROOT/updater_tmp"
-  FINAL_DIST="$DIST_ROOT/windows"
+  FINAL_DIST="$DIST_ROOT/SnowBlitz_$VERSION"
 
   pyinstaller "$ROOT/$UPDATER_MAIN" \
     --onefile \

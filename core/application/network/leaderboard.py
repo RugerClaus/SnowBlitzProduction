@@ -1,5 +1,5 @@
 from .endpoints import LEADERBOARD, UPDATE_SCORE
-from core.guts.network.system_endpoints import API_KEY
+from core.engine.network.system_endpoints import API_KEY
 from systemlogging import log_error, log_event, log_warning
 
 

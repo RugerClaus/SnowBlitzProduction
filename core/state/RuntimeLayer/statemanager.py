@@ -6,13 +6,12 @@ class RuntimeStateManager(BaseStateManager):
     def __init__(self):
 
         allowed_transitions = {
-            RUNTIME_STATE.LOADING: [RUNTIME_STATE.MAIN_MENU,RUNTIME_STATE.APPLICATION,RUNTIME_STATE.QUIT],
-            RUNTIME_STATE.MAIN_MENU: [RUNTIME_STATE.APPLICATION,RUNTIME_STATE.QUIT],
-            RUNTIME_STATE.APPLICATION: [RUNTIME_STATE.MAIN_MENU,RUNTIME_STATE.QUIT]
+            RUNTIME_STATE.SPLASH: [RUNTIME_STATE.APPLICATION,RUNTIME_STATE.QUIT],
+            RUNTIME_STATE.APPLICATION: [RUNTIME_STATE.QUIT]
         }
         
         super().__init__(
-                initial_state=RUNTIME_STATE.LOADING,
+                initial_state=RUNTIME_STATE.SPLASH,
                 allowed_transitions=allowed_transitions,
                 log_fn=lambda old, new, state_type: log_state_transition(old, new, state_type),
                 state_name="RUNTIME_STATE",

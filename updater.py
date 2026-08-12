@@ -12,7 +12,7 @@ if getattr(sys, 'frozen', False):
 else:
     ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 
-GAME_EXECUTABLE = "snowblitz"
+GAME_EXECUTABLE = "MyApp"
 UPDATE_ZIP = os.path.join(ROOT_DIR, "update.zip")
 
 
@@ -28,7 +28,7 @@ def unpack_update():
 
         extracted_folders = [
             name for name in os.listdir(ROOT_DIR)
-            if os.path.isdir(os.path.join(ROOT_DIR, name)) and name.startswith("snowblitz_update")
+            if os.path.isdir(os.path.join(ROOT_DIR, name)) and name.startswith(f"{GAME_EXECUTABLE}_update")
         ]
 
         if not extracted_folders:

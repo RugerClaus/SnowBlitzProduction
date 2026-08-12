@@ -29,15 +29,16 @@ class BootSplashManager:
 
     def update(self):
         if self.state.is_state(BOOT_SPLASH_STATE.NONE):
-            self.system.runtime_state.set_state(RUNTIME_STATE.MAIN_MENU)
-            self.system.clean_up_states([self.state.state])
-        if not self.system.runtime_state.is_state(RUNTIME_STATE.LOADING):
+            self.system.runtime_state.set_state(RUNTIME_STATE.APPLICATION)
+        if not self.system.runtime_state.is_state(RUNTIME_STATE.SPLASH):
 
             self.system.sound.system_sfx_state.set_state(SYSTEM_SFX_STATE.OFF)
         
         if self.state.is_state(BOOT_SPLASH_STATE.BOOT_SPLASH_SCREEN_TWO):
             self.entitymanager.update_entities()
             self.entitymanager.spawn_snowflakes()
+            self.entitymanager.spawn_powerups(20)
+            self.entitymanager.spawn_rocks(20)
 
     def play_splash_2_fade_in(self):
         current_time = self.system.time.get_current_time()
@@ -60,6 +61,7 @@ class BootSplashManager:
 
         if el >= du:
             self.state.set_state(BOOT_SPLASH_STATE.NONE)
+            self.system.initialize_application()
 
     def draw(self):
         current_time = self.system.time.get_current_time()

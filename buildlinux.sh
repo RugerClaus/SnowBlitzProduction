@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_NAME="snowblitz"
+APP_NAME="SnowBlitz1.0.0-beta"
 MAIN="main.py"
 UPDATER_MAIN="updater.py"
 UPDATER_NAME="updater"
@@ -13,14 +13,26 @@ SPEC_ROOT="$ROOT/specs"
 
 function copy_assets() {
   TARGET="$1"
+
+  echo "ROOT=$ROOT"
+  echo "TARGET=$TARGET"
+
+  echo "Engine persistence source:"
+  find "$ROOT/enginepersistence" -type f
+
   cp -r "$ROOT/assets" "$TARGET"
-  cp -r "$ROOT/logs" "$TARGET"
   cp -r "$ROOT/saves" "$TARGET"
   cp -r "$ROOT/environment" "$TARGET"
+  cp -r "$ROOT/enginepersistence" "$TARGET"
+  
   cp "$ROOT/changelog.txt" "$TARGET"
   cp "$ROOT/README.md" "$TARGET"
   cp "$ROOT/LICENSE" "$TARGET"
   cp "$ROOT/instructions.md" "$TARGET"
+
+  echo "making logs/ directory"
+  mkdir "$TARGET/logs"
+  echo "logs/ directory added"
 }
 
 function cleanup_internal() {
@@ -36,14 +48,14 @@ function cleanup_internal() {
 }
 
 function build_main() {
-  echo "Building Linux game executable..."
+  echo "Building $APP_NAME executable..."
 
-  TMP_DIST="$DIST_ROOT/linux_tmp"
-  FINAL_DIST="$DIST_ROOT/linux"
+  TMP_DIST="$DIST_ROOT/$APP_NAME_linux_tmp"
+  FINAL_DIST="$DIST_ROOT/$APP_NAME_linux"
 
   pyinstaller "$ROOT/$MAIN" \
     --onedir \
-    --icon="assets/images/build/linux.png" \
+    --icon="assets/images/build/$APP_NAME_linux.png" \
     --noconsole \
     --windowed \
     --clean \
@@ -53,8 +65,8 @@ function build_main() {
     --add-data "$ROOT/saves:saves" \
     --add-data "$ROOT/environment:environment" \
     --distpath "$TMP_DIST" \
-    --workpath "$WORK_ROOT/linux" \
-    --specpath "$SPEC_ROOT/linux" \
+    --workpath "$WORK_ROOT/$APP_NAME_linux" \
+    --specpath "$SPEC_ROOT/$APP_NAME_linux" \
     --debug all
 
   rm -rf "$FINAL_DIST"
@@ -70,7 +82,7 @@ function build_updater() {
   echo "Building Linux updater executable..."
 
   TMP_DIST="$DIST_ROOT/updater_tmp"
-  FINAL_DIST="$DIST_ROOT/linux"
+  FINAL_DIST="$DIST_ROOT/$APP_NAME_linux"
 
   pyinstaller "$ROOT/$UPDATER_MAIN" \
     --onefile \

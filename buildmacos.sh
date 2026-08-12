@@ -17,7 +17,13 @@ function copy_assets() {
   cp -R "$ROOT/logs" "$TARGET"
   cp -R "$ROOT/saves" "$TARGET"
   cp -R "$ROOT/environment" "$TARGET"
+  cp -R "$ROOT/enginepersistence" "$TARGET"
   cp "$ROOT/changelog.txt" "$TARGET"
+
+  cp "$ROOT/changelog.txt" "$TARGET"
+  cp "$ROOT/README.md" "$TARGET"
+  cp "$ROOT/LICENSE" "$TARGET"
+  cp "$ROOT/instructions.md" "$TARGET"
 }
 
 function build_main() {

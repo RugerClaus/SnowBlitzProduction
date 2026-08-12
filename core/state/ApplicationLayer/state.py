@@ -1,8 +1,5 @@
 from enum import Enum,auto
 
-class GAMESTATE(Enum):
-    PAUSED = auto()
-    PLAYING = auto()
-    GAME_OVER = auto()
-    WIN = auto()
-    NONE = auto()
+class APP_STATE(Enum):
+    RUNNING = auto()
+    FROZEN = auto()

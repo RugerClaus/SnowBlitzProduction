@@ -1,6 +1,6 @@
 import threading
 from .endpoints import CREATE_SESSION
-from core.guts.network.system_endpoints import API_KEY,VERSION
+from core.engine.network.system_endpoints import API_KEY,VERSION
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.application.network.leaderboard import Leaderboard
 from core.state.ApplicationLayer.Session.state import ONLINE_SESSION_STATE
@@ -109,4 +109,5 @@ class Session:
         self.system.app_inspector["OnlineSession"] = False
         self.sessionToken = None
 
-    
+    def clean_up_states(self):
+        self.system.clean_up_states([self.state.state])
