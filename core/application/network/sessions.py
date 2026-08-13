@@ -32,23 +32,40 @@ class Session:
     
     def _create_session_request(self):
 
-        app_pass = self.system.load.read_constant("clientAppPassword")
-        cid = self.system.load.read_constant("clientID")
+        print("SESSION THREAD: started")
 
-        response = self.system.network.post(
-            CREATE_SESSION,
-            {
-                "key": API_KEY,
-                "clientID": cid,
-                "clientAppPassword": app_pass,
-                "version": VERSION
+        try:
+            app_pass = self.system.persistence.load.read_constant("clientAppPassword")
+            print("SESSION THREAD: got app password")
+
+            cid = self.system.persistence.load.read_constant("clientID")
+            print("SESSION THREAD: got client ID")
+
+            print("SESSION THREAD: sending request")
+
+            response = self.system.network.post(
+                CREATE_SESSION,
+                {
+                    "key": API_KEY,
+                    "clientID": cid,
+                    "clientAppPassword": app_pass,
+                    "version": VERSION
+                }
+            )
+
+            print("SESSION THREAD: response received:", response)
+
+            self.session_response = response
+
+        except Exception as e:
+            print("SESSION THREAD ERROR:", repr(e))
+
+            self.session_response = {
+                "success": False,
+                "message": str(e)
             }
-        )
-
-        self.session_response = response
 
     def update(self):
-
         if self.state.is_state(ONLINE_SESSION_STATE.STARTING):
 
             if self.session_response is None:
@@ -56,7 +73,6 @@ class Session:
 
             response = self.session_response
             self.session_response = None
-
 
             if not response["success"]:
 
@@ -72,9 +88,9 @@ class Session:
                         "type": "VERSION_OUTDATED",
                         "minimumVersion": response.get("minimumVersion")
                     }
+
                 self.state.set_state(ONLINE_SESSION_STATE.INACTIVE)
                 return
-
 
             data = response.get("data")
 
@@ -83,8 +99,8 @@ class Session:
                 self.state.set_state(ONLINE_SESSION_STATE.INACTIVE)
                 return
 
-
             self.sessionToken = data["sessionToken"]
+
 
             self.state.set_state(
                 ONLINE_SESSION_STATE.ACTIVE

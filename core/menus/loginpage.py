@@ -1,8 +1,8 @@
-from core.ui.form import Form
-from core.ui.textbox import TextBox
-from core.ui.label import Label
-from core.ui.query import Query
-from core.guts.user import User
+from core.ui.composables.form import Form
+from core.ui.widgets.textbox import TextBox
+from core.ui.widgets.label import Label
+from core.ui.widgets.query import Query
+from core.engine.user import User
 from core.util.colors import red
 
 

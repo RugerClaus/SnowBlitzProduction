@@ -1,3 +1,4 @@
+from core.state.RuntimeLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
 from core.state.ApplicationLayer.GameMode.state import GAME_MODE
 from core.application.entities.type import EntityType
 from core.util.colors import *
@@ -12,6 +13,8 @@ class SBDebugUtils:
         self.draw_debug_powerup_lines = False
         self.draw_debug_reducer_lines = False
         self.draw_debug_sun_line = False
+
+        self.system.input.CommandModule.sequences["show_game_telemetry"] = [self.system.input.keys.keypad_0_key()]
 
     def toggle_debug_snowflake_lines(self):
         self.draw_debug_snowflake_lines = not self.draw_debug_snowflake_lines
@@ -47,27 +50,71 @@ class SBDebugUtils:
                 if self.game_object.environment.sun.x > 0:
                     self.system.window.draw_line(self.system.window.get_screen(),self.game_object.environment.sun.rect.center,self.game_object.player.rect.center,purple,width=2)
 
-    def handle_event(self,event):
-        if event.key == self.system.input.keys.seven_key():
-            self.game_object.player.current_level = 19
+    def handle_event(self,event,command=None):
+        if event.type == self.system.input.keydown():
+            if event.key == self.system.input.keys.seven_key():
+                self.game_object.player.current_level = 19
 
-        elif event.key == self.system.input.keys.h_key():
-            self.game_object.player.current_level = 15
+            elif event.key == self.system.input.keys.h_key():
+                self.game_object.player.current_level = 15
 
-        elif event.key == self.system.input.keys.F3_key():
-            self.game_object.debug.toggle_debug_snowflake_lines()
+            elif event.key == self.system.input.keys.F3_key():
+                self.game_object.debug.toggle_debug_snowflake_lines()
 
-        elif event.key == self.system.input.keys.F4_key():
-            self.game_object.debug.toggle_debug_rock_lines()
+            elif event.key == self.system.input.keys.F4_key():
+                self.game_object.debug.toggle_debug_rock_lines()
 
-        elif event.key == self.system.input.keys.F5_key():
-            self.game_object.debug.toggle_debug_powerup_lines()
+            elif event.key == self.system.input.keys.F5_key():
+                self.game_object.debug.toggle_debug_powerup_lines()
 
-        elif event.key == self.system.input.keys.F6_key():
-            self.game_object.debug.toggle_debug_reducer_lines()
+            elif event.key == self.system.input.keys.F6_key():
+                self.game_object.debug.toggle_debug_reducer_lines()
+                
+            elif event.key == self.system.input.keys.F7_key():
+                self.game_object.debug.toggle_debug_sun_line()
+
+        if self.system.overlay_state.is_state(DEBUG_OVERLAY_STATE.ON):
+            if command == "show_game_telemetry":
+                self.register_debug_telemetry()
+
+            elif command == "hide_game_telemetry":
+                self.clear_debug_telemetry()
+
+    def register_debug_telemetry(self):
+        self.system.app_inspector["daytime"] = self.game_object.environment.day_cycle.get_daytime()
+        self.system.app_inspector["brightness"] = self.game_object.environment.day_cycle.get_brightness()
+        self.system.app_inspector["temperature"] = f"{self.game_object.environment.temperature.get_fahrenheit()} F,{self.game_object.environment.temperature.get_celsius()} C"
+        self.system.app_inspector["Day"] = self.game_object.environment.day_cycle.day
+        self.system.app_inspector["Season"] = self.game_object.environment.season.state.state
+        self.system.app_inspector["Year"] = self.game_object.environment.day_cycle.year
+        if self.game_object.player:
+            self.system.app_inspector["shrinkrate"] = self.game_object.player.shrink_rate
             
-        elif event.key == self.system.input.keys.F7_key():
-            self.game_object.debug.toggle_debug_sun_line()
+            snl = self.game_object.debug.draw_debug_snowflake_lines
+            rkl = self.game_object.debug.draw_debug_rock_lines
+            pul = self.game_object.debug.draw_debug_powerup_lines
+            rel = self.game_object.debug.draw_debug_reducer_lines
+            sl = self.game_object.debug.draw_debug_sun_line
+            
+            self.system.app_inspector["snowflk_tracers"] =  snl if snl is not False else None
+            self.system.app_inspector["rock_tracers"] =  rkl if rkl is not False else None
+            self.system.app_inspector["powerup_tracers"] =  pul if pul is not False else None
+            self.system.app_inspector["reducer_tracers"] =  rel if rel is not False else None
+            self.system.app_inspector["sun_tracer"] =  sl if sl is not False else None
+
+    def clear_debug_telemetry(self):
+        self.system.app_inspector["daytime"] = None
+        self.system.app_inspector["brightness"] = None
+        self.system.app_inspector["temperature"] = None
+        self.system.app_inspector["Day"] = None
+        self.system.app_inspector["Season"] = None
+        self.system.app_inspector["Year"] = None
+        self.system.app_inspector["shrinkrate"] = None
+        self.system.app_inspector["snowflk_tracers"] = None
+        self.system.app_inspector["rock_tracers"] = None
+        self.system.app_inspector["powerup_tracers"] = None
+        self.system.app_inspector["reducer_tracers"] = None
+        self.system.app_inspector["sun_tracer"] = None
 
     def draw(self):
         self._render_vector_lines()

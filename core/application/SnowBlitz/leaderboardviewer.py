@@ -7,16 +7,21 @@ from core.loading.LoadingScreenManager import LoadingScreenManager
 from core.state.RuntimeLayer.NetworkLayer.Loading.state import FETCH_STATE
 from core.state.RuntimeLayer.NetworkLayer.Loading.statemanager import FetchStateManager
 from core.ui.font import FontEngine
-from core.ui.scrollabletext import ScrollableText
+from core.ui.widgets.scrollabletext import ScrollableText
 
 
 class LeaderboardViewer:
 
-    USERNAME_X = 0.20
-    SCORE_X = 0.65
-    HEADER_Y = 0.30
-    BODY_Y = 0.40
+    # Coordinates INSIDE the ScrollableText widget.
+    USERNAME_X = 0.05
+    SCORE_X = 0.70
 
+    # Widget geometry.
+    BODY_POSITION = (0.50, 0.45)
+    BODY_WIDTH = 0.65
+    BODY_HEIGHT = 0.50
+
+    HEADER_OFFSET = 0.035
 
     def __init__(self, system):
 
@@ -36,30 +41,30 @@ class LeaderboardViewer:
 
         self.last_display_data = None
 
-
         self.leaderboard_text = ScrollableText(
             system,
+            id="leaderboard_text",
             font_size=50,
-            anchor=(
-                self.USERNAME_X,
-                self.BODY_Y
-            ),
-            width=0.65,
-            height=0.50,
+            position=self.BODY_POSITION,
+            width=self.BODY_WIDTH,
+            height=self.BODY_HEIGHT,
             align="left",
             line_spacing=0.015
         )
 
-
         self.timeout_text = ScrollableText(
             system,
+            id="leaderboard_timeout",
             font_size=50,
-            anchor=(0.5,0.5),
+            position=(0.5, 0.5),
             width=0.8,
             height=0.2,
             align="center"
         )
 
+    # ---------------------------------------------------------
+    # Fetch
+    # ---------------------------------------------------------
 
     def start_fetch(self):
 
@@ -72,7 +77,6 @@ class LeaderboardViewer:
         )
 
         self.fetch_thread.start()
-
 
     def fetch_task(self):
 
@@ -103,7 +107,6 @@ class LeaderboardViewer:
 
             return
 
-
         with self.lock:
 
             if status == "success":
@@ -130,6 +133,9 @@ class LeaderboardViewer:
                     FETCH_STATE.ERROR
                 )
 
+    # ---------------------------------------------------------
+    # Display
+    # ---------------------------------------------------------
 
     def fetch_and_display(self):
 
@@ -139,18 +145,15 @@ class LeaderboardViewer:
 
                 self.start_fetch()
 
-
             elif self.fetch_manager.is_state(FETCH_STATE.FETCHING):
 
                 self.loading.draw(
                     "Fetching leaderboard data..."
                 )
 
-
             elif self.fetch_manager.is_state(FETCH_STATE.TIMEOUT):
 
                 self.display_timeout()
-
 
             elif self.fetch_manager.is_state(FETCH_STATE.ERROR):
 
@@ -164,70 +167,73 @@ class LeaderboardViewer:
 
             return
 
-
         self.display_leaderboard(
             self.cached_data
         )
 
-
-    def display_timeout(self):
-
-        self.timeout_text.set_text(
-                [
-                    (
-                        "Leaderboard Timed Out. Please try again later.",
-                        0.5,
-                        (255,0,0)
-                    )
-                ]
-        )
-
-        self.timeout_text.draw()
-
+    # ---------------------------------------------------------
+    # Header
+    # ---------------------------------------------------------
 
     def draw_header(self):
+
+        widget = self.leaderboard_text
 
         username = self.font.render(
             "USERNAME",
             True,
-            (255,255,0)
+            (255, 255, 0)
         )
 
         score = self.font.render(
             "SCORE",
             True,
-            (255,255,0)
+            (255, 255, 0)
         )
 
+        # The ScrollableText surface is centered at widget.rect.center.
+        #
+        # Convert the widget-local X positions into screen coordinates.
 
-        ux, uy = self.leaderboard_text.normalized_to_pixel(
-            self.USERNAME_X,
-            self.HEADER_Y
+        username_x = (
+            widget.rect.left
+            + int(
+                widget.surface.get_width()
+                * self.USERNAME_X
+            )
         )
 
-        sx, sy = self.leaderboard_text.normalized_to_pixel(
-            self.SCORE_X,
-            self.HEADER_Y
+        score_x = (
+            widget.rect.left
+            + int(
+                widget.surface.get_width()
+                * self.SCORE_X
+            )
         )
-
+        
+        header_y = (
+            widget.rect.top
+            - int(
+                self.system.window.get_height()
+                * self.HEADER_OFFSET
+            )
+        )
 
         self.system.window.blit(
             username,
             username.get_rect(
-                left=ux,
-                centery=uy
+                left=username_x,
+                centery=header_y
             )
         )
-
 
         self.system.window.blit(
             score,
             score.get_rect(
-                left=sx,
-                centery=sy
+                left=score_x,
+                centery=header_y
             )
         )
-
 
     def display_leaderboard(self, data):
 
@@ -235,7 +241,11 @@ class LeaderboardViewer:
 
             self.last_display_data = data
 
-            sorted_data = sorted(data, key=lambda entry: entry["score"], reverse=True)
+            sorted_data = sorted(
+                data,
+                key=lambda entry: entry["score"],
+                reverse=True
+            )
 
             lines = []
 
@@ -244,15 +254,38 @@ class LeaderboardViewer:
                 username = entry["username"]
                 score = entry["score"]
 
-                t = self.system.time.get_current_time() / 100
-                pulse = (self.system.math.sin(t) + 1) / 2
-
                 if username == self.system.user.username:
 
                     color = lambda: (
-                        int(20 + 180 * ((self.system.math.sin(self.system.time.get_current_time() / 100) + 1) / 2)),
+                        int(
+                            20
+                            + 180
+                            * (
+                                (
+                                    self.system.math.sin(
+                                        self.system.time.get_current_time()
+                                        / 100
+                                    )
+                                    + 1
+                                )
+                                / 2
+                            )
+                        ),
                         255,
-                        int(20 + 180 * ((self.system.math.sin(self.system.time.get_current_time() / 100) + 1) / 2))
+                        int(
+                            20
+                            + 180
+                            * (
+                                (
+                                    self.system.math.sin(
+                                        self.system.time.get_current_time()
+                                        / 100
+                                    )
+                                    + 1
+                                )
+                                / 2
+                            )
+                        )
                     )
 
                 else:
@@ -260,27 +293,57 @@ class LeaderboardViewer:
                     color = (255, 255, 255)
 
                 lines.append([
-                    (f"{index + 1}. {username}", self.USERNAME_X, color),
-                    (str(score), self.SCORE_X, color)
+                    (
+                        f"{index + 1}. {username}",
+                        self.USERNAME_X,
+                        color
+                    ),
+                    (
+                        str(score),
+                        self.SCORE_X,
+                        color
+                    )
                 ])
 
-            self.leaderboard_text.set_text(lines)
+            self.leaderboard_text.set_text(
+                lines
+            )
 
         self.draw_header()
         self.leaderboard_text.draw()
 
+    def display_timeout(self):
+
+        self.timeout_text.set_text([
+            [
+                (
+                    "Leaderboard Timed Out. Please try again later.",
+                    0.5,
+                    (255, 0, 0)
+                )
+            ]
+        ])
+
+        self.timeout_text.draw()
+
+    def handle_event(self, event):
+
+        self.leaderboard_text.handle_event(event)
+        self.timeout_text.handle_event(event)
 
     def scroll(self, amount):
+
         self.leaderboard_text.scroll(amount)
 
     def refresh(self):
+
         self.cached_data = None
         self.last_display_data = None
+
         self.leaderboard_text.set_text([])
-        self.fetch_manager.set_state(FETCH_STATE.IDLE)
+
+        self.fetch_manager.set_state(
+            FETCH_STATE.IDLE
+        )
+
         self.start_fetch()
-
-
-    def handle_event(self, event):
-        if event.type == self.system.input.mouse_scroll_event():
-            self.scroll(-event.y)

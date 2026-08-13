@@ -4,9 +4,9 @@ from core.state.RuntimeLayer.NetworkLayer.Login.state import LOGIN_STATE
 
 class Authentication:
 
-    def __init__(self, system):
-        self.system = system
-        self.network = system.network
+    def __init__(self, application):
+        self.system = application.system
+        self.network = self.system.network
 
     def register(self, username, password):
 

@@ -14,12 +14,13 @@ from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 
 class Player(Entity):
 
-    def __init__(self, system, entitymanager, game_state, environment, session):
+    def __init__(self, system, entitymanager, game_state, environment, session,timer):
         self.system = system
         self.entitymanager = entitymanager
         self.game_state = game_state
         self.environment = environment
         self.session = session
+        self.timer = timer
 
         self.user = system.user
 
@@ -178,3 +179,12 @@ class Player(Entity):
         self.rebuild_surface()
 
         self.update_position_from_ratio()
+
+    def clean_up_states(self):
+        print("cleaning up player states")
+        self.system.clean_up_states([
+            self.speed_state.state,
+            self.move_state.state,
+            self.power_state.state,
+            self.life_state.state
+        ])

@@ -12,7 +12,7 @@ from core.state.RuntimeLayer.Audio.Music.state import MUSIC_STATE
 from core.state.RuntimeLayer.NetworkLayer.Login.state import LOGIN_STATE
 from core.menus.usercreator import UserCreator
 from core.menus.changelog import ChangeLog
-from core.menus.leaderboardviewer import LeaderboardViewer
+from core.application.SnowBlitz.leaderboardviewer import LeaderboardViewer
 from core.menus.loginpage import LoginPage
 from core.menus.credits import Credits
 

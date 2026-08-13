@@ -7,23 +7,28 @@ from core.application.SnowBlitz.modes.tutorial.tutorialmanager import TutorialMa
 from core.application.SnowBlitz.modes.tutorial.prompts import Prompts
 from core.state.ApplicationLayer.GameMode.TutorialLayer.statemanager import TutorialStateManager
 from core.state.ApplicationLayer.GameMode.state import GAME_MODE
+from core.state.ApplicationLayer.Game.state import GAMESTATE
 from core.state.ApplicationLayer.GameMode.statemanager import GameModeManager
 from core.state.ApplicationLayer.Session.state import ONLINE_SESSION_STATE
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
+from core.state.ApplicationLayer.Game.statemanager import GameStateManager
 from core.application.SnowBlitz.mechanics.environment.environment import Environment
 from core.application.SnowBlitz.debug.sbdebugutils import SBDebugUtils
+from core.application.SnowBlitz.timer import GameTimer
 
 
 class SnowBlitz:
     def __init__(self,application):
         self.application = application
+        self.disant_realms = application.distant_realms
         self.system = self.application.system
         self.session = self.application.session
         self.mode = GameModeManager()
+        self.state = GameStateManager()
         self.entitymanager = EntityManager(self.system)
         self.environment = Environment(self.system)
-        self.debug = SBDebugUtils(self.system,application)
-
+        self.debug = SBDebugUtils(self.system,self)
+        
         self.endless = None
         self.tutorial = None
         self.blitz = None
@@ -34,12 +39,12 @@ class SnowBlitz:
         self.tutorial_manager = None
         self.prompts = None
         self.tutorial_state = None
+        self.timer = None
 
     def scale(self):
         if self.player is not None:
             self.player.scale()
             self.player.center()
-            print(self.player.diam)
         if self.hud is not None:
             self.hud.scale()
 
@@ -61,23 +66,38 @@ class SnowBlitz:
         else:
             pass
 
+        if not self.mode.is_state(GAME_MODE.NONE):
+            if event.type == self.system.input.keydown():
+                if event.key == self.system.input.keys.escape_key():
+                    self.toggle_pause()
+            if self.state.is_state(GAMESTATE.PLAYING):
+                if event.type == self.system.input.window_focus_lost():
+                    self.toggle_pause()
+
+        if not self.state.is_state(GAMESTATE.NONE):
+            self.debug.handle_event(event,command)
+
     def update(self):
-        self.session.update()
-        self.environment.update()
-        if self.hud:
-            self.hud.update()
+        
+        if self.state.is_state(GAMESTATE.PLAYING):
+            self.timer.update()
+            self.session.update()
+            self.environment.update()
+            if self.hud:
+                self.hud.update()
 
-        if self.mode.is_state(GAME_MODE.ENDLESS):
-            self.init_endless()
-            self.endless.update()
-        elif self.mode.is_state(GAME_MODE.TUTORIAL):
-            self.init_tutorial()
-            self.tutorial.update()
-        elif self.mode.is_state(GAME_MODE.BLITZ):
-            if self.blitz is None:
-                pass
-            self.blitz.update()
-
+            if self.mode.is_state(GAME_MODE.ENDLESS):
+                self.init_endless()
+                self.endless.update()
+            elif self.mode.is_state(GAME_MODE.TUTORIAL):
+                self.init_tutorial()
+                self.tutorial.update()
+            elif self.mode.is_state(GAME_MODE.BLITZ):
+                if self.blitz is None:
+                    pass
+                self.blitz.update()
+        self.application.ui_util.update_audio()
+        
     def draw(self):
         self.environment.draw()
         if self.hud:
@@ -95,27 +115,15 @@ class SnowBlitz:
                 pass
             self.blitz.draw()
 
-    def register_debug_telemetry(self):
-        self.system.app_inspector["daytime"] = self.environment.day_cycle.get_daytime()
-        self.system.app_inspector["brightness"] = self.environment.day_cycle.get_brightness()
-        self.system.app_inspector["temperature"] = f"{self.environment.temperature.get_fahrenheit()} F,{self.environment.temperature.get_celsius()} C"
-        self.system.app_inspector["Day"] = self.environment.day_cycle.day
-        self.system.app_inspector["Season"] = self.environment.season.state.state
-        self.system.app_inspector["Year"] = self.environment.day_cycle.year
-        if self.player:
-            self.system.app_inspector["shrinkrate"] = self.player.shrink_rate
-            
-            snl = self.debug.draw_debug_snowflake_lines
-            rkl = self.debug.draw_debug_rock_lines
-            pul = self.debug.draw_debug_powerup_lines
-            rel = self.debug.draw_debug_reducer_lines
-            sl = self.debug.draw_debug_sun_line
-            
-            self.system.app_inspector["snowflk_tracers"] =  snl if snl is not False else None
-            self.system.app_inspector["rock_tracers"] =  rkl if rkl is not False else None
-            self.system.app_inspector["powerup_tracers"] =  pul if pul is not False else None
-            self.system.app_inspector["reducer_tracers"] =  rel if rel is not False else None
-            self.system.app_inspector["sun_tracer"] =  sl if sl is not False else None
+    def toggle_pause(self):
+        if self.state.is_state(GAMESTATE.PLAYING):
+            self.state.set_state(GAMESTATE.PAUSED)
+            self.disant_realms.ui_controller.show_ui("pause")
+        elif self.state.is_state(GAMESTATE.PAUSED):
+            self.environment.day_cycle.resume()
+            self.timer.resume()
+            self.state.set_state(GAMESTATE.PLAYING)
+            self.disant_realms.ui_controller.clear()
 
     def toggle_hud(self):
         if self.hud is not None:
@@ -123,13 +131,27 @@ class SnowBlitz:
 
     def init_player(self):
         if self.player is None:
-            self.player = Player(self.system,self.entitymanager,self.application.game_state,self.environment,self.session)
+            self.player = Player(self.system,self.entitymanager,self.state,self.environment,self.session,self.timer)
         if self.hud is None:
             self.hud = PlayerUIManager(self.system,self.player)
 
+    def init_game(self,game_mode):
+        self.reset()
+        self.state.set_state(GAMESTATE.PLAYING)
+        self.timer = GameTimer(self.system)
+        if game_mode == "endless":
+            self.mode.set_state(GAME_MODE.ENDLESS)
+            self.disant_realms.ui_controller.clear()
+            self.init_endless()
+
+        elif game_mode == "tutorial":
+            self.mode.set_state(GAME_MODE.TUTORIAL)
+            self.disant_realms.ui_controller.clear()
+            self.init_tutorial()
+
     def init_endless(self):
-            if not self.session_started:
-                self.session_started = True
+            if not self.application.session_started:
+                self.application.session_started = True
                 self.session.start_online_session()
     
             self.init_player()
@@ -195,5 +217,9 @@ class SnowBlitz:
     def clean_up_states(self):
         self.system.clean_up_states([
             self.mode.state,
-            self.environment.season.state.state
+            self.state.state,
+            self.environment.season.state.state,
         ])
+        self.player.clean_up_states()
+        if self.tutorial_state is not None:
+            self.system.clean_up_states([self.tutorial_state.state])

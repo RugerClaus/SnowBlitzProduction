@@ -27,37 +27,22 @@ class DayCycle:
 
 
     def update(self):
+        current_time = self.system.time.get_current_time()
 
-        current_time = (
-            self.system.time.get_current_time()
-        )
-
-        delta_time = (
-            current_time
-            -
-            self.last_update_time
-        )
-
+        delta_time = current_time - self.last_update_time
         self.last_update_time = current_time
 
         self.current_time += delta_time
 
-
-        cycle_length = (
-            self.day_length
-            +
-            self.night_length
-        )
+        cycle_length = self.day_length + self.night_length
 
         if self.current_time >= cycle_length:
-
             self.current_time -= cycle_length
             self.day += 1
 
             if self.day >= 100:
                 self.day = 0
                 self.year += 1
-
 
         self._update_environment()
 

@@ -45,15 +45,16 @@ class PlayerMechanics:
     def check_death(player, game_state, game_session, system):
         if player.life_state.is_state(PLAYER_LIFE_STATE.DEAD):
             game_state.set_state(GAMESTATE.GAME_OVER)
+            system.application.ui_controller.show_ui("gameover")
             system.sound.stop_all_sfx()
 
             if system.control_state.is_state(DEVELOPER_MODE.OFF):
 
-                stored = system.load.read_constant("high_score")
+                stored = system.persistence.load.read_constant("high_score")
                 stored = int(stored) if stored else 0
 
                 if player.score > stored:
-                    system.save.write_constant(
+                    system.persistence.save.write_constant(
                         "high_score",
                         str(player.score)
                     )
@@ -62,7 +63,7 @@ class PlayerMechanics:
             
     @staticmethod
     def check_high_score(player):
-        stored = player.system.load.read_constant('high_score')
+        stored = player.system.persistence.load.read_constant('high_score')
         stored = int(stored) if stored else 0
         if player.score >= int(stored):
                 player.current_high_score = player.score

@@ -56,10 +56,7 @@ class PlayerUIManager:
         now = self.system.time.get_current_time()
         elapsed_ms = now - self.last_reset_time
 
-        seconds = (elapsed_ms // 1000) % 60
-        minutes = elapsed_ms // 60000
-
-        time_surface = self.font.render(f"Time: {minutes:02}:{seconds:02}",True,(255,255,255))
+        time_surface = self.font.render(f"Time: {self.player.timer.get_display_time()}",True,(255,255,255))
         size_surface = self.font.render(f"Size: {round(self.player.diam)}",True,(255,255,255))
         level_size_surface = self.font.render(f"Size to level up: {self.player.level_up_size}",True,(255,255,255))
 

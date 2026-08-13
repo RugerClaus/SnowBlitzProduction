@@ -13,8 +13,8 @@ class Prompts:
 
     def movement_prompt(self):
         if not self.player_has_moved:
-            self._draw_centered_text(f"Press {self.input.get_current_left_control()} or {self.input.get_current_right_control()} to begin\n"
-                                     f"Press and hold {self.input.get_current_slow_control()} to move slower")
+            self._draw_centered_text(f"Press {self.input.get_key_name(self.input.game_controls.move_left).capitalize()} or {self.input.get_key_name(self.input.game_controls.move_right).capitalize()} to begin\n"
+                                     f"Press and hold {self.input.get_key_name(self.input.game_controls.slow).capitalize()} to move slower")
 
     def snow_prompt(self):
         if not self.player_has_continued:

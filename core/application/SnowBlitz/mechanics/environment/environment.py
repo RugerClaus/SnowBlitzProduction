@@ -11,7 +11,6 @@ class Environment:
         self.season.winter()
         self.temperature = Temperature(system,self.day_cycle,self.season)
         
-
     def update(self):
         self.day_cycle.update()
         self.sun.update()

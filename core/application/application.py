@@ -1,52 +1,72 @@
+from helper import sine
 
 from core.application.network.sessions import Session
-from core.state.ApplicationLayer.Game.state import GAMESTATE
-from core.state.ApplicationLayer.Game.statemanager import GameStateManager
-from core.application.SnowBlitz.snowblitz import SnowBlitz
-
+from core.application.network.authentication import Authentication
+from core.engine.user import User
+from core.application.SnowBlitz.navigation import Navigation
+from core.application.SnowBlitz.uiutil import UI_Utility
 
 class Application:
     def __init__(self,distant_realms):
         self.distant_realms = distant_realms
         self.system = distant_realms.system
-        self.game_state = GameStateManager()
+        
         self.session = Session(self.system)
         self.session_started = False 
 
-        self.snow_blitz = SnowBlitz(self)
+        self.leaderboard = None
+
+        self.snow_blitz = None
+
+        self.auth = Authentication(self)
+
+        self.user = User(self.system)
+        if self.user.username:
+            self.auth.auto_login()
+
+        self.navigation = Navigation(self)
+        self.ui_util = UI_Utility(self.distant_realms)
 
         self.clean_up_states()
 
-    
+        self.init_main()
 
+    def init_main(self):
+        self.system.sound.play_music("LoFiSi")
+        self.navigation.app_main_menu()
+    
     def handle_event(self, event, command=None):
         if self.snow_blitz:
             self.snow_blitz.handle_event(event,command)
     
     def update(self):
-        if not self.game_state.is_state(GAMESTATE.NONE):
-            if self.snow_blitz and self.game_state.is_state(GAMESTATE.PLAYING):
-                self.snow_blitz.update()
+
+        self.ui_util.update_audio()
+
+        pulse = sine(self.system.time.get_current_time())
+        fade_color = (
+            int(20 + (35 - 20) * pulse),
+            0,
+            int(20 + (35 - 20) * pulse)
+        )
+        self.system.window.fill(fade_color)
+        if self.snow_blitz:
+            self.snow_blitz.update()
+        else:
+            self.ui_util.display_username()
+            self.ui_util.display_score()
 
     def draw(self):
         if self.snow_blitz:
             self.snow_blitz.draw()
+        if self.leaderboard:
+            self.leaderboard.fetch_and_display()
             
     def scale(self):
         if self.snow_blitz:
             self.snow_blitz.scale()
-            
-
-    def clean_up_states(self):
-        self.system.clean_up_states([
-            self.player.speed_state.state,
-            self.player.move_state.state,
-            self.player.power_state.state,
-            self.player.life_state.state,
-            self.session.state.state
-            ])
-        if self.tutorial_state is not None:
-            self.system.clean_up_states([self.tutorial_state.state])
+        if self.leaderboard:
+            self.load_leaderboard()
 
     def register_debug_telemetry(self):
         if self.snow_blitz:
@@ -59,8 +79,24 @@ class Application:
 
 
     def clean_up_states(self):
-        self.system.clean_up_states([
-            self.game_state.state,
-        ])
-        self.snow_blitz.clean_up_states()
+        if self.snow_blitz:
+            self.snow_blitz.clean_up_states()
         self.session.clean_up_states()
+
+    def load_leaderboard(self):
+        import importlib
+        from core.application.SnowBlitz import leaderboardviewer
+
+        importlib.reload(leaderboardviewer)
+
+        self.leaderboard = leaderboardviewer.LeaderboardViewer(self.system)
+        self.distant_realms.ui_controller.clear()
+        self.distant_realms.ui_controller.show_ui("leaderboard")
+
+    def load_snow_blitz(self):
+        import importlib
+        from core.application.SnowBlitz import snowblitz
+        importlib.reload(snowblitz)
+
+        self.snow_blitz = snowblitz.SnowBlitz(self)
+        self.distant_realms.ui_controller.clear()

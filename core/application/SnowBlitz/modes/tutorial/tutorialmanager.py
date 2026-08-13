@@ -1,4 +1,7 @@
+from core.util.colors import *
+
 from core.state.ApplicationLayer.GameMode.TutorialLayer.state import TUTORIALSTATE
+from core.state.ApplicationLayer.Game.state import GAMESTATE
 
 
 class TutorialManager:
@@ -250,6 +253,9 @@ class TutorialManager:
                 self.state.set_state(
                     TUTORIALSTATE.WIN
                 )
+                self.system.application.snow_blitz.state.set_state(GAMESTATE.WIN)
+                self.system.window.fill(black)
+                self.system.application.ui_controller.show_ui("win")
 
 
         elif self.state.is_state(TUTORIALSTATE.RESET):

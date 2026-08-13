@@ -1,27 +1,18 @@
 {
     "type": "menu",
-    "name": "MAIN",
+    "name": "PAUSE",
     "elements": [
         {
-            "type": "image",
-            "id": "title",
-            "asset": "title",
-            "position": [
-                0.5,
-                0.2
-            ],
-            "scale": 0.8
-        },
-        {
+            "id": "resume_button",
             "type": "button",
-            "id": "button2",
-            "text": "Classic Endless",
+            "font": "default",
+            "text": "Resume",
             "position": [
                 0.5,
-                0.38
+                0.3
             ],
-            "font_size": 35,
-            "action": "initialize_application",
+            "font_size": 30,
+            "action": "resume_game",
             "styles": {
                 "idle": {
                     "background": [
@@ -126,15 +117,16 @@
             }
         },
         {
+            "id": "game_reset_button",
             "type": "button",
-            "id": "button3",
-            "text": "Changelog",
+            "font": "default",
+            "text": "Reset Game",
             "position": [
                 0.5,
-                0.52
+                0.4
             ],
-            "font_size": 35,
-            "action": "open_changelog",
+            "font_size": 30,
+            "action": "reset_game",
             "styles": {
                 "idle": {
                     "background": [
@@ -239,15 +231,130 @@
             }
         },
         {
+            "id": "menu_button",
             "type": "button",
-            "id": "button4",
+            "font": "default",
+            "text": "Main Menu",
+            "position": [
+                0.5,
+                0.5
+            ],
+            "font_size": 30,
+            "action": "game_main_menu",
+            "styles": {
+                "idle": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "hover": {
+                    "background": [
+                        60,
+                        60,
+                        60
+                    ],
+                    "border": [
+                        200,
+                        20,
+                        20
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "press": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "disable": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "padding": 5
+                },
+                "focused": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        0,
+                        255,
+                        255
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                }
+            }
+        },
+        {
+            "id": "settings_button",
+            "type": "button",
+            "font": "default",
             "text": "Settings",
             "position": [
                 0.5,
-                0.59
+                0.6
             ],
-            "font_size": 35,
-            "action": "open_settings",
+            "font_size": 30,
+            "action": "open_game_settings",
             "styles": {
                 "idle": {
                     "background": [
@@ -352,14 +459,15 @@
             }
         },
         {
+            "id": "pause_quit_button",
             "type": "button",
-            "id": "button5",
+            "font": "default",
             "text": "Quit",
             "position": [
                 0.5,
-                0.66
+                0.7
             ],
-            "font_size": 35,
+            "font_size": 30,
             "action": "quit",
             "styles": {
                 "idle": {
@@ -465,231 +573,19 @@
             }
         },
         {
-            "type": "button",
-            "id": "credits",
-            "text": "Credits",
-            "position": [
-                0.875,
-                0.9
-            ],
-            "font_size": 35,
-            "action": "open_credits",
-            "styles": {
-                "idle": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "hover": {
-                    "background": [
-                        60,
-                        60,
-                        60
-                    ],
-                    "border": [
-                        200,
-                        20,
-                        20
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "press": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "disable": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "padding": 5
-                },
-                "focused": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        0,
-                        255,
-                        255
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                }
-            }
-        },
-        {
-            "id": "tutorial_mode_button",
-            "type": "button",
-            "font": "default",
-            "text": "Tutorial Mode",
+            "id": "pause_menu_header",
+            "type": "header",
+            "text": "PAUSED",
             "position": [
                 0.5,
-                0.45
+                0.15
             ],
-            "font_size": 35,
-            "action": "start_tutorial_mode",
-            "styles": {
-                "idle": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "hover": {
-                    "background": [
-                        60,
-                        60,
-                        60
-                    ],
-                    "border": [
-                        200,
-                        20,
-                        20
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "press": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "disable": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "padding": 5
-                },
-                "focused": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        0,
-                        255,
-                        255
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                }
-            }
+            "font_size": 100,
+            "color": [
+                255,
+                255,
+                255
+            ]
         }
     ]
 }
