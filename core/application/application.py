@@ -1,10 +1,13 @@
 from helper import sine
 
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
+
 from core.application.network.sessions import Session
 from core.application.network.authentication import Authentication
 from core.engine.user import User
 from core.application.SnowBlitz.navigation import Navigation
-from core.application.SnowBlitz.uiutil import UI_Utility
+from core.application.SnowBlitz.debug.uiutil import UI_Utility
+from core.application.SnowBlitz.debug.genutil import Gen_Utility
 
 class Application:
     def __init__(self,distant_realms):
@@ -25,6 +28,7 @@ class Application:
             self.auth.auto_login()
 
         self.navigation = Navigation(self)
+        self.gen_util = Gen_Utility(self.distant_realms)
         self.ui_util = UI_Utility(self.distant_realms)
 
         self.clean_up_states()
@@ -38,6 +42,8 @@ class Application:
     def handle_event(self, event, command=None):
         if self.snow_blitz:
             self.snow_blitz.handle_event(event,command)
+        if self.system.control_state.is_state(DEVELOPER_MODE.ON):
+            self.gen_util.handle_event(event,command)
     
     def update(self):
 

@@ -37,4 +37,7 @@ class ActionRegistrar:
         application.actions.register("mvoldown", self.system.sound.volume_down)
         application.actions.register("sfxvolup", self.system.sound.sfx_volume_up)
         application.actions.register("sfxvoldown", self.system.sound.sfx_volume_down)
+        application.actions.register("toggle_music", lambda: application.application.ui_util.toggle_music())
+        application.actions.register("toggle_ui_sfx", lambda: application.application.ui_util.toggle_ui_sfx())
+        application.actions.register("toggle_game_sfx", lambda: application.application.ui_util.toggle_game_sfx())
         application.actions.register("quit",self.system.quit)

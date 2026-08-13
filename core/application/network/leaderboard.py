@@ -1,6 +1,7 @@
 from .endpoints import LEADERBOARD, UPDATE_SCORE
 from core.engine.network.system_endpoints import API_KEY
 from systemlogging import log_error, log_event, log_warning
+from core.engine.user import User
 
 
 class Leaderboard:
@@ -14,6 +15,29 @@ class Leaderboard:
 
         if not self.submit_url:
             log_error("Leaderboard submission URL not set in config")
+
+    def get_logged_in_user_score(self):
+        if not self.leaderboardURL:
+            log_error("Unable to fetch leaderboard: No endpoint configured")
+            return ("error", "Missing leaderboard endpoint")
+
+        response = self.system.network.get(
+            self.leaderboardURL
+        )
+
+        if not response["success"]:
+            log_error(
+                f"Failed to fetch leaderboard: {response['message']}"
+            )
+            return ("error", response["message"])
+
+        log_event("Fetched leaderboard data.")
+
+        for user in response["data"]:
+            local_user = User(self.system)
+            print(user["score"])
+            if user["username"] == local_user.username:
+                local_user.high_score = user["score"]
 
     def fetch_leaderboard(self):
         if not self.leaderboardURL:
@@ -31,6 +55,8 @@ class Leaderboard:
             return ("error", response["message"])
 
         log_event("Fetched leaderboard data.")
+        
+
 
         return ("success", response["data"])
 
