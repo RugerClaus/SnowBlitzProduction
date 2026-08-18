@@ -1,0 +1,37 @@
+{
+    "type": "form",
+    "name": "SIGN_UP_FORM",
+    "elements": [
+        {
+            "id": "new_header",
+            "type": "header",
+            "text": "Sign Up",
+            "position": [
+                0.5,
+                0.1
+            ],
+            "font_size": 60,
+            "color": [
+                255,
+                255,
+                255
+            ]
+        },
+        {
+            "type": "textbox",
+            "id": "new_textbox",
+            "field": "default",
+            "position": [
+                0.5,
+                0.4
+            ],
+            "dimensions": [
+                0.15,
+                0.05
+            ],
+            "font_size": 32,
+            "max_chars": 21,
+            "is_password": false
+        }
+    ]
+}

@@ -29,10 +29,13 @@ class ActionRegistrar:
         application.actions.register("app_main_menu", lambda: application.application.navigation.app_main_menu())
 
         # settings menu functions
-        application.actions.register("open_settings",lambda: application.ui_controller.show_ui("settings_root"))
+        application.actions.register("open_settings",lambda: application.application.navigation.open_app_settings())
         application.actions.register("audio_settings",lambda: application.ui_controller.show_ui("audio_settings"))
 
         # Auth functions
+        application.actions.register("go_to_login_page", lambda: application.ui_controller.show_ui("login_form"))
+        application.actions.register("log_in_submit", lambda: application.application.formauth.login_user())
+        application.actions.register("toggle_password", lambda: application.application.formauth.toggle_pass())
         application.actions.register("logout_user", lambda: application.application.navigation.log_out_user())
 
         # system functions

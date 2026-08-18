@@ -80,6 +80,7 @@ class Authentication:
             "high_score",
             data["score"]
         )
+        print(data["score"])
 
         self.system.persistence.save.write_constant(
             "clientAppPassword",

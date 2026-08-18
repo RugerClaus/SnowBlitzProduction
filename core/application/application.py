@@ -1,5 +1,7 @@
 from helper import sine
 
+from core.ui.type import COMPOSABLE
+
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 
 from core.application.network.sessions import Session
@@ -8,6 +10,7 @@ from core.engine.user import User
 from core.application.SnowBlitz.navigation import Navigation
 from core.application.SnowBlitz.debug.uiutil import UI_Utility
 from core.application.SnowBlitz.debug.genutil import Gen_Utility
+from core.application.auth import Auth
 
 class Application:
     def __init__(self,distant_realms):
@@ -22,6 +25,7 @@ class Application:
         self.snow_blitz = None
 
         self.auth = Authentication(self)
+        self.formauth = Auth(self)
 
         self.user = User(self.system)
         if self.user.username:
@@ -44,7 +48,12 @@ class Application:
             self.snow_blitz.handle_event(event,command)
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             self.gen_util.handle_event(event,command)
-    
+
+        activeui = self.distant_realms.ui_controller.get_active_ui()
+        if activeui:
+            if activeui.type == COMPOSABLE.FORM:
+                self.formauth.handle_event(event,command)
+        
     def update(self):
 
         self.ui_util.update_audio()
@@ -62,6 +71,12 @@ class Application:
             self.ui_util.display_username()
             self.ui_util.display_score()
             self.ui_util.display_login_suggestion()
+
+        activeui = self.distant_realms.ui_controller.get_active_ui()
+        if activeui:
+            if activeui.type == COMPOSABLE.FORM:
+                self.formauth.update()
+        
 
     def draw(self):
         if self.snow_blitz:
@@ -86,6 +101,7 @@ class Application:
 
 
     def clean_up_states(self):
+        self.system.app_inspector.clear()
         if self.snow_blitz:
             self.snow_blitz.clean_up_states()
         self.session.clean_up_states()

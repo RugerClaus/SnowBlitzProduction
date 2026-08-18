@@ -1,6 +1,9 @@
-from core.state.RuntimeLayer.Audio.Music.state import MUSIC_STATE
+from core.util.colors import *
+
 from core.state.RuntimeLayer.NetworkLayer.Update.state import UPDATE_STATE
 from core.state.ApplicationLayer.GameMode.state import GAME_MODE
+from core.state.RuntimeLayer.NetworkLayer.Login.state import LOGIN_STATE
+from core.state.ApplicationLayer.Session.state import ONLINE_SESSION_STATE
 
 class Navigation:
 
@@ -45,6 +48,8 @@ class Navigation:
     def app_main_menu(self):
         if self.application.leaderboard:
             self.application.leaderboard = None
+        if self.application.session.state.is_state(ONLINE_SESSION_STATE.ACTIVE):
+            self.application.session.end_online_session()
         if self.application.system.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.application.distant_realms.ui_controller.show_ui("main_menu")
         elif self.application.system.updater.state.is_state(UPDATE_STATE.AVAILABLE):
@@ -68,3 +73,9 @@ class Navigation:
             self.application.distant_realms.ui_controller.show_ui("main_menu")
         elif self.application.system.updater.state.is_state(UPDATE_STATE.AVAILABLE):
             self.application.distant_realms.ui_controller.show_ui("update_available_menu")
+
+    def open_app_settings(self):
+        if self.application.system.login_state.is_state(LOGIN_STATE.LOGGED_IN):
+            self.application.distant_realms.ui_controller.show_ui("settings_root")
+        elif self.application.system.login_state.is_state(LOGIN_STATE.LOGGED_OUT):
+            self.application.distant_realms.ui_controller.show_ui("logged_out_settings_root")

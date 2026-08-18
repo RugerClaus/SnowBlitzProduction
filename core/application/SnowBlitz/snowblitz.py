@@ -177,8 +177,8 @@ class SnowBlitz:
                                                 self.hud,self.tutorial_state,self.tutorial_manager,self.prompts)
 
     def handle_debug_state(self):
+        self.debug.draw()
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-            self.debug.draw()
             if self.session.state.is_state(ONLINE_SESSION_STATE.ACTIVE):
                 self.session.end_online_session()
 

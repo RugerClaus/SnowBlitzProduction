@@ -77,7 +77,7 @@ class Leaderboard:
             )
             return False
 
-        app_password = self.system.load.read_constant("clientAppPassword")
+        app_password = self.system.persistence.load.read_constant("clientAppPassword")
 
         if not app_password:
             log_error("Missing application password, reauthenticate your client")

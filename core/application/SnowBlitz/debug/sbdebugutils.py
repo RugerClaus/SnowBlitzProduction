@@ -1,4 +1,4 @@
-from core.state.RuntimeLayer.DevTools.Debug.state import DEBUG_OVERLAY_STATE
+from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.state.ApplicationLayer.GameMode.state import GAME_MODE
 from core.application.entities.type import EntityType
 from core.util.colors import *
@@ -73,12 +73,10 @@ class SBDebugUtils:
             elif event.key == self.system.input.keys.F7_key():
                 self.game_object.debug.toggle_debug_sun_line()
 
-        if self.system.overlay_state.is_state(DEBUG_OVERLAY_STATE.ON):
-            if command == "show_game_telemetry":
-                self.register_debug_telemetry()
-
-            elif command == "hide_game_telemetry":
-                self.clear_debug_telemetry()
+        if self.system.control_state.is_state(DEVELOPER_MODE.ON):
+            self.register_debug_telemetry()
+        else:
+            self.clear_debug_telemetry()
 
     def register_debug_telemetry(self):
         self.system.app_inspector["daytime"] = self.game_object.environment.day_cycle.get_daytime()

@@ -246,7 +246,7 @@
             ]
         },
         {
-            "id": "new_button",
+            "id": "go_to_login_page_button",
             "type": "button",
             "font": "default",
             "text": "Log In",
@@ -255,7 +255,7 @@
                 0.5
             ],
             "font_size": 30,
-            "action": "None",
+            "action": "go_to_login_page",
             "styles": {
                 "idle": {
                     "background": [
@@ -360,7 +360,7 @@
             }
         },
         {
-            "id": "new_button",
+            "id": "go_to_signup_page_button",
             "type": "button",
             "font": "default",
             "text": "Sign Up",
@@ -369,7 +369,7 @@
                 0.5
             ],
             "font_size": 30,
-            "action": "None",
+            "action": "go_to_signup_page",
             "styles": {
                 "idle": {
                     "background": [
