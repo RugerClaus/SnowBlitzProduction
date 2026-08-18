@@ -37,7 +37,7 @@ class Navigation:
         if self.application.system.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.application.distant_realms.ui_controller.show_ui("main_menu")
         elif self.application.system.updater.state.is_state(UPDATE_STATE.AVAILABLE):
-            self.application.distant_realms.ui_controller.show_ui("update_available_main")
+            self.application.distant_realms.ui_controller.show_ui("update_available_menu")
 
         self.application.system.sound.play_music("stop")
         self.application.system.sound.play_music("LoFiSi")
@@ -48,7 +48,7 @@ class Navigation:
         if self.application.system.updater.state.is_state(UPDATE_STATE.CURRENT):
             self.application.distant_realms.ui_controller.show_ui("main_menu")
         elif self.application.system.updater.state.is_state(UPDATE_STATE.AVAILABLE):
-            self.application.distant_realms.ui_controller.show_ui("update_available_main")
+            self.application.distant_realms.ui_controller.show_ui("update_available_menu")
 
     def open_pause_settings(self):
         self.application.distant_realms.ui_controller.show_ui("pause_settings")
@@ -61,3 +61,10 @@ class Navigation:
 
     def audio_settings(self):
         self.application.distant_realms.ui_controller.show_ui("pause_audio_settings")
+
+    def log_out_user(self):
+        self.application.auth.log_out()
+        if self.application.system.updater.state.is_state(UPDATE_STATE.CURRENT):
+            self.application.distant_realms.ui_controller.show_ui("main_menu")
+        elif self.application.system.updater.state.is_state(UPDATE_STATE.AVAILABLE):
+            self.application.distant_realms.ui_controller.show_ui("update_available_menu")

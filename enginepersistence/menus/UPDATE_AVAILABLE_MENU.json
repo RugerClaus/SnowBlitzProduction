@@ -806,22 +806,22 @@
             }
         },
         {
-            "id": "new_button",
+            "id": "update_button",
             "type": "button",
             "font": "default",
-            "text": "Button",
+            "text": "Update!",
             "position": [
-                0.5,
-                0.5
+                0.875,
+                0.8
             ],
             "font_size": 30,
-            "action": null,
+            "action": "trigger_update",
             "styles": {
                 "idle": {
                     "background": [
-                        40,
-                        40,
-                        40
+                        255,
+                        127,
+                        80
                     ],
                     "border": [
                         255,
@@ -839,9 +839,9 @@
                 },
                 "hover": {
                     "background": [
-                        60,
-                        60,
-                        60
+                        0,
+                        255,
+                        0
                     ],
                     "border": [
                         200,
@@ -851,8 +851,8 @@
                     "border_width": 3,
                     "border_radius": 8,
                     "text_color": [
-                        255,
-                        255,
+                        40,
+                        40,
                         255
                     ],
                     "padding": 5

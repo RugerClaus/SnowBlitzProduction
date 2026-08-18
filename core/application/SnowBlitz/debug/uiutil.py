@@ -1,6 +1,7 @@
 from core.state.RuntimeLayer.Audio.Interface.state import INTERFACE_SFX_STATE
 from core.state.RuntimeLayer.Audio.Music.state import MUSIC_STATE
 from core.state.RuntimeLayer.Audio.Application.state import APP_SFX_STATE
+from core.state.RuntimeLayer.NetworkLayer.Login.state import LOGIN_STATE
 
 from core.application.network.leaderboard import Leaderboard
 
@@ -69,6 +70,17 @@ class UI_Utility:
                     for child in self.get_elements():
                         if child.id == "score_value":
                             child.text = score
+
+    def display_login_suggestion(self):
+        if (self.distant_realms.ui_controller.active_name == "main_menu"
+            or self.distant_realms.ui_controller.active_name == "update_available_menu" 
+            ):
+            
+            for child in self.get_elements():
+                if child.id == "login_suggestion":
+
+                    if self.distant_realms.system.login_state.is_state(LOGIN_STATE.LOGGED_IN):
+                        child.text = ""
 
     def get_elements(self):
         return self.distant_realms.ui_controller.get_active_ui().children

@@ -65,12 +65,6 @@ class Leaderboard:
         if score is None:
             log_error("Unable to submit empty score")
             return False
-
-        opt_in = self.system.load.read_constant("leaderboard_opt_in")
-
-        if opt_in == "NO":
-            log_warning("Leaderboard Opt In set to NO!")
-            return False
         
         if session_token is None:
             log_error("Unable to update score without valid session token")
@@ -89,6 +83,9 @@ class Leaderboard:
             log_error("Missing application password, reauthenticate your client")
             return False
         
+        if User(self.system).username == "Player":
+            log_warning("User not Logged in, cannot send score to server")
+            return False
 
         data = {
             "key": API_KEY,

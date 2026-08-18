@@ -61,6 +61,7 @@ class Application:
         else:
             self.ui_util.display_username()
             self.ui_util.display_score()
+            self.ui_util.display_login_suggestion()
 
     def draw(self):
         if self.snow_blitz:

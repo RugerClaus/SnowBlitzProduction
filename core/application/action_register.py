@@ -32,6 +32,9 @@ class ActionRegistrar:
         application.actions.register("open_settings",lambda: application.ui_controller.show_ui("settings_root"))
         application.actions.register("audio_settings",lambda: application.ui_controller.show_ui("audio_settings"))
 
+        # Auth functions
+        application.actions.register("logout_user", lambda: application.application.navigation.log_out_user())
+
         # system functions
         application.actions.register("mvolup", self.system.sound.volume_up)
         application.actions.register("mvoldown", self.system.sound.volume_down)

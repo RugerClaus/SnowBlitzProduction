@@ -22,7 +22,6 @@ class Authentication:
 
         if not response.get("success"):
             return response
-        self.system.persistence.save.write_constant("leaderboard_opt_in", "YES")
         data = response.get("data", {})
 
         if "clientAppPassword" not in data:
@@ -81,7 +80,6 @@ class Authentication:
             "high_score",
             data["score"]
         )
-        self.system.persistence.save.write_constant("leaderboard_opt_in", "YES")
 
         self.system.persistence.save.write_constant(
             "clientAppPassword",
@@ -135,7 +133,6 @@ class Authentication:
         return response
 
     def log_out(self):
-        self.system.persistence.save.write_constant("leaderboard_opt_in", "NO")
         self.system.persistence.save.clear("clientID")
         self.system.persistence.save.clear("clientAppPassword")
         self.system.user.username = "Player"

@@ -864,6 +864,21 @@
                 255,
                 40
             ]
+        },
+        {
+            "id": "login_suggestion",
+            "type": "label",
+            "text": "Go to settings and click Log In or Sign up to have your scores posted to the leaderboard!",
+            "position": [
+                0.5,
+                0.8
+            ],
+            "font_size": 30,
+            "color": [
+                255,
+                255,
+                255
+            ]
         }
     ]
 }
