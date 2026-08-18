@@ -1,0 +1,197 @@
+{
+    "type": "form",
+    "name": "LOGIN_FORM",
+    "elements": [
+        {
+            "type": "textbox",
+            "id": "username",
+            "field": "username",
+            "position": [
+                0.5,
+                0.4
+            ],
+            "dimensions": [
+                0.15,
+                0.05
+            ],
+            "font_size": 32,
+            "max_chars": 21,
+            "is_password": false
+        },
+        {
+            "id": "username_label",
+            "type": "label",
+            "text": "Username:",
+            "position": [
+                0.36,
+                0.4
+            ],
+            "font_size": 30,
+            "color": [
+                255,
+                255,
+                255
+            ]
+        },
+        {
+            "type": "textbox",
+            "id": "password",
+            "field": "password",
+            "position": [
+                0.5,
+                0.5
+            ],
+            "dimensions": [
+                0.15,
+                0.05
+            ],
+            "font_size": 25,
+            "max_chars": 21,
+            "is_password": true
+        },
+        {
+            "id": "new_label",
+            "type": "label",
+            "text": "Password:",
+            "position": [
+                0.36,
+                0.5
+            ],
+            "font_size": 30,
+            "color": [
+                255,
+                255,
+                255
+            ]
+        },
+        {
+            "id": "login_form_header",
+            "type": "header",
+            "text": "Log In",
+            "position": [
+                0.5,
+                0.1
+            ],
+            "font_size": 60,
+            "color": [
+                255,
+                255,
+                255
+            ]
+        },
+        {
+            "id": "login_submit_button",
+            "type": "button",
+            "font": "default",
+            "text": "Sign In",
+            "position": [
+                0.5017,
+                0.5867
+            ],
+            "font_size": 30,
+            "action": "log_in_submit",
+            "styles": {
+                "idle": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "hover": {
+                    "background": [
+                        60,
+                        60,
+                        60
+                    ],
+                    "border": [
+                        200,
+                        20,
+                        20
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "press": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "disable": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "padding": 5
+                },
+                "focused": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        0,
+                        255,
+                        255
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                }
+            }
+        }
+    ]
+}
