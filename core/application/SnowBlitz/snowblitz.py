@@ -12,9 +12,12 @@ from core.state.ApplicationLayer.GameMode.statemanager import GameModeManager
 from core.state.ApplicationLayer.Session.state import ONLINE_SESSION_STATE
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.state.ApplicationLayer.Game.statemanager import GameStateManager
-from core.application.SnowBlitz.mechanics.environment.environment import Environment
+
 from core.application.SnowBlitz.debug.sbdebugutils import SBDebugUtils
 from core.application.SnowBlitz.timer import GameTimer
+
+from core.application.SnowBlitz.mechanics.environment.environment import Environment
+from core.application.SnowBlitz.mechanics.effects.particles import Particles
 
 
 class SnowBlitz:
@@ -39,7 +42,8 @@ class SnowBlitz:
         self.tutorial_manager = None
         self.prompts = None
         self.tutorial_state = None
-        self.timer = None
+        self.timer = None   
+        self.water_particles = None
 
     def scale(self):
         if self.player is not None:
@@ -63,6 +67,8 @@ class SnowBlitz:
                     self.player.move('SLOW_RIGHT')
             if not (keys[self.system.input.game_controls.move_left] or keys[self.system.input.game_controls.move_right]):
                 self.player.move('NONE')
+            if self.water_particles:
+                self.water_particles.handle_event(event,command)
         else:
             pass
 
@@ -86,6 +92,9 @@ class SnowBlitz:
             if self.hud:
                 self.hud.update()
 
+            if self.water_particles:
+                self.water_particles.update()
+
             if self.mode.is_state(GAME_MODE.ENDLESS):
                 self.init_endless()
                 self.endless.update()
@@ -102,6 +111,9 @@ class SnowBlitz:
         self.environment.draw()
         if self.hud:
             self.hud.draw()
+        if self.water_particles:
+            self.water_particles.draw()
+
         if self.mode.is_state(GAME_MODE.ENDLESS):
             
             self.endless.draw()
@@ -134,6 +146,9 @@ class SnowBlitz:
             self.player = Player(self.system,self.entitymanager,self.state,self.environment,self.session,self.timer)
         if self.hud is None:
             self.hud = PlayerUIManager(self.system,self.player)
+
+        if self.water_particles is None:
+            self.water_particles = Particles(self.system,self.player)
 
     def init_game(self,game_mode):
         self.reset()

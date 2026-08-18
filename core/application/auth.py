@@ -40,11 +40,12 @@ class Auth:
         if result["success"]:
             self.application.distant_realms.ui_controller.show_ui("main_menu")
 
-        for element in form.children:
-            if element.id =="username" or element.id == "password":
-                element.error_back()
-            if element.id == "errormsg":
-                element.text = "Bad Username or Password!"
+        else:
+            for element in form.children:
+                if element.id =="username" or element.id == "password":
+                    element.error_back()
+                if element.id == "errormsg":
+                    element.text = result["message"]
         self.error_timeout = self.system.time.get_current_time() + 2000
 
     def sign_up_new_user(self):

@@ -6,7 +6,6 @@ class ActionRegistrar:
         
     def register(self):
         application = self.distant_realms
-
         
         # application functions
         application.actions.register("resume_game", lambda: application.application.snow_blitz.toggle_pause())
@@ -23,8 +22,8 @@ class ActionRegistrar:
         # main menu functions
         application.actions.register("start_endless_mode", lambda: application.application.navigation.start_endless_mode())
         application.actions.register("start_tutorial_mode", lambda: application.application.navigation.start_tutorial_mode())
-        application.actions.register("open_changelog",lambda: application.ui_controller.show_ui("changelog"))
-        application.actions.register("open_credits",lambda: application.ui_controller.show_ui("credits"))
+        application.actions.register("open_changelog", lambda: application.ui_controller.show_ui("changelog"))
+        application.actions.register("open_credits", lambda: application.ui_controller.show_ui("credits"))
         application.actions.register("view_leaderboard", lambda: application.application.load_leaderboard())
         application.actions.register("app_main_menu", lambda: application.application.navigation.app_main_menu())
 
@@ -34,6 +33,9 @@ class ActionRegistrar:
 
         # Auth functions
         application.actions.register("go_to_login_page", lambda: application.ui_controller.show_ui("login_form"))
+        application.actions.register("go_to_signup_page", lambda: application.ui_controller.show_ui("sign_up_form"))
+        application.actions.register("change_account_page", lambda: application.ui_controller.show_ui("change_account_menu"))
+        application.actions.register("create_account", lambda: application.application.formauth.sign_up_new_user())
         application.actions.register("log_in_submit", lambda: application.application.formauth.login_user())
         application.actions.register("toggle_password", lambda: application.application.formauth.toggle_pass())
         application.actions.register("logout_user", lambda: application.application.navigation.log_out_user())
@@ -46,4 +48,4 @@ class ActionRegistrar:
         application.actions.register("toggle_music", lambda: application.application.ui_util.toggle_music())
         application.actions.register("toggle_ui_sfx", lambda: application.application.ui_util.toggle_ui_sfx())
         application.actions.register("toggle_game_sfx", lambda: application.application.ui_util.toggle_game_sfx())
-        application.actions.register("quit",self.system.quit)
+        application.actions.register("quit", self.system.quit)

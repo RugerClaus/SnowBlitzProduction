@@ -170,5 +170,9 @@ class DayCycle:
             /
             self.day_length
         )
+    
     def resume(self):
         self.last_update_time = self.system.time.get_current_time()
+
+    def go_to_next_season(self):
+        self.day += 25

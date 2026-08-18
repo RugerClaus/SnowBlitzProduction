@@ -44,15 +44,21 @@ class Application:
         self.navigation.app_main_menu()
     
     def handle_event(self, event, command=None):
+        if not self.snow_blitz:
+            if not self.system.control_state.is_state(DEVELOPER_MODE.ON):
+                self.session_started = False
+
         if self.snow_blitz:
-            self.snow_blitz.handle_event(event,command)
+            self.snow_blitz.handle_event(event, command)
+
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-            self.gen_util.handle_event(event,command)
+            self.gen_util.handle_event(event, command)
 
         activeui = self.distant_realms.ui_controller.get_active_ui()
         if activeui:
             if activeui.type == COMPOSABLE.FORM:
-                self.formauth.handle_event(event,command)
+                self.formauth.handle_event(event, command)
+
         
     def update(self):
 

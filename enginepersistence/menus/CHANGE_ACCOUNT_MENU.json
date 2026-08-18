@@ -1,114 +1,234 @@
 {
-    "type": "form",
-    "name": "SIGN_UP_FORM",
+    "type": "menu",
+    "name": "CHANGE_ACCOUNT_MENU",
     "elements": [
         {
-            "id": "new_header",
-            "type": "header",
+            "id": "login_button",
+            "type": "button",
+            "font": "default",
+            "text": "Log In",
+            "position": [
+                0.4,
+                0.5
+            ],
+            "font_size": 30,
+            "action": "go_to_login_page",
+            "styles": {
+                "idle": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "hover": {
+                    "background": [
+                        60,
+                        60,
+                        60
+                    ],
+                    "border": [
+                        200,
+                        20,
+                        20
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "press": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "disable": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "padding": 5
+                },
+                "focused": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        0,
+                        255,
+                        255
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                }
+            }
+        },
+        {
+            "id": "sign_up_button",
+            "type": "button",
+            "font": "default",
             "text": "Sign Up",
             "position": [
-                0.5,
-                0.1
-            ],
-            "font_size": 60,
-            "color": [
-                255,
-                255,
-                255
-            ]
-        },
-        {
-            "type": "textbox",
-            "id": "username",
-            "field": "username",
-            "position": [
-                0.5,
-                0.4
-            ],
-            "dimensions": [
-                0.15,
-                0.05
-            ],
-            "font_size": 32,
-            "max_chars": 21,
-            "is_password": false
-        },
-        {
-            "type": "textbox",
-            "id": "password",
-            "field": "password",
-            "position": [
-                0.5,
-                0.5
-            ],
-            "dimensions": [
-                0.15,
-                0.05
-            ],
-            "font_size": 32,
-            "max_chars": 21,
-            "is_password": true
-        },
-        {
-            "type": "textbox",
-            "id": "confirm_password",
-            "field": "confirm_password",
-            "position": [
-                0.5,
-                0.6
-            ],
-            "dimensions": [
-                0.15,
-                0.05
-            ],
-            "font_size": 32,
-            "max_chars": 21,
-            "is_password": true
-        },
-        {
-            "id": "new_label",
-            "type": "label",
-            "text": "Username:",
-            "position": [
-                0.365,
-                0.4
-            ],
-            "font_size": 30,
-            "color": [
-                255,
-                255,
-                255
-            ]
-        },
-        {
-            "id": "new_label",
-            "type": "label",
-            "text": "Password:",
-            "position": [
-                0.365,
+                0.6,
                 0.5
             ],
             "font_size": 30,
-            "color": [
-                255,
-                255,
-                255
-            ]
-        },
-        {
-            "id": "new_label",
-            "type": "label",
-            "text": "Confirm Password:",
-            "position": [
-                0.325,
-                0.6
-            ],
-            "font_size": 30,
-            "color": [
-                255,
-                255,
-                255
-            ]
+            "action": "go_to_signup_page",
+            "styles": {
+                "idle": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "hover": {
+                    "background": [
+                        60,
+                        60,
+                        60
+                    ],
+                    "border": [
+                        200,
+                        20,
+                        20
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "press": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                },
+                "disable": {
+                    "background": [
+                        20,
+                        20,
+                        20
+                    ],
+                    "border": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "border_width": 2,
+                    "border_radius": 8,
+                    "text_color": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "padding": 5
+                },
+                "focused": {
+                    "background": [
+                        40,
+                        40,
+                        40
+                    ],
+                    "border": [
+                        0,
+                        255,
+                        255
+                    ],
+                    "border_width": 3,
+                    "border_radius": 8,
+                    "text_color": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "padding": 5
+                }
+            }
         },
         {
             "id": "back_button",
@@ -225,21 +345,6 @@
             }
         },
         {
-            "id": "new_label",
-            "type": "label",
-            "text": "",
-            "position": [
-                0.5,
-                0.3
-            ],
-            "font_size": 30,
-            "color": [
-                255,
-                0,
-                0
-            ]
-        },
-        {
             "id": "main_menu_button",
             "type": "button",
             "font": "default",
@@ -352,249 +457,6 @@
                     "padding": 5
                 }
             }
-        },
-        {
-            "id": "toggle_password_button",
-            "type": "button",
-            "font": "default",
-            "text": "Show",
-            "position": [
-                0.635,
-                0.5
-            ],
-            "font_size": 30,
-            "action": "toggle_password",
-            "styles": {
-                "idle": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "hover": {
-                    "background": [
-                        60,
-                        60,
-                        60
-                    ],
-                    "border": [
-                        200,
-                        20,
-                        20
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "press": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "disable": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "padding": 5
-                },
-                "focused": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        0,
-                        255,
-                        255
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                }
-            }
-        },
-        {
-            "id": "create_account_button",
-            "type": "button",
-            "font": "default",
-            "text": "Create Account",
-            "position": [
-                0.5,
-                0.7
-            ],
-            "font_size": 30,
-            "action": "create_account",
-            "styles": {
-                "idle": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "hover": {
-                    "background": [
-                        60,
-                        60,
-                        60
-                    ],
-                    "border": [
-                        200,
-                        20,
-                        20
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "press": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                },
-                "disable": {
-                    "background": [
-                        20,
-                        20,
-                        20
-                    ],
-                    "border": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "border_width": 2,
-                    "border_radius": 8,
-                    "text_color": [
-                        100,
-                        100,
-                        100
-                    ],
-                    "padding": 5
-                },
-                "focused": {
-                    "background": [
-                        40,
-                        40,
-                        40
-                    ],
-                    "border": [
-                        0,
-                        255,
-                        255
-                    ],
-                    "border_width": 3,
-                    "border_radius": 8,
-                    "text_color": [
-                        255,
-                        255,
-                        255
-                    ],
-                    "padding": 5
-                }
-            }
-        },
-        {
-            "id": "errormsg",
-            "type": "label",
-            "text": "",
-            "position": [
-                0.5,
-                0.3126
-            ],
-            "font_size": 30,
-            "color": [
-                255,
-                0,
-                0
-            ]
         }
     ]
 }

@@ -14,7 +14,7 @@ class SBDebugUtils:
         self.draw_debug_reducer_lines = False
         self.draw_debug_sun_line = False
 
-        self.system.input.CommandModule.sequences["show_game_telemetry"] = [self.system.input.keys.keypad_0_key()]
+        self.system.input.CommandModule.sequences["go_to_next_season"] = [self.system.input.keys.zero_key()]
 
     def toggle_debug_snowflake_lines(self):
         self.draw_debug_snowflake_lines = not self.draw_debug_snowflake_lines
@@ -75,6 +75,8 @@ class SBDebugUtils:
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             self.register_debug_telemetry()
+            if command == "go_to_next_season":
+                self.game_object.environment.day_cycle.go_to_next_season()
         else:
             self.clear_debug_telemetry()
 
