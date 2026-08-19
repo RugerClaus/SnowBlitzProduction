@@ -89,7 +89,7 @@ class UI_Utility:
 
     def toggle_music(self):
         
-        if self.distant_realms.application.snow_blitz.state is not None:
+        if self.distant_realms.application.snow_blitz.state:
             if not self.distant_realms.application.snow_blitz.state.is_state(GAMESTATE.NONE):
                 self.system.sound.toggle_music()
         else:
