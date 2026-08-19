@@ -170,10 +170,10 @@ class EntityManager:
         if current_time - self.last_reducer_spawn_time > self.reducer_interval:
             
             if len(self.entities["level_reducers"]) < 1:
-                if current_level >= 15 and current_level < 30:
+                if current_level >= 15:
                     self.add_entity(EntityType.REDUCER,LRType.TWENTY)
                     self.last_reducer_spawn_time = current_time
-                elif current_level >= 30 and current_level < 50:
+                elif current_level >= 30:
                     reducer_choice = self.system.random.choice([LRType.TWENTY,LRType.FIFTY])
                     self.add_entity(EntityType.REDUCER,reducer_choice)
                     self.last_reducer_spawn_time = current_time

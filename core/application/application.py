@@ -40,7 +40,6 @@ class Application:
         self.init_main()
 
     def init_main(self):
-        self.system.sound.play_music("LoFiSi")
         self.navigation.app_main_menu()
     
     def handle_event(self, event, command=None):

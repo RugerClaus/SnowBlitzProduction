@@ -3,6 +3,8 @@ from core.state.RuntimeLayer.Audio.Music.state import MUSIC_STATE
 from core.state.RuntimeLayer.Audio.Application.state import APP_SFX_STATE
 from core.state.RuntimeLayer.NetworkLayer.Login.state import LOGIN_STATE
 
+from core.state.ApplicationLayer.Game.state import GAMESTATE
+
 from core.application.network.leaderboard import Leaderboard
 
 class UI_Utility:
@@ -86,15 +88,12 @@ class UI_Utility:
         return self.distant_realms.ui_controller.get_active_ui().children
 
     def toggle_music(self):
-        if self.system.sound.music_state.is_state(MUSIC_STATE.ON):
-            self.system.sound.play_music("stop")
-            self.system.sound.music_state.set_state(MUSIC_STATE.OFF)
+        
+        if self.distant_realms.application.snow_blitz.state is not None:
+            if not self.distant_realms.application.snow_blitz.state.is_state(GAMESTATE.NONE):
+                self.system.sound.toggle_music()
         else:
-            self.system.sound.music_state.set_state(MUSIC_STATE.ON)
-            if self.distant_realms.application.snow_blitz:
-                self.system.sound.play_music()
-            else:
-                self.system.sound.play_music("LoFiSi")
+            self.system.sound.toggle_music("LoFiSi")
 
     def toggle_ui_sfx(self):
         if self.system.sound.interface_sfx_state.is_state(INTERFACE_SFX_STATE.ON):

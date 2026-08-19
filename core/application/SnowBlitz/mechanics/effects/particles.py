@@ -46,7 +46,7 @@ class Particles:
             self.max_particles = 30
 
         if current_temperature <= 0:
-            self.max_particles = 5
+            self.max_particles = 0
 
         math = self.system.math
 
