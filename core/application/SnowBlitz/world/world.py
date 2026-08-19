@@ -1,64 +1,59 @@
+import os
+
 from core.application.SnowBlitz.world.map import Map
 
-CLOUD_MAP = [
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-
-    0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,
-
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,0,
-
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-]
-
-TERRAIN_MAP = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-]
-
 class World:
-    def __init__(self,system):
+    def __init__(self, system):
+        self.system = system
+        self.maps = []
 
-        self.terrain_map = Map(system,1)
-        self.cloud_map = Map(system,4)
-        self.cloud_map.velocity_x = 0.04
+        self.load_map_files()
 
     def scale(self):
-        self.terrain_map.scale()
-        self.cloud_map.scale()
-        
+        for map in self.maps:
+            map.scale()
+
     def update(self):
-        self.terrain_map.update()
-        self.cloud_map.update()
+        for map in self.maps:
+            map.update()
 
     def draw(self):
-        self.terrain_map.draw()
-        self.cloud_map.draw()
+        for map in self.maps:
+            map.draw()
 
-    def load_maps(self):
-        self.terrain_map.load_cells(TERRAIN_MAP)
-        self.cloud_map.load_cells(CLOUD_MAP)
-        
+    def load_map_files(self):
+        path = "enginepersistence/world"
 
+        for filename in os.listdir(path):
+            if filename.endswith(".map"):
+
+                filepath = os.path.join(path, filename)
+
+                with open(filepath, "r") as file:
+                    cell_map = [
+                        [int(cell) for cell in line.strip().strip("[],").split(",")]
+                        for line in file
+                        if line.strip()
+                    ]
+
+                scale = len(cell_map[0]) / 16
+
+                map = Map(self.system, scale)
+                map.name = os.path.splitext(filename)[0]
+
+                if map.name == "cloud":
+                    map.velocity_x = 0.04
+
+                map.load_cells(cell_map)
+                self.maps.append(map)
+
+    def reload_maps(self):
+        print("RELOADING MAPS...")
+        self.maps.clear()
+        self.load_map_files()
+
+    def toggle_map_grid(self, name,color=None,width=None):
+        for map in self.maps:
+            if map.name == name:
+                map.toggle_grid(color,width)
+                return

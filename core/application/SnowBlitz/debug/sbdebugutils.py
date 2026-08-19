@@ -15,6 +15,18 @@ class SBDebugUtils:
         self.draw_debug_sun_line = False
 
         self.system.input.CommandModule.sequences["go_to_next_season"] = [self.system.input.keys.zero_key()]
+        self.system.input.CommandModule.sequences["reload_maps"] = [
+                    self.system.input.keys.F1_key(),
+                    self.system.input.keys.four_key()
+                ]
+        self.system.input.CommandModule.sequences["toggle_terrain_grid"] = [
+                self.system.input.keys.F1_key(),
+                self.system.input.keys.five_key()
+            ]
+        self.system.input.CommandModule.sequences["toggle_cloud_grid"] = [
+                self.system.input.keys.F1_key(),
+                self.system.input.keys.six_key()
+            ]
 
     def toggle_debug_snowflake_lines(self):
         self.draw_debug_snowflake_lines = not self.draw_debug_snowflake_lines
@@ -77,6 +89,14 @@ class SBDebugUtils:
             self.register_debug_telemetry()
             if command == "go_to_next_season":
                 self.game_object.environment.day_cycle.go_to_next_season()
+
+            if command == "reload_maps":
+                self.game_object.world.reload_maps()
+
+            if command == "toggle_terrain_grid":
+                self.game_object.world.toggle_map_grid("terrain",red)
+            if command == "toggle_cloud_grid":
+                self.game_object.world.toggle_map_grid("cloud",purple)
         else:
             self.clear_debug_telemetry()
 

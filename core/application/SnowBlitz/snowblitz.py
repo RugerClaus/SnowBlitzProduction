@@ -168,7 +168,6 @@ class SnowBlitz:
         self.state.set_state(GAMESTATE.PLAYING)
         self.timer = GameTimer(self.system)
 
-        self.world.load_maps()
         if game_mode == "endless":
             self.mode.set_state(GAME_MODE.ENDLESS)
             self.disant_realms.ui_controller.clear()

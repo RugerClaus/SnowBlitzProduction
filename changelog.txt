@@ -8,3 +8,5 @@ Development version Beta 1.0.0 - 2026-10-31
 - Fully finished season system with temperature ranges, and day length adjustments
 - Added a basic world system allowing for multiple texture maps to be placed on it for example (terrain map, cloud map)
     Now environments exist
+- Maps are now entirely data based in enginepersistence/world/*.map
+- Can now display the map cell grid for each existing map using commands in developer mode

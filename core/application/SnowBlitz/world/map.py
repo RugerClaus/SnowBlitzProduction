@@ -6,6 +6,9 @@ class Map:
     def __init__(self,system,scale):
         self.system = system
 
+        self.name = None
+
+        self.cell_map = []
         self.cells = []
 
         self.grid_scale = scale
@@ -22,6 +25,10 @@ class Map:
         self.y = 0
         self.velocity_x = 0
         self.velocity_y = 0
+
+        self.draw_grid = False
+        self.grid_color = None
+        self.grid_line_width = None
 
     def scale(self):
 
@@ -62,6 +69,18 @@ class Map:
             rect = cell.rect.move(offset_x + ww, offset_y)
             self.system.window.blit(cell.surface, rect)
 
+            if self.draw_grid:
+                cell.draw_debug_border(self.grid_color,self.grid_line_width)
+
+    def toggle_grid(self, grid_color=None, grid_line_width=None):
+        self.grid_color = grid_color
+        self.grid_line_width = grid_line_width
+        self.draw_grid = not self.draw_grid
+
+        if not self.draw_grid:
+            for cell in self.cells:
+                cell.scale()
+
     def _get_cell_data(self,id): # returns a list of values that make up each cell type
         for key,value in self.cell_data_map.items():
             if key == id:
@@ -69,28 +88,50 @@ class Map:
 
     def load_cells(self, cell_map):
         self.cells.clear()
+
+        if len(cell_map) != self.rows or len(cell_map[0]) != self.columns:
+            cell_map = self.scale_map(cell_map)
+
         cell_width = 1 / self.columns
         cell_height = 1 / self.rows
 
-        for index, cell_id in enumerate(cell_map):
-            x = index % self.columns
-            y = index // self.columns
+        for y, row in enumerate(cell_map):
+            for x, cell_id in enumerate(row):
 
-            position = (
-                (x + 0.5) * cell_width,
-                (y + 0.5) * cell_height
-            )
+                position = (
+                    (x + 0.5) * cell_width,
+                    (y + 0.5) * cell_height
+                )
 
-            size = (
-                cell_width,
-                cell_height
-            )
+                size = (
+                    cell_width,
+                    cell_height
+                )
 
-            cell = Cell(
-                self.system,
-                self._get_cell_data(cell_id)[0],
-                size,
-                position
-            )
+                cell = Cell(
+                    self.system,
+                    self._get_cell_data(cell_id)[0],
+                    size,
+                    position
+                )
 
-            self.cells.append(cell)
+                self.cells.append(cell)
+
+    def scale_map(self, cell_map):
+        scaled = []
+
+        source_columns = 16
+        source_rows = 9
+
+        for y in range(source_rows):
+            row = cell_map[y * source_columns:(y + 1) * source_columns]
+
+            expanded_row = []
+
+            for cell in row:
+                expanded_row.extend([cell] * self.grid_scale)
+
+            for _ in range(self.grid_scale):
+                scaled.extend(expanded_row)
+
+        return scaled
