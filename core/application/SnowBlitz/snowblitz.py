@@ -20,7 +20,7 @@ from core.application.SnowBlitz.timer import GameTimer
 
 from core.application.SnowBlitz.mechanics.environment.environment import Environment
 from core.application.SnowBlitz.mechanics.effects.particles import Particles
-
+from core.application.SnowBlitz.world.world import World
 
 class SnowBlitz:
     def __init__(self,application):
@@ -32,6 +32,7 @@ class SnowBlitz:
         self.state = GameStateManager()
         self.entitymanager = EntityManager(self.system)
         self.environment = Environment(self.system)
+        self.world = World(self.system)
         self.debug = SBDebugUtils(self.system,self)
         
         self.endless = None
@@ -53,6 +54,9 @@ class SnowBlitz:
             self.player.center()
         if self.hud is not None:
             self.hud.scale()
+
+        if self.world:
+            self.world.scale()
 
     def handle_event(self,event,command=None):
         keys = self.system.input.get_pressed_keys()
@@ -91,6 +95,10 @@ class SnowBlitz:
             self.timer.update()
             self.session.update()
             self.environment.update()
+
+            if self.world:
+                self.world.update()
+
             if self.hud:
                 self.hud.update()
 
@@ -111,6 +119,9 @@ class SnowBlitz:
         
     def draw(self):
         self.environment.draw()
+        if self.world:
+            self.world.draw()
+
         if self.hud:
             self.hud.draw()
         if self.water_particles:
@@ -156,6 +167,8 @@ class SnowBlitz:
         self.reset()
         self.state.set_state(GAMESTATE.PLAYING)
         self.timer = GameTimer(self.system)
+
+        self.world.load_maps()
         if game_mode == "endless":
             self.mode.set_state(GAME_MODE.ENDLESS)
             self.disant_realms.ui_controller.clear()

@@ -122,3 +122,15 @@ Development version Beta 0.9.9 - 2026-07-27
 - Abstracted UI even more allowing for widgets, composables (forms/maybe menus in the future), and a simple UI manager for composables
 - Fixed client crashing upon initialization when no audio device is found
 -- Old immediate mode menus still exist
+
+Development version Beta 1.0.0 - 2026-10-31
+--------------------------------------------
+- Fixed game starting on level 2 if the window is full size
+- Fixed all player sound effects playing after player death
+- Fixed resize bug with player UI cutting off the progress bar when the window is enlarged
+- Upgraded to Distant Realms Framework version 0.6.0-alpha
+- Reconstructed the entire user driven UI using the new Distant Realms Editor application replacing entire "core/menus" directory
+- Added particle effects
+- Fully finished season system with temperature ranges, and day length adjustments
+- Added a basic world system allowing for multiple texture maps to be placed on it for example (terrain map, cloud map)
+    Now environments exist

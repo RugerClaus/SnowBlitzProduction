@@ -148,7 +148,7 @@ class Player(Entity):
         self.render_diam = self.diam
 
         self.x_ratio = 0.5
-        self.y_ratio = 0.90
+        self.y_ratio = 0.89
 
         self.speed = 7
 
