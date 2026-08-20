@@ -2,7 +2,6 @@ import platform
 
 config = {
     "TITLE": "Snow Blitz Beta Play Test Demo",
-    "AUTHORS": ["Roger Falck", "Reina Meza"],
     "VERSION": "0.9.9-beta",
     "FRAMEWORK VERSION": "0.6.0-alpha",
     "OS": platform.system(),
@@ -12,6 +11,7 @@ config = {
     "UPDATER_WINDOWS": "updater.exe",
     "UPDATER_LINUX": "updater",
     "UPDATER_VERSION": "0.0.2",
+    "WINDOW_BACKEND": "pygame",
     "NSTATURL": "https://snowblitz.net",
     "API_KEY": "",
     "API": {

@@ -181,7 +181,6 @@ class Player(Entity):
         self.update_position_from_ratio()
 
     def clean_up_states(self):
-        print("cleaning up player states")
         self.system.clean_up_states([
             self.speed_state.state,
             self.move_state.state,

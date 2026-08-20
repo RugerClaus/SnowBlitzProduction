@@ -32,16 +32,10 @@ class Session:
     
     def _create_session_request(self):
 
-        print("SESSION THREAD: started")
-
         try:
             app_pass = self.system.persistence.load.read_constant("clientAppPassword")
-            print("SESSION THREAD: got app password")
 
             cid = self.system.persistence.load.read_constant("clientID")
-            print("SESSION THREAD: got client ID")
-
-            print("SESSION THREAD: sending request")
 
             response = self.system.network.post(
                 CREATE_SESSION,
@@ -53,12 +47,9 @@ class Session:
                 }
             )
 
-            print("SESSION THREAD: response received:", response)
-
             self.session_response = response
 
         except Exception as e:
-            print("SESSION THREAD ERROR:", repr(e))
 
             self.session_response = {
                 "success": False,

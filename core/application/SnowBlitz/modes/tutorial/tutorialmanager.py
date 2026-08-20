@@ -248,8 +248,6 @@ class TutorialManager:
 
             if self.player.current_level >= 20:
 
-                print("you win")
-
                 self.state.set_state(
                     TUTORIALSTATE.WIN
                 )
