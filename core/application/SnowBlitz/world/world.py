@@ -3,9 +3,10 @@ import os
 from core.application.SnowBlitz.world.map import Map
 
 class World:
-    def __init__(self, system):
+    def __init__(self, system,environment):
         self.system = system
         self.maps = []
+        self.environment = environment
 
         self.load_map_files()
 
@@ -27,7 +28,7 @@ class World:
         for filename in os.listdir(path):
             if filename.endswith(".map"):
 
-                filepath = os.path.join(path, filename)
+                filepath = os.path.join(path,filename)
 
                 with open(filepath, "r") as file:
                     cell_map = [
@@ -38,7 +39,7 @@ class World:
 
                 scale = len(cell_map[0]) / 16
 
-                map = Map(self.system, scale)
+                map = Map(self.system,scale,self.environment)
                 map.name = os.path.splitext(filename)[0]
 
                 if map.name == "cloud":

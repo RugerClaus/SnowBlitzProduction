@@ -1,11 +1,13 @@
-
+from helper import sine
 from core.util.colors import *
 from core.application.SnowBlitz.world.cell import Cell
 
-class Map:
-    def __init__(self,system,scale):
-        self.system = system
+from core.application.SnowBlitz.world.data_map import cell_data_map
 
+
+class Map:
+    def __init__(self,system,scale,environment=None):
+        self.system = system
         self.name = None
 
         self.cell_map = []
@@ -14,12 +16,7 @@ class Map:
         self.grid_scale = scale
         self.scale()
 
-        self.cell_data_map = {
-            0: [None],
-            1: [green],
-            2: [yellow],
-            3: [white]
-        }
+        self.cell_data_map = cell_data_map
 
         self.x = 0
         self.y = 0
@@ -27,8 +24,12 @@ class Map:
         self.velocity_y = 0
 
         self.draw_grid = False
-        self.grid_color = None
-        self.grid_line_width = None
+        self.grid_color = white
+        self.grid_line_width = 1
+        self.environment = environment
+
+        self.layer_surface = None
+        self.layer_dirty = True
 
     def get_cell_rect(self, column, row):
         ww = self.system.window.get_width()
@@ -40,20 +41,81 @@ class Map:
         top = round(row * wh / self.rows)
         bottom = round((row + 1) * wh / self.rows)
 
-        return self.system.window.Rect(
-            left,
-            top,
-            right - left,
-            bottom - top
+        return self.system.window.Rect(left,top,right - left,bottom - top)
+
+    def create_layer_surface(self):
+        ww = self.system.window.get_width()
+        wh = self.system.window.get_height()
+
+        self.layer_surface = self.system.window.make_surface(
+            ww,
+            wh,
+            True
         )
 
-    def scale(self):
+        self.layer_dirty = True
 
+    def render_layer(self):
+        if self.layer_surface is None:
+            self.create_layer_surface()
+
+        if not self.layer_dirty:
+            return
+
+        self.layer_surface.fill((0, 0, 0, 0))
+
+        for index, cell in enumerate(self.cells):
+
+            column = index % self.columns
+            row = index // self.columns
+
+            rect = self.get_cell_rect(column, row)
+
+            if cell.color:
+                self.layer_surface.fill(
+                    cell.color,
+                    rect
+                )
+
+        if self.draw_grid:
+            self.render_debug_grid()
+
+        self.layer_dirty = False
+
+
+    def scale(self):
         self.rows = int(9 * self.grid_scale)
         self.columns = int(16 * self.grid_scale)
 
         for cell in self.cells:
             cell.scale()
+
+    def update_cell_colors(self):
+        if self.environment is None:
+            return
+
+        brightness = self.environment.day_cycle.brightness
+
+        ambient = 0.35
+        light = ambient + ((1.0 - ambient) * brightness)
+
+        for cell in self.cells:
+            if not cell.properties.get("receives_light", False):
+                continue
+
+            base_color = cell.data.get("color")
+
+            if base_color is None:
+                continue
+
+            color = tuple(
+                int(channel * light)
+                for channel in base_color
+            )
+
+            cell.set_color(color)
+
+        self.layer_dirty = True
 
     def update(self):
         dt = self.system.time.delta_time()
@@ -66,6 +128,8 @@ class Map:
         elif self.x <= -1:
             self.x += 1
 
+        self.update_cell_colors()
+
         for cell in self.cells:
             cell.update()
 
@@ -73,59 +137,66 @@ class Map:
         ww = self.system.window.get_width()
         wh = self.system.window.get_height()
 
+        self.render_layer()
+
         offset_x = round(self.x * ww)
         offset_y = round(self.y * wh)
 
-        for index, cell in enumerate(self.cells):
+        offsets = (
+            (offset_x - ww, offset_y),
+            (offset_x, offset_y),
+            (offset_x + ww, offset_y),
+        )
 
-            column = index % self.columns
-            row = index // self.columns
+        for x, y in offsets:
+            self.system.window.blit(
+                self.layer_surface,
+                (x, y)
+            )
 
-            rect = self.get_cell_rect(column, row)
+    def render_debug_grid(self):
+        ww = self.system.window.get_width()
+        wh = self.system.window.get_height()
 
-            if (
-                cell.surface is None
-                or cell.surface.get_width() != rect.width
-                or cell.surface.get_height() != rect.height
-            ):
-                cell.scale(rect.width, rect.height)
+        color = self.grid_color or white
+        width = self.grid_line_width or 1
 
-            rect.x += offset_x
-            rect.y += offset_y
+        for column in range(self.columns + 1):
+            x = round(column * ww / self.columns)
 
-            self.system.window.blit(cell.surface, rect)
+            self.system.window.draw_line(
+                self.layer_surface,
+                (x, 0),
+                (x, wh),
+                color,
+                width
+            )
 
-            rect = self.get_cell_rect(column, row)
-            rect.x += offset_x - ww
-            rect.y += offset_y
+        for row in range(self.rows + 1):
+            y = round(row * wh / self.rows)
 
-            self.system.window.blit(cell.surface, rect)
-
-            rect = self.get_cell_rect(column, row)
-            rect.x += offset_x + ww
-            rect.y += offset_y
-
-            self.system.window.blit(cell.surface, rect)
-
-            if self.draw_grid:
-                cell.draw_debug_border(
-                    self.grid_color,
-                    self.grid_line_width
-                )
+            self.system.window.draw_line(
+                self.layer_surface,
+                (0, y),
+                (ww, y),
+                color,
+                width
+            )
 
     def toggle_grid(self, grid_color=None, grid_line_width=None):
-        self.grid_color = grid_color
-        self.grid_line_width = grid_line_width
+        if grid_color is not None:
+            self.grid_color = grid_color
+
+        if grid_line_width is not None:
+            self.grid_line_width = grid_line_width
+
         self.draw_grid = not self.draw_grid
+        self.layer_dirty = True
 
-        if not self.draw_grid:
-            for cell in self.cells:
-                cell.scale()
+        print("toggling debug grid:", self.draw_grid)
 
-    def _get_cell_data(self,id): # returns a list of values that make up each cell type may be a dict in the future
-        for key,value in self.cell_data_map.items():
-            if key == id:
-                return value
+    def _get_cell_data(self, cell_type):
+        return self.cell_data_map.get(cell_type)
 
     def load_cells(self, cell_map):
         self.cells.clear()
@@ -133,28 +204,24 @@ class Map:
         if len(cell_map) != self.rows or len(cell_map[0]) != self.columns:
             cell_map = self.scale_map(cell_map)
 
+        self.cell_map = cell_map
+
         cell_width = 1 / self.columns
         cell_height = 1 / self.rows
 
         for y, row in enumerate(cell_map):
             for x, cell_id in enumerate(row):
 
-                position = (
-                    (x + 0.5) * cell_width,
-                    (y + 0.5) * cell_height
-                )
+                cell_data = self._get_cell_data(cell_id)
 
-                size = (
-                    cell_width,
-                    cell_height
-                )
+                if cell_data is None:
+                    raise ValueError(f"Unknown cell type: {cell_id}")
 
-                cell = Cell(
-                    self.system,
-                    self._get_cell_data(cell_id)[0],
-                    size,
-                    position
-                )
+                position = ((x + 0.5) * cell_width,(y + 0.5) * cell_height)
+
+                size = (cell_width,cell_height)
+
+                cell = Cell(self.system,size,position,cell_data)
 
                 self.cells.append(cell)
 
@@ -173,6 +240,6 @@ class Map:
                 expanded_row.extend([cell] * self.grid_scale)
 
             for _ in range(self.grid_scale):
-                scaled.extend(expanded_row)
+                scaled.append(expanded_row.copy())
 
         return scaled

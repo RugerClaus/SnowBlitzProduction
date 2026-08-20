@@ -109,6 +109,8 @@ class DayCycle:
 
         self.system.window.fill(self.color)
 
+    def get_brightness_normalized(self):
+        return self.brightness
 
     def get_time_progress(self):
 

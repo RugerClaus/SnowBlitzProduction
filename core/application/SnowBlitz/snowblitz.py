@@ -32,7 +32,7 @@ class SnowBlitz:
         self.state = GameStateManager()
         self.entitymanager = EntityManager(self.system)
         self.environment = Environment(self.system)
-        self.world = World(self.system)
+        self.world = World(self.system,self.environment)
         self.debug = SBDebugUtils(self.system,self)
         
         self.endless = None

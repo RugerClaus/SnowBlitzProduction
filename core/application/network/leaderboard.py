@@ -35,7 +35,6 @@ class Leaderboard:
 
         for user in response["data"]:
             local_user = User(self.system)
-            print(user["score"])
             if user["username"] == local_user.username:
                 local_user.high_score = user["score"]
 

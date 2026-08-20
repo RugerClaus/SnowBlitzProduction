@@ -10,3 +10,6 @@ Development version Beta 1.0.0 - 2026-10-31
     Now environments exist
 - Maps are now entirely data based in enginepersistence/world/*.map
 - Can now display the map cell grid for each existing map using commands in developer mode
+- Maps are now entirely dynamically cell based
+- Maps are capable of interacting with lighting and temperature and other environmental factors
+- 128x72 is the upper limit for cell maps
