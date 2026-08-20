@@ -1,22 +1,22 @@
 import random
 
-from helper import asset
-from systemlogging import log_event
-
-from core.application.entities.entity import Entity
-from core.application.entities.type import EntityType
-from core.application.entities.powerups.type import PowerUpType
+from core.application.SnowBlitz.entities.entity import Entity
+from core.application.SnowBlitz.entities.type import EntityType
+from core.application.SnowBlitz.entities.reducers.type import LRType
+from core.ui.font import FontEngine
 
 
-class PowerUp(Entity):
+class LevelReducer(Entity):
 
-    def __init__(self, system, diam, power_type: PowerUpType, image_path=None):
+    def __init__(self, system, reducer_type: LRType):
 
         self.system = system
+        self.reducer_type = reducer_type
 
-        self.power_type = power_type
-        self.diam = diam
-        self.image_path = image_path
+        self.color = (128, 100, 190)
+        self.diam = 50
+
+        self.font = FontEngine(30).font
 
         self.spawn()
 
@@ -24,13 +24,17 @@ class PowerUp(Entity):
             self.x,
             self.y,
             system.window,
-            EntityType.POWERUP,
+            EntityType.REDUCER,
             self.diam
         )
 
         self.rect = self.surface.get_rect(
             topleft=(self.x, self.y)
         )
+
+
+    def get_reducer_number(self):
+        pass
 
 
     def spawn(self):
@@ -41,34 +45,19 @@ class PowerUp(Entity):
         )
 
         self.y = random.randint(
-            -600,
+            -200,
             0
         )
 
-        self.color = self.get_powerup_color()
-
         self.speed = 0
 
+        self.surface = self.system.window.make_surface(
+            self.diam,
+            self.diam,
+            True
+        )
 
-        if self.image_path:
-
-            self.surface = self.system.window.load_image(
-                asset(self.image_path)
-            )
-
-            log_event(
-                "successfully loaded image"
-            )
-
-        else:
-
-            self.surface = self.system.window.make_surface(
-                self.diam,
-                self.diam,
-                True
-            )
-
-            self.render()
+        self.render()
 
 
         if hasattr(self, "rect"):
@@ -84,21 +73,29 @@ class PowerUp(Entity):
             (0, 0, 0, 0)
         )
 
+        self.surface.fill(
+            self.color
+        )
+
         self.system.window.draw_circle(
             self.surface,
-            self.color,
+            (255, 255, 255),
             (
                 self.diam / 2,
                 self.diam / 2
             ),
-            self.diam / 2,
-            self.power_type
+            self.diam / 3,
+            self.reducer_type
+        )
+
+        self.draw_reducer_number(
+            self.surface
         )
 
 
     def update(self):
 
-        acceleration = 0.03
+        acceleration = 0.05
         max_speed = 10
 
         if self.speed < max_speed:
@@ -113,13 +110,34 @@ class PowerUp(Entity):
 
 
         if self.y > self.system.window.get_height() + 100:
-
             self.spawn()
 
 
     def collected(self):
 
         self.spawn()
+
+
+    def draw_reducer_number(self, base_surface):
+
+        text = f"{self.get_reducer_number()}"
+
+        surface = self.font.render(
+            text,
+            True,
+            (248, 0, 90)
+        )
+
+        rect = surface.get_rect()
+
+        rect.center = (
+            base_surface.get_rect().center
+        )
+
+        base_surface.blit(
+            surface,
+            rect
+        )
 
 
     def draw(self):

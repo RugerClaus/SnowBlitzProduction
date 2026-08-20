@@ -1,7 +1,7 @@
 import random
 
-from core.application.entities.type import EntityType
-from core.application.entities.entity import Entity
+from core.application.SnowBlitz.entities.type import EntityType
+from core.application.SnowBlitz.entities.entity import Entity
 
 
 class SnowFlake(Entity):

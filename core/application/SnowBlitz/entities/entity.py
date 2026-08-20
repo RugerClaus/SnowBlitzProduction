@@ -1,6 +1,6 @@
 # if i ever want to mess with global entities
 
-from core.application.entities.type import EntityType
+from core.application.SnowBlitz.entities.type import EntityType
 
 class Entity:
     def __init__(self, x, y, board_surface, type: EntityType, size=None):

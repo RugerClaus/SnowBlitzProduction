@@ -1,5 +1,5 @@
-from core.application.entities.type import EntityType
-from core.application.entities.entity import Entity
+from core.application.SnowBlitz.entities.type import EntityType
+from core.application.SnowBlitz.entities.entity import Entity
 
 from core.state.ApplicationLayer.Entities.Player.Intent.state import PLAYER_INTENT_STATE
 from core.state.ApplicationLayer.Entities.Player.Speed.state import SPEED_STATE
@@ -9,7 +9,7 @@ from core.state.ApplicationLayer.Entities.Player.Movement.statemanager import Pl
 from core.state.ApplicationLayer.Entities.Player.Powers.statemanager import PlayerPowerStateManager
 from core.state.ApplicationLayer.Entities.Player.Life.statemanager import PlayerLifeStateManager
 
-from core.application.entities.player.playermechanics import PlayerMechanics as physics
+from core.application.SnowBlitz.entities.player.playermechanics import PlayerMechanics as physics
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 
 class Player(Entity):

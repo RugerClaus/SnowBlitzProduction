@@ -1,5 +1,5 @@
-from core.application.entities.powerups.powerup import PowerUp
-from core.application.entities.powerups.type import PowerUpType
+from core.application.SnowBlitz.entities.powerups.powerup import PowerUp
+from core.application.SnowBlitz.entities.powerups.type import PowerUpType
 
 class AntiShrink(PowerUp):
     def __init__(self, board_surface):

@@ -2,7 +2,7 @@ from core.state.RuntimeLayer.state import RUNTIME_STATE
 from core.state.RuntimeLayer.BootSplash.state import BOOT_SPLASH_STATE
 from core.state.RuntimeLayer.BootSplash.statemanager import BootSplashStateManager
 from core.state.RuntimeLayer.Audio.SFX.state import SYSTEM_SFX_STATE
-from core.application.entities.entitymanager import EntityManager
+from core.application.SnowBlitz.entities.entitymanager import EntityManager
 
 from core.ui.widgets.image import Image
 from helper import asset

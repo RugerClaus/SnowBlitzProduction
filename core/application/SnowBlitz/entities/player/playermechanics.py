@@ -3,9 +3,9 @@ from core.state.ApplicationLayer.Entities.Player.Life.state import PLAYER_LIFE_S
 from core.state.ApplicationLayer.Entities.Player.Powers.state import PLAYER_POWER_STATE
 from core.state.ApplicationLayer.Entities.Player.Speed.state import SPEED_STATE
 from core.state.ApplicationLayer.Game.state import GAMESTATE
-from core.application.entities.powerups.type import PowerUpType
+from core.application.SnowBlitz.entities.powerups.type import PowerUpType
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
-from core.application.entities.type import EntityType
+from core.application.SnowBlitz.entities.type import EntityType
 
 class PlayerMechanics:
 

@@ -1,5 +1,5 @@
-from core.application.entities.reducers.levelreducer import LevelReducer
-from core.application.entities.reducers.type import LRType
+from core.application.SnowBlitz.entities.reducers.levelreducer import LevelReducer
+from core.application.SnowBlitz.entities.reducers.type import LRType
 
 class Fifty(LevelReducer):
     def __init__(self, board_surface):

@@ -1,17 +1,17 @@
-from core.application.entities.snow.snowflake import SnowFlake
-from core.application.entities.rock.rock import Rock
+from core.application.SnowBlitz.entities.snow.snowflake import SnowFlake
+from core.application.SnowBlitz.entities.rock.rock import Rock
 
-from core.application.entities.powerups.absorb_rock import AbsorbRock
-from core.application.entities.powerups.anti_shrink import AntiShrink
-from core.application.entities.powerups.speed_boost import SpeedBoost
+from core.application.SnowBlitz.entities.powerups.absorb_rock import AbsorbRock
+from core.application.SnowBlitz.entities.powerups.anti_shrink import AntiShrink
+from core.application.SnowBlitz.entities.powerups.speed_boost import SpeedBoost
 
-from core.application.entities.reducers.twenty import Twenty
-from core.application.entities.reducers.fifty import Fifty
-from core.application.entities.reducers.hundred import OneHundred
+from core.application.SnowBlitz.entities.reducers.twenty import Twenty
+from core.application.SnowBlitz.entities.reducers.fifty import Fifty
+from core.application.SnowBlitz.entities.reducers.hundred import OneHundred
 
-from core.application.entities.type import EntityType
-from core.application.entities.powerups.type  import PowerUpType
-from core.application.entities.reducers.type import LRType
+from core.application.SnowBlitz.entities.type import EntityType
+from core.application.SnowBlitz.entities.powerups.type  import PowerUpType
+from core.application.SnowBlitz.entities.reducers.type import LRType
 
 class EntityManager:
     def __init__(self, system):

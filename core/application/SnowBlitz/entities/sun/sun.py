@@ -1,5 +1,5 @@
-from core.application.entities.entity import Entity
-from core.application.entities.type import EntityType
+from core.application.SnowBlitz.entities.entity import Entity
+from core.application.SnowBlitz.entities.type import EntityType
 
 class Sun(Entity):
     def __init__(self, system, daycycle):

@@ -1,6 +1,6 @@
 from core.application.SnowBlitz.mechanics.environment.daycycle import DayCycle
 from core.application.SnowBlitz.mechanics.environment.temperature import Temperature
-from core.application.entities.sun.sun import Sun
+from core.application.SnowBlitz.entities.sun.sun import Sun
 from core.application.SnowBlitz.mechanics.environment.season import Season
 class Environment:
     def __init__(self,system):

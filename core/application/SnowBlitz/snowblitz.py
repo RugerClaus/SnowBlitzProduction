@@ -6,13 +6,13 @@ from core.state.ApplicationLayer.Game.state import GAMESTATE
 from core.state.ApplicationLayer.GameMode.state import GAME_MODE
 from core.state.ApplicationLayer.Session.state import ONLINE_SESSION_STATE
 
-from core.application.entities.entitymanager import EntityManager
+from core.application.SnowBlitz.entities.entitymanager import EntityManager
 from core.application.SnowBlitz.modes.endless import Endless
 from core.application.SnowBlitz.modes.tutorial.tutorial import Tutorial
 from core.application.SnowBlitz.modes.tutorial.tutorialmanager import TutorialManager
 from core.application.SnowBlitz.modes.tutorial.prompts import Prompts
-from core.application.entities.player.player import Player
-from core.application.entities.player.ui.uimanager import PlayerUIManager
+from core.application.SnowBlitz.entities.player.player import Player
+from core.application.SnowBlitz.entities.player.ui.uimanager import PlayerUIManager
 
 from core.application.SnowBlitz.debug.sbdebugutils import SBDebugUtils
 

@@ -1,6 +1,6 @@
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
 from core.state.ApplicationLayer.GameMode.state import GAME_MODE
-from core.application.entities.type import EntityType
+from core.application.SnowBlitz.entities.type import EntityType
 from core.util.colors import *
 
 class SBDebugUtils:
