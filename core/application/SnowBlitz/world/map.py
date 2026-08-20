@@ -30,6 +30,23 @@ class Map:
         self.grid_color = None
         self.grid_line_width = None
 
+    def get_cell_rect(self, column, row):
+        ww = self.system.window.get_width()
+        wh = self.system.window.get_height()
+
+        left = round(column * ww / self.columns)
+        right = round((column + 1) * ww / self.columns)
+
+        top = round(row * wh / self.rows)
+        bottom = round((row + 1) * wh / self.rows)
+
+        return self.system.window.Rect(
+            left,
+            top,
+            right - left,
+            bottom - top
+        )
+
     def scale(self):
 
         self.rows = int(9 * self.grid_scale)
@@ -56,21 +73,45 @@ class Map:
         ww = self.system.window.get_width()
         wh = self.system.window.get_height()
 
-        offset_x = self.x * ww
-        offset_y = self.y * wh
+        offset_x = round(self.x * ww)
+        offset_y = round(self.y * wh)
 
-        for cell in self.cells:
-            rect = cell.rect.move(offset_x, offset_y)
+        for index, cell in enumerate(self.cells):
+
+            column = index % self.columns
+            row = index // self.columns
+
+            rect = self.get_cell_rect(column, row)
+
+            if (
+                cell.surface is None
+                or cell.surface.get_width() != rect.width
+                or cell.surface.get_height() != rect.height
+            ):
+                cell.scale(rect.width, rect.height)
+
+            rect.x += offset_x
+            rect.y += offset_y
+
             self.system.window.blit(cell.surface, rect)
 
-            rect = cell.rect.move(offset_x - ww, offset_y)
+            rect = self.get_cell_rect(column, row)
+            rect.x += offset_x - ww
+            rect.y += offset_y
+
             self.system.window.blit(cell.surface, rect)
 
-            rect = cell.rect.move(offset_x + ww, offset_y)
+            rect = self.get_cell_rect(column, row)
+            rect.x += offset_x + ww
+            rect.y += offset_y
+
             self.system.window.blit(cell.surface, rect)
 
             if self.draw_grid:
-                cell.draw_debug_border(self.grid_color,self.grid_line_width)
+                cell.draw_debug_border(
+                    self.grid_color,
+                    self.grid_line_width
+                )
 
     def toggle_grid(self, grid_color=None, grid_line_width=None):
         self.grid_color = grid_color
@@ -81,7 +122,7 @@ class Map:
             for cell in self.cells:
                 cell.scale()
 
-    def _get_cell_data(self,id): # returns a list of values that make up each cell type
+    def _get_cell_data(self,id): # returns a list of values that make up each cell type may be a dict in the future
         for key,value in self.cell_data_map.items():
             if key == id:
                 return value
