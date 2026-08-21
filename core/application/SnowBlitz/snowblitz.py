@@ -115,8 +115,10 @@ class SnowBlitz:
                 if self.blitz is None:
                     pass
                 self.blitz.update()
+            self.debug.update()
         self.application.ui_util.update_audio()
         
+
     def draw(self):
         self.environment.draw()
         if self.world:

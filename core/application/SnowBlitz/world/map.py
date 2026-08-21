@@ -29,7 +29,9 @@ class Map:
         self.environment = environment
 
         self.layer_surface = None
+        self.layer_size = None
         self.layer_dirty = True
+
 
     def get_cell_rect(self, column, row):
         ww = self.system.window.get_width()
@@ -53,10 +55,19 @@ class Map:
             True
         )
 
+        self.layer_size = (ww, wh)
         self.layer_dirty = True
 
+
     def render_layer(self):
-        if self.layer_surface is None:
+        ww = self.system.window.get_width()
+        wh = self.system.window.get_height()
+
+        # Fullscreen/window resize detection.
+        if (
+            self.layer_surface is None
+            or self.layer_size != (ww, wh)
+        ):
             self.create_layer_surface()
 
         if not self.layer_dirty:
@@ -83,12 +94,22 @@ class Map:
         self.layer_dirty = False
 
 
-    def scale(self):
-        self.rows = int(9 * self.grid_scale)
-        self.columns = int(16 * self.grid_scale)
 
-        for cell in self.cells:
-            cell.scale()
+    def scale(self, scale=None):
+        if scale is not None:
+            scale = int(scale)
+
+        else:
+            scale = int(self.grid_scale)
+
+        if scale < 1:
+            raise ValueError("Map scale must be >= 1")
+
+        self.grid_scale = scale
+
+        self.rows = 9 * scale
+        self.columns = 16 * scale
+
 
     def update_cell_colors(self):
         if self.environment is None:
@@ -201,8 +222,31 @@ class Map:
     def load_cells(self, cell_map):
         self.cells.clear()
 
-        if len(cell_map) != self.rows or len(cell_map[0]) != self.columns:
+        if not cell_map:
+            raise ValueError("Map cannot be empty")
+
+        source_rows = len(cell_map)
+        source_columns = len(cell_map[0])
+
+        if any(len(row) != source_columns for row in cell_map):
+            raise ValueError("All map rows must have the same length")
+
+        # Scale the base map if necessary.
+        if (
+            source_rows != self.rows
+            or source_columns != self.columns
+        ):
             cell_map = self.scale_map(cell_map)
+
+        if len(cell_map) != self.rows:
+            raise ValueError(
+                f"Expected {self.rows} rows, got {len(cell_map)}"
+            )
+
+        if len(cell_map[0]) != self.columns:
+            raise ValueError(
+                f"Expected {self.columns} columns, got {len(cell_map[0])}"
+            )
 
         self.cell_map = cell_map
 
@@ -215,31 +259,57 @@ class Map:
                 cell_data = self._get_cell_data(cell_id)
 
                 if cell_data is None:
-                    raise ValueError(f"Unknown cell type: {cell_id}")
+                    raise ValueError(
+                        f"Unknown cell type: {cell_id}"
+                    )
 
-                position = ((x + 0.5) * cell_width,(y + 0.5) * cell_height)
+                position = (
+                    (x + 0.5) * cell_width,
+                    (y + 0.5) * cell_height
+                )
 
-                size = (cell_width,cell_height)
+                size = (
+                    cell_width,
+                    cell_height
+                )
 
-                cell = Cell(self.system,size,position,cell_data)
+                cell = Cell(
+                    self.system,
+                    size,
+                    position,
+                    cell_data
+                )
 
                 self.cells.append(cell)
+
+        self.layer_dirty = True
+
 
     def scale_map(self, cell_map):
         scaled = []
 
-        source_columns = 16
-        source_rows = 9
+        source_rows = len(cell_map)
 
-        for y in range(source_rows):
-            row = cell_map[y * source_columns:(y + 1) * source_columns]
+        if source_rows == 0:
+            raise ValueError("Cannot scale an empty map")
 
+        source_columns = len(cell_map[0])
+
+        if source_columns == 0:
+            raise ValueError("Cannot scale an empty map")
+
+        if any(len(row) != source_columns for row in cell_map):
+            raise ValueError("All map rows must have the same length")
+
+        scale = int(self.grid_scale)
+
+        for row in cell_map:
             expanded_row = []
 
             for cell in row:
-                expanded_row.extend([cell] * self.grid_scale)
+                expanded_row.extend([cell] * scale)
 
-            for _ in range(self.grid_scale):
+            for _ in range(scale):
                 scaled.append(expanded_row.copy())
 
         return scaled

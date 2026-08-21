@@ -86,7 +86,6 @@ class SBDebugUtils:
                 self.game_object.debug.toggle_debug_sun_line()
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
-            self.register_debug_telemetry()
             if command == "go_to_next_season":
                 self.game_object.environment.day_cycle.go_to_next_season()
 
@@ -101,7 +100,7 @@ class SBDebugUtils:
             self.clear_debug_telemetry()
 
     def register_debug_telemetry(self):
-        self.system.app_inspector["daytime"] = self.game_object.environment.day_cycle.get_daytime()
+        self.system.app_inspector["daytime"] = int(self.game_object.environment.day_cycle.current_time / 1000)
         self.system.app_inspector["brightness"] = self.game_object.environment.day_cycle.get_brightness()
         self.system.app_inspector["temperature"] = f"{self.game_object.environment.temperature.get_fahrenheit()} F,{self.game_object.environment.temperature.get_celsius()} C"
         self.system.app_inspector["Day"] = self.game_object.environment.day_cycle.day
@@ -135,6 +134,10 @@ class SBDebugUtils:
         self.system.app_inspector["powerup_tracers"] = None
         self.system.app_inspector["reducer_tracers"] = None
         self.system.app_inspector["sun_tracer"] = None
+
+    def update(self):
+        if self.system.control_state.is_state(DEVELOPER_MODE.ON):
+            self.register_debug_telemetry()
 
     def draw(self):
         self._render_vector_lines()

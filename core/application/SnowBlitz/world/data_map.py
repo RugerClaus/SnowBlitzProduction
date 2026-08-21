@@ -48,7 +48,7 @@ cell_data_map = {
         "color": snow,
         "properties": {
             "collidable": False,
-            "receives_light": True
+            "receives_light": False
         }
     }
 }
