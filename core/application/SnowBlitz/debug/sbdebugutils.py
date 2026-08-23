@@ -93,7 +93,7 @@ class SBDebugUtils:
                 self.game_object.world.load_map_files()
 
             if command == "toggle_terrain_grid":
-                self.game_object.world.toggle_map_grid("terrain",red)
+                self.game_object.world.toggle_map_grid("terrain0",red)
             if command == "toggle_cloud_grid":
                 self.game_object.world.toggle_map_grid("cloud",purple)
         else:

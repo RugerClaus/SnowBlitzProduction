@@ -54,9 +54,10 @@ class World:
 
     def toggle_map_grid(self, name, color=None, width=None):
         for map in self.maps:
+            print(map.name)
             if map.name == name:
                 map.toggle_grid(color, width)
-                return
+                
 
     def draw(self):
         for map in self.maps:
