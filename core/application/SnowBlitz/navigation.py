@@ -16,6 +16,7 @@ class Navigation:
         if self.application.system.sound.music_state.is_state(MUSIC_STATE.ON):
             self.application.system.sound.play_music()
         self.application.load_snow_blitz()
+        self.application.session_started = False
         self.application.snow_blitz.init_game("endless")
         self.application.distant_realms.ui_controller.clear()
 
