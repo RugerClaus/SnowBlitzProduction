@@ -1,60 +1,64 @@
-import os
+from core.application.SnowBlitz.world.loader import MapLoader
+from core.application.SnowBlitz.world.camera import Camera
 
-from core.application.SnowBlitz.world.map import Map
 
 class World:
-    def __init__(self, system,environment):
-        self.system = system
-        self.maps = []
-        self.environment = environment
 
+    def __init__(self, system, environment):
+        self.system = system
+        self.environment = environment
+        self.maps = []
+        self.camera = Camera()
+        self.map_loader = MapLoader(system, environment)
         self.load_map_files()
+        
+    def load_map_files(self,filename=None):
+        if filename:
+            self.maps = self.map_loader.load(f"enginepersistence/world/{filename}.json")
+        else:
+            self.maps = self.map_loader.load("enginepersistence/world/world.json")
+
+    def is_map_visible(self, map):
+        if map.wrap_x or map.wrap_y:
+            return True
+
+        camera_x = self.camera.x if map.camera_follow_x else 0
+        camera_y = self.camera.y if map.camera_follow_y else 0
+
+        left = map.world_x - camera_x
+        right = left + map.map_width
+
+        top = map.world_y - camera_y
+        bottom = top + map.map_height
+
+        return (
+            right > 0 and
+            left < 1 and
+            bottom > 0 and
+            top < 1
+        )
 
     def scale(self):
         for map in self.maps:
             map.scale()
 
     def update(self):
+        self.camera.update()
+
         for map in self.maps:
-            map.update()
+            if self.is_map_visible(map):
+                map.load()
+                map.update()
+            else:
+                map.unload()
+
+    def toggle_map_grid(self, name, color=None, width=None):
+        for map in self.maps:
+            if map.name == name:
+                map.toggle_grid(color, width)
+                return
 
     def draw(self):
         for map in self.maps:
-            map.draw()
-
-    def load_map_files(self):
-        path = "enginepersistence/world"
-
-        for filename in os.listdir(path):
-            if filename.endswith(".map"):
-
-                filepath = os.path.join(path,filename)
-
-                with open(filepath, "r") as file:
-                    cell_map = [
-                        [int(cell) for cell in line.strip().strip("[],").split(",")]
-                        for line in file
-                        if line.strip()
-                    ]
-
-                scale = len(cell_map[0]) / 16
-
-                map = Map(self.system,scale,self.environment)
-                map.name = os.path.splitext(filename)[0]
-
-                if map.name == "cloud":
-                    map.velocity_x = 0.04
-
-                map.load_cells(cell_map)
-                self.maps.append(map)
-
-    def reload_maps(self):
-        print("RELOADING MAPS...")
-        self.maps.clear()
-        self.load_map_files()
-
-    def toggle_map_grid(self, name,color=None,width=None):
-        for map in self.maps:
-            if map.name == name:
-                map.toggle_grid(color,width)
-                return
+            if self.is_map_visible(map):
+                map.draw(self.camera)

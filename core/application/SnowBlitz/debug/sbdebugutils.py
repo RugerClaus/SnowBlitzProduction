@@ -90,7 +90,7 @@ class SBDebugUtils:
                 self.game_object.environment.day_cycle.go_to_next_season()
 
             if command == "reload_maps":
-                self.game_object.world.reload_maps()
+                self.game_object.world.load_map_files()
 
             if command == "toggle_terrain_grid":
                 self.game_object.world.toggle_map_grid("terrain",red)
@@ -108,6 +108,7 @@ class SBDebugUtils:
         self.system.app_inspector["Year"] = self.game_object.environment.day_cycle.year
         if self.game_object.player:
             self.system.app_inspector["shrinkrate"] = self.game_object.player.shrink_rate
+            self.system.app_inspector["x_position"] = int(self.game_object.player.world_x * 10)
             
             snl = self.game_object.debug.draw_debug_snowflake_lines
             rkl = self.game_object.debug.draw_debug_rock_lines

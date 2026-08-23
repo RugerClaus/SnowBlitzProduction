@@ -30,9 +30,10 @@ class SnowBlitz:
         self.session = self.application.session
         self.mode = GameModeManager()
         self.state = GameStateManager()
-        self.entitymanager = EntityManager(self.system)
+        
         self.environment = Environment(self.system)
         self.world = World(self.system,self.environment)
+        self.entitymanager = EntityManager(self.system,self.world.camera)
         self.debug = SBDebugUtils(self.system,self)
         
         self.endless = None
@@ -96,9 +97,6 @@ class SnowBlitz:
             self.session.update()
             self.environment.update()
 
-            if self.world:
-                self.world.update()
-
             if self.hud:
                 self.hud.update()
 
@@ -116,6 +114,9 @@ class SnowBlitz:
                     pass
                 self.blitz.update()
             self.debug.update()
+
+            if self.world:
+                self.world.update()
         self.application.ui_util.update_audio()
         
 
@@ -159,6 +160,8 @@ class SnowBlitz:
     def init_player(self):
         if self.player is None:
             self.player = Player(self.system,self.entitymanager,self.state,self.environment,self.session,self.timer)
+            self.world.camera.follow(self.player)
+
         if self.hud is None:
             self.hud = PlayerUIManager(self.system,self.player)
 

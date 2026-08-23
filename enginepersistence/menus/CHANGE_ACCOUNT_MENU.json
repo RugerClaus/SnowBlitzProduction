@@ -354,7 +354,7 @@
                 0.9
             ],
             "font_size": 30,
-            "action": "main_menu",
+            "action": "app_main_menu",
             "styles": {
                 "idle": {
                     "background": [

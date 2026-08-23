@@ -2,8 +2,8 @@ from core.application.SnowBlitz.entities.reducers.levelreducer import LevelReduc
 from core.application.SnowBlitz.entities.reducers.type import LRType
 
 class OneHundred(LevelReducer):
-    def __init__(self, board_surface):
-        super().__init__(board_surface, LRType.ONE_HUNDRED)
+    def __init__(self, board_surface,camera=None):
+        super().__init__(board_surface, LRType.ONE_HUNDRED,camera)
     
     def get_reducer_number(self):
         return 100

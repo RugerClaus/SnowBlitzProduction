@@ -14,8 +14,9 @@ from core.application.SnowBlitz.entities.powerups.type  import PowerUpType
 from core.application.SnowBlitz.entities.reducers.type import LRType
 
 class EntityManager:
-    def __init__(self, system):
+    def __init__(self, system, camera=None):
         self.system = system
+        self.camera = camera
         self.entities = {
             "rocks": [],
             "powerups": [],
@@ -53,26 +54,26 @@ class EntityManager:
     def add_entity(self, entity_type, sub_type=None):
         if sub_type is None:
             if entity_type == EntityType.ROCK:
-                self.entities["rocks"].append(Rock(self.system))
+                self.entities["rocks"].append(Rock(self.system,self.camera))
                 
             elif entity_type == EntityType.SNOWFLAKE:
-                self.entities["snowflakes"].append(SnowFlake(self.system))
+                self.entities["snowflakes"].append(SnowFlake(self.system,self.camera))
 
         else:
             if isinstance(sub_type,PowerUpType):
                 if sub_type == PowerUpType.ABSORB_ROCK:
-                    self.entities["powerups"].append(AbsorbRock(self.system))
+                    self.entities["powerups"].append(AbsorbRock(self.system,self.camera))
                 elif sub_type == PowerUpType.ANTI_SHRINK:
-                    self.entities["powerups"].append(AntiShrink(self.system))
+                    self.entities["powerups"].append(AntiShrink(self.system,self.camera))
                 elif sub_type == PowerUpType.SPEED_BOOST:
-                    self.entities["speedboosts"].append(SpeedBoost(self.system))
+                    self.entities["speedboosts"].append(SpeedBoost(self.system,self.camera))
             elif isinstance(sub_type,LRType):
                 if sub_type == LRType.TWENTY:
-                    self.entities["level_reducers"].append(Twenty(self.system))
+                    self.entities["level_reducers"].append(Twenty(self.system,self.camera))
                 elif sub_type == LRType.FIFTY:
-                    self.entities["level_reducers"].append(Fifty(self.system))
+                    self.entities["level_reducers"].append(Fifty(self.system,self.camera))
                 elif sub_type == LRType.ONE_HUNDRED:
-                    self.entities["level_reducers"].append(OneHundred(self.system))
+                    self.entities["level_reducers"].append(OneHundred(self.system,self.camera))
 
     def update_entities(self):
         for entity_list in self.entities.values():

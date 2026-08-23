@@ -12,4 +12,8 @@ Development version Beta 1.0.0 - 2026-10-31
 - Can now display the map cell grid for each existing map using commands in developer mode
 - Maps are now entirely dynamically cell based
 - Maps are capable of interacting with lighting and temperature and other environmental factors
-- 128x72 is the upper limit for cell maps
+- All maps are just layers. You can position them wherever, x, y. all is relative to the camera which is the size of the viewport, and all layers
+-- scale directly with the viewport. worlds are more or less infinite now
+- All worlds are entirely data driven
+- because layer resolution is based on cells, all layers are entirely resolution independent
+- The world system is extractible 

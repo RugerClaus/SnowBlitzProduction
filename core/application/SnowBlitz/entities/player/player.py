@@ -27,6 +27,9 @@ class Player(Entity):
         self.x_ratio = 0.5
         self.y_ratio = 0.90
 
+        self.world_x = 0
+        self.world_y = 0
+
         self.diam_ratio = 0.015
 
         self.diam = self.get_pixel_diameter()
@@ -100,7 +103,8 @@ class Player(Entity):
         self.speed = physics.update_speed(self.speed_state)
 
         movement = physics.update_movement(self.move_state,self.speed)
-        self.x_ratio += movement/self.system.window.get_width()
+        self.world_x += movement / self.system.window.get_width()
+        self.world_x = max(-1.0, self.world_x)
         
         physics.check_size_death(self.diam,self.life_state,self.move_state)
         physics.check_level_up(self,self.entitymanager)
@@ -149,6 +153,8 @@ class Player(Entity):
 
         self.x_ratio = 0.5
         self.y_ratio = 0.89
+        self.world_x = 0
+        self.world_y = 0
 
         self.speed = 7
 
