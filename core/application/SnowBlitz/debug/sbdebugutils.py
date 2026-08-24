@@ -59,8 +59,8 @@ class SBDebugUtils:
                     if entity.type == EntityType.REDUCER:
                         self.system.window.draw_line(self.system.window.get_screen(),entity.rect.center,self.game_object.player.rect.center,blue,width=2)
             if self.draw_debug_sun_line:
-                if self.game_object.environment.sun.x > 0:
-                    self.system.window.draw_line(self.system.window.get_screen(),self.game_object.environment.sun.rect.center,self.game_object.player.rect.center,purple,width=2)
+                if self.game_object.world.environment.sun.x > 0:
+                    self.system.window.draw_line(self.system.window.get_screen(),self.game_object.world.environment.sun.rect.center,self.game_object.player.rect.center,purple,width=2)
 
     def handle_event(self,event,command=None):
         if event.type == self.system.input.keydown():
@@ -87,7 +87,7 @@ class SBDebugUtils:
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
             if command == "go_to_next_season":
-                self.game_object.environment.day_cycle.go_to_next_season()
+                self.game_object.world.environment.day_cycle.go_to_next_season()
 
             if command == "reload_maps":
                 self.game_object.world.load_map_files()
@@ -100,12 +100,12 @@ class SBDebugUtils:
             self.clear_debug_telemetry()
 
     def register_debug_telemetry(self):
-        self.system.app_inspector["daytime"] = int(self.game_object.environment.day_cycle.current_time / 1000)
-        self.system.app_inspector["brightness"] = self.game_object.environment.day_cycle.get_brightness()
-        self.system.app_inspector["temperature"] = f"{self.game_object.environment.temperature.get_fahrenheit()} F,{self.game_object.environment.temperature.get_celsius()} C"
-        self.system.app_inspector["Day"] = self.game_object.environment.day_cycle.day
-        self.system.app_inspector["Season"] = self.game_object.environment.season.state.state
-        self.system.app_inspector["Year"] = self.game_object.environment.day_cycle.year
+        self.system.app_inspector["daytime"] = int(self.game_object.world.environment.day_cycle.current_time / 1000)
+        self.system.app_inspector["brightness"] = self.game_object.world.environment.day_cycle.get_brightness()
+        self.system.app_inspector["temperature"] = f"{self.game_object.world.environment.temperature.get_fahrenheit()} F,{self.game_object.world.environment.temperature.get_celsius()} C"
+        self.system.app_inspector["Day"] = self.game_object.world.environment.day_cycle.day
+        self.system.app_inspector["Season"] = self.game_object.world.environment.season.state.state
+        self.system.app_inspector["Year"] = self.game_object.world.environment.day_cycle.year
         if self.game_object.player:
             self.system.app_inspector["shrinkrate"] = self.game_object.player.shrink_rate
             self.system.app_inspector["x_position"] = int(self.game_object.player.world_x * 10)

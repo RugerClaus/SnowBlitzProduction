@@ -271,38 +271,36 @@ class Map:
 
     def update_cell_colors(self):
 
-        if self.environment is None:
-            return
+        if self.environment:
+            brightness = self.environment.day_cycle.brightness
 
-        brightness = self.environment.day_cycle.brightness
+            ambient = 0.35
 
-        ambient = 0.35
-
-        light = ambient + (
-            (1.0 - ambient) * brightness
-        )
-
-        for cell in self.cells:
-
-            if not cell.properties.get(
-                "receives_light",
-                False
-            ):
-                continue
-
-            base_color = cell.data.get("color")
-
-            if base_color is None:
-                continue
-
-            color = tuple(
-                int(channel * light)
-                for channel in base_color
+            light = ambient + (
+                (1.0 - ambient) * brightness
             )
 
-            cell.set_color(color)
+            for cell in self.cells:
 
-        self.layer_dirty = True
+                if not cell.properties.get(
+                    "receives_light",
+                    False
+                ):
+                    continue
+
+                base_color = cell.data.get("color")
+
+                if base_color is None:
+                    continue
+
+                color = tuple(
+                    int(channel * light)
+                    for channel in base_color
+                )
+
+                cell.set_color(color)
+
+            self.layer_dirty = True
 
     def update(self):
 

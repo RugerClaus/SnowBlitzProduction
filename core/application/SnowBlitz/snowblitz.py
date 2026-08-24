@@ -19,9 +19,8 @@ from core.application.SnowBlitz.debug.sbdebugutils import SBDebugUtils
 from core.application.SnowBlitz.timer import GameTimer
 
 from core.application.SnowBlitz.entities.sun.sun import Sun
-from core.engine.world.mechanics.environment.environment import Environment
 from core.engine.world.mechanics.effects.particles import Particles
-from core.application.world.world import World
+from core.engine.world.world import World
 
 class SnowBlitz:
     def __init__(self,application):
@@ -31,10 +30,9 @@ class SnowBlitz:
         self.session = self.application.session
         self.mode = GameModeManager()
         self.state = GameStateManager()
-        
-        self.environment = Environment(self.system)
-        self.sun = Sun(self.system,self.environment.day_cycle)
-        self.world = World(self.system,self.environment)
+        self.world = World(self.system)
+        self.world.start_environment()
+        self.sun = Sun(self.system,self.world.environment.day_cycle)
         self.entitymanager = EntityManager(self.system,self.world.camera)
         self.debug = SBDebugUtils(self.system,self)
         
@@ -97,7 +95,7 @@ class SnowBlitz:
         if self.state.is_state(GAMESTATE.PLAYING):
             self.timer.update()
             self.session.update()
-            self.environment.update()
+            
             self.sun.update()
 
             if self.hud:
@@ -124,7 +122,6 @@ class SnowBlitz:
         
 
     def draw(self):
-        self.environment.draw()
         self.sun.draw()
         if self.world:
             self.world.draw()
@@ -152,7 +149,7 @@ class SnowBlitz:
             self.state.set_state(GAMESTATE.PAUSED)
             self.disant_realms.ui_controller.show_ui("pause")
         elif self.state.is_state(GAMESTATE.PAUSED):
-            self.environment.day_cycle.resume()
+            self.world.environment.day_cycle.resume()
             self.timer.resume()
             self.state.set_state(GAMESTATE.PLAYING)
             self.disant_realms.ui_controller.clear()
@@ -163,7 +160,7 @@ class SnowBlitz:
 
     def init_player(self):
         if self.player is None:
-            self.player = Player(self.system,self.entitymanager,self.state,self.environment,self.session,self.timer)
+            self.player = Player(self.system,self.entitymanager,self.state,self.world.environment,self.session,self.timer)
             self.world.camera.follow(self.player)
 
         if self.hud is None:
@@ -239,7 +236,7 @@ class SnowBlitz:
         self.tutorial_manager = None
         self.prompts = None
         self.blitz = None
-        self.environment.day_cycle.reset()
+        self.world.environment.day_cycle.reset()
 
     def reset(self):
         if self.player is not None:
@@ -256,8 +253,8 @@ class SnowBlitz:
         self.system.clean_up_states([
             self.mode.state,
             self.state.state,
-            self.environment.season.state.state,
         ])
+        self.world.clean_up_states()
         self.player.clean_up_states()
         if self.tutorial_state is not None:
             self.system.clean_up_states([self.tutorial_state.state])
