@@ -126,7 +126,7 @@ class EntityManager:
     def spawn_snowflakes(self):
         current_time = self.system.time.get_current_time()
         if current_time - self.last_flake_spawn_time > self.flake_interval:
-            if len(self.entities["snowflakes"]) < 50:
+            if len(self.entities["snowflakes"]) < 100:
                 self.add_entity(EntityType.SNOWFLAKE)
                 self.last_flake_spawn_time = current_time
         

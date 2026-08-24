@@ -1,6 +1,6 @@
 import json,os
 
-from core.application.SnowBlitz.world.map import Map
+from core.engine.world.map import Map
 
 class MapLoader:
 

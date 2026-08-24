@@ -2,11 +2,11 @@ from helper import sine
 
 from core.util.colors import *
 
-from core.application.SnowBlitz.world.cell import Cell
+from core.engine.world.cell import Cell
 
-from core.application.SnowBlitz.world.data_map import cell_data_map
+from core.engine.world.data_map import cell_data_map
 
-from core.application.SnowBlitz.world.mapdef import MapDef
+from core.engine.world.mapdef import MapDef
 
 
 class Map:

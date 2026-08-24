@@ -1,5 +1,5 @@
-from core.application.SnowBlitz.world.loader import MapLoader
-from core.application.SnowBlitz.world.camera import Camera
+from core.engine.world.loader import MapLoader
+from core.engine.world.camera import Camera
 
 
 class World:

@@ -23,7 +23,7 @@ class SnowFlake(Entity):
         self.diam = 1
         self.speed = 0.0
 
-        self.acceleration = 20.0
+        self.acceleration = 100.0
         self.max_speed = 600.0
 
         self.drift_x = 0.0

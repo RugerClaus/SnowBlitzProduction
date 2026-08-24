@@ -20,7 +20,7 @@ from core.application.SnowBlitz.timer import GameTimer
 
 from core.application.SnowBlitz.mechanics.environment.environment import Environment
 from core.application.SnowBlitz.mechanics.effects.particles import Particles
-from core.application.SnowBlitz.world.world import World
+from core.engine.world.world import World
 
 class SnowBlitz:
     def __init__(self,application):
