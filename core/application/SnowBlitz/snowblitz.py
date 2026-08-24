@@ -18,8 +18,9 @@ from core.application.SnowBlitz.debug.sbdebugutils import SBDebugUtils
 
 from core.application.SnowBlitz.timer import GameTimer
 
-from core.application.SnowBlitz.mechanics.environment.environment import Environment
-from core.application.SnowBlitz.mechanics.effects.particles import Particles
+from core.application.SnowBlitz.entities.sun.sun import Sun
+from core.engine.world.mechanics.environment.environment import Environment
+from core.engine.world.mechanics.effects.particles import Particles
 from core.application.world.world import World
 
 class SnowBlitz:
@@ -32,6 +33,7 @@ class SnowBlitz:
         self.state = GameStateManager()
         
         self.environment = Environment(self.system)
+        self.sun = Sun(self.system,self.environment.day_cycle)
         self.world = World(self.system,self.environment)
         self.entitymanager = EntityManager(self.system,self.world.camera)
         self.debug = SBDebugUtils(self.system,self)
@@ -96,6 +98,7 @@ class SnowBlitz:
             self.timer.update()
             self.session.update()
             self.environment.update()
+            self.sun.update()
 
             if self.hud:
                 self.hud.update()
@@ -122,6 +125,7 @@ class SnowBlitz:
 
     def draw(self):
         self.environment.draw()
+        self.sun.draw()
         if self.world:
             self.world.draw()
 
