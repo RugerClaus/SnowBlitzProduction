@@ -95,8 +95,8 @@ class SnowBlitz:
         if self.state.is_state(GAMESTATE.PLAYING):
             self.timer.update()
             self.session.update()
-            
-            self.sun.update()
+            if self.sun:
+                self.sun.update()
 
             if self.hud:
                 self.hud.update()
@@ -122,9 +122,11 @@ class SnowBlitz:
         
 
     def draw(self):
-        self.sun.draw()
         if self.world:
             self.world.draw()
+
+        if self.sun:
+            self.sun.draw()
 
         if self.hud:
             self.hud.draw()
