@@ -17,3 +17,5 @@ Development version Beta 1.0.0 - 2026-10-31
 - All worlds are entirely data driven
 - because layer resolution is based on cells, all layers are entirely resolution independent
 - The world system is extractible 
+- Designed worlds with world editor within the Distant Realms Editor suite
+- Added loading screens to get in game (worlds take a while to load depending on size)

@@ -30,11 +30,11 @@ class SnowBlitz:
         self.session = self.application.session
         self.mode = GameModeManager()
         self.state = GameStateManager()
-        self.world = World(self.system)
-        self.world.start_environment()
-        self.sun = Sun(self.system,self.world.environment.day_cycle)
-        self.entitymanager = EntityManager(self.system,self.world.camera)
         self.debug = SBDebugUtils(self.system,self)
+
+        self.world = None
+        self.sun = None
+        self.entitymanager = None
         
         self.endless = None
         self.tutorial = None
@@ -169,7 +169,15 @@ class SnowBlitz:
         if self.water_particles is None:
             self.water_particles = Particles(self.system,self.player)
 
-    def init_game(self,game_mode):
+    def load_world(self):
+        self.world = World(self.system)
+
+        self.world.start_environment()
+
+        self.sun = Sun(self.system,self.world.environment.day_cycle)
+        self.entitymanager = EntityManager(self.system,self.world.camera)
+
+    def init_game(self, game_mode):
         self.reset()
         self.state.set_state(GAMESTATE.PLAYING)
         self.timer = GameTimer(self.system)

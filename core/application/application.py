@@ -1,5 +1,7 @@
 from helper import sine
 
+from core.loading.LoadingScreenManager import LoadingScreenManager
+
 from core.ui.type import COMPOSABLE
 
 from core.state.RuntimeLayer.DevTools.DeveloperMode.state import DEVELOPER_MODE
@@ -39,6 +41,14 @@ class Application:
 
         self.init_main()
 
+        self.loading_screen = LoadingScreenManager(self.system)
+
+        self.loading_start = None
+        self.loading_thread = None
+        self.loading_error = None
+
+        self.simulation_ready = False
+
     def init_main(self):
         self.navigation.app_main_menu()
     
@@ -47,7 +57,7 @@ class Application:
             if not self.system.control_state.is_state(DEVELOPER_MODE.ON):
                 self.session_started = False
 
-        if self.snow_blitz:
+        if self.snow_blitz and self.simulation_ready:
             self.snow_blitz.handle_event(event, command)
 
         if self.system.control_state.is_state(DEVELOPER_MODE.ON):
@@ -70,7 +80,7 @@ class Application:
             int(20 + (35 - 20) * pulse)
         )
         self.system.window.fill(fade_color)
-        if self.snow_blitz:
+        if self.snow_blitz and self.simulation_ready:
             self.snow_blitz.update()
         else:
             self.ui_util.display_username()
@@ -84,30 +94,40 @@ class Application:
         
 
     def draw(self):
-        if self.snow_blitz:
+        if self.loading_thread is not None and not self.simulation_ready:
+            if self.loading_error is not None:
+                self.loading_screen.draw(f"Loading failed: {self.loading_error}")
+            else:
+                elapsed = self.system.time.performance_time()- self.loading_start
+                self.loading_screen.draw(f"Loading world... {elapsed:.2f}s")
+            return
+
+        if self.snow_blitz and self.simulation_ready:
             self.snow_blitz.draw()
+
         if self.leaderboard:
             self.leaderboard.fetch_and_display()
+
             
     def scale(self):
-        if self.snow_blitz:
+        if self.snow_blitz and self.simulation_ready:
             self.snow_blitz.scale()
         if self.leaderboard:
             self.load_leaderboard()
 
     def register_debug_telemetry(self):
-        if self.snow_blitz:
+        if self.snow_blitz and self.simulation_ready:
             self.snow_blitz.register_debug_telemetry()
             
     def reset(self):
-        if self.snow_blitz:
+        if self.snow_blitz and self.simulation_ready:
             self.snow_blitz.reset()
             self.snow_blitz.reset_systems()
 
 
     def clean_up_states(self):
         self.system.app_inspector.clear()
-        if self.snow_blitz:
+        if self.snow_blitz and self.simulation_ready:
             self.snow_blitz.clean_up_states()
         self.session.clean_up_states()
 
@@ -128,3 +148,24 @@ class Application:
 
         self.snow_blitz = snowblitz.SnowBlitz(self)
         self.distant_realms.ui_controller.clear()
+
+    def load_simulation_task(self, game_mode):
+
+        try:
+
+            self.load_snow_blitz()
+
+            self.snow_blitz.load_world()
+
+            self.snow_blitz.init_game(game_mode)
+
+            self.simulation_ready = True
+
+        except Exception as e:
+
+            self.loading_error = e
+
+            print(
+                "Game loading failed:",
+                e
+            )

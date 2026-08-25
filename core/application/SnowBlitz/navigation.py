@@ -1,3 +1,4 @@
+import threading
 from core.util.colors import *
 
 from core.state.RuntimeLayer.NetworkLayer.Update.state import UPDATE_STATE
@@ -13,19 +14,28 @@ class Navigation:
         self.application = application
 
     def start_endless_mode(self):
+        self.application.distant_realms.ui_controller.clear()
         if self.application.system.sound.music_state.is_state(MUSIC_STATE.ON):
             self.application.system.sound.play_music()
-        self.application.load_snow_blitz()
         self.application.session_started = False
-        self.application.snow_blitz.init_game("endless")
-        self.application.distant_realms.ui_controller.clear()
+        self.application.simulation_ready = False
+        self.application.loading_error = None
+        self.application.loading_start = (self.application.system.time.performance_time())
+        self.application.loading_thread = threading.Thread(target=self.application.load_simulation_task,args=('endless',),daemon=True)
+        self.application.loading_thread.start()
+
 
     def start_tutorial_mode(self):
+        self.application.distant_realms.ui_controller.clear()
         if self.application.system.sound.music_state.is_state(MUSIC_STATE.ON):
             self.application.system.sound.play_music()
-        self.application.load_snow_blitz()
-        self.application.snow_blitz.init_game("tutorial")
-        self.application.distant_realms.ui_controller.clear()
+        self.application.session_started = False
+        self.application.simulation_ready = False
+        self.application.loading_error = None
+        self.application.loading_start = self.application.system.time.performance_time()
+        self.application.loading_thread = threading.Thread(target=self.application.load_simulation_task,args=("tutorial",),daemon=True)
+        self.application.loading_thread.start()
+
 
     def reset_simulation(self):
         self.application.gen_util.lb.get_logged_in_user_score()
