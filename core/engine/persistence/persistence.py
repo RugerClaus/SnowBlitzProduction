@@ -28,7 +28,6 @@ class Persistence:
         self.workspace_menus = self.workspace_engine_root / "menus"
         self.workspace_forms = self.workspace_engine_root / "forms"
 
-
         self.save = Save()
         self.load = Load()
 

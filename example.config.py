@@ -13,6 +13,7 @@ config = {
     "UPDATER_VERSION": "0.0.2",
     "WINDOW_BACKEND": "pygame",
     "NSTATURL": "https://snowblitz.net",
+    "SPLASHSCREEN": True,
     "API_KEY": "",
     "API": {
         "LEADERBOARD": "",
@@ -22,5 +23,27 @@ config = {
         "UPDATE_FILE_URL": "",
         "CURRENT_VERSION": "",
         "CREATE_SESSION": "",
+    },
+    "ASSETS": {
+        "title": "assets/images/main/title.png",
+        "default_font": "assets/font/OpenSansPX.ttf",
+
+        "splashpt1": "assets/images/main/splashpt1.png",
+        "splashpt2": "assets/images/main/splashpt2.png",
+        "splashpt3": "assets/images/main/splashpt3.png",
+        "splashpt4": "assets/images/main/splashpt4.png",
+        "splashpt5": "assets/images/main/splashpt5.png",
+        
+
+        "splash1": "assets/audio/sfx/splash1.ogg",
+        "splash2": "assets/audio/sfx/splash2.ogg",
+        "splash3": "assets/audio/sfx/splash3.ogg",
+        "splash4": "assets/audio/sfx/splash4.ogg",
+        "splash5": "assets/audio/sfx/splash5.ogg",
+
+        "linux_icon": "assets/images/build/linux.png",
+        "windows_icon": "assets/images/build/windows.ico",
+
+        "clock": "assets/images/main/clock.png",
     }
 }
