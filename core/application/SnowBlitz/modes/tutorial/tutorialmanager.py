@@ -6,16 +6,7 @@ from core.state.ApplicationLayer.Game.state import GAMESTATE
 
 class TutorialManager:
 
-    def __init__(
-        self,
-        system,
-        prompts,
-        controls,
-        entitymanager,
-        player,
-        progress_bar,
-        state
-    ):
+    def __init__(self, system, prompts, controls, entitymanager, player, progress_bar, state):
 
         self.system = system
         self.prompts = prompts
@@ -34,9 +25,7 @@ class TutorialManager:
         self.entitymanager.reset_entities()
         self.player.reset()
 
-        self.state.set_state(
-            TUTORIALSTATE.RESET
-        )
+        self.state.set_state(TUTORIALSTATE.RESET)
 
 
     def update_entities(self):
@@ -50,27 +39,18 @@ class TutorialManager:
         self.player.update()
 
         self.entitymanager.spawn_snowflakes()
-        self.entitymanager.spawn_rocks(
-            self.player.current_level
-        )
-        self.entitymanager.spawn_powerups(
-            self.player.current_level
-        )
-        self.entitymanager.spawn_reducers(
-            self.player.current_level
-        )
+        self.entitymanager.spawn_rocks(self.player.current_level)
+        self.entitymanager.spawn_powerups(self.player.current_level)
+        self.entitymanager.spawn_reducers(self.player.current_level)
 
         self.entitymanager.update_entities()
-
         self.entitymanager.check_collisions()
 
 
     def draw_survival(self):
 
         self.player.draw()
-
         self.entitymanager.draw_entities()
-
         self.progress_bar.draw()
 
 
@@ -81,9 +61,7 @@ class TutorialManager:
             self.prompts.movement_trigger()
 
             if self.prompts.player_has_moved:
-                self.state.set_state(
-                    TUTORIALSTATE.BEGIN
-                )
+                self.state.set_state(TUTORIALSTATE.BEGIN)
 
 
         elif self.state.is_state(TUTORIALSTATE.BEGIN):
@@ -94,10 +72,9 @@ class TutorialManager:
             self.entitymanager.update_entities()
 
             for snowflake in self.entitymanager.entities["snowflakes"]:
-                if snowflake.y >= self.system.window.get_height() // 4:
-                    self.state.set_state(
-                        TUTORIALSTATE.SNOW_PROMPT
-                    )
+                if snowflake.rect.top >= self.system.window.get_height() // 4:
+                    self.state.set_state(TUTORIALSTATE.SNOW_PROMPT)
+                    break
 
 
         elif self.state.is_state(TUTORIALSTATE.SNOW_PROMPT):
@@ -108,9 +85,7 @@ class TutorialManager:
 
                 self.prompts.player_has_continued = False
 
-                self.state.set_state(
-                    TUTORIALSTATE.SNOW
-                )
+                self.state.set_state(TUTORIALSTATE.SNOW)
 
 
         elif self.state.is_state(TUTORIALSTATE.SNOW):
@@ -118,18 +93,15 @@ class TutorialManager:
             self.player.update()
 
             self.entitymanager.spawn_snowflakes()
-            self.entitymanager.spawn_speed_boosts(
-                self.player.current_level
-            )
+            self.entitymanager.spawn_speed_boosts(self.player.current_level)
 
             self.entitymanager.update_entities()
             self.entitymanager.check_collisions()
 
             for boost in self.entitymanager.entities["speedboosts"]:
-                if boost.y >= self.system.window.get_height() // 4:
-                    self.state.set_state(
-                        TUTORIALSTATE.SPEED_BOOST_PROMPT
-                    )
+                if boost.rect.top >= self.system.window.get_height() // 4:
+                    self.state.set_state(TUTORIALSTATE.SPEED_BOOST_PROMPT)
+                    break
 
 
         elif self.state.is_state(TUTORIALSTATE.SPEED_BOOST_PROMPT):
@@ -140,9 +112,7 @@ class TutorialManager:
 
                 self.prompts.player_has_continued = False
 
-                self.state.set_state(
-                    TUTORIALSTATE.SPEED_BOOST
-                )
+                self.state.set_state(TUTORIALSTATE.SPEED_BOOST)
 
 
         elif self.state.is_state(TUTORIALSTATE.SPEED_BOOST):
@@ -150,21 +120,16 @@ class TutorialManager:
             self.player.update()
 
             self.entitymanager.spawn_snowflakes()
-            self.entitymanager.spawn_speed_boosts(
-                self.player.current_level
-            )
-            self.entitymanager.spawn_rocks(
-                self.player.current_level
-            )
+            self.entitymanager.spawn_speed_boosts(self.player.current_level)
+            self.entitymanager.spawn_rocks(self.player.current_level)
 
             self.entitymanager.update_entities()
             self.entitymanager.check_collisions()
 
             for rock in self.entitymanager.entities["rocks"]:
-                if rock.y >= self.system.window.get_height() // 4:
-                    self.state.set_state(
-                        TUTORIALSTATE.ROCKS_PROMPT
-                    )
+                if rock.rect.top >= self.system.window.get_height() // 4:
+                    self.state.set_state(TUTORIALSTATE.ROCKS_PROMPT)
+                    break
 
 
         elif self.state.is_state(TUTORIALSTATE.ROCKS_PROMPT):
@@ -175,9 +140,7 @@ class TutorialManager:
 
                 self.prompts.player_has_continued = False
 
-                self.state.set_state(
-                    TUTORIALSTATE.ROCKS
-                )
+                self.state.set_state(TUTORIALSTATE.ROCKS)
 
 
         elif self.state.is_state(TUTORIALSTATE.ROCKS):
@@ -185,24 +148,17 @@ class TutorialManager:
             self.player.update()
 
             self.entitymanager.spawn_snowflakes()
-            self.entitymanager.spawn_rocks(
-                self.player.current_level
-            )
-            self.entitymanager.spawn_speed_boosts(
-                self.player.current_level
-            )
-            self.entitymanager.spawn_powerups(
-                self.player.current_level
-            )
+            self.entitymanager.spawn_rocks(self.player.current_level)
+            self.entitymanager.spawn_speed_boosts(self.player.current_level)
+            self.entitymanager.spawn_powerups(self.player.current_level)
 
             self.entitymanager.update_entities()
             self.entitymanager.check_collisions()
 
             for powerup in self.entitymanager.entities["powerups"]:
-                if powerup.y >= self.system.window.get_height() // 4:
-                    self.state.set_state(
-                        TUTORIALSTATE.POWERUPS_PROMPT
-                    )
+                if powerup.rect.top >= self.system.window.get_height() // 4:
+                    self.state.set_state(TUTORIALSTATE.POWERUPS_PROMPT)
+                    break
 
 
         elif self.state.is_state(TUTORIALSTATE.POWERUPS_PROMPT):
@@ -213,9 +169,7 @@ class TutorialManager:
 
                 self.prompts.player_has_continued = False
 
-                self.state.set_state(
-                    TUTORIALSTATE.POWERUPS
-                )
+                self.state.set_state(TUTORIALSTATE.POWERUPS)
 
 
         elif self.state.is_state(TUTORIALSTATE.POWERUPS):
@@ -223,10 +177,9 @@ class TutorialManager:
             self.update_survival()
 
             for reducer in self.entitymanager.entities["level_reducers"]:
-                if reducer.y >= self.system.window.get_height() // 4:
-                    self.state.set_state(
-                        TUTORIALSTATE.LEVEL_REDUCER_PROMPT
-                    )
+                if reducer.rect.top >= self.system.window.get_height() // 4:
+                    self.state.set_state(TUTORIALSTATE.LEVEL_REDUCER_PROMPT)
+                    break
 
 
         elif self.state.is_state(TUTORIALSTATE.LEVEL_REDUCER_PROMPT):
@@ -237,9 +190,7 @@ class TutorialManager:
 
                 self.prompts.player_has_continued = False
 
-                self.state.set_state(
-                    TUTORIALSTATE.LEVEL_REDUCERS
-                )
+                self.state.set_state(TUTORIALSTATE.LEVEL_REDUCERS)
 
 
         elif self.state.is_state(TUTORIALSTATE.LEVEL_REDUCERS):
@@ -248,9 +199,7 @@ class TutorialManager:
 
             if self.player.current_level >= 20:
 
-                self.state.set_state(
-                    TUTORIALSTATE.WIN
-                )
+                self.state.set_state(TUTORIALSTATE.WIN)
                 self.system.application.snow_blitz.state.set_state(GAMESTATE.WIN)
                 self.system.window.fill(black)
                 self.system.application.ui_controller.show_ui("win")
@@ -264,9 +213,7 @@ class TutorialManager:
             self.entitymanager.reset_entities()
             self.player.reset()
 
-            self.state.set_state(
-                TUTORIALSTATE.MOVEMENT_PROMPT
-            )
+            self.state.set_state(TUTORIALSTATE.MOVEMENT_PROMPT)
 
 
         self.progress_bar.update()

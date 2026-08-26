@@ -59,6 +59,7 @@ class PlayerMechanics:
                         str(player.score)
                     )
             game_session.submit_score(player.score)
+            system.application.application.clean_up_states()
 
             
     @staticmethod

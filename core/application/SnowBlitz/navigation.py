@@ -45,12 +45,17 @@ class Navigation:
         elif self.application.snow_blitz.mode.is_state(GAME_MODE.TUTORIAL):
             self.start_tutorial_mode()
 
+        self.application.clean_up_states()
+        self.application.session.clean_up_states()
+
     def game_main_menu(self):
         self.application.gen_util.lb.get_logged_in_user_score()
         if self.application.snow_blitz:
-            self.application.clean_up_states()
             self.application.snow_blitz.state.set_state(GAMESTATE.NONE)
+            self.application.clean_up_states()
             self.application.snow_blitz = None
+        self.application.clean_up_states()
+        self.application.session.clean_up_states()
         self.app_main_menu()
 
     def app_main_menu(self):

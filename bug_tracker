@@ -1,2 +1,0 @@
-current release snapshot leaves player life state, gamestate.game over, and online session state.inactive in the devug overlay if you click try again in the game over menu
-and then return to the main menu need to call to clear these states every time
