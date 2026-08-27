@@ -67,13 +67,15 @@ class System():
         self.app_inspector = app_inspector # this is an observer
         self.save_telemetry = "" # this sends a message to the main menu if there is no save file found
 
+        self.system_monitor["Distant Realms Version"] = config.get("FRAMEWORK VERSION")
+
         if self.network.check_network_status():
             self.system_monitor["network"] = "Connected"
         else:
             self.system_monitor["network"] = "Not Connected"
     
         self.system_monitor["OS"] = config.get("OS") 
-
+        
         self.loading = None
         self.application = None
 
