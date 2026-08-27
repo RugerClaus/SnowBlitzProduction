@@ -104,7 +104,6 @@ class Player(Entity):
 
         movement = physics.update_movement(self.move_state,self.speed)
         self.world_x += movement / self.system.window.get_width()
-        self.world_x = max(-1.0, self.world_x)
         
         physics.check_size_death(self.diam,self.life_state,self.move_state)
         physics.check_level_up(self,self.entitymanager)
