@@ -1,0 +1,58 @@
+{
+    "app_name": "SnowBlitz_Snapshot_Latest_Windows",
+    "main": "main.py",
+    "updater_main": "updater.py",
+    "updater_name": "updater",
+
+    "paths": {
+        "dist": "executable",
+        "build": "build",
+        "specs": "specs"
+    },
+
+    "build": {
+        "mode": "onedir",
+        "windowed": true,
+        "noconsole": true,
+        "debug": true
+    },
+
+    "assets": [
+        "assets",
+        "logs",
+        "saves",
+        "environment"
+    ],
+
+    "copy": [
+        "enginepersistence",
+        "changelog.txt",
+        "README.md",
+        "LICENSE",
+        "instructions.md"
+    ],
+
+    "cleanup_internal": [
+        "assets",
+        "logs",
+        "saves",
+        "environment"
+    ],
+
+    "updater": {
+        "enabled": true,
+        "mode": "onefile",
+        "console": true
+    },
+
+    "archive": {
+        "enabled": true,
+        "name": "SnowBlitz_Snapshot_Latest_Windows.zip",
+        "directory": "SnowBlitz_Snapshot_Latest_Windows"
+    },
+
+    "deployment": {
+        "server": "rugerclausweb@plesk17.xmission.com",
+        "remote_dir": "snowblitz.net/downloads/snapshot/windows"
+    }
+}

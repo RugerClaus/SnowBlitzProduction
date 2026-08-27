@@ -1,7 +1,7 @@
 from helper import asset
 from core.state.RuntimeLayer.BootSplash.state import BOOT_SPLASH_STATE
 from core.state.RuntimeLayer.BootSplash.statemanager import BootSplashStateManager
-from core.application.SnowBlitz.entities.entitymanager import EntityManager
+from application.SnowBlitz.entities.entitymanager import EntityManager
 
 from core.ui.widgets.image import Image
 

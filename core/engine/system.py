@@ -13,8 +13,8 @@ from core.engine.network.network import Network
 from core.engine.user import User
 from core.engine.telemetry import system_monitor
 from core.loading.BootSplashManager import BootSplashManager
-from core.application.app_inspector import app_inspector
-from core.application.save_schema import schema
+from application.app_inspector import app_inspector
+from application.save_schema import schema
 
 # state systems
 from core.state.RuntimeLayer.NetworkLayer.Login.statemanager import LoginStateManager

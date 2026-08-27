@@ -1,9 +1,0 @@
-from core.application.SnowBlitz.entities.powerups.powerup import PowerUp
-from core.application.SnowBlitz.entities.powerups.type import PowerUpType
-
-class AbsorbRock(PowerUp):
-    def __init__(self, board_surface,camera=None):
-        diam = 15
-        super().__init__(board_surface, diam, PowerUpType.ABSORB_ROCK,camera=camera)
-    def get_powerup_color(self):
-        return (0, 0, 255)
