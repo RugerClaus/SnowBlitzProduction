@@ -1,6 +1,6 @@
 {
     "type": "menu",
-    "name": "UPDATE_AVAILABLE_NAME",
+    "name": "UPDATE_AVAILABLE_MENU",
     "elements": [
         {
             "type": "image",

@@ -26,6 +26,8 @@ class ActionRegistrar:
         application.actions.register("open_credits", lambda: application.ui_controller.show_ui("credits"))
         application.actions.register("view_leaderboard", lambda: application.application.load_leaderboard())
         application.actions.register("app_main_menu", lambda: application.application.navigation.app_main_menu())
+        application.actions.register("go_to_website", lambda: application.application.navigation.go_to_website())
+        application.actions.register("trigger_update", application.system.updater.start)
 
         # settings menu functions
         application.actions.register("open_settings",lambda: application.application.navigation.open_app_settings())

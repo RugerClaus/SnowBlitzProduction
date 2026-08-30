@@ -1,4 +1,4 @@
-import threading
+import threading,webbrowser
 from core.util.colors import *
 
 from core.state.RuntimeLayer.NetworkLayer.Update.state import UPDATE_STATE
@@ -59,6 +59,7 @@ class Navigation:
         self.app_main_menu()
 
     def app_main_menu(self):
+        self.application.system.updater.fetch_current_version_data()
         if self.application.leaderboard:
             self.application.leaderboard = None
         if self.application.session.state.is_state(ONLINE_SESSION_STATE.ACTIVE):
@@ -93,3 +94,6 @@ class Navigation:
             self.application.distant_realms.ui_controller.show_ui("settings_root")
         elif self.application.system.login_state.is_state(LOGIN_STATE.LOGGED_OUT):
             self.application.distant_realms.ui_controller.show_ui("logged_out_settings_root")
+
+    def go_to_website(self):
+        webbrowser.open("https://snowblitz.net")

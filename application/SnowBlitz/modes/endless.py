@@ -18,8 +18,6 @@ class Endless:
         self.entitymanager.check_collisions()
         self.progress_bar.update()
         
-
-        
     def draw(self):
         self.player.draw()
         self.entitymanager.draw_entities() 

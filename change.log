@@ -145,3 +145,8 @@ Development version Beta 1.0.0 prerelease 1 - 2026-08-25
 - The world system is extractible 
 - Designed worlds with world editor within the Distant Realms Editor suite
 - Added loading screens to get in game (worlds take a while to load depending on size)
+
+Development version Beta 1.0.0 prerelease 2 - 2026-08-30
+-------------------------------------------
+- Updater functionality works again
+- Can get to website from main menu

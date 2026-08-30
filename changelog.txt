@@ -1,21 +1,3 @@
 Development version Beta 1.0.0 - 2026-10-31
-- Fixed game starting on level 2 if the window is full size
-- Fixed all player sound effects playing after player death
-- Fixed resize bug with player UI cutting off the progress bar when the window is enlarged
-- Upgraded to Distant Realms Framework version 0.6.0-alpha
-- Reconstructed the entire user driven UI using the new Distant Realms Editor application replacing entire "core/menus" directory
-- Added particle effects
-- Fully finished season system with temperature ranges, and day length adjustments
-- Added a basic world system allowing for multiple texture maps to be placed on it for example (terrain map, cloud map)
-    Now environments exist
-- Maps are now entirely data based in enginepersistence/world/*.map
-- Can now display the map cell grid for each existing map using commands in developer mode
-- Maps are now entirely dynamically cell based
-- Maps are capable of interacting with lighting and temperature and other environmental factors
-- All maps are just layers. You can position them wherever, x, y. all is relative to the camera which is the size of the viewport, and all layers
--- scale directly with the viewport. worlds are more or less infinite now
-- All worlds are entirely data driven
-- because layer resolution is based on cells, all layers are entirely resolution independent
-- The world system is extractible 
-- Designed worlds with world editor within the Distant Realms Editor suite
-- Added loading screens to get in game (worlds take a while to load depending on size)
+- Updater functionality works again
+- Can get to website from main menu
