@@ -6,7 +6,7 @@ class Prompts:
         self.board_surface = board_surface
         self.player = player
         self.input = input
-        self.font = FontEngine(55).font
+        self.font = self.board_surface.system.font.get_font(55)
 
         self.player_has_moved = False
         self.player_has_continued = False

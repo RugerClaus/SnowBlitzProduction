@@ -1,5 +1,4 @@
 from enum import Enum, auto
-from core.ui.font import FontEngine
 
 
 class SizeBar(Enum):
@@ -20,8 +19,8 @@ class PlayerUIManager:
         self.surface = None
         self.rect_position = (0,0)
 
-        self.font = FontEngine(30).font
-        self.score_font = FontEngine(50).font
+        self.font = 30
+        self.score_font = 50
 
         self.last_reset_time = self.system.time.get_current_time()
 
@@ -56,9 +55,9 @@ class PlayerUIManager:
         now = self.system.time.get_current_time()
         elapsed_ms = now - self.last_reset_time
 
-        time_surface = self.font.render(f"Time: {self.player.timer.get_display_time()}",True,(255,255,255))
-        size_surface = self.font.render(f"Size: {round(self.player.diam)}",True,(255,255,255))
-        level_size_surface = self.font.render(f"Size to level up: {self.player.level_up_size}",True,(255,255,255))
+        time_surface = self.system.font.get_font(self.font).render(f"Time: {self.player.timer.get_display_time()}",True,(255,255,255))
+        size_surface = self.system.font.get_font(self.font).render(f"Size: {round(self.player.diam)}",True,(255,255,255))
+        level_size_surface = self.system.font.get_font(self.font).render(f"Size to level up: {self.player.level_up_size}",True,(255,255,255))
 
         if self.location == SizeBar.TOP:
             y = self.rect_position[1] + self.bar_height + 10
@@ -67,9 +66,9 @@ class PlayerUIManager:
             y = self.rect_position[1] - 70
             scoreboxy = y + 30
 
-        high_score_surface = self.score_font.render(f"High Score: {self.player.current_high_score}",True,(255,74,128))
-        score_surface = self.score_font.render(f"Score: {self.player.score} x{self.player.multiplier}",True,(255,255,0))
-        level_surface = self.score_font.render(f"Level: {self.player.current_level}",True,(255,255,255))
+        high_score_surface = self.system.font.get_font(self.score_font).render(f"High Score: {self.player.current_high_score}",True,(255,74,128))
+        score_surface = self.system.font.get_font(self.score_font).render(f"Score: {self.player.score} x{self.player.multiplier}",True,(255,255,0))
+        level_surface = self.system.font.get_font(self.score_font).render(f"Level: {self.player.current_level}",True,(255,255,255))
 
         high_rect = high_score_surface.get_rect(right=self.system.window.get_width()-5,top=scoreboxy)
         score_rect = score_surface.get_rect(right=high_rect.left-10,top=scoreboxy)

@@ -1,4 +1,3 @@
-from core.ui.font import FontEngine
 
 
 class LoadingScreenManager:
@@ -6,8 +5,7 @@ class LoadingScreenManager:
     def __init__(self, system):
 
         self.system = system
-        self.font = FontEngine().font
-
+        self.font = self.system.font.get_font(25)
     def draw(
         self,
         text_string,

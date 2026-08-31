@@ -918,6 +918,66 @@
                     "padding": 5
                 }
             }
+        },
+        {
+            "id": "username_greet",
+            "type": "label",
+            "text": "username",
+            "position": [
+                0.23670000000000002,
+                0.5314
+            ],
+            "font_size": 30,
+            "color": [
+                255,
+                255,
+                255
+            ]
+        },
+        {
+            "id": "new_label",
+            "type": "label",
+            "text": "Hello,",
+            "position": [
+                0.2,
+                0.5
+            ],
+            "font_size": 30,
+            "color": [
+                40,
+                255,
+                40
+            ]
+        },
+        {
+            "id": "new_label",
+            "type": "label",
+            "text": "High Score:",
+            "position": [
+                0.75,
+                0.5
+            ],
+            "font_size": 30,
+            "color": [
+                49,
+                255,
+                40
+            ]
+        },
+        {
+            "id": "score_value",
+            "type": "label",
+            "text": "score",
+            "position": [
+                0.75,
+                0.53
+            ],
+            "font_size": 30,
+            "color": [
+                255,
+                255,
+                255
+            ]
         }
     ]
 }
