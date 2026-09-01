@@ -18,14 +18,20 @@ class World:
         self.load_start_time = 0
         self.load_time = 0
         
-    def load_map_files(self, filename=None):
-        if self.map_loader:
-            if filename:
-                path = f"enginepersistence/world/{filename}.json"
-            else:
-                path = "enginepersistence/world/world.json"
+    def load_world(self, filename=None):
+        if not self.map_loader:
+            return
 
-            self.maps = self.map_loader.load(path)
+        for map in self.maps:
+            map.unload()
+
+        path = (
+            f"enginepersistence/world/{filename}.json"
+            if filename
+            else "enginepersistence/world/world.json"
+        )
+
+        self.maps = self.map_loader.load(path)
 
     def is_map_visible(self, map):
         if map.wrap_x or map.wrap_y:
@@ -34,6 +40,14 @@ class World:
         camera_x = self.camera.x if map.camera_follow_x else 0
         camera_y = self.camera.y if map.camera_follow_y else 0
 
+        view_x, view_y, view_width, view_height = self.camera.get_view()
+
+        if not map.camera_follow_x:
+            view_x = 0
+
+        if not map.camera_follow_y:
+            view_y = 0
+
         left = map.world_x - camera_x
         right = left + map.map_width
 
@@ -41,12 +55,12 @@ class World:
         bottom = top + map.map_height
 
         return (
-            right > 0 and
-            left < 1 and
-            bottom > 0 and
-            top < 1
+            right > view_x and
+            left < view_x + view_width and
+            bottom > view_y and
+            top < view_y + view_height
         )
-
+    
     def scale(self):
         for map in self.maps:
             map.scale()
@@ -98,7 +112,7 @@ class World:
         self.load_progress = 0.50
         self.load_message = "Loading map files..."
 
-        self.load_map_files()
+        self.load_world()
 
         self.load_progress = 1.0
         self.load_message = "Complete"

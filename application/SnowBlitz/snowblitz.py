@@ -49,6 +49,8 @@ class SnowBlitz:
         self.timer = None   
         self.water_particles = None
 
+        self.current_world = "world"
+
     def scale(self):
         if self.player is not None:
             self.player.scale()

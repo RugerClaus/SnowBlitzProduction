@@ -90,12 +90,13 @@ class SBDebugUtils:
                 self.game_object.world.environment.day_cycle.go_to_next_season()
 
             if command == "reload_maps":
-                self.game_object.world.load_map_files()
+                self.game_object.world.load_world(self.game_object.current_world)
 
             if command == "toggle_terrain_grid":
                 self.game_object.world.toggle_map_grid("terrain0",red)
             if command == "toggle_cloud_grid":
-                self.game_object.world.toggle_map_grid("cloud",purple)
+                self.game_object.world.toggle_map_grid("cloud1",purple)
+                self.game_object.world.toggle_map_grid("cloud2",purple)
         else:
             self.clear_debug_telemetry()
 

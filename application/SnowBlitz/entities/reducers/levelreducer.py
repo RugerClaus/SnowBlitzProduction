@@ -1,7 +1,6 @@
 from application.SnowBlitz.entities.entity import Entity
 from application.SnowBlitz.entities.type import EntityType
 from application.SnowBlitz.entities.reducers.type import LRType
-from core.ui.font import FontEngine
 
 
 class LevelReducer(Entity):
@@ -30,7 +29,7 @@ class LevelReducer(Entity):
         self.color = (128, 100, 190)
         self.diam = 50
 
-        self.font = FontEngine(30).font
+        self.font = 30
 
         super().__init__(0, 0, system.window, EntityType.REDUCER, self.diam)
 
@@ -124,7 +123,7 @@ class LevelReducer(Entity):
     def draw_reducer_number(self, base_surface):
         text = f"{self.get_reducer_number()}"
 
-        surface = self.font.render(
+        surface = self.system.font.get_font(self.font).render(
             text,
             True,
             (248, 0, 90)
