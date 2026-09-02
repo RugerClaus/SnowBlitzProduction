@@ -124,11 +124,11 @@ class SnowBlitz:
         
 
     def draw(self):
-        if self.world:
-            self.world.draw()
-
         if self.sun:
             self.sun.draw()
+
+        if self.world:
+            self.world.draw()
 
         if self.hud:
             self.hud.draw()

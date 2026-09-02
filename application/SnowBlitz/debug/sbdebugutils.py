@@ -59,8 +59,8 @@ class SBDebugUtils:
                     if entity.type == EntityType.REDUCER:
                         self.system.window.draw_line(self.system.window.get_screen(),entity.rect.center,self.game_object.player.rect.center,blue,width=2)
             if self.draw_debug_sun_line:
-                if self.game_object.world.environment.sun.x > 0:
-                    self.system.window.draw_line(self.system.window.get_screen(),self.game_object.world.environment.sun.rect.center,self.game_object.player.rect.center,purple,width=2)
+                if self.game_object.sun.x > 0:
+                    self.system.window.draw_line(self.system.window.get_screen(),self.game_object.sun.rect.center,self.game_object.player.rect.center,purple,width=2)
 
     def handle_event(self,event,command=None):
         if event.type == self.system.input.keydown():

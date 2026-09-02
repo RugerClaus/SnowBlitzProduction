@@ -35,7 +35,7 @@
             "color": [255, 255, 255],
             "properties": {
                 "collidable": false,
-                "receives_light": false
+                "receives_light": true
             }
         },
 
@@ -157,8 +157,8 @@
         },
 
         "17": {
-            "name": "violet",
-            "color": [100, 60, 200],
+            "name": "black",
+            "color": [10,10,10],
             "properties": {
                 "collidable": true,
                 "receives_light": false
