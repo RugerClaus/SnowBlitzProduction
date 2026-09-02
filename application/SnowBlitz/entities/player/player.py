@@ -138,7 +138,13 @@ class Player(Entity):
 
     def draw(self):
         self.surface.fill((0, 0, 0, 0))
-        self.system.window.draw_circle(self.surface,self.color,(self.base_size,self.base_size),self.base_size,self.type)
+        self.system.window.draw_circle(
+            self.surface,
+            (255, 255, 255),
+            (self.diam / 2, self.diam / 2),
+            self.diam / 2,
+            object=self.type
+        )
         self.system.window.blit(self.surface,self.rect.topleft)
 
     def reset(self):

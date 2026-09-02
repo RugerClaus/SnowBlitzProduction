@@ -71,7 +71,7 @@ class LevelReducer(Entity):
             (255, 255, 255),
             (self.diam / 2, self.diam / 2),
             self.diam / 3,
-            self.reducer_type
+            object=self.reducer_type
         )
 
         self.draw_reducer_number(self.surface)

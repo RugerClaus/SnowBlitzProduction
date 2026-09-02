@@ -64,7 +64,7 @@ class PowerUp(Entity):
 
     def render(self):
         self.surface.fill((0, 0, 0, 0))
-        self.system.window.draw_circle(self.surface, self.color, (self.diam / 2, self.diam / 2), self.diam / 2, self.power_type)
+        self.system.window.draw_circle(self.surface, self.color, (self.diam / 2, self.diam / 2), self.diam / 2, object=self.power_type)
 
     def get_screen_position(self):
         ww = self.system.window.get_width()

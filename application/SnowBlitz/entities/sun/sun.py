@@ -40,5 +40,5 @@ class Sun(Entity):
 
     def draw(self):
         self.surface.fill((0, 0, 0, 0))
-        self.system.window.draw_circle(self.surface, self.color, (self.size, self.size), self.size, self.type)
+        self.system.window.draw_circle(self.surface, self.color, (self.size, self.size), self.size, object=self.type)
         self.system.window.blit(self.surface, self.rect.topleft)
