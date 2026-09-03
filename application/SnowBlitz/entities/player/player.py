@@ -137,12 +137,12 @@ class Player(Entity):
             self.speed_state.set_state(SPEED_STATE.SLOW)
 
     def draw(self):
-        self.surface.fill((0, 0, 0, 0))
+        self.surface.fill((0,0,0,0))
         self.system.window.draw_circle(
             self.surface,
-            (255, 255, 255),
-            (self.diam / 2, self.diam / 2),
-            self.diam / 2,
+            (255,255,255),
+            (self.render_diam / 2,self.render_diam / 2),
+            self.render_diam / 2,
             object=self.type
         )
         self.system.window.blit(self.surface,self.rect.topleft)
