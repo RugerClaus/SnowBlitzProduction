@@ -1,0 +1,6 @@
+pygame-ce
+PyOpenGL
+pyinstaller
+mutagen
+requests
+numpy
