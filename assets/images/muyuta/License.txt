@@ -1,0 +1,34 @@
+English Description
+This package contains retro-style pixel art snowflakes, perfect for adding a winter atmosphere to your games and creative projects.
+It is completely free for both personal and commercial use.
+Contents:
+- PNG files (individual snowflake sprites)
+- GIF files (animated snowfall)
+- JSON and Data URI formats
+- C files (technical integration examples)
+- License file
+Usage:
+These assets can be easily integrated into GDevelop, Unity, Godot, or web projects.
+Ideal for intro scenes, menu backgrounds, or in-game winter effects.
+License:
+Free to use (including commercial).
+Attribution is required — please credit the artist muyuta or publisher Stone Castle Lab in your project.
+
+Türkçe Açıklama
+Bu paket retro tarzda pixel art kar taneleri içerir.
+Oyunlarınıza ve projelerinize kış atmosferi katmak için idealdir.
+Hem kişisel hem de ticari kullanım için tamamen ücretsizdir.
+Paket İçeriği:
+- PNG dosyaları (tek tek kar taneleri)
+- GIF dosyaları (animasyonlu kar yağışı)
+- JSON ve Data URI formatları
+- C dosyaları (teknik entegrasyon örnekleri)
+- Lisans dosyası
+Kullanım Alanları:
+Bu assetler GDevelop, Unity, Godot gibi oyun motorlarında ve web projelerinde kolayca kullanılabilir.
+Intro sahnelerinde kar yağışı efekti, menü arka planları veya oyun içi atmosfer yaratmak için uygundur.
+Lisans:
+Ücretsiz kullanım (ticari dahil).
+Kaynak belirtmek zorunludur — lütfen sanatçı muyuta veya yayıncı Stone Castle Lab adını projenizde belirtin.
+
+Link: https://stonecastle.itch.io/pixel-art-snowflakes

@@ -27,6 +27,7 @@ config = {
     "ASSETS": {
         "title": "assets/images/main/title.png",
         "default_font": "assets/font/OpenSansPX.ttf",
+        "bold": "assets/font/OpenSansPXBold.ttf",
 
         "splashpt1": "assets/images/main/splashpt1.png",
         "splashpt2": "assets/images/main/splashpt2.png",
@@ -35,15 +36,19 @@ config = {
         "splashpt5": "assets/images/main/splashpt5.png",
         
 
-        "splash1": "assets/audio/sfx/splash1.ogg",
-        "splash2": "assets/audio/sfx/splash2.ogg",
-        "splash3": "assets/audio/sfx/splash3.ogg",
-        "splash4": "assets/audio/sfx/splash4.ogg",
-        "splash5": "assets/audio/sfx/splash5.ogg",
+        "splash1": "assets/sounds/sfx/splash1.ogg",
+        "splash2": "assets/sounds/sfx/splash2.ogg",
+        "splash3": "assets/sounds/sfx/splash3.ogg",
+        "splash4": "assets/sounds/sfx/splash4.ogg",
+        "splash5": "assets/sounds/sfx/splash5.ogg",
+
+        "button_clicked": "assets/sounds/sfx/button_clicked.mp3",
 
         "linux_icon": "assets/images/build/linux.png",
         "windows_icon": "assets/images/build/windows.ico",
 
         "clock": "assets/images/main/clock.png",
+
+        "snowflakes": "assets/images/muyuta/snowflakes.png"
     }
 }

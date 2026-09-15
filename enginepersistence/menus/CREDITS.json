@@ -199,6 +199,66 @@
                 255,
                 255
             ]
+        },
+        {
+            "id": "new_label",
+            "type": "label",
+            "text": "Snowflakes by:",
+            "position": [
+                0.28,
+                0.455
+            ],
+            "font_size": 40,
+            "color": [
+                255,
+                255,
+                255
+            ]
+        },
+        {
+            "id": "new_label",
+            "type": "label",
+            "text": "muyuta",
+            "position": [
+                0.385,
+                0.455
+            ],
+            "font_size": 40,
+            "color": [
+                40,
+                255,
+                40
+            ]
+        },
+        {
+            "id": "new_label",
+            "type": "label",
+            "text": "; Published by:",
+            "position": [
+                0.485,
+                0.455
+            ],
+            "font_size": 40,
+            "color": [
+                255,
+                255,
+                255
+            ]
+        },
+        {
+            "id": "new_label",
+            "type": "label",
+            "text": "Stone Castle Lab",
+            "position": [
+                0.63,
+                0.455
+            ],
+            "font_size": 40,
+            "color": [
+                40,
+                255,
+                40
+            ]
         }
     ]
 }
