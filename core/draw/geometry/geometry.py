@@ -19,19 +19,37 @@ class Geometry:
     def rect(cls, x, y, w, h, color=(0.5, 0.5, 0.5, 1.0), shader=None):
         rw, rh = cls.renderer.resolution
 
-        x1 = (x / rw) * 2 - 1
-        y1 = 1 - (y / rh) * 2
-        x2 = ((x + w) / rw) * 2 - 1
-        y2 = 1 - ((y + h) / rh) * 2
+        x1 = ((x - w / 2) / rw) * 2 - 1
+        y1 = 1 - ((y - h / 2) / rh) * 2
 
-        vertices = numpy.array([(x1, y1), (x2, y1), (x2, y2), (x1, y2)], dtype=numpy.float32)
-        indices = numpy.array([0, 1, 2, 0, 2, 3], dtype=numpy.uint32)
+        x2 = ((x + w / 2) / rw) * 2 - 1
+        y2 = 1 - ((y + h / 2) / rh) * 2
 
-        vertex = Vertex(vertices,indices)
+        vertices = numpy.array(
+            [
+                (x1, y1),
+                (x2, y1),
+                (x2, y2),
+                (x1, y2)
+            ],
+            dtype=numpy.float32
+        )
 
+        indices = numpy.array(
+            [0, 1, 2, 0, 2, 3],
+            dtype=numpy.uint32
+        )
+
+        vertex = Vertex(vertices, indices)
         vertex.create_data()
 
-        return Rect(x, y, w, h, vertex.vao, vertex.vbo, color, shader)
+        return Rect(
+            x, y, w, h,
+            vertex.vao,
+            vertex.vbo,
+            color,
+            shader
+        )
 
     @classmethod
     def update_rect(cls, rect):

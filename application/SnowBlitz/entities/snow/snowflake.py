@@ -150,15 +150,6 @@ class SnowFlake(Entity):
 
         if self.wrap_y:
             self.world_y %= 1.0
-
-        self.rotation += self.rotation_speed * dt
-        self.rotation_speed *= 0.995
-
-        self.surface = self.system.window.transform_rotate(
-            self.base_surface,
-            self.rotation
-        )
-
         self.update_screen_position()
 
         if self.rect.top > wh * 0.9:

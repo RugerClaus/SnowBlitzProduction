@@ -22,21 +22,6 @@ class Window:
 
         self.Rect = self.system.backend.pygame.Rect
 
-        self.test_surface = self.make_surface(
-            200,
-            200,
-            True
-        )
-
-        self.test_surface.fill(
-            (255, 0, 0, 255)
-        )
-
-        self.test_texture = self.system.backend.draw.upload_surface(
-            self.test_surface,
-            self.test_surface
-        )
-
     # ---------------------------------------------------------
     # Compatibility / Utility
     # ---------------------------------------------------------
@@ -317,7 +302,11 @@ class Window:
         self,
         surface,
         destination,
-        area=None
+        area=None,
+        vshader=None,
+        fshader=None,
+        shadervals=None,
+        light_surface=None
     ):
 
         if area is not None:
@@ -333,7 +322,11 @@ class Window:
         self.system.backend.draw.blit(
             surface,
             destination,
-            area
+            area,
+            vshader,
+            fshader,
+            shadervals,
+            light_surface
         )
 
     # ---------------------------------------------------------
@@ -343,19 +336,15 @@ class Window:
     def get_screen(self):
         return self.system.backend.draw.get_screen()
 
+    def update_surface(self, surface):
+        self.system.backend.draw.update_surface(surface)
+
     def update(self):
-
-        self.blit(
-            self.test_texture,
-            self.system.backend.pygame.Rect(
-                0,
-                500,
-                200,
-                200
-            )
-        )
-
         self.system.backend.draw.flip()
+
+    def mark_surface_dirty(self,surface):
+
+        self.system.backend.draw.surface_cache_dirty.add(id(surface))
 
     # ---------------------------------------------------------
     # Miscellaneous

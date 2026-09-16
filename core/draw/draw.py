@@ -10,6 +10,8 @@ from core.draw.geometry.geometry import Geometry
 from core.draw.texture import Texture
 
 
+blit_cache = {}
+surface_cache_dirty = set()
 gpu_queue = Queue()
 
 renderer = None
@@ -19,7 +21,9 @@ pygame = None
 width = None
 height = None
 
+
 def normalize_color(color):
+
     if len(color) == 3:
         return (
             color[0] / 255.0,
@@ -33,39 +37,43 @@ def normalize_color(color):
 
     raise ValueError("color must contain 3 or 4 channels")
 
+
 def queue_gpu_task(task):
+
     future = Future()
     gpu_queue.put((task, future))
+
     return future
 
 
 def process_gpu_tasks():
+
     while True:
+
         try:
             task, future = gpu_queue.get_nowait()
+
         except Empty:
+
             break
 
         try:
             future.set_result(task())
+
         except Exception as error:
+
             future.set_exception(error)
 
 
 def init(gl, glutils, pygame_api):
+
     global pygame
 
     pygame = pygame_api
 
 
-def set_mode(
-    system,
-    ww,
-    wh,
-    title="Distant Realms Window",
-    resizable=False,
-    fullscreen=False
-):
+def set_mode(system, ww, wh, title="Distant Realms Window", resizable=False, fullscreen=False):
+
     global renderer
     global window
     global width
@@ -92,27 +100,43 @@ def set_mode(
 
 
 def set_icon(icon):
+
     window.set_icon(icon)
 
 
 def clear(color=(0, 0, 0), alpha=None):
+
     if alpha is None:
         alpha = 255
 
     color = tuple(channel / 255.0 for channel in color)
 
-    renderer.clear(
-        color=(
-            color[0],
-            color[1],
-            color[2],
-            alpha / 255.0
-        )
-    )
+    renderer.clear(color=(color[0], color[1], color[2], alpha / 255.0))
 
 
 def rect(surface, color, rect, width=0, border_radius=None, object=None):
+
+    if isinstance(surface, pygame.Surface):
+
+        if border_radius is None:
+            border_radius = 0
+
+        pygame.draw.rect(
+            surface,
+            color,
+            rect,
+            width,
+            border_radius=border_radius
+        )
+
+        surface_cache_dirty.add(id(surface))
+
+        return
+
+    renderer.flush_texture_batch()
+
     color = normalize_color(color)
+
     drawable = Geometry.rect(
         rect.centerx,
         rect.centery,
@@ -121,89 +145,157 @@ def rect(surface, color, rect, width=0, border_radius=None, object=None):
         color
     )
 
-    renderer.render(
-        drawable,
-        0.0
+    renderer.render(drawable, 0.0)
+
+
+def circle(surface, color, center, radius, object=None):
+
+    if isinstance(surface, pygame.Surface):
+
+        pygame.draw.circle(
+            surface,
+            color,
+            center,
+            radius
+        )
+
+        surface_cache_dirty.add(id(surface))
+
+        return
+
+    renderer.flush_texture_batch()
+
+    color = normalize_color(color)
+
+    drawable = Geometry.circle(
+        center[0],
+        center[1],
+        radius,
+        color
     )
 
+    renderer.render(drawable, 0.0)
 
-def circle(a, b, c, d, e):
-    pass
+
+def get_texture(surface):
+
+    if isinstance(surface, Texture):
+        return surface
+
+    cache_key = id(surface)
+
+    if cache_key not in blit_cache:
+        blit_cache[cache_key] = Texture(surface)
+
+    return blit_cache[cache_key]
 
 
 def make_surface(system, size, alpha=False):
+
     flags = pygame.SRCALPHA if alpha else 0
 
-    return pygame.Surface(
-        size,
-        flags
-    )
+    return pygame.Surface(size, flags)
 
 
 def upload_surface(surface, pygame_surface):
+
     return Texture(pygame_surface)
 
 
-def blit(surface, destination, area=None):
-    texture = surface
+def update_surface(surface):
 
-    if not isinstance(texture, Texture):
-        texture = Texture(surface)
+    cache_key = id(surface)
 
-    if hasattr(destination, "x"):
+    if cache_key not in blit_cache:
+
+        blit_cache[cache_key] = Texture(surface)
+
+        return
+
+    blit_cache[cache_key].update(surface)
+
+
+def blit(surface,destination,area=None,vshader=None,fshader=None,shadervals=None,light_surface=None):
+
+    if isinstance(surface,Texture):
+        texture = surface
+    else:
+        cache_key = id(surface)
+
+        if cache_key not in blit_cache:
+            blit_cache[cache_key] = Texture(surface)
+
+        elif cache_key in surface_cache_dirty:
+            blit_cache[cache_key].update(surface)
+            surface_cache_dirty.remove(cache_key)
+
+        texture = blit_cache[cache_key]
+
+    if hasattr(destination,"x"):
         x = destination.centerx
         y = destination.centery
         dest_width = destination.width
         dest_height = destination.height
 
     else:
-        x, y = destination
+        x,y = destination
+
         dest_width = texture.width
         dest_height = texture.height
 
-    drawable = Geometry.texture(
+        x += dest_width / 2
+        y += dest_height / 2
+
+    if light_surface is not None:
+        light_texture = get_texture(light_surface)
+    else:
+        light_texture = None
+
+    renderer.add_texture_quad(
+        texture,
         x,
         y,
         dest_width,
         dest_height,
-        texture,
-        renderer.texture_shader
+        vshader,
+        fshader,
+        shadervals,
+        light_texture
     )
-
-    renderer.render(
-        drawable,
-        0.0
-    )
-
 
 def surface_fill(surface, color, rect=None, alpha=None):
+
     if isinstance(color, tuple) and len(color) == 4:
         color, alpha = color[:3], color[3]
 
     if alpha is None:
         alpha = 255
 
-    color = tuple(channel / 255.0 for channel in color)
+    color = tuple(int(channel / 255.0 * 255) for channel in color)
 
     if rect is None:
-        surface.fill(
-            (*tuple(int(channel * 255) for channel in color), alpha)
-        )
-        return
+        surface.fill((*color, alpha))
 
-    surface.fill(
-        (*tuple(int(channel * 255) for channel in color), alpha),
-        rect
-    )
+    else:
+        surface.fill((*color, alpha), rect)
+
+    surface_cache_dirty.add(id(surface))
 
 
 def flip():
+
+    renderer.flush_texture_batch()
+
     return window.flip()
 
 
 def get_screen():
+
     return window
 
+def mark_surface_dirty(surface):
+    surface_cache_dirty.add(id(surface))
 
 def quit():
+
     pygame.quit()

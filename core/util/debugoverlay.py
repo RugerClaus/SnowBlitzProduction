@@ -167,6 +167,7 @@ class DebugOverlay:
 
             self.surface.blit(background,background_rect)
 
+        self.system.window.mark_surface_dirty(self.surface)
         self.system.window.blit(self.surface,self.rect)
 
     def update(self):
