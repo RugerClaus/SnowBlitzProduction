@@ -49,6 +49,15 @@ config = {
 
         "clock": "assets/images/main/clock.png",
 
-        "snowflakes": "assets/images/muyuta/snowflakes.png"
+        "snowflakes": "assets/images/muyuta/snowflakes.png",
+
+        #shaders
+        "v": "core/draw/shaders/v.glsl",
+        "f": "core/draw/shaders/f.glsl",
+        "texturev": "core/draw/shaders/texturev.glsl",
+        "texturef": "core/draw/shaders/texturef.glsl",
+        "cube": "core/draw/shaders/cube.glsl",
+        "plane": "core/draw/shaders/plane.glsl",
+        "rectpulse": "core/draw/shaders/rectpulse.glsl"
     }
 }

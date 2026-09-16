@@ -22,48 +22,62 @@ class Window:
 
         self.Rect = self.system.backend.pygame.Rect
 
-        self.test_surface = system.backend.draw.make_surface(system, (200, 200), True)
-        self.test_surface.fill((255, 0, 0, 255))
+        self.test_surface = self.make_surface(
+            200,
+            200,
+            True
+        )
+
+        self.test_surface.fill(
+            (255, 0, 0, 255)
+        )
+
+        self.test_texture = self.system.backend.draw.upload_surface(
+            self.test_surface,
+            self.test_surface
+        )
 
     # ---------------------------------------------------------
     # Compatibility / Utility
     # ---------------------------------------------------------
 
-    def mask(self,surface):
-        return self.system.backend.draw.mask(surface)
+    def mask(self, surface):
+        if hasattr(surface, "surface"):
+            surface = surface.surface
+
+        return self.system.backend.pygame.mask.from_surface(surface)
 
     def make_rect(self, data):
         x, y, w, h = data
         return self.Rect(x, y, w, h)
 
-    def make_surface(self,width,height,alpha=False):
-        return self.system.backend.draw.make_surface(self.system,(width,height),alpha)
+    def make_surface(self, width, height, alpha=False):
+        return self.system.backend.draw.make_surface(
+            self.system,
+            (width, height),
+            alpha
+        )
 
     def load_image(self, file_like):
         image = self.system.backend.pygame.image.load(file_like)
 
-        print("IMAGE:", image.get_size(), image.get_flags(), image.get_alpha())
-
-        return self.system.backend.draw.Surface.from_pygame(
-            self.system,
+        return self.system.backend.draw.upload_surface(
+            None,
             image
         )
 
-    def transform_scale(
-        self,
-        original_surface,
-        new_surface_width,
-        new_surface_height
-    ):
-        return self.system.backend.draw.transform.scale(
-            original_surface,
-            (
-                new_surface_width,
-                new_surface_height
-            )
-        )
+    def transform_scale(self, original, width, height):
+        return original.scale(width, height)
 
-    def transform_smoothscale(self, original, newW, newH):
+    def transform_rotate(self, original, angle):
+        return original.rotate(angle)
+
+    def transform_smoothscale(
+        self,
+        original,
+        newW,
+        newH
+    ):
         return self.system.backend.pygame.transform.smoothscale(
             original,
             (newW, newH)
@@ -99,7 +113,10 @@ class Window:
             fullscreen=self.fullscreen
         )
 
-        icon = self.load_image(asset("linux_icon"))
+        icon = self.system.backend.pygame.image.load(
+            asset("linux_icon")
+        )
+
         self.system.backend.draw.set_icon(icon)
 
     def toggle_fullscreen(self):
@@ -149,7 +166,10 @@ class Window:
                 "tuples or color strings"
             )
 
-        self.system.backend.draw.clear(color, alpha)
+        self.system.backend.draw.clear(
+            color,
+            alpha
+        )
 
     def draw_overlay(self, color, alpha):
 
@@ -159,7 +179,9 @@ class Window:
             alpha=True
         )
 
-        overlay.fill(color,alpha)
+        overlay.fill(
+            (*color, alpha)
+        )
 
         return overlay
 
@@ -183,7 +205,9 @@ class Window:
             )
 
         else:
-            log_error("color must be a tuple")
+            log_error(
+                "color must be a tuple"
+            )
 
     def draw_polygon(
         self,
@@ -209,10 +233,10 @@ class Window:
 
         if not isinstance(
             surface,
-            self.system.backend.draw.Surface
+            self.system.backend.pygame.Surface
         ):
             log_error(
-                "circle surface must be a Surface",
+                "circle surface must be a pygame Surface",
                 object
             )
 
@@ -264,7 +288,6 @@ class Window:
         border_radius=None,
         object=None
     ):
-
 
         if not isinstance(color, tuple):
             log_error(
@@ -321,9 +344,15 @@ class Window:
         return self.system.backend.draw.get_screen()
 
     def update(self):
+
         self.blit(
-            self.test_surface,
-            self.system.backend.pygame.Rect(0, 500, 200, 200)
+            self.test_texture,
+            self.system.backend.pygame.Rect(
+                0,
+                500,
+                200,
+                200
+            )
         )
 
         self.system.backend.draw.flip()
@@ -336,4 +365,10 @@ class Window:
         return self.system.time.get_fps()
 
     def get_info(self):
-        return self.system.backend.draw.get_info()
+        return {
+            "window": (
+                self.width,
+                self.height
+            ),
+            "backend": "draw"
+        }
