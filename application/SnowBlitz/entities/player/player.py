@@ -1,3 +1,5 @@
+from core.util.colors import *
+
 from application.SnowBlitz.entities.type import EntityType
 from application.SnowBlitz.entities.entity import Entity
 
@@ -35,6 +37,7 @@ class Player(Entity):
         self.diam = self.get_pixel_diameter()
 
         self.base_size = self.diam / 2
+        self.color = white
 
         super().__init__(self.x_ratio,self.y_ratio,self.system.window,EntityType.PLAYER,self.diam)
 
@@ -140,7 +143,7 @@ class Player(Entity):
         self.surface.fill((0,0,0,0))
         self.system.window.draw_circle(
             self.surface,
-            (255,255,255),
+            self.color,
             (self.render_diam / 2,self.render_diam / 2),
             self.render_diam / 2,
             object=self.type
@@ -163,7 +166,7 @@ class Player(Entity):
 
         self.speed = 7
 
-        self.color = (255,255,255)
+        self.color = white
 
         self.multiplier = 1
 

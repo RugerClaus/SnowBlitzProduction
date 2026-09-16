@@ -133,21 +133,14 @@ class System():
                     collection.remove(state)
 
     def load_window(self):
-        import importlib
-        import sys
-
         backend = config.get("WINDOW_BACKEND", "pygame").lower()
 
+
         if backend == "pygame":
-            module_name = "core.engine.window.pgwindow"
+            from core.engine.window.pgwindow import Window
+            self.window = Window(self)
         elif backend == "draw":
-            module_name = "core.engine.window.drwindow"
+            from core.engine.window.drwindow import Window
+            self.window = Window(self)
         else:
             raise ValueError(f"Unknown window backend: {backend}")
-
-        if module_name in sys.modules:
-            module = importlib.reload(sys.modules[module_name])
-        else:
-            module = importlib.import_module(module_name)
-
-        self.window = module.Window(self)
