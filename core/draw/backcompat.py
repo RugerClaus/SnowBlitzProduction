@@ -142,6 +142,20 @@ def line(surface, point_a, point_b, color, width=1):
 
     renderer.render(drawable, 0.0)
 
+def polygon(surface, color, points):
+
+    if isinstance(surface, pygame.Surface):
+
+        pygame.draw.polygon(
+            surface,
+            color,
+            points
+        )
+
+        surface_cache_dirty.add(id(surface))
+
+        return
+
 def rect(surface, color, rect, width=0, border_radius=None, shader=None, object=None):
 
     if isinstance(surface, pygame.Surface):

@@ -49,6 +49,12 @@ class Window:
         )
 
     def transform_scale(self, original, width, height):
+        if isinstance(original, self.system.backend.pygame.Surface):
+            return self.system.backend.pygame.transform.scale(
+                original,
+                (width, height)
+            )
+
         return original.scale(width, height)
 
     def transform_rotate(self, original, angle):
