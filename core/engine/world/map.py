@@ -42,7 +42,7 @@ class Map:
         self.grid_dirty = True
 
         self.map_def = MapDef()
-        self.lighting_levels = 8
+        self.lighting_levels = 32
         self.lighting_level = 0
         self.light_layers = []
 

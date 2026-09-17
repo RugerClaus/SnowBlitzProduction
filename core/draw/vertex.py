@@ -8,7 +8,7 @@ class Vertex:
         self.vbo = None
         self.ebo = None
 
-    def create_data(self):
+    def create_data(self, attributes=2):
         self.vao = gl.glGenVertexArrays(1)
         self.vbo = gl.glGenBuffers(1)
         self.ebo = gl.glGenBuffers(1)
@@ -23,15 +23,44 @@ class Vertex:
             gl.GL_DYNAMIC_DRAW
         )
 
-        gl.glVertexAttribPointer(
-            0,
-            2,
-            gl.GL_FLOAT,
-            gl.GL_FALSE,
-            2 * self.vertices.itemsize,
-            None
-        )
-        gl.glEnableVertexAttribArray(0)
+        if attributes == 2:
+            stride = 2 * self.vertices.itemsize
+
+            gl.glVertexAttribPointer(
+                0,
+                2,
+                gl.GL_FLOAT,
+                gl.GL_FALSE,
+                stride,
+                None
+            )
+            gl.glEnableVertexAttribArray(0)
+
+        elif attributes == 4:
+            stride = 4 * self.vertices.itemsize
+
+            gl.glVertexAttribPointer(
+                0,
+                2,
+                gl.GL_FLOAT,
+                gl.GL_FALSE,
+                stride,
+                None
+            )
+            gl.glEnableVertexAttribArray(0)
+
+            gl.glVertexAttribPointer(
+                1,
+                2,
+                gl.GL_FLOAT,
+                gl.GL_FALSE,
+                stride,
+                gl.ctypes.c_void_p(2 * self.vertices.itemsize)
+            )
+            gl.glEnableVertexAttribArray(1)
+
+        else:
+            raise ValueError(f"Unsupported vertex attribute format: {attributes}")
 
         gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.ebo)
         gl.glBufferData(
@@ -40,6 +69,8 @@ class Vertex:
             self.indices,
             gl.GL_DYNAMIC_DRAW
         )
+
+        gl.glBindVertexArray(0)
 
     def create_data_3d(self):
         self.vao = gl.glGenVertexArrays(1)
@@ -116,3 +147,16 @@ class Vertex:
             self.indices,
             gl.GL_DYNAMIC_DRAW
         )
+
+    def delete(self):
+        if self.vao is not None:
+            gl.glDeleteVertexArrays(1, [self.vao])
+            self.vao = None
+
+        if self.vbo is not None:
+            gl.glDeleteBuffers(1, [self.vbo])
+            self.vbo = None
+
+        if self.ebo is not None:
+            gl.glDeleteBuffers(1, [self.ebo])
+            self.ebo = None

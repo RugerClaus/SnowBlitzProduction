@@ -43,7 +43,6 @@ class Renderer:
         return self.shaders[key]
     
     def update_viewport(self):
-
         width, height = self.window.size
 
         self.resolution = (width, height)
@@ -53,8 +52,29 @@ class Renderer:
     def render_2d(self, object, shader, time):
 
         gl.glDisable(gl.GL_DEPTH_TEST)
-        gl.glUniform4f(shader.color_location, *object.color)
-        gl.glUniform1f(shader.time_location, time)
+
+        gl.glUniform4f(
+            shader.color_location,
+            *object.color
+        )
+
+        gl.glUniform1f(
+            shader.time_location,
+            time
+        )
+
+        if hasattr(object, "border_radius") and object.border_radius is not None:
+
+            gl.glUniform2f(
+                shader.rect_size_location,
+                object.width,
+                object.height
+            )
+
+            gl.glUniform1f(
+                shader.border_radius_location,
+                object.border_radius
+            )
 
     def render_3d(self, object, shader, time):
 
@@ -99,8 +119,9 @@ class Renderer:
         gl.glDrawElements(gl.GL_TRIANGLES, object.vertex_count, gl.GL_UNSIGNED_INT, None)
 
     def clear(self, color=(0.0, 0.0, 0.0, 1.0)):
-
         width, height = self.window.size
+
+        self.resolution = (width, height)
 
         gl.glViewport(0, 0, width, height)
         gl.glClearColor(*color)

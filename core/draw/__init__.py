@@ -1,7 +1,7 @@
 #__init__.py
 
 from OpenGL import GL, GLU
-from . import draw
+from . import backcompat
 
 def init():
-    draw.init(GL,GLU)
+    backcompat.init(GL,GLU)

@@ -1,6 +1,6 @@
 # core/draw/draw.py
 
-import threading
+import threading,weakref
 
 from queue import Queue, Empty
 from concurrent.futures import Future
@@ -9,8 +9,9 @@ from core.draw.renderer import Renderer
 from core.draw.geometry.geometry import Geometry
 from core.draw.texture import Texture
 
-
 blit_cache = {}
+texture_delete_queue = []
+geometry_cache = {}
 surface_cache_dirty = set()
 gpu_queue = Queue()
 
@@ -72,19 +73,16 @@ def init(gl, glutils, pygame_api):
     pygame = pygame_api
 
 
-def set_mode(system, ww, wh, title="Distant Realms Window", resizable=False, fullscreen=False):
+def set_mode(system, title="Distant Realms Window", resizable=False, fullscreen=False):
 
     global renderer
     global window
     global width
     global height
 
-    width = ww
-    height = wh
-
     window = pygame.Window(
         title=title,
-        size=(width, height),
+        size=(1600,900),
         resizable=resizable,
         fullscreen=fullscreen,
         opengl=True
@@ -114,39 +112,74 @@ def clear(color=(0, 0, 0), alpha=None):
     renderer.clear(color=(color[0], color[1], color[2], alpha / 255.0))
 
 
-def rect(surface, color, rect, width=0, border_radius=None, object=None):
+def rect(surface, color, rect, width=0, border_radius=None, shader=None, object=None):
 
     if isinstance(surface, pygame.Surface):
 
         if border_radius is None:
             border_radius = 0
 
-        pygame.draw.rect(
-            surface,
-            color,
-            rect,
-            width,
-            border_radius=border_radius
-        )
-
+        pygame.draw.rect(surface, color, rect, width, border_radius=border_radius)
         surface_cache_dirty.add(id(surface))
-
         return
 
     renderer.flush_texture_batch()
 
     color = normalize_color(color)
 
-    drawable = Geometry.rect(
-        rect.centerx,
-        rect.centery,
-        rect.width,
-        rect.height,
-        color
-    )
+    if object is not None:
+
+        key = id(object)
+
+        if key not in geometry_cache:
+
+            geometry_cache[key] = Geometry.rect(
+                rect.centerx,
+                rect.centery,
+                rect.width,
+                rect.height,
+                color,
+                border_radius,
+                shader
+            )
+
+        drawable = geometry_cache[key]
+
+        Geometry.update_rect(drawable)
+
+    else:
+
+        drawable = Geometry.rect(
+            rect.centerx,
+            rect.centery,
+            rect.width,
+            rect.height,
+            color,
+            border_radius,
+            shader
+        )
 
     renderer.render(drawable, 0.0)
 
+def is_on_screen(rect):
+
+    width, height = window.size
+
+    return not (
+        rect.right < 0 or
+        rect.left > width or
+        rect.bottom < 0 or
+        rect.top > height
+    )
+
+def cleanup_geometry():
+
+    for key, entry in list(geometry_cache.items()):
+
+        if not is_on_screen(entry.rect):
+
+            entry.vertex.delete()
+            del geometry_cache[key]
 
 def circle(surface, color, center, radius, object=None):
 
@@ -176,19 +209,58 @@ def circle(surface, color, center, radius, object=None):
 
     renderer.render(drawable, 0.0)
 
+def process_deleted_textures():
+
+    while texture_delete_queue:
+
+        texture = texture_delete_queue.pop()
+
+        texture.delete()
+
+def _delete_cached_texture(surface_ref):
+
+    texture = blit_cache.pop(surface_ref,None)
+
+    if texture is not None:
+        texture_delete_queue.append(texture)
 
 def get_texture(surface):
 
-    if isinstance(surface, Texture):
+    if isinstance(surface,Texture):
         return surface
 
-    cache_key = id(surface)
+    for surface_ref,texture in list(blit_cache.items()):
 
-    if cache_key not in blit_cache:
-        blit_cache[cache_key] = Texture(surface)
+        cached_surface = surface_ref()
 
-    return blit_cache[cache_key]
+        if cached_surface is surface:
+            return texture
 
+        if cached_surface is None:
+
+            texture.delete()
+
+            del blit_cache[surface_ref]
+
+    surface_ref = weakref.ref(
+        surface,
+        _delete_cached_texture
+    )
+
+    texture = Texture(
+        surface,
+        keep_surface=False
+    )
+
+    blit_cache[surface_ref] = texture
+
+    print(
+        "NEW TEXTURE:",
+        surface.get_size(),
+        id(surface)
+    )
+
+    return texture
 
 def make_surface(system, size, alpha=False):
 
@@ -201,35 +273,27 @@ def upload_surface(surface, pygame_surface):
 
     return Texture(pygame_surface)
 
-
 def update_surface(surface):
 
-    cache_key = id(surface)
+    if surface not in blit_cache:
 
-    if cache_key not in blit_cache:
-
-        blit_cache[cache_key] = Texture(surface)
+        blit_cache[surface] = Texture(surface)
 
         return
 
-    blit_cache[cache_key].update(surface)
-
+    blit_cache[surface].update(surface)
 
 def blit(surface,destination,area=None,vshader=None,fshader=None,shadervals=None,light_surface=None):
 
     if isinstance(surface,Texture):
         texture = surface
+
     else:
-        cache_key = id(surface)
+        texture = get_texture(surface)
 
-        if cache_key not in blit_cache:
-            blit_cache[cache_key] = Texture(surface)
-
-        elif cache_key in surface_cache_dirty:
-            blit_cache[cache_key].update(surface)
-            surface_cache_dirty.remove(cache_key)
-
-        texture = blit_cache[cache_key]
+        if id(surface) in surface_cache_dirty:
+            texture.update(surface)
+            surface_cache_dirty.remove(id(surface))
 
     if hasattr(destination,"x"):
         x = destination.centerx
@@ -281,13 +345,25 @@ def surface_fill(surface, color, rect=None, alpha=None):
 
     surface_cache_dirty.add(id(surface))
 
+def delete_texture(surface):
+
+    texture = blit_cache.pop(surface,None)
+
+    if texture is not None:
+        texture.delete()
 
 def flip():
 
     renderer.flush_texture_batch()
 
-    return window.flip()
+    process_deleted_textures()
 
+    print(
+        "textures:",len(blit_cache),
+        "gpu queue:",gpu_queue.qsize()
+    )
+
+    return window.flip()
 
 def get_screen():
 
@@ -297,5 +373,10 @@ def mark_surface_dirty(surface):
     surface_cache_dirty.add(id(surface))
 
 def quit():
+
+    for texture in list(blit_cache.values()):
+        texture.delete()
+
+    blit_cache.clear()
 
     pygame.quit()

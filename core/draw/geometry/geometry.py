@@ -16,8 +16,9 @@ class Geometry:
         cls.renderer = renderer
 
     @classmethod
-    def rect(cls, x, y, w, h, color=(0.5, 0.5, 0.5, 1.0), shader=None):
-        rw, rh = cls.renderer.resolution
+    def rect(cls, x, y, w, h, color=(0.5, 0.5, 0.5, 1.0), border_radius=None, shader=None):
+
+        rw, rh = cls.renderer.window.size
 
         x1 = ((x - w / 2) / rw) * 2 - 1
         y1 = 1 - ((y - h / 2) / rh) * 2
@@ -25,15 +26,12 @@ class Geometry:
         x2 = ((x + w / 2) / rw) * 2 - 1
         y2 = 1 - ((y + h / 2) / rh) * 2
 
-        vertices = numpy.array(
-            [
-                (x1, y1),
-                (x2, y1),
-                (x2, y2),
-                (x1, y2)
-            ],
-            dtype=numpy.float32
-        )
+        vertices = numpy.array([
+            (x1, y1, 0.0, 0.0),
+            (x2, y1, 1.0, 0.0),
+            (x2, y2, 1.0, 1.0),
+            (x1, y2, 0.0, 1.0)
+        ], dtype=numpy.float32)
 
         indices = numpy.array(
             [0, 1, 2, 0, 2, 3],
@@ -41,15 +39,12 @@ class Geometry:
         )
 
         vertex = Vertex(vertices, indices)
-        vertex.create_data()
+        vertex.create_data(attributes=4)
 
-        return Rect(
-            x, y, w, h,
-            vertex.vao,
-            vertex.vbo,
-            color,
-            shader
-        )
+        if border_radius is not None:
+            shader = cls.renderer.shader("roundedrectv", "roundedrectf")
+
+        return Rect(x, y, w, h, vertex.vao, vertex.vbo, color, shader, border_radius)
 
     @classmethod
     def update_rect(cls, rect):
@@ -70,7 +65,12 @@ class Geometry:
             x2 = ((rect.x + rect.width / 2) / rw) * 2 - 1
             y2 = 1 - ((rect.y + rect.height / 2) / rh) * 2
 
-        vertices = numpy.array([(x1, y1), (x2, y1), (x2, y2), (x1, y2)], dtype=numpy.float32)
+        vertices = numpy.array([
+            (x1, y1, 0.0, 0.0),
+            (x2, y1, 1.0, 0.0),
+            (x2, y2, 1.0, 1.0),
+            (x1, y2, 0.0, 1.0)
+        ], dtype=numpy.float32)
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, rect.vbo)
         gl.glBufferSubData(gl.GL_ARRAY_BUFFER, 0, vertices.nbytes, vertices)

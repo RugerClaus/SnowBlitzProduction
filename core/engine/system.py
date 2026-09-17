@@ -108,8 +108,10 @@ class System():
         if config["WINDOW_BACKEND"] == "pygame":
             self.backend.pygame.quit()
             self.sys.exit()
+        elif config["WINDOW_BACKEND"] == "backcompat":
+            self.backend.backcompat.quit()
+            self.sys.exit()
         elif config["WINDOW_BACKEND"] == "draw":
-            self.backend.draw.quit()
             self.sys.exit()
 
     def initialize_application(self):
@@ -138,6 +140,9 @@ class System():
 
         if backend == "pygame":
             from core.engine.window.pgwindow import Window
+            self.window = Window(self)
+        elif backend == "backcompat":
+            from core.engine.window.compatwindow import Window
             self.window = Window(self)
         elif backend == "draw":
             from core.engine.window.drwindow import Window

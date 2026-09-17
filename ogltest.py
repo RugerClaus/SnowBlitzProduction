@@ -1,3 +1,5 @@
+#ogltest.py
+
 import pygame,sys,numpy
 from helper import sine,asset
 from random import randint
@@ -5,6 +7,7 @@ from core.draw.renderer import Renderer
 from core.draw.shader import Shader
 from core.draw.geometry.geometry import Geometry
 from core.draw.texture import Texture
+from core.engine.input.inputmanager import InputManager
 
 pygame.init()
 pygame.font.init()
@@ -23,7 +26,7 @@ rw, rh = renderer.resolution
 chairvirt = Geometry.rect(
     rw * 0.5,
     rh * 0.5,
-    6,
+    2,
     20,
     normalized_color((255,0,0,255))
 )
@@ -31,7 +34,7 @@ chairhorz = Geometry.rect(
     rw * 0.5,
     rh * 0.5,
     20,
-    6,
+    2,
     normalized_color((255,0,0,255))
 )
 
@@ -87,6 +90,30 @@ objects3d = []
 objects3d.append(cube1)
 objects3d.append(ground)
 
+def update_crosshair():
+    global chairvirt, chairhorz
+
+    rw, rh = renderer.resolution
+
+    objects2d.remove(chairhorz)
+    objects2d.remove(chairvirt)
+
+    chairvirt = Geometry.rect(
+        rw * 0.5,
+        rh * 0.5,
+        2,
+        20,
+        normalized_color((255,0,0,255))
+    )
+    chairhorz = Geometry.rect(
+        rw * 0.5,
+        rh * 0.5,
+        20,
+        2,
+        normalized_color((255,0,0,255))
+    )
+
+    objects2d.extend([chairvirt,chairhorz])
 
 def rectangle_factory(renderer, count):
 
@@ -173,7 +200,7 @@ while True:
             sys.exit()
         if event.type == pygame.WINDOWRESIZED:
             renderer.update_viewport()
-
+            update_crosshair()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 paused = not paused

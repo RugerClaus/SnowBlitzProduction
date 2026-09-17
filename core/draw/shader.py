@@ -36,6 +36,17 @@ class Shader:
             "color"
         )
 
+
+        self.rect_size_location = gl.glGetUniformLocation(
+            self.program,
+            "rect_size"
+        )
+
+        self.border_radius_location = gl.glGetUniformLocation(
+            self.program,
+            "border_radius"
+        )
+
         self.model_location = gl.glGetUniformLocation(
             self.program,
             "model"
