@@ -118,11 +118,8 @@ class TextBox(UIElement):
         width = int(ww * self.width)
         height = int(wh * self.height)
 
-        if self.bounding_box is not None:
-            self.system.window.delete_texture(self.bounding_box)
-
-        if self.text_box is not None:
-            self.system.window.delete_texture(self.text_box)
+        self.bounding_box = None
+        self.text_box = None
 
         self.bounding_box = self.system.window.make_surface(width,height)
 
@@ -219,8 +216,7 @@ class TextBox(UIElement):
         if visible_text == self.rendered_text and available_width == self.rendered_available_width:
             return
 
-        if self.text_surf is not None:
-            self.system.window.delete_texture(self.text_surf)
+        self.text_surf = None
 
         self.text_surf = self.font.render(visible_text,False,black)
         self.rendered_text = visible_text

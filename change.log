@@ -150,3 +150,9 @@ Development version Beta 1.0.0 prerelease 2 - 2026-08-30
 -------------------------------------------
 - Updater functionality works again
 - Can get to website from main menu
+
+Development version Beta 1.0.0 prerelease 3 - 2026-09-17
+- Added texture atlas system
+- Snow flakes are now actually snow flake sprites
+- Upgraded to Distant Realms version 0.8.0-alpha
+- Using Distant Realms Acclerated Window (backed by OpenGL) via a compatibility interface - can use 3D now with the new rendering system, old contract still works 100%

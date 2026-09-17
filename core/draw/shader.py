@@ -1,6 +1,6 @@
 from OpenGL import GL as gl
 
-from core.draw.helper import load_file
+from helper import load_file
 from systemlogging import log_debug
 
 
