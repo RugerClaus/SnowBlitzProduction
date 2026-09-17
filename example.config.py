@@ -11,7 +11,7 @@ config = {
     "UPDATER_WINDOWS": "updater.exe",
     "UPDATER_LINUX": "updater",
     "UPDATER_VERSION": "0.0.2",
-    "WINDOW_BACKEND": "pygame",
+    "WINDOW_BACKEND": "backcompat",
     "NSTATURL": "https://snowblitz.net",
     "SPLASHSCREEN": True,
     "API_KEY": "",
@@ -52,12 +52,15 @@ config = {
         "snowflakes": "assets/images/muyuta/snowflakes.png",
 
         #shaders
-        "v": "core/draw/shaders/v.glsl",
-        "f": "core/draw/shaders/f.glsl",
-        "texturev": "core/draw/shaders/texturev.glsl",
-        "texturef": "core/draw/shaders/texturef.glsl",
-        "cube": "core/draw/shaders/cube.glsl",
-        "plane": "core/draw/shaders/plane.glsl",
-        "rectpulse": "core/draw/shaders/rectpulse.glsl"
+        "v": "shaders/v.glsl",
+        "f": "shaders/f.glsl",
+        "texturev": "shaders/texturev.glsl",
+        "texturef": "shaders/texturef.glsl",
+        "cube": "shaders/cube.glsl",
+        "plane": "shaders/plane.glsl",
+        "rectpulse": "shaders/rectpulse.glsl",
+        "roundedrectf": "shaders/roundedrectf.glsl",
+        "roundedrectv": "shaders/roundedrectv.glsl",
+        "fcellshader": "shaders/fcellshader.glsl"
     }
 }
