@@ -7,6 +7,7 @@ from helper import asset
 from core.draw.camera import Camera3D
 from core.draw.shader import Shader
 from core.draw.batching.texturebatch import TextureBatch
+from core.draw.geometry.line import Line
 
 
 class Renderer:
@@ -116,7 +117,25 @@ class Renderer:
 
         gl.glBindVertexArray(object.vao)
 
-        gl.glDrawElements(gl.GL_TRIANGLES, object.vertex_count, gl.GL_UNSIGNED_INT, None)
+        if isinstance(object, Line):
+
+            gl.glLineWidth(object.width)
+
+            gl.glDrawElements(
+                gl.GL_LINES,
+                object.vertex_count,
+                gl.GL_UNSIGNED_INT,
+                None
+            )
+
+        else:
+
+            gl.glDrawElements(
+                gl.GL_TRIANGLES,
+                object.vertex_count,
+                gl.GL_UNSIGNED_INT,
+                None
+            )
 
     def clear(self, color=(0.0, 0.0, 0.0, 1.0)):
         width, height = self.window.size

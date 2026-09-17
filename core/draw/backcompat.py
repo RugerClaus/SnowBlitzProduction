@@ -111,6 +111,36 @@ def clear(color=(0, 0, 0), alpha=None):
 
     renderer.clear(color=(color[0], color[1], color[2], alpha / 255.0))
 
+def line(surface, point_a, point_b, color, width=1):
+
+    if isinstance(surface, pygame.Surface):
+
+        pygame.draw.line(
+            surface,
+            color,
+            point_a,
+            point_b,
+            width
+        )
+
+        surface_cache_dirty.add(id(surface))
+
+        return
+
+    renderer.flush_texture_batch()
+
+    color = normalize_color(color)
+
+    drawable = Geometry.line(
+        point_a[0],
+        point_a[1],
+        point_b[0],
+        point_b[1],
+        color,
+        width
+    )
+
+    renderer.render(drawable, 0.0)
 
 def rect(surface, color, rect, width=0, border_radius=None, shader=None, object=None):
 

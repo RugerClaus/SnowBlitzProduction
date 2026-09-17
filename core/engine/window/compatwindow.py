@@ -156,23 +156,22 @@ class Window:
         point_a,
         point_b,
         color,
-        width=None
+        width=1
     ):
 
-        if isinstance(color, tuple):
-
-            self.system.backend.backcompat.line(
-                surface,
-                point_a,
-                point_b,
-                color,
-                width
-            )
-
-        else:
+        if not isinstance(color, tuple):
             log_error(
                 "color must be a tuple"
             )
+            return
+
+        self.system.backend.backcompat.line(
+            surface,
+            point_a,
+            point_b,
+            color,
+            width
+        )
 
     def draw_polygon(
         self,

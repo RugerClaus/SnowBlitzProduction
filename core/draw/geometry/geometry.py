@@ -6,6 +6,7 @@ from core.draw.geometry.circle import Circle
 from core.draw.geometry.cube import Cube
 from core.draw.geometry.plane import Plane
 from core.draw.geometry.texture import Texture
+from core.draw.geometry.line import Line
 
 class Geometry:
 
@@ -74,6 +75,81 @@ class Geometry:
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, rect.vbo)
         gl.glBufferSubData(gl.GL_ARRAY_BUFFER, 0, vertices.nbytes, vertices)
+
+    @classmethod
+    def line(
+        cls,
+        x1,
+        y1,
+        x2,
+        y2,
+        color=(0.5, 0.5, 0.5, 1.0),
+        width=1,
+        shader=None
+    ):
+
+        rw, rh = cls.renderer.resolution
+
+        vertices = numpy.array([
+            (
+                (x1 / rw) * 2 - 1,
+                1 - (y1 / rh) * 2
+            ),
+            (
+                (x2 / rw) * 2 - 1,
+                1 - (y2 / rh) * 2
+            )
+        ], dtype=numpy.float32)
+
+        indices = numpy.array(
+            [0, 1],
+            dtype=numpy.uint32
+        )
+
+        vertex = Vertex(vertices, indices)
+        vertex.create_data()
+
+        return Line(
+            (x1, y1),
+            (x2, y2),
+            width,
+            vertex.vao,
+            vertex.vbo,
+            len(indices),
+            color,
+            shader
+        )
+
+    @classmethod
+    def update_line(cls, line):
+
+        rw, rh = cls.renderer.resolution
+
+        x1, y1 = line.point_a
+        x2, y2 = line.point_b
+
+        vertices = numpy.array([
+            (
+                (x1 / rw) * 2 - 1,
+                1 - (y1 / rh) * 2
+            ),
+            (
+                (x2 / rw) * 2 - 1,
+                1 - (y2 / rh) * 2
+            )
+        ], dtype=numpy.float32)
+
+        gl.glBindBuffer(
+            gl.GL_ARRAY_BUFFER,
+            line.vbo
+        )
+
+        gl.glBufferSubData(
+            gl.GL_ARRAY_BUFFER,
+            0,
+            vertices.nbytes,
+            vertices
+        )
 
     @classmethod
     def circle(cls, centerx, centery, radius, color=(0.5, 0.5, 0.5, 1.0), shader=None, segments=64):
@@ -322,3 +398,5 @@ class Geometry:
                 cls.update_plane(object)
             elif isinstance(object,Texture):
                 cls.update_texture(object)
+            elif isinstance(object, Line):
+                cls.update_line(object)
